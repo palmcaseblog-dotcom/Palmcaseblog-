@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palmcaseblog Admin</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f5f7;
+      color: #111;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 22px;
+    }
+
+    header span {
+      font-size: 13px;
+      color: #ccc;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 18px 0 8px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+    }
+
+    textarea {
+      min-height: 220px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 20px;
+      background: #111;
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 7px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 12px;
+      background: #e8f5e9;
+      color: #176b2c;
+      border-radius: 7px;
+      display: none;
+    }
+
+    .preview {
+      margin-top: 25px;
+      padding: 20px;
+      background: #f8f8f8;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .preview h3 {
+      margin-bottom: 10px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 20px;
+      color: #111;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Palmcaseblog</h1>
+  <span>Publisher Dashboard</span>
+</header>
+
+<div class="container">
+
+  <div class="card">
+
+    <h2>Create New Article</h2>
+
+    <label for="headline">Headline</label>
+    <input
+      type="text"
+      id="headline"
+      placeholder="Enter your article headline"
+    >
+
+    <label for="category">Category</label>
+    <select id="category">
+      <option value="">Select category</option>
+      <option>News</option>
+      <option>Entertainment</option>
+      <option>Politics</option>
+      <option>Sports</option>
+      <option>Technology</option>
+      <option>Lifestyle</option>
+    </select>
+
+    <label for="image">Featured Image URL</label>
+    <input
+      type="text"
+      id="image"
+      placeholder="Paste image URL"
+    >
+
+    <label for="article">Article</label>
+    <textarea
+      id="article"
+      placeholder="Write your article here..."
+    ></textarea>
+
+    <button onclick="publishArticle()">
+      Publish Article
+    </button>
+
+    <div class="message" id="message">
+      Article prepared successfully.
+    </div>
+
+    <div class="preview" id="preview">
+      <h3 id="previewHeadline"></h3>
+      <p id="previewCategory"></p>
+      <br>
+      <p id="previewArticle"></p>
+    </div>
+
+  </div>
+
+  <a class="back" href="index.html">
+    ← Back to Palmcaseblog
+  </a>
+
+</div>
+
+<script>
+
+function publishArticle() {
+
+  const headline =
+    document.getElementById("headline").value.trim();
+
+  const category =
+    document.getElementById("category").value;
+
+  const image =
+    document.getElementById("image").value.trim();
+
+  const article =
+    document.getElementById("article").value.trim();
+
+  if (!headline || !category || !article) {
+    alert("Please enter the headline, category and article.");
+    return;
+  }
+
+  const post = {
+    headline: headline,
+    category: category,
+    image: image,
+    article: article,
+    date: new Date().toLocaleDateString()
+  };
+
+  localStorage.setItem(
+    "palmcaseblog_latest_post",
+    JSON.stringify(post)
+  );
+
+  document.getElementById("previewHeadline").textContent =
+    headline;
+
+  document.getElementById("previewCategory").textContent =
+    "Category: " + category;
+
+  document.getElementById("previewArticle").textContent =
+    article;
+
+  document.getElementById("preview").style.display = "block";
+
+  document.getElementById("message").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
