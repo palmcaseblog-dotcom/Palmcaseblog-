@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Palmcaseblog Admin</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -47,6 +49,7 @@
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
     }
 
     h2 {
@@ -87,13 +90,31 @@
       cursor: pointer;
     }
 
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .secondary {
+      background: #666;
+      margin-left: 8px;
+    }
+
     .message {
       margin-top: 15px;
       padding: 12px;
-      background: #e8f5e9;
-      color: #176b2c;
       border-radius: 7px;
       display: none;
+    }
+
+    .success {
+      background: #e8f5e9;
+      color: #176b2c;
+    }
+
+    .error {
+      background: #ffebee;
+      color: #b71c1c;
     }
 
     .preview {
@@ -108,12 +129,33 @@
       margin-bottom: 10px;
     }
 
+    .preview img {
+      max-width: 100%;
+      margin-top: 15px;
+      border-radius: 8px;
+    }
+
     .back {
       display: inline-block;
       margin-top: 20px;
       color: #111;
       font-weight: bold;
       text-decoration: none;
+    }
+
+    #dashboard {
+      display: none;
+    }
+
+    #loginCard {
+      max-width: 500px;
+      margin: 50px auto;
+    }
+
+    .user-status {
+      font-size: 13px;
+      color: #555;
+      margin-top: 8px;
     }
   </style>
 </head>
@@ -125,11 +167,45 @@
   <span>Publisher Dashboard</span>
 </header>
 
-<div class="container">
+<!-- LOGIN -->
+<div class="container" id="loginCard">
+
+  <div class="card">
+
+    <h2>Admin Login</h2>
+
+    <label for="email">Email</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="Your admin email"
+    >
+
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      placeholder="Your password"
+    >
+
+    <button onclick="login()">
+      Login
+    </button>
+
+    <div class="message error" id="loginError"></div>
+
+  </div>
+
+</div>
+
+<!-- DASHBOARD -->
+<div class="container" id="dashboard">
 
   <div class="card">
 
     <h2>Create New Article</h2>
+
+    <div class="user-status" id="userStatus"></div>
 
     <label for="headline">Headline</label>
     <input
@@ -149,11 +225,11 @@
       <option>Lifestyle</option>
     </select>
 
-    <label for="image">Featured Image URL</label>
+    <label for="imageFile">Featured Image</label>
     <input
-      type="text"
-      id="image"
-      placeholder="Paste image URL"
+      type="file"
+      id="imageFile"
+      accept="image/*"
     >
 
     <label for="article">Article</label>
@@ -162,19 +238,29 @@
       placeholder="Write your article here..."
     ></textarea>
 
-    <button onclick="publishArticle()">
+    <button id="publishButton" onclick="publishArticle()">
       Publish Article
     </button>
 
-    <div class="message" id="message">
-      Article prepared successfully.
-    </div>
+    <button class="secondary" onclick="logout()">
+      Logout
+    </button>
+
+    <div class="message success" id="successMessage"></div>
+    <div class="message error" id="errorMessage"></div>
 
     <div class="preview" id="preview">
+
       <h3 id="previewHeadline"></h3>
+
       <p id="previewCategory"></p>
-      <br>
+
+      <img id="previewImage" src="" alt="Article image">
+
+      <br><br>
+
       <p id="previewArticle"></p>
+
     </div>
 
   </div>
@@ -187,7 +273,114 @@
 
 <script>
 
-function publishArticle() {
+const SUPABASE_URL =
+  "https://kcxlwhojwdvbfjjnartw.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+// CHECK EXISTING LOGIN
+async function checkLogin() {
+
+  const {
+    data: { session }
+  } = await supabaseClient.auth.getSession();
+
+  if (session) {
+    showDashboard(session.user);
+  }
+
+}
+
+
+// LOGIN
+async function login() {
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  const loginError =
+    document.getElementById("loginError");
+
+  loginError.style.display = "none";
+
+  if (!email || !password) {
+
+    loginError.textContent =
+      "Please enter your email and password.";
+
+    loginError.style.display = "block";
+
+    return;
+  }
+
+  const {
+    data,
+    error
+  } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+
+    loginError.textContent =
+      error.message;
+
+    loginError.style.display = "block";
+
+    return;
+  }
+
+  showDashboard(data.user);
+
+}
+
+
+// SHOW DASHBOARD
+function showDashboard(user) {
+
+  document.getElementById("loginCard").style.display =
+    "none";
+
+  document.getElementById("dashboard").style.display =
+    "block";
+
+  document.getElementById("userStatus").textContent =
+    "Logged in as: " + user.email;
+
+}
+
+
+// LOGOUT
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  document.getElementById("dashboard").style.display =
+    "none";
+
+  document.getElementById("loginCard").style.display =
+    "block";
+
+}
+
+
+// PUBLISH ARTICLE
+async function publishArticle() {
+
+  const button =
+    document.getElementById("publishButton");
 
   const headline =
     document.getElementById("headline").value.trim();
@@ -195,43 +388,161 @@ function publishArticle() {
   const category =
     document.getElementById("category").value;
 
-  const image =
-    document.getElementById("image").value.trim();
-
   const article =
     document.getElementById("article").value.trim();
 
+  const imageFile =
+    document.getElementById("imageFile").files[0];
+
+  const successMessage =
+    document.getElementById("successMessage");
+
+  const errorMessage =
+    document.getElementById("errorMessage");
+
+  successMessage.style.display = "none";
+  errorMessage.style.display = "none";
+
   if (!headline || !category || !article) {
-    alert("Please enter the headline, category and article.");
+
+    errorMessage.textContent =
+      "Please enter the headline, category and article.";
+
+    errorMessage.style.display = "block";
+
     return;
   }
 
-  const post = {
-    headline: headline,
-    category: category,
-    image: image,
-    article: article,
-    date: new Date().toLocaleDateString()
-  };
+  if (!imageFile) {
 
-  localStorage.setItem(
-    "palmcaseblog_latest_post",
-    JSON.stringify(post)
-  );
+    errorMessage.textContent =
+      "Please select a featured image.";
 
-  document.getElementById("previewHeadline").textContent =
-    headline;
+    errorMessage.style.display = "block";
 
-  document.getElementById("previewCategory").textContent =
-    "Category: " + category;
+    return;
+  }
 
-  document.getElementById("previewArticle").textContent =
-    article;
+  button.disabled = true;
+  button.textContent = "Publishing...";
 
-  document.getElementById("preview").style.display = "block";
+  try {
 
-  document.getElementById("message").style.display = "block";
+    // CREATE UNIQUE IMAGE FILE NAME
+    const fileExtension =
+      imageFile.name.split(".").pop();
+
+    const fileName =
+      Date.now() +
+      "-" +
+      Math.random().toString(36).substring(2) +
+      "." +
+      fileExtension;
+
+    const filePath =
+      "articles/" + fileName;
+
+
+    // UPLOAD IMAGE
+    const {
+      error: uploadError
+    } = await supabaseClient
+      .storage
+      .from("article-images")
+      .upload(filePath, imageFile, {
+        cacheControl: "3600",
+        upsert: false
+      });
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+
+    // GET PUBLIC IMAGE URL
+    const {
+      data: publicUrlData
+    } = supabaseClient
+      .storage
+      .from("article-images")
+      .getPublicUrl(filePath);
+
+    const imageUrl =
+      publicUrlData.publicUrl;
+
+
+    // SAVE ARTICLE TO POSTS TABLE
+    const {
+      error: insertError
+    } = await supabaseClient
+      .from("posts")
+      .insert({
+        headline: headline,
+        category: category,
+        image: imageUrl,
+        article: article
+      });
+
+    if (insertError) {
+      throw insertError;
+    }
+
+
+    // SHOW PREVIEW
+    document.getElementById("previewHeadline").textContent =
+      headline;
+
+    document.getElementById("previewCategory").textContent =
+      "Category: " + category;
+
+    document.getElementById("previewImage").src =
+      imageUrl;
+
+    document.getElementById("previewArticle").textContent =
+      article;
+
+    document.getElementById("preview").style.display =
+      "block";
+
+
+    successMessage.textContent =
+      "Article published successfully!";
+
+    successMessage.style.display =
+      "block";
+
+
+    // CLEAR FORM
+    document.getElementById("headline").value = "";
+    document.getElementById("category").value = "";
+    document.getElementById("article").value = "";
+    document.getElementById("imageFile").value = "";
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    errorMessage.textContent =
+      "Publishing failed: " + error.message;
+
+    errorMessage.style.display =
+      "block";
+  }
+
+  finally {
+
+    button.disabled = false;
+    button.textContent = "Publish Article";
+
+  }
+
 }
+
+
+// RUN LOGIN CHECK
+checkLogin();
 
 </script>
 
