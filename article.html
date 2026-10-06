@@ -208,6 +208,17 @@
       border-top: 1px solid #eee;
     }
 
+    .comments-heading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .comments-heading h2 {
+      margin: 0;
+    }
+
     .comment-form {
       display: flex;
       flex-direction: column;
@@ -245,7 +256,7 @@
     }
 
     .comment-item {
-      padding: 15px 0;
+      padding: 18px 0;
       border-bottom: 1px solid #eee;
     }
 
@@ -264,6 +275,39 @@
       line-height: 1.6;
       white-space: pre-line;
       overflow-wrap: break-word;
+      margin-bottom: 12px;
+    }
+
+    .comment-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .comment-like-btn {
+      border: 1px solid #ddd;
+      background: white;
+      color: #333;
+      border-radius: 7px;
+      padding: 7px 11px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .comment-like-btn:hover {
+      border-color: #d40000;
+    }
+
+    .comment-like-btn.liked {
+      color: #d40000;
+      border-color: #d40000;
+      background: #fff5f5;
+    }
+
+    .comment-like-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
     }
 
     .no-comments {
@@ -628,8 +672,11 @@ async function likeArticle(articleId) {
 
     likeButton.classList.add("liked");
 
-    likeButton.firstChild.textContent =
-      "❤️ Liked ";
+    likeButton.innerHTML =
+      `❤️ Liked
+       <span id="like-count">
+         ${newLikes.toLocaleString()}
+       </span>`;
 
 
     markAsLiked(articleId);
@@ -650,6 +697,160 @@ async function likeArticle(articleId) {
     );
 
     likeButton.disabled = false;
+
+  }
+
+}
+
+
+/* =========================
+   COMMENT LIKE STORAGE
+========================= */
+
+function commentLikedStorageKey(commentId) {
+
+  return "palmcaseblog_comment_liked_" + commentId;
+
+}
+
+
+function hasLikedComment(commentId) {
+
+  return localStorage.getItem(
+    commentLikedStorageKey(commentId)
+  ) === "true";
+
+}
+
+
+function markCommentAsLiked(commentId) {
+
+  localStorage.setItem(
+    commentLikedStorageKey(commentId),
+    "true"
+  );
+
+}
+
+
+/* =========================
+   LIKE COMMENT
+========================= */
+
+async function likeComment(commentId) {
+
+  const button =
+    document.getElementById(
+      "comment-like-" + commentId
+    );
+
+  const count =
+    document.getElementById(
+      "comment-like-count-" + commentId
+    );
+
+
+  if (!button || !count) {
+    return;
+  }
+
+
+  if (hasLikedComment(commentId)) {
+
+    alert("You already liked this comment.");
+
+    return;
+
+  }
+
+
+  button.disabled = true;
+
+
+  try {
+
+    const numericCommentId =
+      Number(commentId);
+
+
+    if (!Number.isFinite(numericCommentId)) {
+
+      throw new Error(
+        "Invalid comment ID."
+      );
+
+    }
+
+
+    const { error } =
+      await supabaseClient.rpc(
+        "increment_comment_likes",
+        {
+          comment_id: numericCommentId
+        }
+      );
+
+
+    if (error) {
+
+      console.error(
+        "COMMENT LIKE SUPABASE ERROR:",
+        error
+      );
+
+      alert(
+        "Comment like failed: " +
+        error.message
+      );
+
+      button.disabled = false;
+
+      return;
+
+    }
+
+
+    const currentLikes =
+      Number(
+        count.textContent
+      ) || 0;
+
+
+    const newLikes =
+      currentLikes + 1;
+
+
+    count.textContent =
+      newLikes.toLocaleString();
+
+
+    button.classList.add("liked");
+
+    button.innerHTML =
+      `❤️ Liked
+       <span id="comment-like-count-${commentId}">
+         ${newLikes.toLocaleString()}
+       </span>`;
+
+
+    markCommentAsLiked(commentId);
+
+
+    button.disabled = false;
+
+
+  } catch (error) {
+
+    console.error(
+      "COMMENT LIKE ERROR:",
+      error
+    );
+
+    alert(
+      "Something went wrong with the comment Like button."
+    );
+
+    button.disabled = false;
 
   }
 
@@ -729,6 +930,14 @@ async function loadComments(articleId) {
           : "";
 
 
+      const commentLikes =
+        Number(comment.likes || 0);
+
+
+      const alreadyLiked =
+        hasLikedComment(comment.id);
+
+
       return `
         <div class="comment-item">
 
@@ -742,6 +951,24 @@ async function loadComments(articleId) {
 
           <div class="comment-text">
             ${escapeHTML(comment.comment)}
+          </div>
+
+          <div class="comment-actions">
+
+            <button
+              id="comment-like-${comment.id}"
+              class="comment-like-btn ${alreadyLiked ? "liked" : ""}"
+              type="button"
+              ${alreadyLiked ? "disabled" : ""}
+              onclick="likeComment(${comment.id})"
+            >
+              ${alreadyLiked ? "❤️ Liked" : "❤️ Like"}
+
+              <span id="comment-like-count-${comment.id}">
+                ${commentLikes.toLocaleString()}
+              </span>
+            </button>
+
           </div>
 
         </div>
@@ -1166,9 +1393,11 @@ async function loadArticle() {
         class="comments-section"
       >
 
-        <h2>
-          Comments
-        </h2>
+        <div class="comments-heading">
+          <h2>
+            Comments
+          </h2>
+        </div>
 
         <form
           id="comment-form"
