@@ -422,6 +422,14 @@
       color: #9ca3af;
     }
 
+    .footer-grid .logo {
+      color: white;
+    }
+
+    .footer-grid .logo span {
+      color: white;
+    }
+
     .footer-description {
       margin-top: 10px;
       font-size: 14px;
@@ -439,6 +447,57 @@
       color: #d1d5db !important;
       margin-top: 12px;
       font-size: 14px;
+    }
+
+    .social-links {
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .social-link {
+      display: flex !important;
+      align-items: center;
+      gap: 10px;
+      color: #d1d5db !important;
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 7px;
+      padding: 9px 12px;
+      margin-bottom: 0 !important;
+      transition: all .2s ease;
+    }
+
+    .social-link:hover {
+      color: white !important;
+      border-color: #f59e0b;
+      background: #172033;
+      transform: translateX(3px);
+    }
+
+    .social-icon {
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f59e0b;
+      color: #111827;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .social-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .social-handle {
+      color: #9ca3af;
+      font-size: 12px;
+      margin-left: auto;
     }
 
     .copyright {
@@ -530,6 +589,10 @@
       .hero-overlay h1 {
         font-size: 25px;
       }
+
+      .social-handle {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -550,34 +613,27 @@
       </button>
 
       <a class="logo" href="index.html">
-
         <img
           src="IMG_2188.jpeg"
           alt="Palmcaseblog Logo"
         >
-
         <span>Palmcaseblog</span>
-
       </a>
 
       <div class="header-search">
-
         <input
           id="searchInput"
           type="search"
           placeholder="Search stories..."
         >
-
         <button id="searchBtn">
           Search
         </button>
-
       </div>
 
     </div>
 
     <nav class="nav" id="nav">
-
       <div class="container nav-inner">
 
         <a href="index.html">
@@ -625,7 +681,6 @@
         </a>
 
       </div>
-
     </nav>
 
   </header>
@@ -914,8 +969,56 @@
         </h4>
 
         <p>
-          Facebook · TikTok · Instagram · YouTube · X
+          Connect with Palmcaseblog across social media.
         </p>
+
+        <div class="social-links">
+
+          <a
+            class="social-link"
+            href="https://www.instagram.com/palmcaseblog_ng/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="social-icon">IG</span>
+            <span class="social-name">Instagram</span>
+            <span class="social-handle">@palmcaseblog_ng</span>
+          </a>
+
+          <a
+            class="social-link"
+            href="https://www.tiktok.com/@palmcaseblog"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="social-icon">TT</span>
+            <span class="social-name">TikTok</span>
+            <span class="social-handle">@palmcaseblog</span>
+          </a>
+
+          <a
+            class="social-link"
+            href="https://www.facebook.com/share/18yrjp4Lv7/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="social-icon">f</span>
+            <span class="social-name">Facebook</span>
+            <span class="social-handle">Palmcaseblog</span>
+          </a>
+
+          <a
+            class="social-link"
+            href="https://x.com/plamcase"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="social-icon">X</span>
+            <span class="social-name">X</span>
+            <span class="social-handle">@plamcase</span>
+          </a>
+
+        </div>
 
       </div>
 
@@ -946,10 +1049,8 @@
         SUPABASE_PUBLISHABLE_KEY
       );
 
-
     document.getElementById("year").textContent =
       new Date().getFullYear();
-
 
     document.getElementById("menuBtn")
       .addEventListener("click", function () {
@@ -963,7 +1064,6 @@
             : "block";
 
       });
-
 
     document.getElementById("subscribeBtn")
       .addEventListener("click", function () {
@@ -990,7 +1090,6 @@
 
       });
 
-
     function escapeHTML(text) {
 
       const div =
@@ -1003,14 +1102,12 @@
 
     }
 
-
     function articleLink(post) {
 
       return "article.html?id=" +
         encodeURIComponent(post.id);
 
     }
-
 
     async function loadArticles() {
 
@@ -1022,7 +1119,6 @@
 
       const popularContainer =
         document.getElementById("popular");
-
 
       const {
         data: posts,
@@ -1037,7 +1133,6 @@
               ascending: false
             }
           );
-
 
       if (error) {
 
@@ -1056,7 +1151,6 @@
 
       }
 
-
       if (
         !posts ||
         posts.length === 0
@@ -1072,10 +1166,8 @@
 
       }
 
-
       const heroPost =
         posts[0];
-
 
       document.getElementById("heroLink")
         .href =
@@ -1098,7 +1190,6 @@
         .textContent =
         heroPost.article;
 
-
       if (posts[1]) {
 
         document.getElementById("miniLink1")
@@ -1119,7 +1210,6 @@
           posts[1].headline;
 
       }
-
 
       if (posts[2]) {
 
@@ -1142,9 +1232,7 @@
 
       }
 
-
       postsContainer.innerHTML = "";
-
 
       posts.forEach(function (post) {
 
@@ -1158,7 +1246,6 @@
           "post-card";
 
         article.innerHTML = `
-
           <img
             src="${escapeHTML(post.image)}"
             alt="${escapeHTML(post.category)}"
@@ -1179,16 +1266,13 @@
             </p>
 
           </div>
-
         `;
 
         postsContainer.appendChild(article);
 
       });
 
-
       trendingContainer.innerHTML = "";
-
 
       posts.slice(0, 4)
         .forEach(function (post) {
@@ -1203,7 +1287,6 @@
             "trend-card";
 
           card.innerHTML = `
-
             <img
               src="${escapeHTML(post.image)}"
               alt="${escapeHTML(post.category)}"
@@ -1220,16 +1303,13 @@
               </h3>
 
             </div>
-
           `;
 
           trendingContainer.appendChild(card);
 
         });
 
-
       popularContainer.innerHTML = "";
-
 
       posts.slice(0, 5)
         .forEach(function (post) {
@@ -1244,11 +1324,9 @@
             "popular-item";
 
           item.innerHTML = `
-
             <strong>
               ${escapeHTML(post.headline)}
             </strong>
-
           `;
 
           popularContainer.appendChild(item);
@@ -1256,7 +1334,6 @@
         });
 
     }
-
 
     function searchStories() {
 
@@ -1268,7 +1345,6 @@
 
       const posts =
         document.querySelectorAll(".post-card");
-
 
       posts.forEach(function (post) {
 
@@ -1285,13 +1361,11 @@
 
     }
 
-
     document.getElementById("searchBtn")
       .addEventListener(
         "click",
         searchStories
       );
-
 
     document.getElementById("searchInput")
       .addEventListener(
@@ -1299,12 +1373,13 @@
         function (event) {
 
           if (event.key === "Enter") {
+
             searchStories();
+
           }
 
         }
       );
-
 
     loadArticles();
 
