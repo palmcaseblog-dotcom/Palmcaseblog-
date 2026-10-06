@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Palmcaseblog category stories."
+  >
+
+  <meta
+    name="theme-color"
+    content="#111827"
+  >
+
+  <title>Palmcaseblog — Category</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f6f8;
+      color: #111827;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: auto;
+    }
+
+    .breaking {
+      background: #111827;
+      color: white;
+      padding: 9px 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .breaking strong {
+      color: #f59e0b;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .topbar {
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .logo img {
+      width: 58px;
+      height: 58px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .header-search {
+      display: flex;
+      gap: 7px;
+    }
+
+    .header-search input {
+      width: 240px;
+      padding: 11px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      background: #111827;
+      color: white;
+      padding: 11px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .nav {
+      background: #111827;
+      color: white;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      min-height: 50px;
+      overflow-x: auto;
+    }
+
+    .nav a {
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: #f59e0b;
+    }
+
+    .page-header {
+      padding: 45px 0 25px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 800;
+      color: #d97706;
+      letter-spacing: 1px;
+    }
+
+    .page-header h1 {
+      font-size: 38px;
+      margin-top: 5px;
+    }
+
+    .page-header p {
+      color: #6b7280;
+      margin-top: 8px;
+    }
+
+    .content-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .posts-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .post-card {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 20px;
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      border: 1px solid #e5e7eb;
+      transition: transform .2s;
+    }
+
+    .post-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .post-card img {
+      width: 240px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .post-card h2 {
+      font-size: 22px;
+      line-height: 1.3;
+      margin: 7px 0;
+    }
+
+    .post-card p {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #f59e0b;
+      color: #111827;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .date {
+      color: #9ca3af;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .side-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 20px;
+    }
+
+    .side-box h3 {
+      margin-bottom: 15px;
+    }
+
+    .popular-item {
+      display: block;
+      padding: 13px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .popular-item:last-child {
+      border-bottom: none;
+    }
+
+    .popular-item strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .loading {
+      background: white;
+      padding: 35px;
+      border-radius: 10px;
+      text-align: center;
+      color: #6b7280;
+    }
+
+    footer {
+      background: #0b1120;
+      color: white;
+      margin-top: 50px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      padding: 45px 0;
+    }
+
+    .footer-grid h4 {
+      margin-bottom: 12px;
+    }
+
+    .footer-grid a {
+      display: block;
+      color: #d1d5db;
+      margin-bottom: 7px;
+    }
+
+    .footer-grid p {
+      color: #9ca3af;
+    }
+
+    .copyright {
+      text-align: center;
+      padding: 18px;
+      border-top: 1px solid #1f2937;
+      color: #9ca3af;
+      font-size: 13px;
+    }
+
+    @media (max-width: 800px) {
+
+      .topbar {
+        min-height: 75px;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+
+      .logo img {
+        width: 45px;
+        height: 45px;
+      }
+
+      .header-search {
+        display: none;
+      }
+
+      .nav-inner {
+        gap: 20px;
+        min-height: 45px;
+      }
+
+      .content-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .post-card {
+        grid-template-columns: 1fr;
+      }
+
+      .post-card img {
+        width: 100%;
+        height: 210px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 500px) {
+
+      .page-header h1 {
+        font-size: 30px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="breaking">
+
+    <strong>PALMCASEBLOG:</strong>
+
+    Stay updated with the latest stories.
+
+  </div>
+
+
+  <header>
+
+    <div class="topbar container">
+
+      <a
+        class="logo"
+        href="index.html"
+      >
+
+        <img
+          src="IMG_2188.jpeg"
+          alt="Palmcaseblog Logo"
+        >
+
+        <span>Palmcaseblog</span>
+
+      </a>
+
+
+      <div class="header-search">
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search stories..."
+        >
+
+        <button id="searchBtn">
+          Search
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+      <div class="container nav-inner">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="category.html?category=News">
+          News
+        </a>
+
+        <a href="category.html?category=Entertainment">
+          Entertainment
+        </a>
+
+        <a href="category.html?category=Politics">
+          Politics
+        </a>
+
+        <a href="category.html?category=Sports">
+          Sports
+        </a>
+
+        <a href="category.html?category=Technology">
+          Technology
+        </a>
+
+        <a href="category.html?category=Lifestyle">
+          Lifestyle
+        </a>
+
+      </div>
+
+    </nav>
+
+  </header>
+
+
+  <main class="container">
+
+
+    <section class="page-header">
+
+      <span class="eyebrow">
+        PALMCASEBLOG CATEGORY
+      </span>
+
+      <h1 id="categoryTitle">
+        Loading...
+      </h1>
+
+      <p id="categoryDescription">
+        Loading stories...
+      </p>
+
+    </section>
+
+
+    <section class="content-layout">
+
+
+      <div>
+
+        <div
+          id="posts"
+          class="posts-grid"
+        >
+
+          <div class="loading">
+            Loading stories...
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <aside>
+
+
+        <div class="side-box">
+
+          <h3>
+            Popular Posts
+          </h3>
+
+          <div id="popular">
+
+            <div class="popular-item">
+
+              <strong>
+                Loading...
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="side-box">
+
+          <h3>
+            Explore Categories
+          </h3>
+
+          <a
+            class="popular-item"
+            href="category.html?category=Entertainment"
+          >
+            Entertainment
+          </a>
+
+          <a
+            class="popular-item"
+            href="category.html?category=Sports"
+          >
+            Sports
+          </a>
+
+          <a
+            class="popular-item"
+            href="category.html?category=Politics"
+          >
+            Politics
+          </a>
+
+          <a
+            class="popular-item"
+            href="category.html?category=Technology"
+          >
+            Technology
+          </a>
+
+          <a
+            class="popular-item"
+            href="category.html?category=Lifestyle"
+          >
+            Lifestyle
+          </a>
+
+        </div>
+
+
+      </aside>
+
+
+    </section>
+
+  </main>
+
+
+  <footer>
+
+    <div class="container footer-grid">
+
+      <div>
+
+        <a
+          class="logo"
+          href="index.html"
+        >
+
+          <img
+            src="IMG_2188.jpeg"
+            alt="Palmcaseblog Logo"
+          >
+
+          <span>Palmcaseblog</span>
+
+        </a>
+
+        <p>
+          Trending stories. Real conversations. One destination.
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          Categories
+        </h4>
+
+        <a href="category.html?category=News">
+          News
+        </a>
+
+        <a href="category.html?category=Entertainment">
+          Entertainment
+        </a>
+
+        <a href="category.html?category=Sports">
+          Sports
+        </a>
+
+        <a href="category.html?category=Politics">
+          Politics
+        </a>
+
+        <a href="category.html?category=Technology">
+          Technology
+        </a>
+
+        <a href="category.html?category=Lifestyle">
+          Lifestyle
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          Palmcaseblog
+        </h4>
+
+        <p>
+          Trending stories and important updates.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+      ©
+      <span id="year"></span>
+      Palmcaseblog.
+      All rights reserved.
+
+    </div>
+
+  </footer>
+
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://kcxlwhojwdvbfjjnartw.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    document.getElementById("year")
+      .textContent =
+      new Date().getFullYear();
+
+
+    function escapeHTML(text) {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent =
+        text || "";
+
+      return div.innerHTML;
+
+    }
+
+
+    function articleLink(post) {
+
+      return "article.html?id=" +
+        encodeURIComponent(post.id);
+
+    }
+
+
+    function getCategory() {
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+      return params.get("category") || "News";
+
+    }
+
+
+    async function loadCategory() {
+
+      const category =
+        getCategory();
+
+
+      const title =
+        document.getElementById(
+          "categoryTitle"
+        );
+
+
+      const description =
+        document.getElementById(
+          "categoryDescription"
+        );
+
+
+      const postsContainer =
+        document.getElementById(
+          "posts"
+        );
+
+
+      const popularContainer =
+        document.getElementById(
+          "popular"
+        );
+
+
+      title.textContent =
+        category;
+
+
+      description.textContent =
+        "Latest " +
+        category +
+        " stories from Palmcaseblog.";
+
+
+      const {
+        data: posts,
+        error
+      } =
+        await supabaseClient
+          .from("posts")
+          .select("*")
+          .eq(
+            "category",
+            category
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
+
+      if (error) {
+
+        console.error(
+          "Supabase category error:",
+          error
+        );
+
+
+        postsContainer.innerHTML = `
+
+          <div class="loading">
+
+            Unable to load ${escapeHTML(category)}
+            stories right now.
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      if (
+        !posts ||
+        posts.length === 0
+      ) {
+
+        postsContainer.innerHTML = `
+
+          <div class="loading">
+
+            No ${escapeHTML(category)}
+            stories have been published yet.
+
+          </div>
+
+        `;
+
+        popularContainer.innerHTML = `
+
+          <div class="popular-item">
+
+            <strong>
+              No stories available.
+            </strong>
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      postsContainer.innerHTML = "";
+
+
+      posts.forEach(
+        function(post) {
+
+          const card =
+            document.createElement("a");
+
+
+          card.href =
+            articleLink(post);
+
+
+          card.className =
+            "post-card";
+
+
+          const date =
+            post.created_at
+              ? new Date(
+                  post.created_at
+                ).toLocaleDateString(
+                  "en-NG",
+                  {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
+                  }
+                )
+              : "";
+
+
+          card.innerHTML = `
+
+            <img
+              src="${escapeHTML(post.image)}"
+              alt="${escapeHTML(post.headline)}"
+            >
+
+            <div>
+
+              <span class="tag">
+                ${escapeHTML(post.category)}
+              </span>
+
+              <h2>
+                ${escapeHTML(post.headline)}
+              </h2>
+
+              <p>
+                ${escapeHTML(post.article)}
+              </p>
+
+              <div class="date">
+                ${escapeHTML(date)}
+              </div>
+
+            </div>
+
+          `;
+
+
+          postsContainer.appendChild(
+            card
+          );
+
+        }
+      );
+
+
+      popularContainer.innerHTML = "";
+
+
+      posts.slice(0, 5)
+        .forEach(
+          function(post) {
+
+            const item =
+              document.createElement("a");
+
+
+            item.href =
+              articleLink(post);
+
+
+            item.className =
+              "popular-item";
+
+
+            item.innerHTML = `
+
+              <strong>
+                ${escapeHTML(post.headline)}
+              </strong>
+
+            `;
+
+
+            popularContainer.appendChild(
+              item
+            );
+
+          }
+        );
+
+    }
+
+
+    document.getElementById("searchBtn")
+      .addEventListener(
+        "click",
+        function() {
+
+          const search =
+            document.getElementById(
+              "searchInput"
+            ).value
+              .trim()
+              .toLowerCase();
+
+
+          const cards =
+            document.querySelectorAll(
+              ".post-card"
+            );
+
+
+          cards.forEach(
+            function(card) {
+
+              const text =
+                card.textContent
+                  .toLowerCase();
+
+
+              card.style.display =
+                !search ||
+                text.includes(search)
+                  ? "grid"
+                  : "none";
+
+            }
+          );
+
+        }
+      );
+
+
+    document.getElementById("searchInput")
+      .addEventListener(
+        "keydown",
+        function(event) {
+
+          if (
+            event.key === "Enter"
+          ) {
+
+            document
+              .getElementById("searchBtn")
+              .click();
+
+          }
+
+        }
+      );
+
+
+    loadCategory();
+
+  </script>
+
+</body>
+</html>
