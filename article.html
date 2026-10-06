@@ -105,7 +105,22 @@
     .date {
       color: #777;
       font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .article-stats {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: #666;
+      font-size: 14px;
       margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .views {
+      font-weight: 600;
     }
 
     .article-image {
@@ -234,45 +249,25 @@
 
     <a href="index.html">Home</a>
 
-    <a href="category.html?category=News">
-      News
-    </a>
+    <a href="category.html?category=News">News</a>
 
-    <a href="category.html?category=Entertainment">
-      Entertainment
-    </a>
+    <a href="category.html?category=Entertainment">Entertainment</a>
 
-    <a href="category.html?category=Politics">
-      Politics
-    </a>
+    <a href="category.html?category=Politics">Politics</a>
 
-    <a href="category.html?category=Sports">
-      Sports
-    </a>
+    <a href="category.html?category=Sports">Sports</a>
 
-    <a href="category.html?category=Technology">
-      Technology
-    </a>
+    <a href="category.html?category=Technology">Technology</a>
 
-    <a href="category.html?category=Lifestyle">
-      Lifestyle
-    </a>
+    <a href="category.html?category=Lifestyle">Lifestyle</a>
 
-    <a href="category.html?category=Crime">
-      Crime
-    </a>
+    <a href="category.html?category=Crime">Crime</a>
 
-    <a href="category.html?category=Relationship">
-      Relationship
-    </a>
+    <a href="category.html?category=Relationship">Relationship</a>
 
-    <a href="category.html?category=World">
-      World
-    </a>
+    <a href="category.html?category=World">World</a>
 
-    <a href="category.html?category=Topics">
-      Topics
-    </a>
+    <a href="category.html?category=Topics">Topics</a>
 
   </div>
 </nav>
@@ -318,7 +313,6 @@
 
     </div>
 
-
     <div class="footer-section">
 
       <h3>Categories</h3>
@@ -335,7 +329,6 @@
       <a href="category.html?category=Topics">Topics</a>
 
     </div>
-
 
     <div class="footer-section">
 
@@ -379,7 +372,6 @@
 
   </div>
 
-
   <div class="footer-bottom">
 
     © 2026 Palmcaseblog. All rights reserved.
@@ -412,7 +404,7 @@
 
     if (!text) return "";
 
-    return text
+    return String(text)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -494,6 +486,46 @@
     }
 
 
+    /*
+      INCREASE ARTICLE VIEW COUNT
+    */
+
+    const {
+      error: viewError
+    } = await supabaseClient.rpc(
+      "increment_post_views",
+      {
+        post_id: articleId
+      }
+    );
+
+
+    if (viewError) {
+
+      console.error(
+        "View counter error:",
+        viewError
+      );
+
+    }
+
+
+    /*
+      Get the updated view count
+    */
+
+    let currentViews =
+      Number(post.views || 0);
+
+
+    if (!viewError) {
+
+      currentViews =
+        currentViews + 1;
+
+    }
+
+
     const formattedDate =
       post.created_at
 
@@ -542,6 +574,15 @@
         <div class="date">
 
           ${formattedDate}
+
+        </div>
+
+
+        <div class="article-stats">
+
+          <span class="views">
+            👁 ${currentViews.toLocaleString()} views
+          </span>
 
         </div>
 
