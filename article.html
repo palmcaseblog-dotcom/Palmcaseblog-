@@ -299,6 +299,7 @@
     }
 
     .comment-like-btn,
+    .comment-dislike-btn,
     .reply-btn {
       border: 1px solid #ddd;
       background: white;
@@ -310,18 +311,26 @@
       cursor: pointer;
     }
 
- .comment-like-btn:hover,
-.comment-dislike-btn:hover,
-.reply-btn:hover {
-  border-color: #d40000;
-}
+    .comment-like-btn:hover,
+    .comment-dislike-btn:hover,
+    .reply-btn:hover {
+      border-color: #d40000;
+    }
+
     .comment-like-btn.liked {
       color: #d40000;
       border-color: #d40000;
       background: #fff5f5;
     }
 
-    .comment-like-btn:disabled {
+    .comment-dislike-btn.disliked {
+      color: #555;
+      border-color: #555;
+      background: #f2f2f2;
+    }
+
+    .comment-like-btn:disabled,
+    .comment-dislike-btn:disabled {
       opacity: 0.7;
       cursor: not-allowed;
     }
@@ -580,7 +589,6 @@
 
 </footer>
 
-
 <script>
 
 const SUPABASE_URL =
@@ -805,6 +813,36 @@ function markCommentAsLiked(commentId) {
 
 
 /* =========================
+   COMMENT DISLIKE STORAGE
+========================= */
+
+function commentDislikedStorageKey(commentId) {
+
+  return "palmcaseblog_comment_disliked_" + commentId;
+
+}
+
+
+function hasDislikedComment(commentId) {
+
+  return localStorage.getItem(
+    commentDislikedStorageKey(commentId)
+  ) === "true";
+
+}
+
+
+function markCommentAsDisliked(commentId) {
+
+  localStorage.setItem(
+    commentDislikedStorageKey(commentId),
+    "true"
+  );
+
+}
+
+
+/* =========================
    LIKE COMMENT OR REPLY
 ========================= */
 
@@ -918,6 +956,129 @@ async function likeComment(commentId) {
 
     alert(
       "Something went wrong with the comment Like button."
+    );
+
+    button.disabled = false;
+
+  }
+
+}
+
+
+/* =========================
+   DISLIKE COMMENT OR REPLY
+========================= */
+
+async function dislikeComment(commentId) {
+
+  const button =
+    document.getElementById(
+      "comment-dislike-" + commentId
+    );
+
+  const count =
+    document.getElementById(
+      "comment-dislike-count-" + commentId
+    );
+
+
+  if (!button || !count) {
+    return;
+  }
+
+
+  if (hasDislikedComment(commentId)) {
+
+    alert("You already disliked this comment.");
+
+    return;
+
+  }
+
+
+  button.disabled = true;
+
+
+  try {
+
+    const numericCommentId =
+      Number(commentId);
+
+
+    if (!Number.isFinite(numericCommentId)) {
+
+      throw new Error(
+        "Invalid comment ID."
+      );
+
+    }
+
+
+    const { error } =
+      await supabaseClient.rpc(
+        "increment_comment_dislikes",
+        {
+          comment_id: numericCommentId
+        }
+      );
+
+
+    if (error) {
+
+      console.error(
+        "COMMENT DISLIKE SUPABASE ERROR:",
+        error
+      );
+
+      alert(
+        "Comment dislike failed: " +
+        error.message
+      );
+
+      button.disabled = false;
+
+      return;
+
+    }
+
+
+    const currentDislikes =
+      Number(
+        count.textContent
+      ) || 0;
+
+
+    const newDislikes =
+      currentDislikes + 1;
+
+
+    count.textContent =
+      newDislikes.toLocaleString();
+
+
+    button.classList.add("disliked");
+
+    button.innerHTML =
+      `👎 Disliked
+       <span id="comment-dislike-count-${commentId}">
+         ${newDislikes.toLocaleString()}
+       </span>`;
+
+
+    markCommentAsDisliked(commentId);
+
+    button.disabled = false;
+
+
+  } catch (error) {
+
+    console.error(
+      "COMMENT DISLIKE ERROR:",
+      error
+    );
+
+    alert(
+      "Something went wrong with the comment Dislike button."
     );
 
     button.disabled = false;
@@ -1063,8 +1224,16 @@ function renderComment(
     Number(comment.likes || 0);
 
 
+  const commentDislikes =
+    Number(comment.dislikes || 0);
+
+
   const alreadyLiked =
     hasLikedComment(comment.id);
+
+
+  const alreadyDisliked =
+    hasDislikedComment(comment.id);
 
 
   const children =
@@ -1094,50 +1263,54 @@ function renderComment(
       : "";
 
 
-  const replyFormHTML =
-    !isReply
-      ? `
-        <div
-          id="reply-form-${comment.id}"
-          class="reply-form"
+  /*
+     IMPORTANT:
+     Every comment and every reply gets
+     its own reply form.
+     This allows unlimited nested replies.
+  */
+
+  const replyFormHTML = `
+    <div
+      id="reply-form-${comment.id}"
+      class="reply-form"
+    >
+
+      <div class="reply-form-inner">
+
+        <input
+          id="reply-name-${comment.id}"
+          type="text"
+          maxlength="80"
+          placeholder="Your name"
         >
 
-          <div class="reply-form-inner">
+        <textarea
+          id="reply-text-${comment.id}"
+          maxlength="2000"
+          placeholder="Write your reply..."
+        ></textarea>
 
-            <input
-              id="reply-name-${comment.id}"
-              type="text"
-              maxlength="80"
-              placeholder="Your name"
-            >
+        <button
+          class="reply-submit"
+          type="button"
+          onclick="submitReply(
+            ${articleId},
+            ${comment.id}
+          )"
+        >
+          Post Reply
+        </button>
 
-            <textarea
-              id="reply-text-${comment.id}"
-              maxlength="2000"
-              placeholder="Write your reply..."
-            ></textarea>
+        <div
+          id="reply-message-${comment.id}"
+          class="reply-message"
+        ></div>
 
-            <button
-              class="reply-submit"
-              type="button"
-              onclick="submitReply(
-                ${articleId},
-                ${comment.id}
-              )"
-            >
-              Post Reply
-            </button>
+      </div>
 
-            <div
-              id="reply-message-${comment.id}"
-              class="reply-message"
-            ></div>
-
-          </div>
-
-        </div>
-      `
-      : "";
+    </div>
+  `;
 
 
   return `
@@ -1183,19 +1356,30 @@ function renderComment(
         </button>
 
 
-        ${
-          !isReply
-            ? `
-              <button
-                class="reply-btn"
-                type="button"
-                onclick="toggleReplyForm(${comment.id})"
-              >
-                ↩️ Reply
-              </button>
-            `
-            : ""
-        }
+        <button
+          id="comment-dislike-${comment.id}"
+          class="comment-dislike-btn ${alreadyDisliked ? "disliked" : ""}"
+          type="button"
+          ${alreadyDisliked ? "disabled" : ""}
+          onclick="dislikeComment(${comment.id})"
+        >
+
+          ${alreadyDisliked ? "👎 Disliked" : "👎 Dislike"}
+
+          <span id="comment-dislike-count-${comment.id}">
+            ${commentDislikes.toLocaleString()}
+          </span>
+
+        </button>
+
+
+        <button
+          class="reply-btn"
+          type="button"
+          onclick="toggleReplyForm(${comment.id})"
+        >
+          ↩️ Reply
+        </button>
 
       </div>
 
