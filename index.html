@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Palmcaseblog — trending news, entertainment, sports, politics, technology and lifestyle stories.">
-  <meta name="theme-color" content="#111827">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Palmcaseblog — trending news, entertainment, sports, politics, technology and lifestyle stories."
+  >
+
+  <meta
+    name="theme-color"
+    content="#111827"
+  >
+
   <title>Palmcaseblog — Trending News & Stories</title>
 
+
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -36,6 +55,9 @@
       margin: auto;
     }
 
+
+    /* BREAKING BAR */
+
     .breaking {
       background: #111827;
       color: white;
@@ -47,6 +69,9 @@
     .breaking strong {
       color: #f59e0b;
     }
+
+
+    /* HEADER */
 
     .site-header {
       background: white;
@@ -109,6 +134,9 @@
       font-weight: 600;
     }
 
+
+    /* NAVIGATION */
+
     .nav {
       background: #111827;
       color: white;
@@ -131,6 +159,9 @@
     .nav .active {
       color: #f59e0b;
     }
+
+
+    /* HERO */
 
     .hero {
       display: grid;
@@ -165,7 +196,10 @@
       left: 0;
       right: 0;
       padding: 35px;
-      background: linear-gradient(transparent, rgba(0,0,0,.9));
+      background: linear-gradient(
+        transparent,
+        rgba(0,0,0,.9)
+      );
     }
 
     .hero-overlay h1 {
@@ -199,7 +233,10 @@
       right: 0;
       bottom: 0;
       padding: 20px;
-      background: linear-gradient(transparent, rgba(0,0,0,.9));
+      background: linear-gradient(
+        transparent,
+        rgba(0,0,0,.9)
+      );
     }
 
     .mini-card h2 {
@@ -207,6 +244,9 @@
       line-height: 1.2;
       margin-top: 7px;
     }
+
+
+    /* TAG */
 
     .tag {
       display: inline-block;
@@ -217,6 +257,9 @@
       padding: 4px 8px;
       border-radius: 4px;
     }
+
+
+    /* SECTION HEAD */
 
     .section-head {
       display: flex;
@@ -241,6 +284,9 @@
       color: #d97706;
       letter-spacing: 1px;
     }
+
+
+    /* TRENDING */
 
     .trending-grid {
       display: grid;
@@ -270,6 +316,9 @@
       line-height: 1.3;
       margin-top: 8px;
     }
+
+
+    /* CONTENT */
 
     .content-layout {
       display: grid;
@@ -311,6 +360,9 @@
       font-size: 14px;
     }
 
+
+    /* SIDEBAR */
+
     .side-box {
       background: white;
       padding: 20px;
@@ -337,6 +389,9 @@
       font-size: 15px;
     }
 
+
+    /* NEWSLETTER */
+
     .newsletter p {
       color: #6b7280;
       font-size: 14px;
@@ -361,45 +416,49 @@
       color: #16a34a;
     }
 
+
+    /* ADMIN SECTION */
+
     .publisher {
       margin: 50px 0;
       background: #111827;
       color: white;
       padding: 30px;
       border-radius: 12px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
+      text-align: center;
     }
 
     .publisher p {
       color: #d1d5db;
       margin-top: 10px;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    #postForm {
-      display: grid;
-      gap: 10px;
-    }
-
-    #postForm input,
-    #postForm select,
-    #postForm textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 6px;
-      border: none;
-    }
-
-    #postForm textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    #postForm button {
+    .admin-button {
+      display: inline-block;
+      margin-top: 20px;
       background: #f59e0b;
       color: #111827;
+      padding: 12px 20px;
+      border-radius: 7px;
+      font-weight: 700;
     }
+
+
+    /* LOADING */
+
+    .loading {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      color: #6b7280;
+    }
+
+
+    /* FOOTER */
 
     footer {
       background: #0b1120;
@@ -435,6 +494,9 @@
       color: #9ca3af;
       font-size: 13px;
     }
+
+
+    /* MOBILE */
 
     @media (max-width: 800px) {
 
@@ -501,14 +563,12 @@
         height: 210px;
       }
 
-      .publisher {
-        grid-template-columns: 1fr;
-      }
-
       .footer-grid {
         grid-template-columns: 1fr;
       }
+
     }
+
 
     @media (max-width: 500px) {
 
@@ -523,50 +583,113 @@
       .hero-overlay h1 {
         font-size: 25px;
       }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
+  <!-- BREAKING -->
+
   <div class="breaking">
+
     <strong>BREAKING:</strong>
+
     Stay updated with the latest trending stories on Palmcaseblog.
+
   </div>
+
+
+  <!-- HEADER -->
 
   <header class="site-header">
 
     <div class="topbar container">
 
-      <button class="menu-btn" id="menuBtn">☰</button>
+      <button
+        class="menu-btn"
+        id="menuBtn"
+      >
+        ☰
+      </button>
 
-      <a class="logo" href="#home">
-        <img src="IMG_2188.jpeg" alt="Palmcaseblog Logo">
+
+      <a
+        class="logo"
+        href="#home"
+      >
+
+        <img
+          src="IMG_2188.jpeg"
+          alt="Palmcaseblog Logo"
+        >
+
         <span>Palmcaseblog</span>
+
       </a>
 
+
       <div class="header-search">
+
         <input
           id="searchInput"
           type="search"
           placeholder="Search stories..."
         >
-        <button id="searchBtn">Search</button>
+
+        <button id="searchBtn">
+          Search
+        </button>
+
       </div>
 
     </div>
 
-    <nav class="nav" id="nav">
+
+    <!-- NAVIGATION -->
+
+    <nav
+      class="nav"
+      id="nav"
+    >
 
       <div class="container nav-inner">
 
-        <a class="active" href="#home">Home</a>
-        <a href="#news">News</a>
-        <a href="#entertainment">Entertainment</a>
-        <a href="#politics">Politics</a>
-        <a href="#sports">Sports</a>
-        <a href="#technology">Technology</a>
-        <a href="#lifestyle">Lifestyle</a>
+        <a
+          class="active"
+          href="#home"
+        >
+          Home
+        </a>
+
+        <a href="#news">
+          News
+        </a>
+
+        <a href="#entertainment">
+          Entertainment
+        </a>
+
+        <a href="#politics">
+          Politics
+        </a>
+
+        <a href="#sports">
+          Sports
+        </a>
+
+        <a href="#technology">
+          Technology
+        </a>
+
+        <a href="#lifestyle">
+          Lifestyle
+        </a>
 
       </div>
 
@@ -575,583 +698,6 @@
   </header>
 
 
-  <main id="home" class="container">
+  <!-- MAIN -->
 
-    <section class="hero">
-
-      <article class="hero-main">
-
-        <img
-          src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=85"
-          alt="Newsroom"
-        >
-
-        <div class="hero-overlay">
-
-          <span class="tag">TOP STORY</span>
-
-          <h1>
-            Palmcaseblog brings you the stories everyone is talking about
-          </h1>
-
-          <p>
-            News, entertainment, sports, technology and trending stories — all in one place.
-          </p>
-
-        </div>
-
-      </article>
-
-
-      <div class="hero-side">
-
-        <article class="mini-card">
-
-          <img
-            src="https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=700&q=80"
-            alt="Newspaper"
-          >
-
-          <div>
-
-            <span class="tag">NEWS</span>
-
-            <h2>
-              Latest headlines and stories making waves
-            </h2>
-
-          </div>
-
-        </article>
-
-
-        <article class="mini-card">
-
-          <img
-            src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=700&q=80"
-            alt="Entertainment event"
-          >
-
-          <div>
-
-            <span class="tag">ENTERTAINMENT</span>
-
-            <h2>
-              Celebrity and entertainment updates
-            </h2>
-
-          </div>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <section class="section-head">
-
-      <div>
-
-        <span class="eyebrow">WHAT'S TRENDING</span>
-
-        <h2>Trending Now</h2>
-
-      </div>
-
-      <a href="#latest">View all →</a>
-
-    </section>
-
-
-    <section id="trending" class="trending-grid">
-
-      <article class="trend-card">
-
-        <img
-          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80"
-          alt="Trending story"
-        >
-
-        <div class="trend-card-content">
-
-          <span class="tag">TRENDING</span>
-
-          <h3>
-            The stories people are talking about today
-          </h3>
-
-        </div>
-
-      </article>
-
-
-      <article class="trend-card">
-
-        <img
-          src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=700&q=80"
-          alt="Technology"
-        >
-
-        <div class="trend-card-content">
-
-          <span class="tag">TECHNOLOGY</span>
-
-          <h3>
-            New technology changing the way we live
-          </h3>
-
-        </div>
-
-      </article>
-
-
-      <article class="trend-card">
-
-        <img
-          src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=700&q=80"
-          alt="Entertainment"
-        >
-
-        <div class="trend-card-content">
-
-          <span class="tag">ENTERTAINMENT</span>
-
-          <h3>
-            Entertainment stories making headlines
-          </h3>
-
-        </div>
-
-      </article>
-
-
-      <article class="trend-card">
-
-        <img
-          src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=700&q=80"
-          alt="Sports"
-        >
-
-        <div class="trend-card-content">
-
-          <span class="tag">SPORTS</span>
-
-          <h3>
-            Sports news and major events
-          </h3>
-
-        </div>
-
-      </article>
-
-    </section>
-
-
-    <section class="content-layout">
-
-      <div class="main-column">
-
-        <div class="section-head" id="latest">
-
-          <div>
-
-            <span class="eyebrow">LATEST STORIES</span>
-
-            <h2>Latest on Palmcaseblog</h2>
-
-          </div>
-
-        </div>
-
-
-        <div id="posts" class="posts-grid">
-
-          <article class="post-card">
-
-            <img
-              src="https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=800&q=80"
-              alt="News"
-            >
-
-            <div>
-
-              <span class="tag">NEWS</span>
-
-              <h3>
-                Welcome to Palmcaseblog — your destination for trending stories
-              </h3>
-
-              <p>
-                Palmcaseblog brings together news, entertainment, sports,
-                technology and lifestyle stories in one place.
-              </p>
-
-            </div>
-
-          </article>
-
-
-          <article class="post-card">
-
-            <img
-              src="https://images.unsplash.com/photo-1521337581100-8ca9a73a5f79?auto=format&fit=crop&w=800&q=80"
-              alt="Entertainment"
-            >
-
-            <div>
-
-              <span class="tag">ENTERTAINMENT</span>
-
-              <h3>
-                Celebrity stories and entertainment updates
-              </h3>
-
-              <p>
-                Get the latest conversations, celebrity news and entertainment
-                stories making waves.
-              </p>
-
-            </div>
-
-          </article>
-
-
-          <article class="post-card">
-
-            <img
-              src="https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=800&q=80"
-              alt="Sports"
-            >
-
-            <div>
-
-              <span class="tag">SPORTS</span>
-
-              <h3>
-                Sports stories, results and major updates
-              </h3>
-
-              <p>
-                Follow major sporting events, football stories and other
-                trending sports updates.
-              </p>
-
-            </div>
-
-          </article>
-
-        </div>
-
-      </div>
-
-
-      <aside class="sidebar">
-
-        <div class="side-box">
-
-          <h3>Popular Posts</h3>
-
-          <div id="popular">
-
-            <div class="popular-item">
-              <strong>Top trending stories everyone is discussing</strong>
-            </div>
-
-            <div class="popular-item">
-              <strong>Celebrity and entertainment updates</strong>
-            </div>
-
-            <div class="popular-item">
-              <strong>Latest sports headlines</strong>
-            </div>
-
-            <div class="popular-item">
-              <strong>Technology stories to watch</strong>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="side-box newsletter">
-
-          <span class="eyebrow">STAY UPDATED</span>
-
-          <h3>Get Palmcaseblog stories</h3>
-
-          <p>
-            Join the newsletter for important trending stories and updates.
-          </p>
-
-          <input
-            type="email"
-            id="email"
-            placeholder="Your email address"
-          >
-
-          <button id="subscribeBtn">
-            Subscribe
-          </button>
-
-          <small id="subscribeMsg"></small>
-
-        </div>
-
-      </aside>
-
-    </section>
-
-
-    <section class="publisher">
-
-      <div>
-
-        <span class="eyebrow">PUBLISHER DEMO</span>
-
-        <h2>Publish a new story</h2>
-
-        <p>
-          This is currently a demo publisher. Later, we can connect Palmcaseblog
-          to a real admin dashboard and database so you can publish stories
-          publicly from your phone or laptop.
-        </p>
-
-      </div>
-
-
-      <form id="postForm">
-
-        <input
-          id="title"
-          required
-          placeholder="Story headline"
-        >
-
-        <select id="category">
-
-          <option>News</option>
-          <option>Entertainment</option>
-          <option>Politics</option>
-          <option>Sports</option>
-          <option>Technology</option>
-          <option>Lifestyle</option>
-
-        </select>
-
-        <input
-          id="image"
-          placeholder="Image URL (optional)"
-        >
-
-        <textarea
-          id="content"
-          required
-          placeholder="Write a short story summary..."
-        ></textarea>
-
-        <button type="submit">
-          Publish Story
-        </button>
-
-      </form>
-
-    </section>
-
-  </main>
-
-
-  <footer>
-
-    <div class="container footer-grid">
-
-      <div>
-
-        <a class="logo" href="#home">
-
-          <img
-            src="IMG_2188.jpeg"
-            alt="Palmcaseblog Logo"
-          >
-
-          <span>Palmcaseblog</span>
-
-        </a>
-
-        <p>
-          Trending stories. Real conversations. One destination.
-        </p>
-
-      </div>
-
-
-      <div>
-
-        <h4>Categories</h4>
-
-        <a href="#news">News</a>
-        <a href="#entertainment">Entertainment</a>
-        <a href="#sports">Sports</a>
-        <a href="#technology">Technology</a>
-
-      </div>
-
-
-      <div>
-
-        <h4>Follow Palmcaseblog</h4>
-
-        <p>
-          Facebook · TikTok · Instagram · YouTube · X
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="copyright">
-
-      © <span id="year"></span>
-      Palmcaseblog. All rights reserved.
-
-    </div>
-
-  </footer>
-
-
-  <script>
-
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
-
-
-    document
-      .getElementById("subscribeBtn")
-      .addEventListener("click", function () {
-
-        const email =
-          document.getElementById("email").value.trim();
-
-        const message =
-          document.getElementById("subscribeMsg");
-
-        if (!email) {
-
-          message.textContent =
-            "Please enter your email.";
-
-          return;
-        }
-
-        message.textContent =
-          "Thanks for subscribing to Palmcaseblog!";
-
-      });
-
-
-    document
-      .getElementById("searchBtn")
-      .addEventListener("click", function () {
-
-        const search =
-          document
-            .getElementById("searchInput")
-            .value
-            .trim()
-            .toLowerCase();
-
-        const posts =
-          document.querySelectorAll(".post-card");
-
-        posts.forEach(function (post) {
-
-          const text =
-            post.textContent.toLowerCase();
-
-          post.style.display =
-            !search || text.includes(search)
-              ? "grid"
-              : "none";
-
-        });
-
-      });
-
-
-    document
-      .getElementById("menuBtn")
-      .addEventListener("click", function () {
-
-        const nav =
-          document.getElementById("nav");
-
-        if (nav.style.display === "block") {
-
-          nav.style.display = "";
-
-        } else {
-
-          nav.style.display = "block";
-
-        }
-
-      });
-
-
-    document
-      .getElementById("postForm")
-      .addEventListener("submit", function (event) {
-
-        event.preventDefault();
-
-        const title =
-          document.getElementById("title").value;
-
-        const category =
-          document.getElementById("category").value;
-
-        const content =
-          document.getElementById("content").value;
-
-        const image =
-          document.getElementById("image").value;
-
-        const posts =
-          document.getElementById("posts");
-
-        const article =
-          document.createElement("article");
-
-        article.className = "post-card";
-
-        article.innerHTML = `
-          <img
-            src="${image || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80'}"
-            alt="${category}"
-          >
-
-          <div>
-
-            <span class="tag">${category}</span>
-
-            <h3>${title}</h3>
-
-            <p>${content}</p>
-
-          </div>
-        `;
-
-        posts.prepend(article);
-
-        document.getElementById("postForm").reset();
-
-        alert("Story added successfully on this browser.");
-
-      });
-
-  </script>
-
-</body>
-</html>
+  <main
