@@ -32,7 +32,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
     }
 
     .logo {
@@ -120,10 +119,6 @@
       border-bottom: 1px solid #eee;
     }
 
-    .views {
-      font-weight: 600;
-    }
-
     .article-image {
       width: 100%;
       max-height: 550px;
@@ -138,8 +133,6 @@
       white-space: pre-line;
       overflow-wrap: break-word;
     }
-
-    /* ACTION BUTTONS */
 
     .article-actions {
       display: flex;
@@ -159,11 +152,10 @@
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.2s;
     }
 
-    .action-btn:hover {
-      background: #f2f2f2;
+    .action-btn:active {
+      transform: scale(0.97);
     }
 
     .like-btn.liked {
@@ -172,7 +164,10 @@
       background: #fff5f5;
     }
 
-    /* SHARE AREA */
+    .like-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
 
     .share-box {
       display: none;
@@ -199,30 +194,18 @@
     }
 
     .share-btn {
-      border: none;
+      border: 1px solid #ddd;
       border-radius: 7px;
       padding: 10px 13px;
       cursor: pointer;
       font-weight: 600;
-      background: #fff;
-      border: 1px solid #ddd;
+      background: white;
     }
-
-    .share-btn:hover {
-      background: #eee;
-    }
-
-    /* COMMENTS */
 
     .comments-section {
       margin-top: 40px;
       padding-top: 30px;
       border-top: 1px solid #eee;
-    }
-
-    .comments-section h2 {
-      margin-top: 0;
-      margin-bottom: 20px;
     }
 
     .comment-form {
@@ -243,7 +226,6 @@
 
     .comment-form textarea {
       min-height: 120px;
-      resize: vertical;
     }
 
     .comment-submit {
@@ -255,10 +237,6 @@
       padding: 12px 20px;
       font-weight: bold;
       cursor: pointer;
-    }
-
-    .comment-submit:hover {
-      background: #b00000;
     }
 
     .comment-message {
@@ -325,7 +303,6 @@
 
     .footer-section h3 {
       margin-bottom: 15px;
-      font-size: 18px;
     }
 
     .footer-section p {
@@ -340,10 +317,6 @@
       text-decoration: none;
       margin-bottom: 9px;
       font-size: 14px;
-    }
-
-    .footer-section a:hover {
-      color: white;
     }
 
     .footer-brand-line {
@@ -381,7 +354,6 @@
 
       .footer-inner {
         grid-template-columns: 1fr;
-        gap: 25px;
       }
 
       .action-btn {
@@ -396,18 +368,15 @@
 
 <header>
   <div class="header-inner">
-
     <div class="logo">
       <img src="IMG_2188.jpeg" alt="Palmcaseblog Logo">
       <span>Palmcaseblog</span>
     </div>
-
   </div>
 </header>
 
 <nav>
   <div class="nav-inner">
-
     <a href="index.html">Home</a>
     <a href="category.html?category=News">News</a>
     <a href="category.html?category=Entertainment">Entertainment</a>
@@ -419,7 +388,6 @@
     <a href="category.html?category=Relationship">Relationship</a>
     <a href="category.html?category=World">World</a>
     <a href="category.html?category=Topics">Topics</a>
-
   </div>
 </nav>
 
@@ -430,11 +398,9 @@
   </a>
 
   <div id="article-container">
-
     <div class="message">
       Loading article...
     </div>
-
   </div>
 
 </main>
@@ -455,10 +421,7 @@
         Nigerian News, Entertainment, Celebrity Gist and Lifestyle since 2022.
       </p>
 
-      <a
-        class="business-directory-link"
-        href="business-directory.html"
-      >
+      <a class="business-directory-link" href="business-directory.html">
         Nigerian Business Directory →
       </a>
 
@@ -486,47 +449,21 @@
       <h3>Quick Links</h3>
 
       <a href="index.html">Home</a>
-
-      <a href="business-directory.html">
-        Nigerian Business Directory
-      </a>
-
-      <a href="contact.html">
-        Contact
-      </a>
-
-      <a href="feedback.html">
-        Feedback
-      </a>
-
-      <a href="advertise.html">
-        Advertise With Us
-      </a>
-
-      <a href="editorial-policy.html">
-        Editorial Policy
-      </a>
-
-      <a href="privacy.html">
-        Privacy Policy
-      </a>
-
-      <a href="cookies.html">
-        Cookie Settings
-      </a>
-
-      <a href="terms.html">
-        Terms
-      </a>
+      <a href="business-directory.html">Nigerian Business Directory</a>
+      <a href="contact.html">Contact</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="advertise.html">Advertise With Us</a>
+      <a href="editorial-policy.html">Editorial Policy</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="cookies.html">Cookie Settings</a>
+      <a href="terms.html">Terms</a>
 
     </div>
 
   </div>
 
   <div class="footer-bottom">
-
     © 2026 Palmcaseblog. All rights reserved.
-
   </div>
 
 </footer>
@@ -534,309 +471,138 @@
 
 <script>
 
-  const SUPABASE_URL =
-    "https://kcxlwhojwdvbfjjnartw.supabase.co";
+const SUPABASE_URL =
+  "https://kcxlwhojwdvbfjjnartw.supabase.co";
 
-  const SUPABASE_KEY =
-    "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+const SUPABASE_KEY =
+  "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+const container =
+  document.getElementById("article-container");
+
+
+function escapeHTML(text) {
+
+  if (!text) return "";
+
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function getArticleId() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
     );
 
-  const container =
-    document.getElementById("article-container");
+  return params.get("id");
+
+}
 
 
-  function escapeHTML(text) {
+function likedStorageKey(articleId) {
 
-    if (!text) return "";
+  return "palmcaseblog_liked_" + articleId;
 
-    return String(text)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+}
+
+
+function hasLiked(articleId) {
+
+  return localStorage.getItem(
+    likedStorageKey(articleId)
+  ) === "true";
+
+}
+
+
+function markAsLiked(articleId) {
+
+  localStorage.setItem(
+    likedStorageKey(articleId),
+    "true"
+  );
+
+}
+
+
+/* =========================
+   LIKE ARTICLE
+========================= */
+
+async function likeArticle(articleId) {
+
+  const likeButton =
+    document.getElementById("like-button");
+
+  const likeCount =
+    document.getElementById("like-count");
+
+
+  if (!likeButton || !likeCount) {
+    return;
+  }
+
+
+  if (hasLiked(articleId)) {
+
+    alert("You already liked this article.");
+
+    return;
 
   }
 
 
-  function getArticleId() {
+  likeButton.disabled = true;
 
-    const params =
-      new URLSearchParams(
-        window.location.search
+
+  try {
+
+    const numericArticleId =
+      Number(articleId);
+
+
+    if (!Number.isFinite(numericArticleId)) {
+
+      throw new Error(
+        "Invalid article ID."
       );
 
-    return params.get("id");
-
-  }
+    }
 
 
-  function likedStorageKey(articleId) {
-
-    return "palmcaseblog_liked_" + articleId;
-
-  }
-
-
-  function hasLiked(articleId) {
-
-    return localStorage.getItem(
-      likedStorageKey(articleId)
-    ) === "true";
-
-  }
-
-
-  function markAsLiked(articleId) {
-
-    localStorage.setItem(
-      likedStorageKey(articleId),
-      "true"
-    );
-
-  }
-
-
-  async function loadComments(articleId) {
-
-    const commentsList =
-      document.getElementById("comments-list");
-
-    if (!commentsList) return;
-
-
-    const {
-      data: comments,
-      error
-    } = await supabaseClient
-
-      .from("comments")
-
-      .select("*")
-
-      .eq("post_id", articleId)
-
-      .order("created_at", {
-        ascending: false
-      });
+    const { error } =
+      await supabaseClient.rpc(
+        "increment_post_likes",
+        {
+          post_id: numericArticleId
+        }
+      );
 
 
     if (error) {
 
       console.error(
-        "Comments loading error:",
+        "LIKE SUPABASE ERROR:",
         error
       );
 
-      commentsList.innerHTML = `
-        <p class="no-comments">
-          Comments could not be loaded.
-        </p>
-      `;
-
-      return;
-
-    }
-
-
-    if (!comments || comments.length === 0) {
-
-      commentsList.innerHTML = `
-        <p class="no-comments">
-          No comments yet. Be the first to comment.
-        </p>
-      `;
-
-      return;
-
-    }
-
-
-    commentsList.innerHTML =
-      comments.map(comment => {
-
-        const date =
-          comment.created_at
-            ? new Date(
-                comment.created_at
-              ).toLocaleString(
-                "en-US",
-                {
-                  dateStyle: "medium",
-                  timeStyle: "short"
-                }
-              )
-            : "";
-
-
-        return `
-
-          <div class="comment-item">
-
-            <div class="comment-name">
-              ${escapeHTML(
-                comment.name
-              )}
-            </div>
-
-            <div class="comment-date">
-              ${escapeHTML(date)}
-            </div>
-
-            <div class="comment-text">
-              ${escapeHTML(
-                comment.comment
-              )}
-            </div>
-
-          </div>
-
-        `;
-
-      }).join("");
-
-  }
-
-
-  async function submitComment(articleId) {
-
-    const nameInput =
-      document.getElementById("comment-name");
-
-    const commentInput =
-      document.getElementById("comment-text");
-
-    const message =
-      document.getElementById("comment-message");
-
-
-    const name =
-      nameInput.value.trim();
-
-    const comment =
-      commentInput.value.trim();
-
-
-    if (!name || !comment) {
-
-      message.textContent =
-        "Please enter your name and comment.";
-
-      return;
-
-    }
-
-
-    if (name.length > 80) {
-
-      message.textContent =
-        "Your name is too long.";
-
-      return;
-
-    }
-
-
-    if (comment.length > 2000) {
-
-      message.textContent =
-        "Your comment is too long.";
-
-      return;
-
-    }
-
-
-    message.textContent =
-      "Posting comment...";
-
-
-    const {
-      error
-    } = await supabaseClient
-
-      .from("comments")
-
-      .insert({
-
-        post_id: articleId,
-
-        name: name,
-
-        comment: comment
-
-      });
-
-
-    if (error) {
-
-      console.error(
-        "Comment submission error:",
-        error
-      );
-
-      message.textContent =
-        "Sorry, your comment could not be posted.";
-
-      return;
-
-    }
-
-
-    nameInput.value = "";
-
-    commentInput.value = "";
-
-    message.textContent =
-      "Comment posted successfully.";
-
-    await loadComments(articleId);
-
-  }
-
-
-  async function likeArticle(articleId) {
-
-    const likeButton =
-      document.getElementById("like-button");
-
-    const likeCount =
-      document.getElementById("like-count");
-
-
-    if (hasLiked(articleId)) {
-
-      return;
-
-    }
-
-
-    likeButton.disabled = true;
-
-
-    const {
-      error
-    } = await supabaseClient.rpc(
-
-      "increment_post_likes",
-
-      {
-        post_id: articleId
-      }
-
-    );
-
-
-    if (error) {
-
-      console.error(
-        "Like error:",
-        error
+      alert(
+        "Like failed: " +
+        error.message
       );
 
       likeButton.disabled = false;
@@ -846,818 +612,855 @@
     }
 
 
-    markAsLiked(articleId);
-
-
     const currentLikes =
       Number(
-        likeCount.dataset.count || 0
-      ) + 1;
+        likeCount.textContent
+      ) || 0;
 
 
-    likeCount.dataset.count =
-      currentLikes;
+    const newLikes =
+      currentLikes + 1;
 
 
     likeCount.textContent =
-      currentLikes.toLocaleString();
+      newLikes.toLocaleString();
 
 
     likeButton.classList.add("liked");
 
-    likeButton.innerHTML =
-      "❤️ Liked";
+    likeButton.firstChild.textContent =
+      "❤️ Liked ";
+
+
+    markAsLiked(articleId);
+
+
+    likeButton.disabled = false;
+
+
+  } catch (error) {
+
+    console.error(
+      "LIKE ERROR:",
+      error
+    );
+
+    alert(
+      "Something went wrong with the Like button."
+    );
 
     likeButton.disabled = false;
 
   }
 
+}
 
-  function shareArticle(title) {
 
-    const shareBox =
-      document.getElementById("share-box");
+/* =========================
+   COMMENTS
+========================= */
 
-    shareBox.classList.toggle("show");
+async function loadComments(articleId) {
+
+  const commentsList =
+    document.getElementById(
+      "comments-list"
+    );
+
+  if (!commentsList) return;
+
+
+  const {
+    data: comments,
+    error
+  } =
+    await supabaseClient
+      .from("comments")
+      .select("*")
+      .eq("post_id", Number(articleId))
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  if (error) {
+
+    console.error(
+      "Comments loading error:",
+      error
+    );
+
+    commentsList.innerHTML =
+      `<p class="no-comments">
+        Comments could not be loaded.
+      </p>`;
+
+    return;
 
   }
 
 
-  async function copyArticleLink() {
+  if (!comments || comments.length === 0) {
 
-    const url =
-      window.location.href;
+    commentsList.innerHTML =
+      `<p class="no-comments">
+        No comments yet. Be the first to comment.
+      </p>`;
 
+    return;
+
+  }
+
+
+  commentsList.innerHTML =
+    comments.map(comment => {
+
+      const date =
+        comment.created_at
+          ? new Date(
+              comment.created_at
+            ).toLocaleString(
+              "en-US",
+              {
+                dateStyle: "medium",
+                timeStyle: "short"
+              }
+            )
+          : "";
+
+
+      return `
+        <div class="comment-item">
+
+          <div class="comment-name">
+            ${escapeHTML(comment.name)}
+          </div>
+
+          <div class="comment-date">
+            ${escapeHTML(date)}
+          </div>
+
+          <div class="comment-text">
+            ${escapeHTML(comment.comment)}
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+async function submitComment(articleId) {
+
+  const nameInput =
+    document.getElementById(
+      "comment-name"
+    );
+
+  const commentInput =
+    document.getElementById(
+      "comment-text"
+    );
+
+  const message =
+    document.getElementById(
+      "comment-message"
+    );
+
+
+  const name =
+    nameInput.value.trim();
+
+  const comment =
+    commentInput.value.trim();
+
+
+  if (!name || !comment) {
+
+    message.textContent =
+      "Please enter your name and comment.";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "Posting comment...";
+
+
+  const { error } =
+    await supabaseClient
+      .from("comments")
+      .insert({
+        post_id: Number(articleId),
+        name: name,
+        comment: comment
+      });
+
+
+  if (error) {
+
+    console.error(
+      "Comment submission error:",
+      error
+    );
+
+    message.textContent =
+      "Sorry, your comment could not be posted.";
+
+    return;
+
+  }
+
+
+  nameInput.value = "";
+  commentInput.value = "";
+
+  message.textContent =
+    "Comment posted successfully.";
+
+  await loadComments(articleId);
+
+}
+
+
+/* =========================
+   SHARE
+========================= */
+
+function shareArticle() {
+
+  const shareBox =
+    document.getElementById(
+      "share-box"
+    );
+
+  shareBox.classList.toggle("show");
+
+}
+
+
+async function copyArticleLink() {
+
+  const url =
+    window.location.href;
+
+
+  try {
+
+    await navigator.clipboard.writeText(
+      url
+    );
+
+    alert(
+      "Article link copied!"
+    );
+
+  } catch {
+
+    prompt(
+      "Copy this article link:",
+      url
+    );
+
+  }
+
+}
+
+
+async function nativeShare(title) {
+
+  const url =
+    window.location.href;
+
+
+  if (navigator.share) {
 
     try {
 
-      await navigator.clipboard.writeText(
-        url
-      );
+      await navigator.share({
+        title: title,
+        text: title,
+        url: url
+      });
 
-      alert(
-        "Article link copied!"
-      );
+    } catch {
 
-    } catch (error) {
-
-      prompt(
-        "Copy this article link:",
-        url
+      console.log(
+        "Share cancelled."
       );
 
     }
+
+  } else {
+
+    shareArticle();
+
+  }
+
+}
+
+
+/* =========================
+   LOAD ARTICLE
+========================= */
+
+async function loadArticle() {
+
+  const articleId =
+    getArticleId();
+
+
+  if (!articleId) {
+
+    container.innerHTML =
+      `<div class="message">
+        <h2>Article not found</h2>
+        <p>No article ID was provided.</p>
+      </div>`;
+
+    return;
 
   }
 
 
-  async function nativeShare(title) {
-
-    const url =
-      window.location.href;
-
-
-    if (navigator.share) {
-
-      try {
-
-        await navigator.share({
-
-          title: title,
-
-          text: title,
-
-          url: url
-
-        });
-
-      } catch (error) {
-
-        console.log(
-          "Share cancelled."
-        );
-
-      }
-
-    } else {
-
-      shareArticle(title);
-
-    }
-
-  }
-
-
-  async function loadArticle() {
-
-    const articleId =
-      getArticleId();
-
-
-    if (!articleId) {
-
-      container.innerHTML = `
-
-        <div class="message">
-
-          <h2>Article not found</h2>
-
-          <p>
-            No article ID was provided.
-          </p>
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    const {
-      data: post,
-      error
-    } = await supabaseClient
-
+  const {
+    data: post,
+    error
+  } =
+    await supabaseClient
       .from("posts")
-
       .select("*")
-
-      .eq("id", articleId)
-
+      .eq("id", Number(articleId))
       .single();
 
 
-    if (error || !post) {
+  if (error || !post) {
 
-      console.error(error);
+    console.error(error);
 
-      container.innerHTML = `
+    container.innerHTML =
+      `<div class="message">
+        <h2>Article not found</h2>
+        <p>We couldn't find this article.</p>
+      </div>`;
 
-        <div class="message">
-
-          <h2>Article not found</h2>
-
-          <p>
-            We couldn't find this article.
-          </p>
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    /*
-      INCREASE ARTICLE VIEW COUNT
-    */
-
-    const {
-      error: viewError
-    } = await supabaseClient.rpc(
-
-      "increment_post_views",
-
-      {
-        post_id: articleId
-      }
-
-    );
-
-
-    if (viewError) {
-
-      console.error(
-        "View counter error:",
-        viewError
-      );
-
-    }
-
-
-    let currentViews =
-      Number(
-        post.views || 0
-      );
-
-
-    if (!viewError) {
-
-      currentViews =
-        currentViews + 1;
-
-    }
-
-
-    const currentLikes =
-      Number(
-        post.likes || 0
-      );
-
-
-    const formattedDate =
-      post.created_at
-
-        ? new Date(
-            post.created_at
-          ).toLocaleDateString(
-
-            "en-US",
-
-            {
-              year: "numeric",
-              month: "long",
-              day: "numeric"
-            }
-
-          )
-
-        : "";
-
-
-    document.title =
-      (post.headline || "Article") +
-      " | Palmcaseblog";
-
-
-    container.innerHTML = `
-
-      <article class="article-box">
-
-        <div class="category">
-
-          ${escapeHTML(
-            post.category || "News"
-          )}
-
-        </div>
-
-
-        <h1>
-
-          ${escapeHTML(
-            post.headline ||
-            "Untitled Article"
-          )}
-
-        </h1>
-
-
-        <div class="date">
-
-          ${formattedDate}
-
-        </div>
-
-
-        <div class="article-stats">
-
-          <span class="views">
-
-            👁
-            ${currentViews.toLocaleString()}
-            views
-
-          </span>
-
-          <span>
-
-            ❤️
-            <span id="top-like-count">
-              ${currentLikes.toLocaleString()}
-            </span>
-            likes
-
-          </span>
-
-        </div>
-
-
-        ${
-          post.image
-
-            ? `
-
-              <img
-
-                class="article-image"
-
-                src="${escapeHTML(
-                  post.image
-                )}"
-
-                alt="${escapeHTML(
-                  post.headline ||
-                  "Palmcaseblog article"
-                )}"
-
-              >
-
-            `
-
-            : ""
-
-        }
-
-
-        <div class="article-body">
-
-          ${escapeHTML(
-
-            post.article ||
-
-            "No article content available."
-
-          )}
-
-        </div>
-
-
-        <!-- ACTION BUTTONS -->
-
-        <div class="article-actions">
-
-          <button
-            id="like-button"
-            class="action-btn like-btn"
-            type="button"
-          >
-
-            ❤️
-            Like
-            <span id="like-count">
-              ${currentLikes.toLocaleString()}
-            </span>
-
-          </button>
-
-
-          <button
-            id="comment-button"
-            class="action-btn"
-            type="button"
-          >
-
-            💬 Comment
-
-          </button>
-
-
-          <button
-            id="share-button"
-            class="action-btn"
-            type="button"
-          >
-
-            ↗️ Share
-
-          </button>
-
-        </div>
-
-
-        <!-- SHARE OPTIONS -->
-
-        <div
-          id="share-box"
-          class="share-box"
-        >
-
-          <div class="share-title">
-            Share this article
-          </div>
-
-
-          <div class="share-buttons">
-
-            <button
-              class="share-btn"
-              id="whatsapp-share"
-              type="button"
-            >
-              WhatsApp
-            </button>
-
-
-            <button
-              class="share-btn"
-              id="facebook-share"
-              type="button"
-            >
-              Facebook
-            </button>
-
-
-            <button
-              class="share-btn"
-              id="x-share"
-              type="button"
-            >
-              X
-            </button>
-
-
-            <button
-              class="share-btn"
-              id="telegram-share"
-              type="button"
-            >
-              Telegram
-            </button>
-
-
-            <button
-              class="share-btn"
-              id="instagram-share"
-              type="button"
-            >
-              Instagram
-            </button>
-
-
-            <button
-              class="share-btn"
-              id="copy-link"
-              type="button"
-            >
-              Copy Link
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- COMMENTS -->
-
-        <section
-          id="comments-section"
-          class="comments-section"
-        >
-
-          <h2>
-            Comments
-          </h2>
-
-
-          <form
-            id="comment-form"
-            class="comment-form"
-          >
-
-            <input
-              id="comment-name"
-              type="text"
-              maxlength="80"
-              placeholder="Your name"
-              required
-            >
-
-
-            <textarea
-              id="comment-text"
-              maxlength="2000"
-              placeholder="Write your comment..."
-              required
-            ></textarea>
-
-
-            <button
-              class="comment-submit"
-              type="submit"
-            >
-              Post Comment
-            </button>
-
-
-            <div
-              id="comment-message"
-              class="comment-message"
-            ></div>
-
-          </form>
-
-
-          <div id="comments-list">
-
-            <p class="no-comments">
-              Loading comments...
-            </p>
-
-          </div>
-
-        </section>
-
-      </article>
-
-    `;
-
-
-    /*
-      LIKE BUTTON
-    */
-
-    const likeButton =
-      document.getElementById(
-        "like-button"
-      );
-
-
-    const likeCount =
-      document.getElementById(
-        "like-count"
-      );
-
-
-    likeCount.dataset.count =
-      currentLikes;
-
-
-    if (hasLiked(articleId)) {
-
-      likeButton.classList.add(
-        "liked"
-      );
-
-      likeButton.innerHTML =
-        `❤️ Liked
-         <span id="like-count">
-           ${currentLikes.toLocaleString()}
-         </span>`;
-
-    }
-
-
-    likeButton.addEventListener(
-      "click",
-      () => {
-
-        likeArticle(articleId);
-
-      }
-    );
-
-
-    /*
-      COMMENT BUTTON
-    */
-
-    document
-      .getElementById("comment-button")
-      .addEventListener(
-        "click",
-        () => {
-
-          document
-            .getElementById(
-              "comments-section"
-            )
-            .scrollIntoView({
-              behavior: "smooth"
-            });
-
-          setTimeout(() => {
-
-            document
-              .getElementById(
-                "comment-name"
-              )
-              .focus();
-
-          }, 500);
-
-        }
-      );
-
-
-    /*
-      SHARE BUTTON
-    */
-
-    document
-      .getElementById("share-button")
-      .addEventListener(
-        "click",
-        () => {
-
-          shareArticle(
-            post.headline || "Palmcaseblog"
-          );
-
-        }
-      );
-
-
-    const articleTitle =
-      post.headline ||
-      "Palmcaseblog";
-
-
-    const articleUrl =
-      window.location.href;
-
-
-    /*
-      WHATSAPP
-    */
-
-    document
-      .getElementById(
-        "whatsapp-share"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          const url =
-            "https://wa.me/?text=" +
-            encodeURIComponent(
-              articleTitle +
-              " " +
-              articleUrl
-            );
-
-          window.open(
-            url,
-            "_blank"
-          );
-
-        }
-      );
-
-
-    /*
-      FACEBOOK
-    */
-
-    document
-      .getElementById(
-        "facebook-share"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          const url =
-            "https://www.facebook.com/sharer/sharer.php?u=" +
-            encodeURIComponent(
-              articleUrl
-            );
-
-          window.open(
-            url,
-            "_blank"
-          );
-
-        }
-      );
-
-
-    /*
-      X
-    */
-
-    document
-      .getElementById(
-        "x-share"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          const url =
-            "https://twitter.com/intent/tweet?text=" +
-            encodeURIComponent(
-              articleTitle
-            ) +
-            "&url=" +
-            encodeURIComponent(
-              articleUrl
-            );
-
-          window.open(
-            url,
-            "_blank"
-          );
-
-        }
-      );
-
-
-    /*
-      TELEGRAM
-    */
-
-    document
-      .getElementById(
-        "telegram-share"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          const url =
-            "https://t.me/share/url?url=" +
-            encodeURIComponent(
-              articleUrl
-            ) +
-            "&text=" +
-            encodeURIComponent(
-              articleTitle
-            );
-
-          window.open(
-            url,
-            "_blank"
-          );
-
-        }
-      );
-
-
-    /*
-      INSTAGRAM
-
-      Instagram does not provide the
-      same direct website share URL as
-      WhatsApp, Facebook, X and Telegram.
-
-      We therefore use the phone's native
-      sharing system when available.
-    */
-
-    document
-      .getElementById(
-        "instagram-share"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          nativeShare(
-            articleTitle
-          );
-
-        }
-      );
-
-
-    /*
-      COPY LINK
-    */
-
-    document
-      .getElementById(
-        "copy-link"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          copyArticleLink();
-
-        }
-      );
-
-
-    /*
-      COMMENT FORM
-    */
-
-    document
-      .getElementById(
-        "comment-form"
-      )
-      .addEventListener(
-        "submit",
-        async (event) => {
-
-          event.preventDefault();
-
-          await submitComment(
-            articleId
-          );
-
-        }
-      );
-
-
-    /*
-      LOAD COMMENTS
-    */
-
-    await loadComments(
-      articleId
-    );
+    return;
 
   }
 
 
-  loadArticle();
+  /* VIEW COUNTER */
+
+  const {
+    error: viewError
+  } =
+    await supabaseClient.rpc(
+      "increment_post_views",
+      {
+        post_id: Number(articleId)
+      }
+    );
+
+
+  let currentViews =
+    Number(post.views || 0);
+
+
+  if (!viewError) {
+
+    currentViews++;
+
+  }
+
+
+  const currentLikes =
+    Number(post.likes || 0);
+
+
+  document.title =
+    (post.headline || "Article") +
+    " | Palmcaseblog";
+
+
+  container.innerHTML = `
+
+    <article class="article-box">
+
+      <div class="category">
+        ${escapeHTML(post.category || "News")}
+      </div>
+
+      <h1>
+        ${escapeHTML(
+          post.headline ||
+          "Untitled Article"
+        )}
+      </h1>
+
+      <div class="date">
+
+        ${
+          post.created_at
+            ? new Date(
+                post.created_at
+              ).toLocaleDateString(
+                "en-US",
+                {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric"
+                }
+              )
+            : ""
+        }
+
+      </div>
+
+      <div class="article-stats">
+
+        <span>
+          👁
+          ${currentViews.toLocaleString()}
+          views
+        </span>
+
+        <span>
+          ❤️
+          <span id="top-like-count">
+            ${currentLikes.toLocaleString()}
+          </span>
+          likes
+        </span>
+
+      </div>
+
+
+      ${
+        post.image
+          ? `
+            <img
+              class="article-image"
+              src="${escapeHTML(post.image)}"
+              alt="${escapeHTML(
+                post.headline ||
+                "Palmcaseblog article"
+              )}"
+            >
+          `
+          : ""
+      }
+
+
+      <div class="article-body">
+        ${escapeHTML(
+          post.article ||
+          "No article content available."
+        )}
+      </div>
+
+
+      <div class="article-actions">
+
+        <button
+          id="like-button"
+          class="action-btn like-btn"
+          type="button"
+        >
+          ❤️ Like
+          <span id="like-count">
+            ${currentLikes.toLocaleString()}
+          </span>
+        </button>
+
+
+        <button
+          id="comment-button"
+          class="action-btn"
+          type="button"
+        >
+          💬 Comment
+        </button>
+
+
+        <button
+          id="share-button"
+          class="action-btn"
+          type="button"
+        >
+          ↗️ Share
+        </button>
+
+      </div>
+
+
+      <div
+        id="share-box"
+        class="share-box"
+      >
+
+        <div class="share-title">
+          Share this article
+        </div>
+
+        <div class="share-buttons">
+
+          <button
+            class="share-btn"
+            id="whatsapp-share"
+            type="button"
+          >
+            WhatsApp
+          </button>
+
+          <button
+            class="share-btn"
+            id="facebook-share"
+            type="button"
+          >
+            Facebook
+          </button>
+
+          <button
+            class="share-btn"
+            id="x-share"
+            type="button"
+          >
+            X
+          </button>
+
+          <button
+            class="share-btn"
+            id="telegram-share"
+            type="button"
+          >
+            Telegram
+          </button>
+
+          <button
+            class="share-btn"
+            id="instagram-share"
+            type="button"
+          >
+            Instagram
+          </button>
+
+          <button
+            class="share-btn"
+            id="copy-link"
+            type="button"
+          >
+            Copy Link
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <section
+        id="comments-section"
+        class="comments-section"
+      >
+
+        <h2>
+          Comments
+        </h2>
+
+        <form
+          id="comment-form"
+          class="comment-form"
+        >
+
+          <input
+            id="comment-name"
+            type="text"
+            maxlength="80"
+            placeholder="Your name"
+            required
+          >
+
+          <textarea
+            id="comment-text"
+            maxlength="2000"
+            placeholder="Write your comment..."
+            required
+          ></textarea>
+
+          <button
+            class="comment-submit"
+            type="submit"
+          >
+            Post Comment
+          </button>
+
+          <div
+            id="comment-message"
+            class="comment-message"
+          ></div>
+
+        </form>
+
+        <div id="comments-list">
+
+          <p class="no-comments">
+            Loading comments...
+          </p>
+
+        </div>
+
+      </section>
+
+    </article>
+
+  `;
+
+
+  /* =========================
+     LIKE BUTTON SETUP
+  ========================= */
+
+  const likeButton =
+    document.getElementById(
+      "like-button"
+    );
+
+
+  if (hasLiked(articleId)) {
+
+    likeButton.classList.add(
+      "liked"
+    );
+
+    likeButton.innerHTML =
+      `❤️ Liked
+       <span id="like-count">
+         ${currentLikes.toLocaleString()}
+       </span>`;
+
+  }
+
+
+  likeButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+
+      likeArticle(articleId);
+
+    }
+  );
+
+
+  /* COMMENT BUTTON */
+
+  document
+    .getElementById("comment-button")
+    .addEventListener(
+      "click",
+      function() {
+
+        document
+          .getElementById(
+            "comments-section"
+          )
+          .scrollIntoView({
+            behavior: "smooth"
+          });
+
+      }
+    );
+
+
+  /* SHARE BUTTON */
+
+  document
+    .getElementById("share-button")
+    .addEventListener(
+      "click",
+      function() {
+
+        shareArticle();
+
+      }
+    );
+
+
+  const articleTitle =
+    post.headline ||
+    "Palmcaseblog";
+
+
+  const articleUrl =
+    window.location.href;
+
+
+  /* WHATSAPP */
+
+  document
+    .getElementById(
+      "whatsapp-share"
+    )
+    .addEventListener(
+      "click",
+      function() {
+
+        window.open(
+          "https://wa.me/?text=" +
+          encodeURIComponent(
+            articleTitle +
+            " " +
+            articleUrl
+          ),
+          "_blank"
+        );
+
+      }
+    );
+
+
+  /* FACEBOOK */
+
+  document
+    .getElementById(
+      "facebook-share"
+    )
+    .addEventListener(
+      "click",
+      function() {
+
+        window.open(
+          "https://www.facebook.com/sharer/sharer.php?u=" +
+          encodeURIComponent(
+            articleUrl
+          ),
+          "_blank"
+        );
+
+      }
+    );
+
+
+  /* X */
+
+  document
+    .getElementById(
+      "x-share"
+    )
+    .addEventListener(
+      "click",
+      function() {
+
+        window.open(
+          "https://twitter.com/intent/tweet?text=" +
+          encodeURIComponent(
+            articleTitle
+          ) +
+          "&url=" +
+          encodeURIComponent(
+            articleUrl
+          ),
+          "_blank"
+        );
+
+      }
+    );
+
+
+  /* TELEGRAM */
+
+  document
+    .getElementById(
+      "telegram-share"
+    )
+    .addEventListener(
+      "click",
+      function() {
+
+        window.open(
+          "https://t.me/share/url?url=" +
+          encodeURIComponent(
+            articleUrl
+          ) +
+          "&text=" +
+          encodeURIComponent(
+            articleTitle
+          ),
+          "_blank"
+        );
+
+      }
+    );
+
+
+  /* INSTAGRAM */
+
+  document
+    .getElementById(
+      "instagram-share"
+    )
+    .addEventListener(
+      "click",
+      function() {
+
+        nativeShare(
+          articleTitle
+        );
+
+      }
+    );
+
+
+  /* COPY LINK */
+
+  document
+    .getElementById(
+      "copy-link"
+    )
+    .addEventListener(
+      "click",
+      function() {
+
+        copyArticleLink();
+
+      }
+    );
+
+
+  /* COMMENT FORM */
+
+  document
+    .getElementById(
+      "comment-form"
+    )
+    .addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+        await submitComment(
+          articleId
+        );
+
+      }
+    );
+
+
+  /* LOAD COMMENTS */
+
+  await loadComments(
+    articleId
+  );
+
+}
+
+
+loadArticle();
 
 </script>
 
