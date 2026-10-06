@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Nigerian Business Directory | Palmcaseblog</title>
+
+  <meta
+    name="description"
+    content="Discover Nigerian businesses, services and brands through the Palmcaseblog Nigerian Business Directory."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #111;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 15px 20px;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .logo img {
+      width: 45px;
+      height: 45px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .home-link {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    nav {
+      background: white;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      gap: 18px;
+      padding: 12px 20px;
+      overflow-x: auto;
+    }
+
+    nav a {
+      color: #111;
+      text-decoration: none;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      color: #d40000;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .hero {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-size: 38px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: auto;
+      color: #555;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    .search-box {
+      margin-top: 25px;
+    }
+
+    .search-box input {
+      width: 100%;
+      max-width: 700px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      margin-bottom: 25px;
+    }
+
+    .section h2 {
+      font-size: 25px;
+      margin-bottom: 20px;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .category-card {
+      border: 1px solid #ddd;
+      padding: 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #111;
+      font-weight: bold;
+      background: #fafafa;
+      text-align: center;
+      transition: 0.2s;
+    }
+
+    .category-card:hover {
+      background: #111;
+      color: white;
+    }
+
+    .directory-message {
+      text-align: center;
+      padding: 35px 20px;
+      border: 1px dashed #ccc;
+      border-radius: 10px;
+      color: #666;
+      line-height: 1.7;
+    }
+
+    .listing-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .listing-box {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 25px;
+    }
+
+    .listing-box h3 {
+      margin-bottom: 12px;
+    }
+
+    .listing-box p {
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .button {
+      display: inline-block;
+      background: #111;
+      color: white;
+      text-decoration: none;
+      padding: 13px 20px;
+      border-radius: 7px;
+      font-weight: bold;
+    }
+
+    .button:hover {
+      background: #d40000;
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      margin-top: 50px;
+      padding: 40px 20px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 15px;
+    }
+
+    .footer-section p {
+      color: #ccc;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .footer-section a {
+      display: block;
+      color: #ccc;
+      text-decoration: none;
+      margin-bottom: 9px;
+      font-size: 14px;
+    }
+
+    .footer-section a:hover {
+      color: white;
+    }
+
+    .business-link {
+      color: white !important;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 30px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid #333;
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+    }
+
+    @media (max-width: 800px) {
+      .categories {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .listing-section {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .categories {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 30px 20px;
+      }
+
+      .section {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+
+    <div class="logo">
+      <img src="IMG_2188.jpeg" alt="Palmcaseblog Logo">
+      <span>Palmcaseblog</span>
+    </div>
+
+    <a href="index.html" class="home-link">
+      Back to Palmcaseblog
+    </a>
+
+  </div>
+</header>
+
+
+<nav>
+  <div class="nav-inner">
+
+    <a href="index.html">Home</a>
+
+    <a href="category.html?category=News">
+      News
+    </a>
+
+    <a href="category.html?category=Entertainment">
+      Entertainment
+    </a>
+
+    <a href="category.html?category=Politics">
+      Politics
+    </a>
+
+    <a href="category.html?category=Sports">
+      Sports
+    </a>
+
+    <a href="category.html?category=Technology">
+      Technology
+    </a>
+
+    <a href="category.html?category=Lifestyle">
+      Lifestyle
+    </a>
+
+    <a href="category.html?category=Crime">
+      Crime
+    </a>
+
+    <a href="category.html?category=Relationship">
+      Relationship
+    </a>
+
+    <a href="category.html?category=World">
+      World
+    </a>
+
+    <a href="category.html?category=Topics">
+      Topics
+    </a>
+
+  </div>
+</nav>
+
+
+<main>
+
+  <section class="hero">
+
+    <h1>
+      Nigerian Business Directory
+    </h1>
+
+    <p>
+      Discover businesses, services, brands and entrepreneurs
+      across Nigeria through the Palmcaseblog Business Directory.
+    </p>
+
+    <div class="search-box">
+
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Search businesses, services or locations..."
+      >
+
+    </div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>
+      Browse Business Categories
+    </h2>
+
+    <div class="categories">
+
+      <a href="#" class="category-card">
+        Restaurants & Food
+      </a>
+
+      <a href="#" class="category-card">
+        Fashion & Beauty
+      </a>
+
+      <a href="#" class="category-card">
+        Technology
+      </a>
+
+      <a href="#" class="category-card">
+        Real Estate
+      </a>
+
+      <a href="#" class="category-card">
+        Hotels & Hospitality
+      </a>
+
+      <a href="#" class="category-card">
+        Education
+      </a>
+
+      <a href="#" class="category-card">
+        Health & Wellness
+      </a>
+
+      <a href="#" class="category-card">
+        Transportation
+      </a>
+
+      <a href="#" class="category-card">
+        Construction
+      </a>
+
+      <a href="#" class="category-card">
+        Finance
+      </a>
+
+      <a href="#" class="category-card">
+        Events & Entertainment
+      </a>
+
+      <a href="#" class="category-card">
+        Professional Services
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>
+      Featured Businesses
+    </h2>
+
+    <div class="directory-message">
+
+      <h3>
+        Business listings are coming soon.
+      </h3>
+
+      <p>
+        Palmcaseblog is building a directory where Nigerian
+        businesses and service providers can showcase what
+        they offer and reach new customers.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <section class="section">
+
+    <div class="listing-section">
+
+      <div class="listing-box">
+
+        <h3>
+          Own a Business?
+        </h3>
+
+        <p>
+          Get your business discovered by people looking for
+          products and services across Nigeria.
+        </p>
+
+        <a href="contact.html" class="button">
+          List Your Business
+        </a>
+
+      </div>
+
+
+      <div class="listing-box">
+
+        <h3>
+          Looking for a Business?
+        </h3>
+
+        <p>
+          Search our growing directory to discover Nigerian
+          businesses, brands and service providers.
+        </p>
+
+        <a href="#searchInput" class="button">
+          Search Directory
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="footer-inner">
+
+    <div class="footer-section">
+
+      <h3>
+        Palmcaseblog
+      </h3>
+
+      <p>
+        Trending stories. Real conversations. One destination.
+      </p>
+
+      <p style="margin-top:10px;">
+        Nigerian News, Entertainment, Celebrity Gist and Lifestyle since 2022.
+      </p>
+
+      <a
+        href="business-directory.html"
+        class="business-link"
+      >
+        Nigerian Business Directory →
+      </a>
+
+    </div>
+
+
+    <div class="footer-section">
+
+      <h3>
+        Categories
+      </h3>
+
+      <a href="category.html?category=News">News</a>
+
+      <a href="category.html?category=Entertainment">
+        Entertainment
+      </a>
+
+      <a href="category.html?category=Politics">
+        Politics
+      </a>
+
+      <a href="category.html?category=Sports">
+        Sports
+      </a>
+
+      <a href="category.html?category=Technology">
+        Technology
+      </a>
+
+      <a href="category.html?category=Lifestyle">
+        Lifestyle
+      </a>
+
+      <a href="category.html?category=Crime">
+        Crime
+      </a>
+
+      <a href="category.html?category=Relationship">
+        Relationship
+      </a>
+
+      <a href="category.html?category=World">
+        World
+      </a>
+
+      <a href="category.html?category=Topics">
+        Topics
+      </a>
+
+    </div>
+
+
+    <div class="footer-section">
+
+      <h3>
+        Quick Links
+      </h3>
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="contact.html">
+        Contact
+      </a>
+
+      <a href="feedback.html">
+        Feedback
+      </a>
+
+      <a href="advertise.html">
+        Advertise With Us
+      </a>
+
+      <a href="editorial-policy.html">
+        Editorial Policy
+      </a>
+
+      <a href="privacy.html">
+        Privacy Policy
+      </a>
+
+      <a href="cookies.html">
+        Cookie Settings
+      </a>
+
+      <a href="terms.html">
+        Terms
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    © 2026 Palmcaseblog. All rights reserved.
+
+  </div>
+
+</footer>
+
+
+<script>
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+
+  searchInput.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (event.key === "Enter") {
+
+        const search =
+          searchInput.value.trim();
+
+        if (search) {
+
+          alert(
+            "Directory search will be available when business listings are connected."
+          );
+
+        }
+
+      }
+
+    }
+  );
+
+
+</script>
+
+</body>
+</html>
