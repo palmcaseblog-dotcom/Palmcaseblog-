@@ -226,7 +226,9 @@
     }
 
     .comment-form input,
-    .comment-form textarea {
+    .comment-form textarea,
+    .reply-form input,
+    .reply-form textarea {
       width: 100%;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -239,7 +241,12 @@
       min-height: 120px;
     }
 
-    .comment-submit {
+    .reply-form textarea {
+      min-height: 90px;
+    }
+
+    .comment-submit,
+    .reply-submit {
       width: fit-content;
       border: none;
       background: #d40000;
@@ -250,7 +257,13 @@
       cursor: pointer;
     }
 
-    .comment-message {
+    .reply-submit {
+      padding: 9px 15px;
+      font-size: 13px;
+    }
+
+    .comment-message,
+    .reply-message {
       margin-top: 10px;
       font-size: 14px;
     }
@@ -282,9 +295,11 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .comment-like-btn {
+    .comment-like-btn,
+    .reply-btn {
       border: 1px solid #ddd;
       background: white;
       color: #333;
@@ -295,7 +310,8 @@
       cursor: pointer;
     }
 
-    .comment-like-btn:hover {
+    .comment-like-btn:hover,
+    .reply-btn:hover {
       border-color: #d40000;
     }
 
@@ -308,6 +324,49 @@
     .comment-like-btn:disabled {
       opacity: 0.7;
       cursor: not-allowed;
+    }
+
+    .reply-form {
+      display: none;
+      margin-top: 15px;
+      margin-left: 20px;
+      padding: 15px;
+      background: #f8f8f8;
+      border: 1px solid #eee;
+      border-radius: 9px;
+    }
+
+    .reply-form.show {
+      display: block;
+    }
+
+    .reply-form-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .replies {
+      margin-left: 30px;
+      margin-top: 15px;
+      border-left: 3px solid #eee;
+      padding-left: 18px;
+    }
+
+    .reply-item {
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .reply-item:last-child {
+      border-bottom: none;
+    }
+
+    .reply-label {
+      color: #777;
+      font-size: 12px;
+      margin-bottom: 6px;
+      font-weight: 600;
     }
 
     .no-comments {
@@ -403,6 +462,15 @@
       .action-btn {
         flex: 1;
         min-width: 100px;
+      }
+
+      .replies {
+        margin-left: 10px;
+        padding-left: 12px;
+      }
+
+      .reply-form {
+        margin-left: 5px;
       }
     }
   </style>
@@ -557,6 +625,10 @@ function getArticleId() {
 }
 
 
+/* =========================
+   ARTICLE LIKE STORAGE
+========================= */
+
 function likedStorageKey(articleId) {
 
   return "palmcaseblog_liked_" + articleId;
@@ -681,7 +753,6 @@ async function likeArticle(articleId) {
 
     markAsLiked(articleId);
 
-
     likeButton.disabled = false;
 
 
@@ -734,7 +805,7 @@ function markCommentAsLiked(commentId) {
 
 
 /* =========================
-   LIKE COMMENT
+   LIKE COMMENT OR REPLY
 ========================= */
 
 async function likeComment(commentId) {
@@ -835,7 +906,6 @@ async function likeComment(commentId) {
 
     markCommentAsLiked(commentId);
 
-
     button.disabled = false;
 
 
@@ -858,7 +928,289 @@ async function likeComment(commentId) {
 
 
 /* =========================
-   COMMENTS
+   SHOW / HIDE REPLY FORM
+========================= */
+
+function toggleReplyForm(commentId) {
+
+  const form =
+    document.getElementById(
+      "reply-form-" + commentId
+    );
+
+  if (!form) return;
+
+  form.classList.toggle("show");
+
+}
+
+
+/* =========================
+   SUBMIT REPLY
+========================= */
+
+async function submitReply(
+  articleId,
+  parentId
+) {
+
+  const nameInput =
+    document.getElementById(
+      "reply-name-" + parentId
+    );
+
+  const replyInput =
+    document.getElementById(
+      "reply-text-" + parentId
+    );
+
+  const message =
+    document.getElementById(
+      "reply-message-" + parentId
+    );
+
+
+  if (!nameInput || !replyInput || !message) {
+    return;
+  }
+
+
+  const name =
+    nameInput.value.trim();
+
+  const reply =
+    replyInput.value.trim();
+
+
+  if (!name || !reply) {
+
+    message.textContent =
+      "Please enter your name and reply.";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "Posting reply...";
+
+
+  const { error } =
+    await supabaseClient
+      .from("comments")
+      .insert({
+        post_id: Number(articleId),
+        parent_id: Number(parentId),
+        name: name,
+        comment: reply
+      });
+
+
+  if (error) {
+
+    console.error(
+      "Reply submission error:",
+      error
+    );
+
+    message.textContent =
+      "Sorry, your reply could not be posted.";
+
+    return;
+
+  }
+
+
+  nameInput.value = "";
+  replyInput.value = "";
+
+  message.textContent =
+    "Reply posted successfully.";
+
+
+  await loadComments(articleId);
+
+}
+
+
+/* =========================
+   RENDER COMMENT
+========================= */
+
+function renderComment(
+  comment,
+  allComments,
+  articleId,
+  isReply = false
+) {
+
+  const date =
+    comment.created_at
+      ? new Date(
+          comment.created_at
+        ).toLocaleString(
+          "en-US",
+          {
+            dateStyle: "medium",
+            timeStyle: "short"
+          }
+        )
+      : "";
+
+
+  const commentLikes =
+    Number(comment.likes || 0);
+
+
+  const alreadyLiked =
+    hasLikedComment(comment.id);
+
+
+  const children =
+    allComments.filter(
+      child =>
+        Number(child.parent_id) ===
+        Number(comment.id)
+    );
+
+
+  const replyHTML =
+    children.length > 0
+      ? `
+        <div class="replies">
+
+          ${children.map(reply =>
+            renderComment(
+              reply,
+              allComments,
+              articleId,
+              true
+            )
+          ).join("")}
+
+        </div>
+      `
+      : "";
+
+
+  const replyFormHTML =
+    !isReply
+      ? `
+        <div
+          id="reply-form-${comment.id}"
+          class="reply-form"
+        >
+
+          <div class="reply-form-inner">
+
+            <input
+              id="reply-name-${comment.id}"
+              type="text"
+              maxlength="80"
+              placeholder="Your name"
+            >
+
+            <textarea
+              id="reply-text-${comment.id}"
+              maxlength="2000"
+              placeholder="Write your reply..."
+            ></textarea>
+
+            <button
+              class="reply-submit"
+              type="button"
+              onclick="submitReply(
+                ${articleId},
+                ${comment.id}
+              )"
+            >
+              Post Reply
+            </button>
+
+            <div
+              id="reply-message-${comment.id}"
+              class="reply-message"
+            ></div>
+
+          </div>
+
+        </div>
+      `
+      : "";
+
+
+  return `
+    <div
+      class="${isReply ? "reply-item" : "comment-item"}"
+      id="comment-${comment.id}"
+    >
+
+      ${
+        isReply
+          ? `<div class="reply-label">↳ Reply</div>`
+          : ""
+      }
+
+      <div class="comment-name">
+        ${escapeHTML(comment.name)}
+      </div>
+
+      <div class="comment-date">
+        ${escapeHTML(date)}
+      </div>
+
+      <div class="comment-text">
+        ${escapeHTML(comment.comment)}
+      </div>
+
+      <div class="comment-actions">
+
+        <button
+          id="comment-like-${comment.id}"
+          class="comment-like-btn ${alreadyLiked ? "liked" : ""}"
+          type="button"
+          ${alreadyLiked ? "disabled" : ""}
+          onclick="likeComment(${comment.id})"
+        >
+
+          ${alreadyLiked ? "❤️ Liked" : "❤️ Like"}
+
+          <span id="comment-like-count-${comment.id}">
+            ${commentLikes.toLocaleString()}
+          </span>
+
+        </button>
+
+
+        ${
+          !isReply
+            ? `
+              <button
+                class="reply-btn"
+                type="button"
+                onclick="toggleReplyForm(${comment.id})"
+              >
+                ↩️ Reply
+              </button>
+            `
+            : ""
+        }
+
+      </div>
+
+      ${replyFormHTML}
+
+      ${replyHTML}
+
+    </div>
+  `;
+
+}
+
+
+/* =========================
+   LOAD COMMENTS AND REPLIES
 ========================= */
 
 async function loadComments(articleId) {
@@ -880,7 +1232,7 @@ async function loadComments(articleId) {
       .select("*")
       .eq("post_id", Number(articleId))
       .order("created_at", {
-        ascending: false
+        ascending: true
       });
 
 
@@ -913,71 +1265,32 @@ async function loadComments(articleId) {
   }
 
 
+  const topLevelComments =
+    comments.filter(
+      comment =>
+        comment.parent_id === null ||
+        comment.parent_id === undefined
+    );
+
+
   commentsList.innerHTML =
-    comments.map(comment => {
-
-      const date =
-        comment.created_at
-          ? new Date(
-              comment.created_at
-            ).toLocaleString(
-              "en-US",
-              {
-                dateStyle: "medium",
-                timeStyle: "short"
-              }
-            )
-          : "";
-
-
-      const commentLikes =
-        Number(comment.likes || 0);
-
-
-      const alreadyLiked =
-        hasLikedComment(comment.id);
-
-
-      return `
-        <div class="comment-item">
-
-          <div class="comment-name">
-            ${escapeHTML(comment.name)}
-          </div>
-
-          <div class="comment-date">
-            ${escapeHTML(date)}
-          </div>
-
-          <div class="comment-text">
-            ${escapeHTML(comment.comment)}
-          </div>
-
-          <div class="comment-actions">
-
-            <button
-              id="comment-like-${comment.id}"
-              class="comment-like-btn ${alreadyLiked ? "liked" : ""}"
-              type="button"
-              ${alreadyLiked ? "disabled" : ""}
-              onclick="likeComment(${comment.id})"
-            >
-              ${alreadyLiked ? "❤️ Liked" : "❤️ Like"}
-
-              <span id="comment-like-count-${comment.id}">
-                ${commentLikes.toLocaleString()}
-              </span>
-            </button>
-
-          </div>
-
-        </div>
-      `;
-
-    }).join("");
+    topLevelComments
+      .map(comment =>
+        renderComment(
+          comment,
+          comments,
+          articleId,
+          false
+        )
+      )
+      .join("");
 
 }
 
+
+/* =========================
+   SUBMIT MAIN COMMENT
+========================= */
 
 async function submitComment(articleId) {
 
@@ -1024,7 +1337,8 @@ async function submitComment(articleId) {
       .insert({
         post_id: Number(articleId),
         name: name,
-        comment: comment
+        comment: comment,
+        parent_id: null
       });
 
 
@@ -1048,6 +1362,7 @@ async function submitComment(articleId) {
 
   message.textContent =
     "Comment posted successfully.";
+
 
   await loadComments(articleId);
 
@@ -1399,6 +1714,7 @@ async function loadArticle() {
           </h2>
         </div>
 
+
         <form
           id="comment-form"
           class="comment-form"
@@ -1432,6 +1748,7 @@ async function loadArticle() {
           ></div>
 
         </form>
+
 
         <div id="comments-list">
 
