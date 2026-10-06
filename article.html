@@ -1220,6 +1220,11 @@ async function loadComments(articleId) {
       "comments-list"
     );
 
+  const commentCount =
+    document.getElementById(
+      "comment-count"
+    );
+
   if (!commentsList) return;
 
 
@@ -1243,12 +1248,30 @@ async function loadComments(articleId) {
       error
     );
 
+    if (commentCount) {
+      commentCount.textContent = "0";
+    }
+
     commentsList.innerHTML =
       `<p class="no-comments">
         Comments could not be loaded.
       </p>`;
 
     return;
+
+  }
+
+
+  const totalComments =
+    comments
+      ? comments.length
+      : 0;
+
+
+  if (commentCount) {
+
+    commentCount.textContent =
+      totalComments.toLocaleString();
 
   }
 
@@ -1710,7 +1733,7 @@ async function loadArticle() {
 
         <div class="comments-heading">
           <h2>
-            Comments
+            💬 Comments (<span id="comment-count">0</span>)
           </h2>
         </div>
 
