@@ -120,6 +120,7 @@
       font-size: 18px;
       line-height: 1.8;
       white-space: pre-line;
+      overflow-wrap: break-word;
     }
 
     .back-link {
@@ -140,8 +141,58 @@
       margin-top: 50px;
       background: #111;
       color: white;
+      padding: 40px 20px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .footer-section p {
+      color: #ccc;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .footer-section a {
+      display: block;
+      color: #ccc;
+      text-decoration: none;
+      margin-bottom: 9px;
+      font-size: 14px;
+    }
+
+    .footer-section a:hover {
+      color: white;
+    }
+
+    .footer-brand-line {
+      margin-top: 10px;
+    }
+
+    .business-directory-link {
+      margin-top: 18px;
+      color: white !important;
+      font-weight: bold;
+    }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 30px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid #333;
       text-align: center;
-      padding: 25px 20px;
+      color: #888;
+      font-size: 13px;
     }
 
     @media (max-width: 700px) {
@@ -156,6 +207,11 @@
       .article-body {
         font-size: 17px;
       }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
     }
   </style>
 </head>
@@ -164,50 +220,196 @@
 
 <header>
   <div class="header-inner">
+
     <div class="logo">
       <img src="IMG_2188.jpeg" alt="Palmcaseblog Logo">
       <span>Palmcaseblog</span>
     </div>
+
   </div>
 </header>
 
 <nav>
   <div class="nav-inner">
+
     <a href="index.html">Home</a>
-    <a href="category.html?category=News">News</a>
-    <a href="category.html?category=Entertainment">Entertainment</a>
-    <a href="category.html?category=Politics">Politics</a>
-    <a href="category.html?category=Sports">Sports</a>
-    <a href="category.html?category=Technology">Technology</a>
-    <a href="category.html?category=Lifestyle">Lifestyle</a>
+
+    <a href="category.html?category=News">
+      News
+    </a>
+
+    <a href="category.html?category=Entertainment">
+      Entertainment
+    </a>
+
+    <a href="category.html?category=Politics">
+      Politics
+    </a>
+
+    <a href="category.html?category=Sports">
+      Sports
+    </a>
+
+    <a href="category.html?category=Technology">
+      Technology
+    </a>
+
+    <a href="category.html?category=Lifestyle">
+      Lifestyle
+    </a>
+
+    <a href="category.html?category=Crime">
+      Crime
+    </a>
+
+    <a href="category.html?category=Relationship">
+      Relationship
+    </a>
+
+    <a href="category.html?category=World">
+      World
+    </a>
+
+    <a href="category.html?category=Topics">
+      Topics
+    </a>
+
   </div>
 </nav>
 
 <main>
-  <a href="index.html" class="back-link">← Back to Palmcaseblog</a>
+
+  <a href="index.html" class="back-link">
+    ← Back to Palmcaseblog
+  </a>
 
   <div id="article-container">
-    <div class="message">Loading article...</div>
+
+    <div class="message">
+      Loading article...
+    </div>
+
   </div>
+
 </main>
 
 <footer>
-  <p>© 2026 Palmcaseblog. All rights reserved.</p>
+
+  <div class="footer-inner">
+
+    <div class="footer-section">
+
+      <h3>Palmcaseblog</h3>
+
+      <p>
+        Trending stories. Real conversations. One destination.
+      </p>
+
+      <p class="footer-brand-line">
+        Nigerian News, Entertainment, Celebrity Gist and Lifestyle since 2022.
+      </p>
+
+      <a
+        class="business-directory-link"
+        href="business-directory.html"
+      >
+        Nigerian Business Directory →
+      </a>
+
+    </div>
+
+
+    <div class="footer-section">
+
+      <h3>Categories</h3>
+
+      <a href="category.html?category=News">News</a>
+      <a href="category.html?category=Entertainment">Entertainment</a>
+      <a href="category.html?category=Politics">Politics</a>
+      <a href="category.html?category=Sports">Sports</a>
+      <a href="category.html?category=Technology">Technology</a>
+      <a href="category.html?category=Lifestyle">Lifestyle</a>
+      <a href="category.html?category=Crime">Crime</a>
+      <a href="category.html?category=Relationship">Relationship</a>
+      <a href="category.html?category=World">World</a>
+      <a href="category.html?category=Topics">Topics</a>
+
+    </div>
+
+
+    <div class="footer-section">
+
+      <h3>Quick Links</h3>
+
+      <a href="index.html">Home</a>
+
+      <a href="business-directory.html">
+        Nigerian Business Directory
+      </a>
+
+      <a href="contact.html">
+        Contact
+      </a>
+
+      <a href="feedback.html">
+        Feedback
+      </a>
+
+      <a href="advertise.html">
+        Advertise With Us
+      </a>
+
+      <a href="editorial-policy.html">
+        Editorial Policy
+      </a>
+
+      <a href="privacy.html">
+        Privacy Policy
+      </a>
+
+      <a href="cookies.html">
+        Cookie Settings
+      </a>
+
+      <a href="terms.html">
+        Terms
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    © 2026 Palmcaseblog. All rights reserved.
+
+  </div>
+
 </footer>
 
+
 <script>
-  const SUPABASE_URL = "https://kcxlwhojwdvbfjjnartw.supabase.co";
 
-  const SUPABASE_KEY = "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+  const SUPABASE_URL =
+    "https://kcxlwhojwdvbfjjnartw.supabase.co";
 
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  const SUPABASE_KEY =
+    "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
 
-  const container = document.getElementById("article-container");
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  const container =
+    document.getElementById("article-container");
+
 
   function escapeHTML(text) {
+
     if (!text) return "";
 
     return text
@@ -216,88 +418,179 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
+
   }
+
 
   function getArticleId() {
-    const params = new URLSearchParams(window.location.search);
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
     return params.get("id");
+
   }
 
+
   async function loadArticle() {
-    const articleId = getArticleId();
+
+    const articleId =
+      getArticleId();
+
 
     if (!articleId) {
+
       container.innerHTML = `
         <div class="message">
+
           <h2>Article not found</h2>
-          <p>No article ID was provided.</p>
+
+          <p>
+            No article ID was provided.
+          </p>
+
         </div>
       `;
+
       return;
+
     }
 
-    const { data: post, error } = await supabaseClient
+
+    const {
+      data: post,
+      error
+    } = await supabaseClient
+
       .from("posts")
+
       .select("*")
+
       .eq("id", articleId)
+
       .single();
 
+
     if (error || !post) {
+
       console.error(error);
 
       container.innerHTML = `
         <div class="message">
+
           <h2>Article not found</h2>
-          <p>We couldn't find this article.</p>
+
+          <p>
+            We couldn't find this article.
+          </p>
+
         </div>
       `;
+
       return;
+
     }
 
-    const formattedDate = post.created_at
-      ? new Date(post.created_at).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric"
-        })
-      : "";
 
-    document.title = post.headline + " | Palmcaseblog";
+    const formattedDate =
+      post.created_at
+
+        ? new Date(
+            post.created_at
+          ).toLocaleDateString(
+            "en-US",
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric"
+            }
+          )
+
+        : "";
+
+
+    document.title =
+      (post.headline || "Article") +
+      " | Palmcaseblog";
+
 
     container.innerHTML = `
+
       <article class="article-box">
 
         <div class="category">
-          ${escapeHTML(post.category || "News")}
+
+          ${escapeHTML(
+            post.category || "News"
+          )}
+
         </div>
+
 
         <h1>
-          ${escapeHTML(post.headline || "Untitled Article")}
+
+          ${escapeHTML(
+            post.headline ||
+            "Untitled Article"
+          )}
+
         </h1>
 
+
         <div class="date">
+
           ${formattedDate}
+
         </div>
+
 
         ${
           post.image
-            ? `<img
+
+            ? `
+
+              <img
+
                 class="article-image"
-                src="${escapeHTML(post.image)}"
-                alt="${escapeHTML(post.headline || "Palmcaseblog article")}"
-              >`
+
+                src="${escapeHTML(
+                  post.image
+                )}"
+
+                alt="${escapeHTML(
+                  post.headline ||
+                  "Palmcaseblog article"
+                )}"
+
+              >
+
+            `
+
             : ""
+
         }
 
+
         <div class="article-body">
-          ${escapeHTML(post.article || "No article content available.")}
+
+          ${escapeHTML(
+            post.article ||
+            "No article content available."
+          )}
+
         </div>
 
       </article>
+
     `;
+
   }
 
+
   loadArticle();
+
 </script>
 
 </body>
