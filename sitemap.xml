@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
   <url>
     <loc>https://palmcaseblog-dotcom.github.io/Palmcaseblog-/</loc>
   </url>
-
-  <url>
-    <loc>https://palmcaseblog-dotcom.github.io/Palmcaseblog-/article.html</loc>
-  </url>
-
+  <url><loc>https://palmcaseblog-dotcom.github.io/Palmcaseblog-/article.html?id=1</loc><lastmod>2026-10-05T21:05:50.753365+00:00</lastmod></url>
 </urlset>
