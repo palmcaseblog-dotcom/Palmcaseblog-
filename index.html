@@ -8,11 +8,12 @@
 
   <meta
     name="description"
-    content="Palmcaseblog brings you the latest news, entertainment, sports, politics, technology, business, lifestyle and trending stories."
+    content="Palmcaseblog brings you the latest news, entertainment, sports, politics, technology, lifestyle and trending stories."
   >
 
   <meta name="theme-color" content="#111827">
 
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -22,20 +23,9 @@
       padding: 0;
     }
 
-    :root {
-      --dark: #111827;
-      --dark2: #1f2937;
-      --gold: #f59e0b;
-      --red: #dc2626;
-      --light: #f5f6f8;
-      --white: #ffffff;
-      --gray: #6b7280;
-      --border: #e5e7eb;
-    }
-
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: var(--light);
+      background: #f5f6f8;
       color: #111827;
       line-height: 1.6;
     }
@@ -46,525 +36,274 @@
     }
 
     img {
+      max-width: 100%;
       display: block;
-      width: 100%;
-    }
-
-    button,
-    input {
-      font-family: inherit;
     }
 
     .container {
       width: 92%;
-      max-width: 1250px;
+      max-width: 1200px;
       margin: auto;
     }
 
-    /* =========================
-       TOP BAR
-    ========================= */
-
-    .top-bar {
-      background: #0b1220;
-      color: #d1d5db;
-      font-size: 13px;
-    }
-
-    .top-bar-inner {
-      min-height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .top-bar a:hover {
-      color: var(--gold);
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
+    /* HEADER */
     header {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
+      background: #111827;
+      color: white;
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
     }
 
-    .header-main {
-      min-height: 78px;
+    .header-inner {
+      min-height: 75px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 25px;
+      gap: 20px;
     }
 
-    .brand {
+    .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: 800;
     }
 
-    .brand img {
-      width: 48px;
-      height: 48px;
+    .logo img {
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       object-fit: cover;
     }
 
-    .brand-name {
-      font-size: 25px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-    }
-
-    .brand-tagline {
-      color: var(--gray);
-      font-size: 11px;
-      margin-top: -3px;
-    }
-
-    .main-nav {
+    nav {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 19px;
+      gap: 18px;
       flex-wrap: wrap;
     }
 
-    .main-nav a {
+    nav a {
+      color: white;
       font-size: 14px;
-      font-weight: 700;
-      color: #374151;
-      white-space: nowrap;
+      font-weight: 600;
     }
 
-    .main-nav a:hover {
-      color: var(--red);
+    nav a:hover {
+      color: #fbbf24;
     }
 
-    .search-trigger {
-      border: none;
-      background: var(--dark);
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #111827, #1f2937);
       color: white;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 18px;
-      flex-shrink: 0;
+      padding: 65px 0;
     }
 
-    .search-trigger:hover {
-      background: var(--red);
+    .hero-content {
+      max-width: 750px;
     }
 
-    /* =========================
-       SEARCH PANEL
-    ========================= */
-
-    .search-panel {
-      display: none;
-      background: var(--dark);
-      padding: 18px 0;
-    }
-
-    .search-panel.active {
-      display: block;
-    }
-
-    .search-form {
-      display: flex;
-      max-width: 850px;
-      margin: auto;
-      gap: 10px;
-    }
-
-    .search-form input {
-      flex: 1;
-      padding: 15px 17px;
-      border: none;
-      border-radius: 6px;
-      outline: none;
-      font-size: 16px;
-    }
-
-    .search-form button {
-      border: none;
-      background: var(--gold);
-      color: #111827;
-      font-weight: 800;
-      padding: 0 24px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    /* =========================
-       BREAKING NEWS
-    ========================= */
-
-    .breaking {
-      background: var(--red);
-      color: white;
-    }
-
-    .breaking-inner {
-      min-height: 42px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      overflow: hidden;
-    }
-
-    .breaking-label {
-      background: #991b1b;
-      padding: 5px 11px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    #breakingHeadline {
-      font-size: 14px;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* =========================
-       HERO
-    ========================= */
-
-    .hero-section {
-      padding: 30px 0 20px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
-    }
-
-    .lead-story {
-      position: relative;
-      min-height: 480px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #111827;
-      color: white;
-    }
-
-    .lead-story img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .lead-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(0,0,0,0.9),
-        rgba(0,0,0,0.05) 70%
-      );
-    }
-
-    .lead-content {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 30px;
-    }
-
-    .category-label {
-      display: inline-block;
-      background: var(--red);
-      color: white;
-      padding: 5px 10px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 900;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    .lead-content h1 {
-      font-size: 38px;
+    .hero h1 {
+      font-size: 46px;
       line-height: 1.15;
-      margin-bottom: 12px;
-    }
-
-    .lead-content p {
-      color: #e5e7eb;
-      max-width: 720px;
-      font-size: 15px;
-    }
-
-    .side-stories {
-      display: grid;
-      grid-template-rows: repeat(2, 1fr);
-      gap: 20px;
-    }
-
-    .side-story {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 3px 14px rgba(0,0,0,0.07);
-    }
-
-    .side-story img {
-      height: 190px;
-      object-fit: cover;
-    }
-
-    .side-story-content {
-      padding: 16px;
-    }
-
-    .side-story h2 {
-      font-size: 19px;
-      line-height: 1.3;
-      margin-top: 5px;
-    }
-
-    .story-meta {
-      color: #9ca3af;
-      font-size: 12px;
-      margin-top: 10px;
-    }
-
-    /* =========================
-       SECTION HEADERS
-    ========================= */
-
-    .section {
-      padding: 25px 0;
-    }
-
-    .section-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       margin-bottom: 18px;
-      border-bottom: 3px solid var(--dark);
-      padding-bottom: 10px;
     }
 
-    .section-heading h2 {
-      font-size: 25px;
-      font-weight: 900;
+    .hero p {
+      font-size: 18px;
+      color: #d1d5db;
+      margin-bottom: 25px;
     }
 
-    .section-heading a {
-      color: var(--red);
-      font-size: 13px;
+    .hero-btn {
+      display: inline-block;
+      background: #f59e0b;
+      color: #111827;
+      padding: 13px 22px;
+      border-radius: 7px;
+      font-weight: 700;
+    }
+
+    /* SEARCH */
+    .search-section {
+      padding: 25px 0;
+      background: white;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-box:focus {
+      border-color: #111827;
+    }
+
+    /* SECTION */
+    .section {
+      padding: 45px 0;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 25px;
       font-weight: 800;
     }
 
-    /* =========================
-       TRENDING
-    ========================= */
-
+    /* TRENDING */
     .trending-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      gap: 20px;
     }
 
     .trending-card {
       background: white;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+    }
+
+    .trending-card:hover {
+      transform: translateY(-3px);
     }
 
     .trending-card img {
-      height: 180px;
+      width: 100%;
+      height: 170px;
       object-fit: cover;
     }
 
-    .trending-card-content {
-      padding: 14px;
+    .trending-content {
+      padding: 15px;
     }
 
-    .trending-number {
-      color: var(--red);
-      font-weight: 900;
+    .trending-content h3 {
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    /* MAIN CONTENT */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 35px;
+      align-items: start;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+    }
+
+    .post-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .post-card img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+    }
+
+    .post-content {
+      padding: 18px;
+    }
+
+    .post-category {
+      color: #d97706;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .post-card h2 {
+      font-size: 21px;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
+    .post-excerpt {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .post-date {
+      color: #9ca3af;
       font-size: 12px;
     }
 
-    .trending-card h3 {
-      font-size: 17px;
-      line-height: 1.35;
-      margin-top: 5px;
-    }
-
-    /* =========================
-       MAIN NEWS AREA
-    ========================= */
-
-    .main-news-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 30px;
-    }
-
-    .latest-list {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .latest-card {
-      display: grid;
-      grid-template-columns: 230px 1fr;
-      gap: 18px;
-      background: white;
-      padding: 12px;
-      border-radius: 10px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-    }
-
-    .latest-card img {
-      width: 230px;
-      height: 145px;
-      object-fit: cover;
-      border-radius: 7px;
-    }
-
-    .latest-card h3 {
-      font-size: 20px;
-      line-height: 1.3;
-      margin: 5px 0 8px;
-    }
-
-    .latest-card p {
-      color: var(--gray);
-      font-size: 14px;
-    }
-
-    /* =========================
-       SIDEBAR
-    ========================= */
-
+    /* SIDEBAR */
     .sidebar {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 25px;
     }
 
     .sidebar-box {
       background: white;
+      padding: 22px;
       border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
     }
 
-    .sidebar-title {
-      border-bottom: 2px solid var(--dark);
-      padding-bottom: 10px;
-      margin-bottom: 8px;
+    .sidebar-box h3 {
       font-size: 20px;
-      font-weight: 900;
+      margin-bottom: 15px;
     }
 
-    .most-read-item {
-      display: grid;
-      grid-template-columns: 42px 1fr;
-      gap: 10px;
-      padding: 13px 0;
-      border-bottom: 1px solid var(--border);
+    .popular-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e7eb;
     }
 
-    .most-read-item:last-child {
+    .popular-item:last-child {
       border-bottom: none;
     }
 
-    .most-read-number {
-      font-size: 25px;
-      font-weight: 900;
-      color: #d1d5db;
+    .popular-item h4 {
+      font-size: 15px;
+      line-height: 1.4;
     }
 
-    .most-read-item h4 {
-      font-size: 14px;
-      line-height: 1.35;
+    .popular-meta {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 4px;
     }
 
-    /* =========================
-       CATEGORY BLOCKS
-    ========================= */
-
-    .category-block {
-      background: white;
-      padding: 18px;
-      border-radius: 10px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
-      gap: 18px;
-    }
-
-    .category-main img {
-      height: 250px;
-      object-fit: cover;
-      border-radius: 7px;
-      margin-bottom: 10px;
-    }
-
-    .category-main h3 {
-      font-size: 23px;
-      line-height: 1.25;
-    }
-
-    .category-small {
-      border-left: 1px solid var(--border);
-      padding-left: 15px;
-    }
-
-    .category-small img {
-      height: 130px;
-      object-fit: cover;
-      border-radius: 7px;
-      margin-bottom: 8px;
-    }
-
-    .category-small h3 {
-      font-size: 16px;
-      line-height: 1.3;
-    }
-
-    /* =========================
-       NEWSLETTER
-    ========================= */
-
+    /* NEWSLETTER */
     .newsletter {
-      background: linear-gradient(135deg, #111827, #1f2937);
+      background: #111827;
       color: white;
-      border-radius: 12px;
       padding: 35px;
-      margin: 30px 0;
+      border-radius: 12px;
       text-align: center;
+      margin-top: 40px;
     }
 
     .newsletter h2 {
-      font-size: 28px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .newsletter p {
@@ -573,55 +312,66 @@
     }
 
     .newsletter-form {
-      max-width: 650px;
-      margin: auto;
       display: flex;
+      max-width: 600px;
+      margin: auto;
       gap: 10px;
     }
 
     .newsletter-form input {
       flex: 1;
-      padding: 14px;
+      padding: 13px;
       border: none;
       border-radius: 6px;
+      font-size: 15px;
       outline: none;
     }
 
     .newsletter-form button {
-      background: var(--gold);
-      color: #111827;
+      background: #f59e0b;
       border: none;
+      padding: 13px 22px;
       border-radius: 6px;
-      padding: 0 24px;
-      font-weight: 900;
+      font-weight: 700;
       cursor: pointer;
     }
 
-    #subscribe-message {
-      margin-top: 10px;
-      font-size: 13px;
+    .newsletter-form button:disabled {
+      opacity: 0.7;
+      cursor: wait;
     }
 
-    /* =========================
-       FOOTER
-    ========================= */
+    #subscribe-message {
+      margin-top: 12px;
+      font-size: 14px;
+      min-height: 20px;
+    }
 
+    /* EMPTY / ERROR */
+    .message {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      color: #6b7280;
+    }
+
+    /* FOOTER */
     footer {
-      background: var(--dark);
+      background: #111827;
       color: white;
-      margin-top: 40px;
+      margin-top: 50px;
     }
 
     .footer-grid {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 35px;
+      gap: 40px;
       padding: 45px 0;
     }
 
     .footer-column h3,
     .footer-column h4 {
-      margin-bottom: 14px;
+      margin-bottom: 15px;
     }
 
     .footer-column p {
@@ -635,16 +385,16 @@
     }
 
     .footer-column li {
-      margin-bottom: 8px;
+      margin-bottom: 9px;
     }
 
-    .footer-column a {
+    .footer-column li a {
       color: #d1d5db;
       font-size: 14px;
     }
 
-    .footer-column a:hover {
-      color: var(--gold);
+    .footer-column li a:hover {
+      color: #fbbf24;
     }
 
     .social-links {
@@ -653,208 +403,67 @@
       gap: 10px;
     }
 
+    .social-links a {
+      color: white;
+      font-size: 14px;
+    }
+
+    .social-links a:hover {
+      color: #fbbf24;
+    }
+
     .copyright {
       border-top: 1px solid #374151;
-      padding: 17px;
       text-align: center;
+      padding: 18px;
       color: #9ca3af;
       font-size: 13px;
     }
 
-    /* =========================
-       EMPTY / LOADING
-    ========================= */
-
-    .loading {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      text-align: center;
-      color: var(--gray);
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 1050px) {
-
-      .main-nav {
-        gap: 12px;
-      }
-
-      .hero-grid {
-        grid-template-columns: 1.6fr 1fr;
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+      .footer-grid {
+        grid-template-columns: 2fr 1fr 1fr;
       }
 
       .trending-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-
-      .footer-grid {
-        grid-template-columns: 2fr 1fr 1fr;
-      }
     }
 
     @media (max-width: 800px) {
+      .header-inner {
+        flex-direction: column;
+        padding: 15px 0;
+      }
 
-      .top-bar-inner {
+      nav {
         justify-content: center;
       }
 
-      .header-main {
-        flex-wrap: wrap;
-        padding: 14px 0;
+      .hero h1 {
+        font-size: 34px;
       }
 
-      .brand {
-        width: calc(100% - 55px);
-      }
-
-      .main-nav {
-        width: 100%;
-        order: 3;
-        overflow-x: auto;
-        justify-content: flex-start;
-        flex-wrap: nowrap;
-        padding-bottom: 5px;
-      }
-
-      .main-nav a {
-        font-size: 13px;
-      }
-
-      .hero-grid {
+      .content-grid {
         grid-template-columns: 1fr;
       }
 
-      .lead-story {
-        min-height: 400px;
-      }
-
-      .lead-content h1 {
-        font-size: 29px;
-      }
-
-      .side-stories {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
-      }
-
-      .side-story img {
-        height: 150px;
-      }
-
-      .main-news-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .category-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .category-main {
-        grid-column: 1 / -1;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-
-      .container {
-        width: 94%;
-      }
-
-      .breaking-inner {
-        min-height: 38px;
-      }
-
-      .breaking-label {
-        font-size: 10px;
-      }
-
-      #breakingHeadline {
-        font-size: 12px;
-      }
-
-      .lead-story {
-        min-height: 350px;
-      }
-
-      .lead-content {
-        padding: 20px;
-      }
-
-      .lead-content h1 {
-        font-size: 25px;
-      }
-
-      .side-stories {
+      .posts-grid {
         grid-template-columns: 1fr;
       }
 
       .trending-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .trending-card img {
-        height: 130px;
-      }
-
-      .trending-card h3 {
-        font-size: 14px;
-      }
-
-      .latest-card {
-        grid-template-columns: 120px 1fr;
-        gap: 12px;
-      }
-
-      .latest-card img {
-        width: 120px;
-        height: 100px;
-      }
-
-      .latest-card h3 {
-        font-size: 16px;
-      }
-
-      .latest-card p {
-        display: none;
-      }
-
-      .category-grid {
         grid-template-columns: 1fr;
-      }
-
-      .category-main {
-        grid-column: auto;
-      }
-
-      .category-small {
-        border-left: none;
-        padding-left: 0;
-        border-top: 1px solid var(--border);
-        padding-top: 15px;
-      }
-
-      .newsletter {
-        padding: 25px 18px;
-      }
-
-      .newsletter-form {
-        flex-direction: column;
-      }
-
-      .newsletter-form button {
-        padding: 13px;
       }
 
       .footer-grid {
         grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
       }
     }
   </style>
@@ -862,237 +471,116 @@
 
 <body>
 
-  <!-- TOP BAR -->
-  <div class="top-bar">
-    <div class="container top-bar-inner">
-      <span>Welcome to Palmcaseblog</span>
-      <span id="todayDate"></span>
-    </div>
-  </div>
-
   <!-- HEADER -->
   <header>
+    <div class="container header-inner">
 
-    <div class="container header-main">
-
-      <a href="index.html" class="brand">
-
-        <img
-          src="IMG_2188.jpeg"
-          alt="Palmcaseblog logo"
-        >
-
-        <div>
-          <div class="brand-name">Palmcaseblog</div>
-          <div class="brand-tagline">
-            News • Entertainment • Sports • More
-          </div>
-        </div>
-
+      <a href="index.html" class="logo">
+        <img src="IMG_2188.jpeg" alt="Palmcaseblog Logo">
+        <span>Palmcaseblog</span>
       </a>
 
-      <nav class="main-nav">
-
+      <nav>
         <a href="index.html">Home</a>
-
-        <a href="category.html?category=News">
-          News
-        </a>
-
-        <a href="category.html?category=Entertainment">
-          Entertainment
-        </a>
-
-        <a href="category.html?category=Sports">
-          Sports
-        </a>
-
-        <a href="category.html?category=Politics">
-          Politics
-        </a>
-
-        <a href="category.html?category=Technology">
-          Technology
-        </a>
-
-        <a href="category.html?category=Business">
-          Business
-        </a>
-
-        <a href="category.html?category=Lifestyle">
-          Lifestyle
-        </a>
-
-        <a href="business.html">
-          Directory
-        </a>
-
+        <a href="category.html?category=News">News</a>
+        <a href="category.html?category=Entertainment">Entertainment</a>
+        <a href="category.html?category=Sports">Sports</a>
+        <a href="category.html?category=Politics">Politics</a>
+        <a href="category.html?category=Technology">Technology</a>
+        <a href="category.html?category=Business">Business</a>
+        <a href="category.html?category=Lifestyle">Lifestyle</a>
+        <a href="business.html">Business Directory</a>
       </nav>
 
-      <button
-        class="search-trigger"
-        id="searchTrigger"
-        aria-label="Open search"
-      >
-        🔍
-      </button>
-
     </div>
-
   </header>
 
-  <!-- SEARCH PANEL -->
-  <div class="search-panel" id="searchPanel">
-
-    <div class="container">
-
-      <form class="search-form" id="searchForm">
-
-        <input
-          type="search"
-          id="searchInput"
-          placeholder="Search Palmcaseblog..."
-          autocomplete="off"
-        >
-
-        <button type="submit">
-          Search
-        </button>
-
-      </form>
-
-    </div>
-
-  </div>
-
-  <!-- BREAKING NEWS -->
-  <div class="breaking">
-
-    <div class="container breaking-inner">
-
-      <span class="breaking-label">
-        BREAKING NEWS
-      </span>
-
-      <a
-        href="#"
-        id="breakingHeadline"
-      >
-        Loading latest story...
-      </a>
-
-    </div>
-
-  </div>
-
   <!-- HERO -->
-  <section class="hero-section">
-
+  <section class="hero">
     <div class="container">
+      <div class="hero-content">
 
-      <div
-        class="hero-grid"
-        id="heroGrid"
-      >
+        <h1>Stay Updated With Palmcaseblog</h1>
 
-        <div class="loading">
-          Loading featured stories...
-        </div>
+        <p>
+          Latest news, entertainment, sports, politics, technology,
+          lifestyle and trending stories from Nigeria and around the world.
+        </p>
+
+        <a href="#latest-posts" class="hero-btn">
+          Explore Latest Stories
+        </a>
 
       </div>
+    </div>
+  </section>
+
+  <!-- SEARCH -->
+  <section class="search-section">
+    <div class="container">
+
+      <input
+        type="text"
+        id="searchInput"
+        class="search-box"
+        placeholder="Search Palmcaseblog..."
+        autocomplete="off"
+      >
 
     </div>
-
   </section>
 
   <!-- TRENDING -->
   <section class="section">
-
     <div class="container">
 
-      <div class="section-heading">
+      <h2 class="section-title">Trending Now</h2>
 
-        <h2>🔥 Trending Now</h2>
-
-        <a href="category.html">
-          View All
-        </a>
-
-      </div>
-
-      <div
-        class="trending-grid"
-        id="trendingGrid"
-      >
-
-        <div class="loading">
-          Loading trending stories...
-        </div>
-
+      <div id="trendingGrid" class="trending-grid">
+        <p class="message">Loading trending stories...</p>
       </div>
 
     </div>
-
   </section>
 
-  <!-- LATEST NEWS + SIDEBAR -->
-  <section class="section">
-
+  <!-- MAIN -->
+  <section class="section" id="latest-posts">
     <div class="container">
 
-      <div class="main-news-grid">
+      <div class="content-grid">
 
+        <!-- POSTS -->
         <main>
 
-          <div class="section-heading">
+          <h2 class="section-title">Latest Stories</h2>
 
-            <h2>Latest News</h2>
-
-            <a href="category.html?category=News">
-              More News
-            </a>
-
-          </div>
-
-          <div
-            class="latest-list"
-            id="latestList"
-          >
-
-            <div class="loading">
-              Loading latest news...
-            </div>
-
+          <div id="postsGrid" class="posts-grid">
+            <p class="message">Loading latest stories...</p>
           </div>
 
         </main>
 
+        <!-- SIDEBAR -->
         <aside class="sidebar">
 
           <div class="sidebar-box">
 
-            <div class="sidebar-title">
-              Most Read
-            </div>
+            <h3>Popular Posts</h3>
 
-            <div id="mostRead">
-              <div class="loading">
-                Loading...
-              </div>
+            <div id="popularPosts">
+              <p>Loading popular posts...</p>
             </div>
 
           </div>
 
           <div class="sidebar-box">
 
-            <div class="sidebar-title">
-              About Palmcaseblog
-            </div>
+            <h3>About Palmcaseblog</h3>
 
             <p>
-              Palmcaseblog is a growing digital media platform
-              covering news, entertainment, sports, politics,
-              technology, business and lifestyle.
+              Palmcaseblog is a growing digital media platform covering
+              news, entertainment, sports, technology, lifestyle,
+              business and trending stories.
             </p>
 
           </div>
@@ -1101,30 +589,16 @@
 
       </div>
 
-    </div>
-
-  </section>
-
-  <!-- CATEGORY SECTIONS -->
-  <div id="categorySections"></div>
-
-  <!-- NEWSLETTER -->
-  <section class="section">
-
-    <div class="container">
-
+      <!-- NEWSLETTER -->
       <div class="newsletter">
 
         <h2>Stay Updated</h2>
 
         <p>
-          Get the latest Palmcaseblog stories and trending news.
+          Subscribe to Palmcaseblog and stay informed about the latest stories.
         </p>
 
-        <form
-          class="newsletter-form"
-          id="newsletterForm"
-        >
+        <form id="newsletterForm" class="newsletter-form">
 
           <input
             type="email"
@@ -1144,7 +618,6 @@
       </div>
 
     </div>
-
   </section>
 
   <!-- FOOTER -->
@@ -1158,8 +631,8 @@
         <h3>Palmcaseblog</h3>
 
         <p>
-          Your source for news, entertainment, sports,
-          technology, business, lifestyle and trending stories.
+          Your source for news, entertainment, sports, technology,
+          business, lifestyle and trending stories.
         </p>
 
         <p>
@@ -1176,45 +649,31 @@
         <ul>
 
           <li>
-            <a href="category.html?category=News">
-              News
-            </a>
+            <a href="category.html?category=News">News</a>
           </li>
 
           <li>
-            <a href="category.html?category=Entertainment">
-              Entertainment
-            </a>
+            <a href="category.html?category=Entertainment">Entertainment</a>
           </li>
 
           <li>
-            <a href="category.html?category=Sports">
-              Sports
-            </a>
+            <a href="category.html?category=Sports">Sports</a>
           </li>
 
           <li>
-            <a href="category.html?category=Politics">
-              Politics
-            </a>
+            <a href="category.html?category=Politics">Politics</a>
           </li>
 
           <li>
-            <a href="category.html?category=Technology">
-              Technology
-            </a>
+            <a href="category.html?category=Technology">Technology</a>
           </li>
 
           <li>
-            <a href="category.html?category=Business">
-              Business
-            </a>
+            <a href="category.html?category=Business">Business</a>
           </li>
 
           <li>
-            <a href="category.html?category=Lifestyle">
-              Lifestyle
-            </a>
+            <a href="category.html?category=Lifestyle">Lifestyle</a>
           </li>
 
         </ul>
@@ -1229,45 +688,31 @@
         <ul>
 
           <li>
-            <a href="contact.html">
-              Contact Us
-            </a>
+            <a href="contact.html">Contact Us</a>
           </li>
 
           <li>
-            <a href="feedback.html">
-              Feedback
-            </a>
+            <a href="feedback.html">Feedback</a>
           </li>
 
           <li>
-            <a href="advertise.html">
-              Advertise With Us
-            </a>
+            <a href="advertise.html">Advertise With Us</a>
           </li>
 
           <li>
-            <a href="editorial.html">
-              Editorial Policy
-            </a>
+            <a href="editorial.html">Editorial Policy</a>
           </li>
 
           <li>
-            <a href="privacy.html">
-              Privacy Policy
-            </a>
+            <a href="privacy.html">Privacy Policy</a>
           </li>
 
           <li>
-            <a href="cookies.html">
-              Cookie Settings
-            </a>
+            <a href="cookies.html">Cookie Settings</a>
           </li>
 
           <li>
-            <a href="terms.html">
-              Terms & Conditions
-            </a>
+            <a href="terms.html">Terms & Conditions</a>
           </li>
 
         </ul>
@@ -1329,102 +774,416 @@
 
   </footer>
 
-
   <script>
 
     /* =========================================
        SUPABASE CONNECTION
-    ========================================= */
+       ========================================= */
 
     const SUPABASE_URL =
       "https://kcxlwhojwdvbfjjnartw.supabase.co";
 
+    /*
+      IMPORTANT:
+      Paste YOUR existing Supabase publishable key
+      between the quotation marks below.
+
+      Do not share the key publicly.
+    */
+
     const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+      "PASTE_YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY_HERE";
 
-    const supabaseClient =
-      supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-      );
-
-
-    /* =========================================
-       GLOBAL POSTS
-    ========================================= */
-
+    let supabaseClient = null;
     let allPosts = [];
 
 
     /* =========================================
-       DATE
-    ========================================= */
+       START SUPABASE
+       ========================================= */
 
-    document.getElementById("todayDate").textContent =
-      new Date().toLocaleDateString(
-        "en-NG",
-        {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric"
-        }
-      );
+    function initializeSupabase() {
+
+      if (
+        typeof supabase === "undefined" ||
+        !supabase.createClient
+      ) {
+
+        console.error(
+          "Supabase library failed to load."
+        );
+
+        showDatabaseError(
+          "The website could not connect to the database. Please try again."
+        );
+
+        return false;
+      }
+
+      if (
+        !SUPABASE_PUBLISHABLE_KEY ||
+        SUPABASE_PUBLISHABLE_KEY ===
+        "PASTE_YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY_HERE"
+      ) {
+
+        console.error(
+          "Supabase publishable key has not been added."
+        );
+
+        showDatabaseError(
+          "The website database connection has not been configured."
+        );
+
+        return false;
+      }
+
+      try {
+
+        supabaseClient =
+          supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+          );
+
+        return true;
+
+      } catch (error) {
+
+        console.error(
+          "Supabase initialization error:",
+          error
+        );
+
+        showDatabaseError(
+          "Unable to initialize the website database."
+        );
+
+        return false;
+      }
+    }
 
 
     /* =========================================
-       SEARCH PANEL
-    ========================================= */
+       LOAD POSTS
+       ========================================= */
 
-    const searchTrigger =
-      document.getElementById("searchTrigger");
+    async function loadPosts() {
 
-    const searchPanel =
-      document.getElementById("searchPanel");
+      if (!supabaseClient) {
+        return;
+      }
 
-    searchTrigger.addEventListener(
-      "click",
-      function() {
+      try {
 
-        searchPanel.classList.toggle("active");
+        const { data, error } =
+          await supabaseClient
+            .from("posts")
+            .select("*")
+            .order("created_at", {
+              ascending: false
+            });
 
-        if (searchPanel.classList.contains("active")) {
+        if (error) {
 
-          document
-            .getElementById("searchInput")
-            .focus();
+          console.error(
+            "Error loading posts:",
+            error
+          );
 
+          showDatabaseError(
+            "Unable to load stories right now. Please try again later."
+          );
+
+          return;
         }
 
+        allPosts = Array.isArray(data)
+          ? data
+          : [];
+
+        displayPosts(allPosts);
+        displayTrending(allPosts);
+        displayPopular(allPosts);
+
+      } catch (error) {
+
+        console.error(
+          "Unexpected database error:",
+          error
+        );
+
+        showDatabaseError(
+          "Something went wrong while loading Palmcaseblog stories."
+        );
       }
-    );
+    }
+
+
+    /* =========================================
+       DISPLAY POSTS
+       ========================================= */
+
+    function displayPosts(posts) {
+
+      const container =
+        document.getElementById("postsGrid");
+
+      if (!container) {
+        return;
+      }
+
+      if (!posts.length) {
+
+        container.innerHTML =
+          '<p class="message">No stories found.</p>';
+
+        return;
+      }
+
+      container.innerHTML =
+        posts.map(function(post) {
+
+          const image =
+            post.image ||
+            "IMG_2188.jpeg";
+
+          const headline =
+            post.headline ||
+            "Untitled Story";
+
+          const article =
+            post.article ||
+            "";
+
+          const excerpt =
+            article.length > 140
+              ? article.substring(0, 140) + "..."
+              : article;
+
+          const date =
+            post.created_at
+              ? new Date(post.created_at)
+                  .toLocaleDateString(
+                    "en-NG",
+                    {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric"
+                    }
+                  )
+              : "";
+
+          return `
+
+            <article class="post-card">
+
+              <a href="article.html?id=${encodeURIComponent(post.id)}">
+
+                <img
+                  src="${escapeHTML(image)}"
+                  alt="${escapeHTML(headline)}"
+                  loading="lazy"
+                >
+
+                <div class="post-content">
+
+                  <div class="post-category">
+                    ${escapeHTML(
+                      post.category || "News"
+                    )}
+                  </div>
+
+                  <h2>
+                    ${escapeHTML(headline)}
+                  </h2>
+
+                  <p class="post-excerpt">
+                    ${escapeHTML(excerpt)}
+                  </p>
+
+                  <div class="post-date">
+                    ${escapeHTML(date)}
+                  </div>
+
+                </div>
+
+              </a>
+
+            </article>
+
+          `;
+
+        }).join("");
+    }
+
+
+    /* =========================================
+       TRENDING
+       ========================================= */
+
+    function displayTrending(posts) {
+
+      const container =
+        document.getElementById("trendingGrid");
+
+      if (!container) {
+        return;
+      }
+
+      const trending =
+        posts.slice(0, 4);
+
+      if (!trending.length) {
+
+        container.innerHTML =
+          '<p class="message">No trending stories yet.</p>';
+
+        return;
+      }
+
+      container.innerHTML =
+        trending.map(function(post) {
+
+          const image =
+            post.image ||
+            "IMG_2188.jpeg";
+
+          const headline =
+            post.headline ||
+            "Trending Story";
+
+          return `
+
+            <a
+              href="article.html?id=${encodeURIComponent(post.id)}"
+              class="trending-card"
+            >
+
+              <img
+                src="${escapeHTML(image)}"
+                alt="${escapeHTML(headline)}"
+                loading="lazy"
+              >
+
+              <div class="trending-content">
+
+                <h3>
+                  ${escapeHTML(headline)}
+                </h3>
+
+              </div>
+
+            </a>
+
+          `;
+
+        }).join("");
+    }
+
+
+    /* =========================================
+       POPULAR POSTS
+       ========================================= */
+
+    function displayPopular(posts) {
+
+      const container =
+        document.getElementById("popularPosts");
+
+      if (!container) {
+        return;
+      }
+
+      if (!posts.length) {
+
+        container.innerHTML =
+          '<p class="message">No popular posts yet.</p>';
+
+        return;
+      }
+
+      const popular =
+        [...posts]
+          .sort(function(a, b) {
+
+            const viewsA =
+              Number(a.views || 0);
+
+            const viewsB =
+              Number(b.views || 0);
+
+            if (viewsB !== viewsA) {
+              return viewsB - viewsA;
+            }
+
+            return (
+              new Date(b.created_at) -
+              new Date(a.created_at)
+            );
+
+          })
+          .slice(0, 5);
+
+
+      container.innerHTML =
+        popular.map(function(post) {
+
+          return `
+
+            <div class="popular-item">
+
+              <a
+                href="article.html?id=${encodeURIComponent(post.id)}"
+              >
+
+                <h4>
+                  ${escapeHTML(
+                    post.headline ||
+                    "Untitled Story"
+                  )}
+                </h4>
+
+                <div class="popular-meta">
+                  ${Number(post.views || 0)} views
+                </div>
+
+              </a>
+
+            </div>
+
+          `;
+
+        }).join("");
+    }
 
 
     /* =========================================
        SEARCH
-    ========================================= */
+       ========================================= */
 
-    document
-      .getElementById("searchForm")
-      .addEventListener(
-        "submit",
-        function(event) {
+    const searchInput =
+      document.getElementById("searchInput");
 
-          event.preventDefault();
+    if (searchInput) {
 
-          const term =
-            document
-              .getElementById("searchInput")
-              .value
-              .trim()
-              .toLowerCase();
+      searchInput.addEventListener(
+        "input",
+        function() {
 
-          if (!term) {
+          const searchTerm =
+            this.value
+              .toLowerCase()
+              .trim();
+
+          if (!searchTerm) {
+
+            displayPosts(allPosts);
+
             return;
           }
 
-          const results =
-            allPosts.filter(post => {
+          const filtered =
+            allPosts.filter(function(post) {
 
               const headline =
                 String(post.headline || "")
@@ -1439,912 +1198,197 @@
                   .toLowerCase();
 
               return (
-                headline.includes(term) ||
-                article.includes(term) ||
-                category.includes(term)
+                headline.includes(searchTerm) ||
+                article.includes(searchTerm) ||
+                category.includes(searchTerm)
               );
 
             });
 
-          renderSearchResults(results, term);
+          displayPosts(filtered);
 
         }
       );
 
-
-    function renderSearchResults(results, term) {
-
-      const latest =
-        document.getElementById("latestList");
-
-      const title =
-        document.querySelector(
-          ".main-news-grid .section-heading h2"
-        );
-
-      if (title) {
-        title.textContent =
-          `Search Results for "${term}"`;
-      }
-
-      if (!results.length) {
-
-        latest.innerHTML = `
-          <div class="loading">
-            No stories found for "${escapeHTML(term)}".
-          </div>
-        `;
-
-        return;
-      }
-
-      renderLatest(results);
-
-      window.scrollTo({
-        top: document
-          .querySelector(".main-news-grid")
-          .offsetTop - 70,
-        behavior: "smooth"
-      });
-
     }
 
 
     /* =========================================
-       LOAD POSTS
-    ========================================= */
+       NEWSLETTER
+       ========================================= */
 
-    async function loadPosts() {
-
-      const {
-        data,
-        error
-      } = await supabaseClient
-        .from("posts")
-        .select("*")
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
-        );
-
-
-      if (error) {
-
-        console.error(
-          "Supabase error:",
-          error
-        );
-
-        showError();
-
-        return;
-      }
-
-
-      allPosts = data || [];
-
-
-      renderHomepage();
-
-    }
-
-
-    /* =========================================
-       HOMEPAGE
-    ========================================= */
-
-    function renderHomepage() {
-
-      renderHero();
-
-      renderTrending();
-
-      renderLatest(
-        allPosts.slice(0, 8)
+    const newsletterForm =
+      document.getElementById(
+        "newsletterForm"
       );
 
-      renderMostRead();
+    if (newsletterForm) {
 
-      renderCategorySections();
+      newsletterForm.addEventListener(
+        "submit",
+        async function(event) {
 
-      renderBreaking();
+          event.preventDefault();
 
-    }
+          if (!supabaseClient) {
 
+            const message =
+              document.getElementById(
+                "subscribe-message"
+              );
 
-    /* =========================================
-       HERO
-    ========================================= */
+            message.textContent =
+              "Newsletter is temporarily unavailable.";
 
-    function renderHero() {
-
-      const container =
-        document.getElementById("heroGrid");
-
-
-      if (!allPosts.length) {
-
-        container.innerHTML = `
-          <div class="loading">
-            No stories have been published yet.
-          </div>
-        `;
-
-        return;
-      }
-
-
-      const lead =
-        allPosts[0];
-
-      const secondary =
-        allPosts.slice(1, 3);
-
-
-      let secondaryHTML = "";
-
-
-      secondary.forEach(post => {
-
-        secondaryHTML += `
-
-          <a
-            class="side-story"
-            href="article.html?id=${post.id}"
-          >
-
-            <img
-              src="${safeImage(post.image)}"
-              alt="${escapeHTML(post.headline || "Palmcaseblog story")}"
-            >
-
-            <div class="side-story-content">
-
-              <span class="category-label">
-                ${escapeHTML(post.category || "News")}
-              </span>
-
-              <h2>
-                ${escapeHTML(
-                  post.headline ||
-                  "Untitled Story"
-                )}
-              </h2>
-
-              <div class="story-meta">
-                ${formatDate(post.created_at)}
-              </div>
-
-            </div>
-
-          </a>
-
-        `;
-
-      });
-
-
-      container.innerHTML = `
-
-        <a
-          class="lead-story"
-          href="article.html?id=${lead.id}"
-        >
-
-          <img
-            src="${safeImage(lead.image)}"
-            alt="${escapeHTML(lead.headline || "Palmcaseblog lead story")}"
-          >
-
-          <div class="lead-overlay"></div>
-
-          <div class="lead-content">
-
-            <span class="category-label">
-              ${escapeHTML(lead.category || "News")}
-            </span>
-
-            <h1>
-              ${escapeHTML(
-                lead.headline ||
-                "Welcome to Palmcaseblog"
-              )}
-            </h1>
-
-            <p>
-              ${escapeHTML(
-                createExcerpt(
-                  lead.article,
-                  190
-                )
-              )}
-            </p>
-
-          </div>
-
-        </a>
-
-        <div class="side-stories">
-
-          ${
-            secondaryHTML ||
-            `
-              <div class="loading">
-                Publish more stories to see
-                supporting headlines here.
-              </div>
-            `
+            return;
           }
 
-        </div>
+          const emailInput =
+            document.getElementById(
+              "subscriberEmail"
+            );
 
-      `;
+          const message =
+            document.getElementById(
+              "subscribe-message"
+            );
 
-    }
+          const button =
+            this.querySelector("button");
 
+          const email =
+            emailInput.value
+              .trim()
+              .toLowerCase();
 
-    /* =========================================
-       TRENDING
-    ========================================= */
 
-    function renderTrending() {
+          if (!email) {
+            return;
+          }
 
-      const container =
-        document.getElementById("trendingGrid");
-
-
-      const posts =
-        allPosts.slice(0, 4);
-
-
-      if (!posts.length) {
-
-        container.innerHTML = `
-          <div class="loading">
-            No trending stories yet.
-          </div>
-        `;
-
-        return;
-      }
-
-
-      container.innerHTML =
-        posts.map(
-          (post, index) => `
-
-            <a
-              class="trending-card"
-              href="article.html?id=${post.id}"
-            >
-
-              <img
-                src="${safeImage(post.image)}"
-                alt="${escapeHTML(post.headline || "Trending story")}"
-                loading="lazy"
-              >
-
-              <div class="trending-card-content">
-
-                <div class="trending-number">
-                  #${index + 1}
-                  ·
-                  ${escapeHTML(post.category || "News")}
-                </div>
-
-                <h3>
-                  ${escapeHTML(
-                    post.headline ||
-                    "Untitled Story"
-                  )}
-                </h3>
-
-                <div class="story-meta">
-                  ${formatDate(post.created_at)}
-                </div>
-
-              </div>
-
-            </a>
-
-          `
-        ).join("");
-
-    }
-
-
-    /* =========================================
-       LATEST
-    ========================================= */
-
-    function renderLatest(posts) {
-
-      const container =
-        document.getElementById("latestList");
-
-
-      if (!posts.length) {
-
-        container.innerHTML = `
-          <div class="loading">
-            No stories available.
-          </div>
-        `;
-
-        return;
-      }
-
-
-      container.innerHTML =
-        posts.map(
-          post => `
-
-            <article class="latest-card">
-
-              <a href="article.html?id=${post.id}">
-
-                <img
-                  src="${safeImage(post.image)}"
-                  alt="${escapeHTML(post.headline || "Palmcaseblog story")}"
-                  loading="lazy"
-                >
-
-              </a>
-
-              <div>
-
-                <span class="category-label">
-                  ${escapeHTML(post.category || "News")}
-                </span>
-
-                <h3>
-
-                  <a href="article.html?id=${post.id}">
-                    ${escapeHTML(
-                      post.headline ||
-                      "Untitled Story"
-                    )}
-                  </a>
-
-                </h3>
-
-                <p>
-                  ${escapeHTML(
-                    createExcerpt(
-                      post.article,
-                      170
-                    )
-                  )}
-                </p>
-
-                <div class="story-meta">
-
-                  ${formatDate(post.created_at)}
-
-                  ${
-                    Number(post.views || 0) > 0
-                      ? ` · ${Number(post.views)} views`
-                      : ""
-                  }
-
-                </div>
-
-              </div>
-
-            </article>
-
-          `
-        ).join("");
-
-    }
-
-
-    /* =========================================
-       MOST READ
-    ========================================= */
-
-    function renderMostRead() {
-
-      const container =
-        document.getElementById("mostRead");
-
-
-      const posts =
-        [...allPosts]
-          .sort(
-            (a, b) =>
-              Number(b.views || 0) -
-              Number(a.views || 0)
-          )
-          .slice(0, 5);
-
-
-      if (!posts.length) {
-
-        container.innerHTML = `
-          <p>No popular stories yet.</p>
-        `;
-
-        return;
-      }
-
-
-      container.innerHTML =
-        posts.map(
-          (post, index) => `
-
-            <a
-              class="most-read-item"
-              href="article.html?id=${post.id}"
-            >
-
-              <div class="most-read-number">
-                ${String(index + 1).padStart(2, "0")}
-              </div>
-
-              <div>
-
-                <h4>
-                  ${escapeHTML(
-                    post.headline ||
-                    "Untitled Story"
-                  )}
-                </h4>
-
-                <div class="story-meta">
-                  ${Number(post.views || 0)} views
-                </div>
-
-              </div>
-
-            </a>
-
-          `
-        ).join("");
-
-    }
-
-
-    /* =========================================
-       CATEGORY SECTIONS
-    ========================================= */
-
-    function renderCategorySections() {
-
-      const container =
-        document.getElementById(
-          "categorySections"
-        );
-
-
-      const categories = [
-        "News",
-        "Entertainment",
-        "Sports",
-        "Politics",
-        "Technology",
-        "Business",
-        "Lifestyle"
-      ];
-
-
-      let html = "";
-
-
-      categories.forEach(category => {
-
-        const posts =
-          allPosts.filter(
-            post =>
-              String(post.category || "")
-                .toLowerCase() ===
-              category.toLowerCase()
-          );
-
-
-        if (!posts.length) {
-          return;
-        }
-
-
-        const selected =
-          posts.slice(0, 3);
-
-
-        const main =
-          selected[0];
-
-        const small1 =
-          selected[1];
-
-        const small2 =
-          selected[2];
-
-
-        html += `
-
-          <section class="section">
-
-            <div class="container">
-
-              <div class="section-heading">
-
-                <h2>
-                  ${escapeHTML(category)}
-                </h2>
-
-                <a
-                  href="category.html?category=${encodeURIComponent(category)}"
-                >
-                  View All
-                </a>
-
-              </div>
-
-              <div class="category-block">
-
-                <div class="category-grid">
-
-                  ${
-                    main
-                      ? `
-                        <article class="category-main">
-
-                          <a
-                            href="article.html?id=${main.id}"
-                          >
-
-                            <img
-                              src="${safeImage(main.image)}"
-                              alt="${escapeHTML(main.headline || category)}"
-                              loading="lazy"
-                            >
-
-                            <span class="category-label">
-                              ${escapeHTML(category)}
-                            </span>
-
-                            <h3>
-                              ${escapeHTML(
-                                main.headline ||
-                                "Untitled Story"
-                              )}
-                            </h3>
-
-                          </a>
-
-                        </article>
-                      `
-                      : ""
-                  }
-
-
-                  ${
-                    small1
-                      ? `
-                        <article class="category-small">
-
-                          <a
-                            href="article.html?id=${small1.id}"
-                          >
-
-                            <img
-                              src="${safeImage(small1.image)}"
-                              alt="${escapeHTML(small1.headline || category)}"
-                              loading="lazy"
-                            >
-
-                            <h3>
-                              ${escapeHTML(
-                                small1.headline ||
-                                "Untitled Story"
-                              )}
-                            </h3>
-
-                            <div class="story-meta">
-                              ${formatDate(small1.created_at)}
-                            </div>
-
-                          </a>
-
-                        </article>
-                      `
-                      : ""
-                  }
-
-
-                  ${
-                    small2
-                      ? `
-                        <article class="category-small">
-
-                          <a
-                            href="article.html?id=${small2.id}"
-                          >
-
-                            <img
-                              src="${safeImage(small2.image)}"
-                              alt="${escapeHTML(small2.headline || category)}"
-                              loading="lazy"
-                            >
-
-                            <h3>
-                              ${escapeHTML(
-                                small2.headline ||
-                                "Untitled Story"
-                              )}
-                            </h3>
-
-                            <div class="story-meta">
-                              ${formatDate(small2.created_at)}
-                            </div>
-
-                          </a>
-
-                        </article>
-                      `
-                      : ""
-                  }
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </section>
-
-        `;
-
-      });
-
-
-      container.innerHTML = html;
-
-    }
-
-
-    /* =========================================
-       BREAKING
-    ========================================= */
-
-    function renderBreaking() {
-
-      const headline =
-        document.getElementById(
-          "breakingHeadline"
-        );
-
-
-      if (!allPosts.length) {
-
-        headline.textContent =
-          "Welcome to Palmcaseblog.";
-
-        headline.href =
-          "index.html";
-
-        return;
-      }
-
-
-      const post =
-        allPosts[0];
-
-
-      headline.textContent =
-        post.headline ||
-        "Latest Palmcaseblog story";
-
-
-      headline.href =
-        `article.html?id=${post.id}`;
-
-    }
-
-
-   /* =========================================
-   NEWSLETTER
-========================================= */
-
-document
-  .getElementById("newsletterForm")
-  .addEventListener(
-    "submit",
-    async function(event) {
-
-      event.preventDefault();
-
-      const emailInput =
-        document.getElementById(
-          "subscriberEmail"
-        );
-
-      const message =
-        document.getElementById(
-          "subscribe-message"
-        );
-
-      const button =
-        this.querySelector("button");
-
-      const email =
-        emailInput.value
-          .trim()
-          .toLowerCase();
-
-      if (!email) {
-        return;
-      }
-
-      /*
-        Show loading message
-      */
-
-      message.textContent =
-        "Subscribing...";
-
-      button.disabled = true;
-
-      button.textContent =
-        "Subscribing...";
-
-
-      /*
-        Save subscriber to Supabase
-      */
-
-     const {
-  error
-} = await supabaseClient.rpc(
-  "subscribe_to_newsletter",
-  {
-    subscriber_email: email
-  }
-);
-
-
-      /*
-        Handle errors
-      */
-
-      if (error) {
-
-        console.error(
-          "Newsletter subscription error:",
-          error
-        );
-
-
-        /*
-          Duplicate email
-        */
-
-        if (error.code === "23505") {
 
           message.textContent =
-            "This email is already subscribed to Palmcaseblog.";
+            "Subscribing...";
 
-      } else {
+          button.disabled = true;
 
-  message.textContent =
-    "Subscription error: " + (error.message || "Unknown error");
+          button.textContent =
+            "Subscribing...";
 
-}
+
+          try {
+
+            const { error } =
+              await supabaseClient.rpc(
+                "subscribe_to_newsletter",
+                {
+                  subscriber_email: email
+                }
+              );
+
+
+            if (error) {
+
+              console.error(
+                "Newsletter error:",
+                error
+              );
+
+              message.textContent =
+                "Unable to subscribe right now. Please try again.";
+
+              button.disabled = false;
+
+              button.textContent =
+                "Subscribe";
+
+              return;
+            }
+
+
+            message.textContent =
+              "Thank you for subscribing to Palmcaseblog.";
+
+            this.reset();
+
+            button.disabled = false;
+
+            button.textContent =
+              "Subscribe";
+
+          } catch (error) {
+
+            console.error(
+              "Newsletter request failed:",
+              error
+            );
+
+            message.textContent =
+              "Something went wrong. Please try again.";
+
+            button.disabled = false;
+
+            button.textContent =
+              "Subscribe";
+          }
 
         }
-
-
-        button.disabled = false;
-
-        button.textContent =
-          "Subscribe";
-
-        return;
-      }
-
-
-      /*
-        Successful subscription
-      */
-
-      message.textContent =
-        "Thank you for subscribing to Palmcaseblog.";
-
-
-      this.reset();
-
-
-      button.disabled = false;
-
-      button.textContent =
-        "Subscribe";
+      );
 
     }
-  );
 
 
     /* =========================================
-       IMAGE FALLBACK
-    ========================================= */
+       DATABASE ERROR DISPLAY
+       ========================================= */
 
-    function safeImage(image) {
+    function showDatabaseError(message) {
 
-      if (
-        image &&
-        String(image).trim()
-      ) {
-
-        return escapeHTML(
-          String(image).trim()
+      const postsGrid =
+        document.getElementById(
+          "postsGrid"
         );
 
-      }
-
-
-      return "IMG_2188.jpeg";
-
-    }
-
-
-    /* =========================================
-       EXCERPT
-    ========================================= */
-
-    function createExcerpt(
-      text,
-      length
-    ) {
-
-      const clean =
-        String(text || "")
-          .replace(/\s+/g, " ")
-          .trim();
-
-
-      if (!clean) {
-
-        return "Read the full story on Palmcaseblog.";
-
-      }
-
-
-      return clean.length > length
-        ? clean.substring(0, length) + "..."
-        : clean;
-
-    }
-
-
-    /* =========================================
-       DATE FORMAT
-    ========================================= */
-
-    function formatDate(date) {
-
-      if (!date) {
-        return "";
-      }
-
-
-      return new Date(date)
-        .toLocaleDateString(
-          "en-NG",
-          {
-            day: "numeric",
-            month: "short",
-            year: "numeric"
-          }
+      const trendingGrid =
+        document.getElementById(
+          "trendingGrid"
         );
 
+      const popularPosts =
+        document.getElementById(
+          "popularPosts"
+        );
+
+
+      if (postsGrid) {
+
+        postsGrid.innerHTML =
+          `<p class="message">${escapeHTML(message)}</p>`;
+
+      }
+
+
+      if (trendingGrid) {
+
+        trendingGrid.innerHTML =
+          `<p class="message">${escapeHTML(message)}</p>`;
+
+      }
+
+
+      if (popularPosts) {
+
+        popularPosts.innerHTML =
+          `<p>${escapeHTML(message)}</p>`;
+
+      }
+
     }
 
 
     /* =========================================
-       ESCAPE HTML
-    ========================================= */
+       HTML ESCAPE
+       ========================================= */
 
     function escapeHTML(value) {
 
@@ -2359,46 +1403,12 @@ document
 
 
     /* =========================================
-       ERROR
-    ========================================= */
-
-    function showError() {
-
-      document.getElementById(
-        "heroGrid"
-      ).innerHTML = `
-        <div class="loading">
-          Unable to load stories right now.
-          Please refresh the page.
-        </div>
-      `;
-
-
-      document.getElementById(
-        "trendingGrid"
-      ).innerHTML = `
-        <div class="loading">
-          Unable to load trending stories.
-        </div>
-      `;
-
-
-      document.getElementById(
-        "latestList"
-      ).innerHTML = `
-        <div class="loading">
-          Unable to load latest stories.
-        </div>
-      `;
-
-    }
-
-
-    /* =========================================
        START WEBSITE
-    ========================================= */
+       ========================================= */
 
-    loadPosts();
+    if (initializeSupabase()) {
+      loadPosts();
+    }
 
   </script>
 
