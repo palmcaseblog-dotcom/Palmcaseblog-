@@ -1,0 +1,52 @@
+name: Update Palmcaseblog Sitemap
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-sitemap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get posts from Supabase
+        env:
+          SUPABASE_URL: https://kcxlwhojwdvbfjjnartw.supabase.co
+          SUPABASE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          curl -sS \
+            "${SUPABASE_URL}/rest/v1/posts?select=id,created_at&order=created_at.desc" \
+            -H "apikey: ${SUPABASE_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_KEY}" \
+            -o posts.json
+
+      - name: Build sitemap
+        run: |
+          cat > sitemap.xml <<'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url>
+              <loc>https://palmcaseblog-dotcom.github.io/Palmcaseblog-/</loc>
+            </url>
+          EOF
+
+          jq -r '.[] | "  <url><loc>https://palmcaseblog-dotcom.github.io/Palmcaseblog-/article.html?id=\(.id)</loc><lastmod>\(.created_at)</lastmod></url>"' posts.json >> sitemap.xml
+
+          cat >> sitemap.xml <<'EOF'
+          </urlset>
+          EOF
+
+      - name: Commit updated sitemap
+        run: |
+          git config user.name "Palmcaseblog Sitemap Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+          git diff --cached --quiet || git commit -m "Update Palmcaseblog sitemap"
+          git push
