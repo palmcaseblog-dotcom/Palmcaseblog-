@@ -2148,45 +2148,124 @@
     }
 
 
-    /* =========================================
-       NEWSLETTER
-    ========================================= */
+   /* =========================================
+   NEWSLETTER
+========================================= */
 
-    document
-      .getElementById("newsletterForm")
-      .addEventListener(
-        "submit",
-        function(event) {
+document
+  .getElementById("newsletterForm")
+  .addEventListener(
+    "submit",
+    async function(event) {
 
-          event.preventDefault();
+      event.preventDefault();
+
+      const emailInput =
+        document.getElementById(
+          "subscriberEmail"
+        );
+
+      const message =
+        document.getElementById(
+          "subscribe-message"
+        );
+
+      const button =
+        this.querySelector("button");
+
+      const email =
+        emailInput.value
+          .trim()
+          .toLowerCase();
+
+      if (!email) {
+        return;
+      }
+
+      /*
+        Show loading message
+      */
+
+      message.textContent =
+        "Subscribing...";
+
+      button.disabled = true;
+
+      button.textContent =
+        "Subscribing...";
 
 
-          const email =
-            document
-              .getElementById(
-                "subscriberEmail"
-              )
-              .value
-              .trim();
+      /*
+        Save subscriber to Supabase
+      */
 
-
-          if (!email) {
-            return;
+      const {
+        error
+      } = await supabaseClient
+        .from("subscribers")
+        .insert([
+          {
+            email: email
           }
+        ]);
 
 
-          document
-            .getElementById(
-              "subscribe-message"
-            )
-            .textContent =
-              "Thank you for subscribing to Palmcaseblog.";
+      /*
+        Handle errors
+      */
+
+      if (error) {
+
+        console.error(
+          "Newsletter subscription error:",
+          error
+        );
 
 
-          this.reset();
+        /*
+          Duplicate email
+        */
+
+        if (error.code === "23505") {
+
+          message.textContent =
+            "This email is already subscribed to Palmcaseblog.";
+
+        } else {
+
+          message.textContent =
+            "Sorry, we could not subscribe you right now. Please try again.";
 
         }
-      );
+
+
+        button.disabled = false;
+
+        button.textContent =
+          "Subscribe";
+
+        return;
+      }
+
+
+      /*
+        Successful subscription
+      */
+
+      message.textContent =
+        "Thank you for subscribing to Palmcaseblog.";
+
+
+      this.reset();
+
+
+      button.disabled = false;
+
+      button.textContent =
+        "Subscribe";
+
+    }
+  );
 
 
     /* =========================================
