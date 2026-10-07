@@ -2203,15 +2203,14 @@ document
         Save subscriber to Supabase
       */
 
-      const {
-        error
-      } = await supabaseClient
-        .from("subscribers")
-        .insert([
-          {
-            email: email
-          }
-        ]);
+     const {
+  error
+} = await supabaseClient.rpc(
+  "subscribe_to_newsletter",
+  {
+    subscriber_email: email
+  }
+);
 
 
       /*
@@ -2235,10 +2234,12 @@ document
           message.textContent =
             "This email is already subscribed to Palmcaseblog.";
 
-        } else {
+      } else {
 
-          message.textContent =
-            "Sorry, we could not subscribe you right now. Please try again.";
+  message.textContent =
+    "Subscription error: " + (error.message || "Unknown error");
+
+}
 
         }
 
