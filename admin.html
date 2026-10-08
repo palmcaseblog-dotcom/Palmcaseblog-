@@ -41,7 +41,7 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 30px auto;
       padding: 0 18px;
     }
@@ -123,6 +123,10 @@
       background: #15803d;
     }
 
+    .blue {
+      background: #2563eb;
+    }
+
     .message {
       margin-top: 15px;
       padding: 12px;
@@ -195,6 +199,245 @@
       margin-bottom: 20px;
     }
 
+    .help-box {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      color: #7c2d12;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .video-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+      color: #1e3a8a;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .file-note {
+      font-size: 12px;
+      color: #666;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .device-id-box {
+      background: #f8f8f8;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 14px;
+      margin-top: 15px;
+      font-size: 13px;
+      word-break: break-all;
+      color: #555;
+    }
+
+    .device-status {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .device-status.success {
+      display: block;
+      background: #e8f5e9;
+      color: #176b2c;
+    }
+
+    .device-status.error {
+      display: block;
+      background: #ffebee;
+      color: #b71c1c;
+    }
+
+    /* =========================
+       ANALYTICS
+    ========================= */
+
+    .analytics-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .analytics-header button {
+      margin-top: 0;
+    }
+
+    .analytics-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .analytics-controls button {
+      margin-top: 0;
+      padding: 10px 15px;
+      font-size: 14px;
+    }
+
+    .analytics-controls button.selected {
+      background: #f59e0b;
+      color: #111;
+    }
+
+    .analytics-custom {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .analytics-custom button {
+      grid-column: 1 / -1;
+      margin-top: 0;
+    }
+
+    .analytics-range {
+      margin-top: 12px;
+      color: #666;
+      font-size: 13px;
+    }
+
+    .analytics-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .analytics-stat {
+      background: #f8f8f8;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .analytics-stat .stat-label {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .analytics-stat .stat-value {
+      font-size: 30px;
+      font-weight: bold;
+      color: #111;
+    }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .analytics-panel {
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 18px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .analytics-panel h3 {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .analytics-list {
+      margin-top: 10px;
+    }
+
+    .analytics-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 11px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    .analytics-row:last-child {
+      border-bottom: none;
+    }
+
+    .analytics-name {
+      word-break: break-word;
+      color: #333;
+    }
+
+    .analytics-number {
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .analytics-empty {
+      color: #777;
+      font-size: 14px;
+      padding: 15px 0;
+    }
+
+    .analytics-loading {
+      color: #777;
+      font-size: 14px;
+      padding: 15px 0;
+    }
+
+    .analytics-table-wrap {
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+
+    .analytics-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .analytics-table th,
+    .analytics-table td {
+      padding: 11px 10px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+
+    .analytics-table th {
+      background: #f8f8f8;
+    }
+
+    .analytics-table td:last-child,
+    .analytics-table th:last-child {
+      text-align: right;
+    }
+
+    .analytics-error {
+      display: none;
+      background: #ffebee;
+      color: #b71c1c;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       ADS
+    ========================= */
+
     .ad-list {
       display: grid;
       gap: 15px;
@@ -253,66 +496,14 @@
       font-size: 14px;
     }
 
-    .help-box {
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      color: #7c2d12;
-      font-size: 14px;
-      line-height: 1.6;
-    }
+    @media (max-width: 800px) {
+      .analytics-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
 
-    .video-box {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 10px;
-      color: #1e3a8a;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .file-note {
-      font-size: 12px;
-      color: #666;
-      margin-top: 6px;
-      line-height: 1.5;
-    }
-
-    .divider {
-      margin: 25px 0;
-      border: 0;
-      border-top: 1px solid #eee;
-    }
-
-    .device-id-box {
-      background: #f8f8f8;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 14px;
-      margin-top: 15px;
-      font-size: 13px;
-      word-break: break-all;
-      color: #555;
-    }
-
-    .device-status {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 8px;
-      display: none;
-      line-height: 1.5;
-    }
-
-    .device-status.success {
-      display: block;
-    }
-
-    .device-status.error {
-      display: block;
+      .analytics-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 600px) {
@@ -331,6 +522,22 @@
 
       .secondary {
         margin-left: 0;
+      }
+
+      .analytics-cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .analytics-stat {
+        padding: 15px;
+      }
+
+      .analytics-stat .stat-value {
+        font-size: 24px;
+      }
+
+      .analytics-custom {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -396,6 +603,320 @@
 <!-- DASHBOARD -->
 
 <div class="container" id="dashboard">
+
+
+  <!-- ANALYTICS DASHBOARD -->
+
+  <div class="card">
+
+    <div class="analytics-header">
+
+      <div>
+        <h2 class="section-title" style="margin-bottom:8px;">
+          Palmcaseblog Analytics
+        </h2>
+
+        <div class="analytics-range" id="analyticsRange">
+          Loading analytics...
+        </div>
+      </div>
+
+      <button
+        class="blue"
+        onclick="loadAnalytics()"
+      >
+        Refresh Analytics
+      </button>
+
+    </div>
+
+
+    <div class="analytics-controls">
+
+      <button
+        id="todayButton"
+        onclick="setAnalyticsRange('today')"
+      >
+        Today
+      </button>
+
+      <button
+        id="sevenButton"
+        onclick="setAnalyticsRange('7days')"
+      >
+        7 Days
+      </button>
+
+      <button
+        id="thirtyButton"
+        onclick="setAnalyticsRange('30days')"
+      >
+        30 Days
+      </button>
+
+      <button
+        id="customButton"
+        onclick="toggleCustomAnalytics()"
+      >
+        Custom Range
+      </button>
+
+    </div>
+
+
+    <div
+      class="analytics-custom"
+      id="analyticsCustom"
+    >
+
+      <div>
+        <label for="analyticsStart">
+          Start Date
+        </label>
+
+        <input
+          type="date"
+          id="analyticsStart"
+        >
+      </div>
+
+      <div>
+        <label for="analyticsEnd">
+          End Date
+        </label>
+
+        <input
+          type="date"
+          id="analyticsEnd"
+        >
+      </div>
+
+      <button
+        class="blue"
+        onclick="applyCustomAnalytics()"
+      >
+        Apply Date Range
+      </button>
+
+    </div>
+
+
+    <div
+      class="analytics-error"
+      id="analyticsError"
+    ></div>
+
+
+    <!-- STAT CARDS -->
+
+    <div class="analytics-cards">
+
+      <div class="analytics-stat">
+        <div class="stat-label">
+          Unique Visitors
+        </div>
+
+        <div
+          class="stat-value"
+          id="analyticsVisitors"
+        >
+          —
+        </div>
+      </div>
+
+
+      <div class="analytics-stat">
+        <div class="stat-label">
+          Page Views
+        </div>
+
+        <div
+          class="stat-value"
+          id="analyticsPageViews"
+        >
+          —
+        </div>
+      </div>
+
+
+      <div class="analytics-stat">
+        <div class="stat-label">
+          Countries
+        </div>
+
+        <div
+          class="stat-value"
+          id="analyticsCountriesCount"
+        >
+          —
+        </div>
+      </div>
+
+
+      <div class="analytics-stat">
+        <div class="stat-label">
+          Days
+        </div>
+
+        <div
+          class="stat-value"
+          id="analyticsDays"
+        >
+          —
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- DAILY VISITORS + COUNTRIES -->
+
+    <div class="analytics-grid">
+
+      <div class="analytics-panel">
+
+        <h3>
+          Daily Visitors
+        </h3>
+
+        <div
+          id="dailyVisitorsList"
+          class="analytics-list"
+        >
+          <div class="analytics-loading">
+            Loading...
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="analytics-panel">
+
+        <h3>
+          Countries
+        </h3>
+
+        <div
+          id="countriesList"
+          class="analytics-list"
+        >
+          <div class="analytics-loading">
+            Loading...
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- DEVICES + BROWSERS -->
+
+    <div class="analytics-grid">
+
+      <div class="analytics-panel">
+
+        <h3>
+          Devices
+        </h3>
+
+        <div
+          id="devicesList"
+          class="analytics-list"
+        >
+          <div class="analytics-loading">
+            Loading...
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="analytics-panel">
+
+        <h3>
+          Browsers
+        </h3>
+
+        <div
+          id="browsersList"
+          class="analytics-list"
+        >
+          <div class="analytics-loading">
+            Loading...
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- REFERRERS -->
+
+    <div
+      class="analytics-panel"
+      style="margin-top:20px;"
+    >
+
+      <h3>
+        Traffic Sources / Referrers
+      </h3>
+
+      <div
+        id="referrersList"
+        class="analytics-list"
+      >
+        <div class="analytics-loading">
+          Loading...
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- MOST READ -->
+
+    <div
+      class="analytics-panel"
+      style="margin-top:20px;"
+    >
+
+      <h3>
+        Most-Read Pages
+      </h3>
+
+      <div class="analytics-table-wrap">
+
+        <table class="analytics-table">
+
+          <thead>
+
+            <tr>
+              <th>Page</th>
+              <th>Views</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="topPagesTable">
+
+            <tr>
+              <td colspan="2">
+                Loading...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
 
 
   <!-- ANALYTICS DEVICE EXCLUSION -->
@@ -778,7 +1299,8 @@ const SUPABASE_URL =
 
 
 /*
-  Paste your existing Supabase publishable key here.
+  IMPORTANT:
+  Paste your EXISTING Supabase publishable key here.
   Do NOT create a new key.
 */
 
@@ -802,12 +1324,10 @@ function getAnalyticsVisitorId() {
   const storageKey =
     "palmcaseblog_visitor_id";
 
-
   let visitorId =
     localStorage.getItem(
       storageKey
     );
-
 
   if (!visitorId) {
 
@@ -835,14 +1355,12 @@ function getAnalyticsVisitorId() {
 
     }
 
-
     localStorage.setItem(
       storageKey,
       visitorId
     );
 
   }
-
 
   return visitorId;
 
@@ -858,7 +1376,6 @@ function loadCurrentDevice() {
   const visitorId =
     getAnalyticsVisitorId();
 
-
   document
     .getElementById(
       "currentDeviceId"
@@ -866,12 +1383,10 @@ function loadCurrentDevice() {
     .textContent =
       visitorId;
 
-
   const savedDeviceName =
     localStorage.getItem(
       "palmcaseblog_device_name"
     );
-
 
   if (savedDeviceName) {
 
@@ -898,32 +1413,26 @@ async function excludeCurrentDevice() {
       "excludeDeviceButton"
     );
 
-
   const status =
     document.getElementById(
       "deviceStatus"
     );
-
 
   const deviceNameInput =
     document.getElementById(
       "deviceName"
     );
 
-
   const visitorId =
     getAnalyticsVisitorId();
-
 
   let deviceName =
     deviceNameInput
       .value
       .trim();
 
-
   status.style.display =
     "none";
-
 
   if (!deviceName) {
 
@@ -932,13 +1441,11 @@ async function excludeCurrentDevice() {
 
   }
 
-
   button.disabled =
     true;
 
   button.textContent =
     "Excluding Device...";
-
 
   try {
 
@@ -949,7 +1456,6 @@ async function excludeCurrentDevice() {
     } =
       await supabaseClient.auth.getSession();
 
-
     if (!session) {
 
       throw new Error(
@@ -957,7 +1463,6 @@ async function excludeCurrentDevice() {
       );
 
     }
-
 
     const {
       error
@@ -973,27 +1478,22 @@ async function excludeCurrentDevice() {
         }
       );
 
-
     if (error) {
 
       throw error;
 
     }
 
-
     localStorage.setItem(
       "palmcaseblog_device_name",
       deviceName
     );
 
-
     status.className =
       "device-status success";
 
-
     status.textContent =
-      "✅ This device has been successfully excluded from Palmcaseblog analytics.";
-
+      "This device has been successfully excluded from Palmcaseblog analytics.";
 
   }
 
@@ -1004,13 +1504,11 @@ async function excludeCurrentDevice() {
       error
     );
 
-
     status.className =
       "device-status error";
 
-
     status.textContent =
-      "❌ Device exclusion failed: " +
+      "Device exclusion failed: " +
       error.message;
 
   }
@@ -1029,14 +1527,17 @@ async function excludeCurrentDevice() {
 
 
 /* =========================
-   CHECK LOGIN
+   LOGIN CHECK
 ========================= */
 
 async function checkLogin() {
 
   const {
-    data: { session }
-  } = await supabaseClient.auth.getSession();
+    data: {
+      session
+    }
+  } =
+    await supabaseClient.auth.getSession();
 
   if (session) {
 
@@ -1074,7 +1575,6 @@ async function login() {
   loginError.style.display =
     "none";
 
-
   if (!email || !password) {
 
     loginError.textContent =
@@ -1087,7 +1587,6 @@ async function login() {
 
   }
 
-
   const {
     data,
     error
@@ -1096,7 +1595,6 @@ async function login() {
       email: email,
       password: password
     });
-
 
   if (error) {
 
@@ -1109,7 +1607,6 @@ async function login() {
     return;
 
   }
-
 
   showDashboard(
     data.user
@@ -1128,16 +1625,13 @@ function showDashboard(user) {
     .getElementById("loginCard")
     .style.display = "none";
 
-
   document
     .getElementById("dashboard")
     .style.display = "block";
 
-
   document
     .getElementById("headerLogout")
     .style.display = "block";
-
 
   document
     .getElementById("userStatus")
@@ -1145,10 +1639,11 @@ function showDashboard(user) {
       "Logged in as: " +
       user.email;
 
-
   loadCurrentDevice();
 
   loadAdvertisements();
+
+  loadAnalytics();
 
 }
 
@@ -1161,20 +1656,826 @@ async function logout() {
 
   await supabaseClient.auth.signOut();
 
-
   document
     .getElementById("dashboard")
     .style.display = "none";
-
 
   document
     .getElementById("loginCard")
     .style.display = "block";
 
-
   document
     .getElementById("headerLogout")
     .style.display = "none";
+
+}
+
+
+/* =====================================================
+   ANALYTICS DASHBOARD
+===================================================== */
+
+let analyticsStartDate = "";
+let analyticsEndDate = "";
+let analyticsRangeMode = "today";
+
+
+function getLocalDateString(date) {
+
+  const year =
+    date.getFullYear();
+
+  const month =
+    String(
+      date.getMonth() + 1
+    ).padStart(2, "0");
+
+  const day =
+    String(
+      date.getDate()
+    ).padStart(2, "0");
+
+  return (
+    year +
+    "-" +
+    month +
+    "-" +
+    day
+  );
+
+}
+
+
+function setDefaultAnalyticsDates() {
+
+  const today =
+    new Date();
+
+  analyticsEndDate =
+    getLocalDateString(
+      today
+    );
+
+  analyticsStartDate =
+    analyticsEndDate;
+
+}
+
+
+function setAnalyticsRange(mode) {
+
+  analyticsRangeMode =
+    mode;
+
+  const today =
+    new Date();
+
+  const end =
+    getLocalDateString(
+      today
+    );
+
+  let start =
+    end;
+
+  if (mode === "7days") {
+
+    const date =
+      new Date(today);
+
+    date.setDate(
+      date.getDate() - 6
+    );
+
+    start =
+      getLocalDateString(
+        date
+      );
+
+  }
+
+  if (mode === "30days") {
+
+    const date =
+      new Date(today);
+
+    date.setDate(
+      date.getDate() - 29
+    );
+
+    start =
+      getLocalDateString(
+        date
+      );
+
+  }
+
+  analyticsStartDate =
+    start;
+
+  analyticsEndDate =
+    end;
+
+  document
+    .getElementById(
+      "analyticsCustom"
+    )
+    .style.display =
+      "none";
+
+  updateAnalyticsRangeButtons();
+
+  loadAnalytics();
+
+}
+
+
+function toggleCustomAnalytics() {
+
+  const box =
+    document.getElementById(
+      "analyticsCustom"
+    );
+
+  if (
+    box.style.display ===
+    "grid"
+  ) {
+
+    box.style.display =
+      "none";
+
+    return;
+
+  }
+
+  if (
+    !analyticsStartDate ||
+    !analyticsEndDate
+  ) {
+
+    setDefaultAnalyticsDates();
+
+  }
+
+  document
+    .getElementById(
+      "analyticsStart"
+    )
+    .value =
+      analyticsStartDate;
+
+  document
+    .getElementById(
+      "analyticsEnd"
+    )
+    .value =
+      analyticsEndDate;
+
+  box.style.display =
+    "grid";
+
+}
+
+
+function applyCustomAnalytics() {
+
+  const start =
+    document
+      .getElementById(
+        "analyticsStart"
+      )
+      .value;
+
+  const end =
+    document
+      .getElementById(
+        "analyticsEnd"
+      )
+      .value;
+
+  if (!start || !end) {
+
+    alert(
+      "Please select both a start date and an end date."
+    );
+
+    return;
+
+  }
+
+  if (end < start) {
+
+    alert(
+      "The end date must be after the start date."
+    );
+
+    return;
+
+  }
+
+  analyticsRangeMode =
+    "custom";
+
+  analyticsStartDate =
+    start;
+
+  analyticsEndDate =
+    end;
+
+  updateAnalyticsRangeButtons();
+
+  loadAnalytics();
+
+}
+
+
+function updateAnalyticsRangeButtons() {
+
+  const buttons = [
+    "todayButton",
+    "sevenButton",
+    "thirtyButton"
+  ];
+
+  buttons.forEach(
+    id => {
+
+      document
+        .getElementById(id)
+        .classList
+        .remove("selected");
+
+    }
+  );
+
+  if (
+    analyticsRangeMode ===
+    "today"
+  ) {
+
+    document
+      .getElementById(
+        "todayButton"
+      )
+      .classList
+      .add("selected");
+
+  }
+
+  if (
+    analyticsRangeMode ===
+    "7days"
+  ) {
+
+    document
+      .getElementById(
+        "sevenButton"
+      )
+      .classList
+      .add("selected");
+
+  }
+
+  if (
+    analyticsRangeMode ===
+    "30days"
+  ) {
+
+    document
+      .getElementById(
+        "thirtyButton"
+      )
+      .classList
+      .add("selected");
+
+  }
+
+}
+
+
+function formatNumber(value) {
+
+  return Number(
+    value || 0
+  ).toLocaleString();
+
+}
+
+
+function showAnalyticsError(message) {
+
+  const box =
+    document.getElementById(
+      "analyticsError"
+    );
+
+  box.textContent =
+    message;
+
+  box.style.display =
+    "block";
+
+}
+
+
+function clearAnalyticsError() {
+
+  const box =
+    document.getElementById(
+      "analyticsError"
+    );
+
+  box.style.display =
+    "none";
+
+}
+
+
+async function loadAnalytics() {
+
+  clearAnalyticsError();
+
+  if (
+    !analyticsStartDate ||
+    !analyticsEndDate
+  ) {
+
+    setDefaultAnalyticsDates();
+
+  }
+
+  updateAnalyticsRangeButtons();
+
+  document
+    .getElementById(
+      "analyticsRange"
+    )
+    .textContent =
+      "Showing " +
+      formatAnalyticsDate(
+        analyticsStartDate
+      ) +
+      " – " +
+      formatAnalyticsDate(
+        analyticsEndDate
+      );
+
+
+  document
+    .getElementById(
+      "analyticsVisitors"
+    )
+    .textContent =
+      "…";
+
+  document
+    .getElementById(
+      "analyticsPageViews"
+    )
+    .textContent =
+      "…";
+
+  document
+    .getElementById(
+      "analyticsCountriesCount"
+    )
+    .textContent =
+      "…";
+
+  document
+    .getElementById(
+      "analyticsDays"
+    )
+    .textContent =
+      "…";
+
+
+  try {
+
+    const [
+      summaryResult,
+      countriesResult,
+      devicesResult,
+      browsersResult,
+      referrersResult,
+      pagesResult,
+      dailyResult
+    ] =
+      await Promise.all([
+
+        supabaseClient.rpc(
+          "get_analytics_summary",
+          {
+            p_start_date:
+              analyticsStartDate,
+
+            p_end_date:
+              analyticsEndDate
+          }
+        ),
+
+        supabaseClient.rpc(
+          "get_analytics_countries",
+          {
+            p_start_date:
+              analyticsStartDate,
+
+            p_end_date:
+              analyticsEndDate
+          }
+        ),
+
+        supabaseClient.rpc(
+          "get_analytics_devices",
+          {
+            p_start_date:
+              analyticsStartDate,
+
+            p_end_date:
+              analyticsEndDate
+          }
+        ),
+
+        supabaseClient.rpc(
+          "get_analytics_browsers",
+          {
+            p_start_date:
+              analyticsStartDate,
+
+            p_end_date:
+              analyticsEndDate
+          }
+        ),
+
+        supabaseClient.rpc(
+          "get_analytics_referrers",
+          {
+            p_start_date:
+              analyticsStartDate,
+
+            p_end_date:
+              analyticsEndDate
+          }
+        ),
+
+        supabaseClient.rpc(
+          "get_analytics_top_pages",
+          {
+            p_start_date:
+              analyticsStartDate,
+
+            p_end_date:
+              analyticsEndDate
+          }
+        ),
+
+        supabaseClient.rpc(
+          "get_analytics_daily_visitors",
+          {
+            p_start_date:
+              analyticsStartDate,
+
+            p_end_date:
+              analyticsEndDate
+          }
+        )
+
+      ]);
+
+
+    const results = [
+
+      summaryResult,
+      countriesResult,
+      devicesResult,
+      browsersResult,
+      referrersResult,
+      pagesResult,
+      dailyResult
+
+    ];
+
+    const failed =
+      results.find(
+        result =>
+          result.error
+      );
+
+    if (failed) {
+
+      throw failed.error;
+
+    }
+
+
+    const summary =
+      summaryResult.data;
+
+    document
+      .getElementById(
+        "analyticsVisitors"
+      )
+      .textContent =
+        formatNumber(
+          summary?.unique_visitors
+        );
+
+    document
+      .getElementById(
+        "analyticsPageViews"
+      )
+      .textContent =
+        formatNumber(
+          summary?.page_views
+        );
+
+    document
+      .getElementById(
+        "analyticsCountriesCount"
+      )
+      .textContent =
+        formatNumber(
+          summary?.countries
+        );
+
+    document
+      .getElementById(
+        "analyticsDays"
+      )
+      .textContent =
+        formatNumber(
+          summary?.days
+        );
+
+
+    renderDailyVisitors(
+      dailyResult.data || []
+    );
+
+    renderAnalyticsList(
+      "countriesList",
+      countriesResult.data || [],
+      "country",
+      "visitors"
+    );
+
+    renderAnalyticsList(
+      "devicesList",
+      devicesResult.data || [],
+      "device_type",
+      "visitors"
+    );
+
+    renderAnalyticsList(
+      "browsersList",
+      browsersResult.data || [],
+      "browser",
+      "visitors"
+    );
+
+    renderAnalyticsList(
+      "referrersList",
+      referrersResult.data || [],
+      "referrer",
+      "visitors"
+    );
+
+    renderTopPages(
+      pagesResult.data || []
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Analytics error:",
+      error
+    );
+
+    showAnalyticsError(
+      "Unable to load analytics: " +
+      error.message
+    );
+
+    renderAnalyticsList(
+      "countriesList",
+      [],
+      "country",
+      "visitors"
+    );
+
+    renderAnalyticsList(
+      "devicesList",
+      [],
+      "device_type",
+      "visitors"
+    );
+
+    renderAnalyticsList(
+      "browsersList",
+      [],
+      "browser",
+      "visitors"
+    );
+
+    renderAnalyticsList(
+      "referrersList",
+      [],
+      "referrer",
+      "visitors"
+    );
+
+  }
+
+}
+
+
+function formatAnalyticsDate(
+  dateString
+) {
+
+  if (!dateString) {
+    return "";
+  }
+
+  const date =
+    new Date(
+      dateString +
+      "T00:00:00"
+    );
+
+  return date.toLocaleDateString(
+    undefined,
+    {
+      day: "numeric",
+      month: "short",
+      year: "numeric"
+    }
+  );
+
+}
+
+
+function renderAnalyticsList(
+  elementId,
+  rows,
+  nameKey,
+  valueKey
+) {
+
+  const container =
+    document.getElementById(
+      elementId
+    );
+
+  if (
+    !rows ||
+    rows.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+        <div class="analytics-empty">
+          No data for this period yet.
+        </div>
+      `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    rows
+      .map(
+        row =>
+          `
+            <div class="analytics-row">
+
+              <div class="analytics-name">
+                ${escapeHTML(
+                  row[nameKey] ||
+                  "Unknown"
+                )}
+              </div>
+
+              <div class="analytics-number">
+                ${formatNumber(
+                  row[valueKey]
+                )}
+              </div>
+
+            </div>
+          `
+      )
+      .join("");
+
+}
+
+
+function renderDailyVisitors(rows) {
+
+  const container =
+    document.getElementById(
+      "dailyVisitorsList"
+    );
+
+  if (
+    !rows ||
+    rows.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+        <div class="analytics-empty">
+          No visitor data for this period yet.
+        </div>
+      `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    rows
+      .map(
+        row =>
+          `
+            <div class="analytics-row">
+
+              <div class="analytics-name">
+                ${formatAnalyticsDate(
+                  row.visit_date
+                )}
+              </div>
+
+              <div class="analytics-number">
+                ${formatNumber(
+                  row.visitors
+                )}
+              </div>
+
+            </div>
+          `
+      )
+      .join("");
+
+}
+
+
+function renderTopPages(rows) {
+
+  const table =
+    document.getElementById(
+      "topPagesTable"
+    );
+
+  if (
+    !rows ||
+    rows.length === 0
+  ) {
+
+    table.innerHTML =
+      `
+        <tr>
+          <td colspan="2">
+            No page-view data for this period yet.
+          </td>
+        </tr>
+      `;
+
+    return;
+
+  }
+
+
+  table.innerHTML =
+    rows
+      .map(
+        row =>
+          `
+            <tr>
+
+              <td>
+                ${escapeHTML(
+                  row.page_path ||
+                  "Unknown"
+                )}
+              </td>
+
+              <td>
+                ${formatNumber(
+                  row.views
+                )}
+              </td>
+
+            </tr>
+          `
+      )
+      .join("");
 
 }
 
@@ -1190,19 +2491,16 @@ async function publishArticle() {
       "publishButton"
     );
 
-
   const headline =
     document
       .getElementById("headline")
       .value
       .trim();
 
-
   const category =
     document
       .getElementById("category")
       .value;
-
 
   const article =
     document
@@ -1210,31 +2508,26 @@ async function publishArticle() {
       .value
       .trim();
 
-
   const imageFile =
     document
       .getElementById("imageFile")
       .files[0];
-
 
   const successMessage =
     document.getElementById(
       "successMessage"
     );
 
-
   const errorMessage =
     document.getElementById(
       "errorMessage"
     );
-
 
   successMessage.style.display =
     "none";
 
   errorMessage.style.display =
     "none";
-
 
   if (
     !headline ||
@@ -1252,7 +2545,6 @@ async function publishArticle() {
 
   }
 
-
   if (!imageFile) {
 
     errorMessage.textContent =
@@ -1265,12 +2557,11 @@ async function publishArticle() {
 
   }
 
-
-  button.disabled = true;
+  button.disabled =
+    true;
 
   button.textContent =
     "Publishing...";
-
 
   try {
 
@@ -1279,7 +2570,6 @@ async function publishArticle() {
         .split(".")
         .pop()
         .toLowerCase();
-
 
     const fileName =
       Date.now() +
@@ -1290,11 +2580,9 @@ async function publishArticle() {
       "." +
       fileExtension;
 
-
     const filePath =
       "articles/" +
       fileName;
-
 
     const {
       error: uploadError
@@ -1311,11 +2599,9 @@ async function publishArticle() {
           }
         );
 
-
     if (uploadError) {
       throw uploadError;
     }
-
 
     const {
       data: publicUrlData
@@ -1327,10 +2613,8 @@ async function publishArticle() {
           filePath
         );
 
-
     const imageUrl =
       publicUrlData.publicUrl;
-
 
     const {
       error: insertError
@@ -1338,17 +2622,22 @@ async function publishArticle() {
       await supabaseClient
         .from("posts")
         .insert({
-          headline: headline,
-          category: category,
-          image: imageUrl,
-          article: article
-        });
+          headline:
+            headline,
 
+          category:
+            category,
+
+          image:
+            imageUrl,
+
+          article:
+            article
+        });
 
     if (insertError) {
       throw insertError;
     }
-
 
     document
       .getElementById(
@@ -1356,7 +2645,6 @@ async function publishArticle() {
       )
       .textContent =
         headline;
-
 
     document
       .getElementById(
@@ -1366,14 +2654,12 @@ async function publishArticle() {
         "Category: " +
         category;
 
-
     document
       .getElementById(
         "previewImage"
       )
       .src =
         imageUrl;
-
 
     document
       .getElementById(
@@ -1382,7 +2668,6 @@ async function publishArticle() {
       .textContent =
         article;
 
-
     document
       .getElementById(
         "preview"
@@ -1390,14 +2675,11 @@ async function publishArticle() {
       .style.display =
         "block";
 
-
     successMessage.textContent =
       "Article published successfully!";
 
-
     successMessage.style.display =
       "block";
-
 
     document
       .getElementById(
@@ -1405,20 +2687,17 @@ async function publishArticle() {
       )
       .value = "";
 
-
     document
       .getElementById(
         "category"
       )
       .value = "";
 
-
     document
       .getElementById(
         "article"
       )
       .value = "";
-
 
     document
       .getElementById(
@@ -1430,13 +2709,13 @@ async function publishArticle() {
 
   catch (error) {
 
-    console.error(error);
-
+    console.error(
+      error
+    );
 
     errorMessage.textContent =
       "Publishing failed: " +
       error.message;
-
 
     errorMessage.style.display =
       "block";
@@ -1467,13 +2746,11 @@ async function createAdvertisement() {
       "createAdButton"
     );
 
-
   const title =
     document
       .getElementById("adTitle")
       .value
       .trim();
-
 
   const description =
     document
@@ -1481,62 +2758,52 @@ async function createAdvertisement() {
       .value
       .trim();
 
-
   const destinationUrl =
     document
       .getElementById("adDestination")
       .value
       .trim();
 
-
   const placement =
     document
       .getElementById("adPlacement")
       .value;
-
 
   const startDate =
     document
       .getElementById("adStartDate")
       .value;
 
-
   const endDate =
     document
       .getElementById("adEndDate")
       .value;
-
 
   const imageFile =
     document
       .getElementById("adImage")
       .files[0];
 
-
   const videoFile =
     document
       .getElementById("adVideo")
       .files[0];
-
 
   const successMessage =
     document.getElementById(
       "adSuccessMessage"
     );
 
-
   const errorMessage =
     document.getElementById(
       "adErrorMessage"
     );
-
 
   successMessage.style.display =
     "none";
 
   errorMessage.style.display =
     "none";
-
 
   if (!title) {
 
@@ -1550,8 +2817,10 @@ async function createAdvertisement() {
 
   }
 
-
-  if (!imageFile && !videoFile) {
+  if (
+    !imageFile &&
+    !videoFile
+  ) {
 
     errorMessage.textContent =
       "Please select an advertisement image or video.";
@@ -1562,7 +2831,6 @@ async function createAdvertisement() {
     return;
 
   }
-
 
   if (
     startDate &&
@@ -1581,18 +2849,19 @@ async function createAdvertisement() {
 
   }
 
-
-  button.disabled = true;
+  button.disabled =
+    true;
 
   button.textContent =
     "Creating Advertisement...";
 
-
   try {
 
-    let imageUrl = null;
+    let imageUrl =
+      null;
 
-    let videoUrl = null;
+    let videoUrl =
+      null;
 
 
     if (imageFile) {
@@ -1603,7 +2872,6 @@ async function createAdvertisement() {
           .pop()
           .toLowerCase();
 
-
       const imageFileName =
         Date.now() +
         "-image-" +
@@ -1613,14 +2881,13 @@ async function createAdvertisement() {
         "." +
         imageExtension;
 
-
       const imagePath =
         "ads/" +
         imageFileName;
 
-
       const {
-        error: imageUploadError
+        error:
+          imageUploadError
       } =
         await supabaseClient
           .storage
@@ -1629,19 +2896,24 @@ async function createAdvertisement() {
             imagePath,
             imageFile,
             {
-              cacheControl: "3600",
-              upsert: false
+              cacheControl:
+                "3600",
+              upsert:
+                false
             }
           );
 
+      if (
+        imageUploadError
+      ) {
 
-      if (imageUploadError) {
         throw imageUploadError;
+
       }
 
-
       const {
-        data: imagePublicUrlData
+        data:
+          imagePublicUrlData
       } =
         supabaseClient
           .storage
@@ -1649,7 +2921,6 @@ async function createAdvertisement() {
           .getPublicUrl(
             imagePath
           );
-
 
       imageUrl =
         imagePublicUrlData.publicUrl;
@@ -1665,7 +2936,6 @@ async function createAdvertisement() {
           .pop()
           .toLowerCase();
 
-
       const videoFileName =
         Date.now() +
         "-video-" +
@@ -1675,14 +2945,13 @@ async function createAdvertisement() {
         "." +
         videoExtension;
 
-
       const videoPath =
         "ads/" +
         videoFileName;
 
-
       const {
-        error: videoUploadError
+        error:
+          videoUploadError
       } =
         await supabaseClient
           .storage
@@ -1691,19 +2960,24 @@ async function createAdvertisement() {
             videoPath,
             videoFile,
             {
-              cacheControl: "3600",
-              upsert: false
+              cacheControl:
+                "3600",
+              upsert:
+                false
             }
           );
 
+      if (
+        videoUploadError
+      ) {
 
-      if (videoUploadError) {
         throw videoUploadError;
+
       }
 
-
       const {
-        data: videoPublicUrlData
+        data:
+          videoPublicUrlData
       } =
         supabaseClient
           .storage
@@ -1711,7 +2985,6 @@ async function createAdvertisement() {
           .getPublicUrl(
             videoPath
           );
-
 
       videoUrl =
         videoPublicUrlData.publicUrl;
@@ -1730,7 +3003,8 @@ async function createAdvertisement() {
             title,
 
           description:
-            description || null,
+            description ||
+            null,
 
           image_url:
             imageUrl,
@@ -1739,21 +3013,24 @@ async function createAdvertisement() {
             videoUrl,
 
           destination_url:
-            destinationUrl || null,
+            destinationUrl ||
+            null,
 
           placement:
             placement,
 
           start_date:
             startDate
-              ? new Date(startDate)
-                  .toISOString()
+              ? new Date(
+                  startDate
+                ).toISOString()
               : null,
 
           end_date:
             endDate
-              ? new Date(endDate)
-                  .toISOString()
+              ? new Date(
+                  endDate
+                ).toISOString()
               : null,
 
           is_active:
@@ -1761,19 +3038,15 @@ async function createAdvertisement() {
 
         });
 
-
     if (error) {
       throw error;
     }
 
-
     successMessage.textContent =
       "Advertisement created successfully!";
 
-
     successMessage.style.display =
       "block";
-
 
     document
       .getElementById(
@@ -1781,13 +3054,11 @@ async function createAdvertisement() {
       )
       .value = "";
 
-
     document
       .getElementById(
         "adDescription"
       )
       .value = "";
-
 
     document
       .getElementById(
@@ -1795,13 +3066,11 @@ async function createAdvertisement() {
       )
       .value = "";
 
-
     document
       .getElementById(
         "adImage"
       )
       .value = "";
-
 
     document
       .getElementById(
@@ -1809,13 +3078,11 @@ async function createAdvertisement() {
       )
       .value = "";
 
-
     document
       .getElementById(
         "adStartDate"
       )
       .value = "";
-
 
     document
       .getElementById(
@@ -1823,14 +3090,12 @@ async function createAdvertisement() {
       )
       .value = "";
 
-
     document
       .getElementById(
         "adPlacement"
       )
       .value =
         "homepage";
-
 
     await loadAdvertisements();
 
@@ -1843,11 +3108,9 @@ async function createAdvertisement() {
       error
     );
 
-
     errorMessage.textContent =
       "Advertisement creation failed: " +
       error.message;
-
 
     errorMessage.style.display =
       "block";
@@ -1878,14 +3141,12 @@ async function loadAdvertisements() {
       "adsList"
     );
 
-
   adsList.innerHTML =
     `
       <div class="ad-item">
         Loading advertisements...
       </div>
     `;
-
 
   try {
 
@@ -1899,15 +3160,14 @@ async function loadAdvertisements() {
         .order(
           "created_at",
           {
-            ascending: false
+            ascending:
+              false
           }
         );
-
 
     if (error) {
       throw error;
     }
-
 
     if (
       !data ||
@@ -1925,7 +3185,6 @@ async function loadAdvertisements() {
 
     }
 
-
     adsList.innerHTML =
       data
         .map(
@@ -1940,14 +3199,17 @@ async function loadAdvertisements() {
 
   catch (error) {
 
-    console.error(error);
-
+    console.error(
+      error
+    );
 
     adsList.innerHTML =
       `
         <div class="ad-item">
           Unable to load advertisements:
-          ${escapeHTML(error.message)}
+          ${escapeHTML(
+            error.message
+          )}
         </div>
       `;
 
@@ -1957,7 +3219,7 @@ async function loadAdvertisements() {
 
 
 /* =========================
-   RENDER ONE AD
+   RENDER AD
 ========================= */
 
 function renderAdvertisement(ad) {
@@ -1967,12 +3229,10 @@ function renderAdvertisement(ad) {
       ? "Active"
       : "Inactive";
 
-
   const statusClass =
     ad.is_active
       ? "active"
       : "inactive";
-
 
   const start =
     ad.start_date
@@ -1981,7 +3241,6 @@ function renderAdvertisement(ad) {
         ).toLocaleString()
       : "Not set";
 
-
   const end =
     ad.end_date
       ? new Date(
@@ -1989,17 +3248,20 @@ function renderAdvertisement(ad) {
         ).toLocaleString()
       : "Not set";
 
-
   const image =
     ad.image_url
       ? `
         <img
-          src="${escapeAttribute(ad.image_url)}"
-          alt="${escapeAttribute(ad.title || "Advertisement")}"
+          src="${escapeAttribute(
+            ad.image_url
+          )}"
+          alt="${escapeAttribute(
+            ad.title ||
+            "Advertisement"
+          )}"
         >
       `
       : "";
-
 
   const video =
     ad.video_url
@@ -2010,13 +3272,14 @@ function renderAdvertisement(ad) {
           preload="metadata"
         >
           <source
-            src="${escapeAttribute(ad.video_url)}"
+            src="${escapeAttribute(
+              ad.video_url
+            )}"
           >
           Your browser does not support video playback.
         </video>
       `
       : "";
-
 
   return `
     <div class="ad-item">
@@ -2034,7 +3297,8 @@ function renderAdvertisement(ad) {
 
       <p>
         ${escapeHTML(
-          ad.description || ""
+          ad.description ||
+          ""
         )}
       </p>
 
@@ -2042,19 +3306,24 @@ function renderAdvertisement(ad) {
         Placement:
         <strong>
           ${escapeHTML(
-            ad.placement || "homepage"
+            ad.placement ||
+            "homepage"
           )}
         </strong>
       </div>
 
       <div class="ad-meta">
         Start:
-        ${escapeHTML(start)}
+        ${escapeHTML(
+          start
+        )}
       </div>
 
       <div class="ad-meta">
         End:
-        ${escapeHTML(end)}
+        ${escapeHTML(
+          end
+        )}
       </div>
 
       <div class="ad-meta">
@@ -2100,7 +3369,11 @@ function renderAdvertisement(ad) {
       <div class="ad-actions">
 
         <button
-          class="${ad.is_active ? "danger" : "orange"}"
+          class="${
+            ad.is_active
+              ? "danger"
+              : "orange"
+          }"
           onclick="toggleAdvertisement(
             ${Number(ad.id)},
             ${ad.is_active}
@@ -2153,7 +3426,6 @@ async function toggleAdvertisement(
         id
       );
 
-
   if (error) {
 
     alert(
@@ -2165,7 +3437,6 @@ async function toggleAdvertisement(
 
   }
 
-
   await loadAdvertisements();
 
 }
@@ -2175,18 +3446,18 @@ async function toggleAdvertisement(
    DELETE AD
 ========================= */
 
-async function deleteAdvertisement(id) {
+async function deleteAdvertisement(
+  id
+) {
 
   const confirmed =
     confirm(
       "Are you sure you want to delete this advertisement?"
     );
 
-
   if (!confirmed) {
     return;
   }
-
 
   const {
     error
@@ -2199,7 +3470,6 @@ async function deleteAdvertisement(id) {
         id
       );
 
-
   if (error) {
 
     alert(
@@ -2211,7 +3481,6 @@ async function deleteAdvertisement(id) {
 
   }
 
-
   await loadAdvertisements();
 
 }
@@ -2221,7 +3490,9 @@ async function deleteAdvertisement(id) {
    ESCAPE HTML
 ========================= */
 
-function escapeHTML(value) {
+function escapeHTML(
+  value
+) {
 
   return String(
     value ?? ""
@@ -2254,7 +3525,9 @@ function escapeHTML(value) {
    ESCAPE ATTRIBUTE
 ========================= */
 
-function escapeAttribute(value) {
+function escapeAttribute(
+  value
+) {
 
   return escapeHTML(
     value
@@ -2264,8 +3537,12 @@ function escapeAttribute(value) {
 
 
 /* =========================
-   RUN LOGIN CHECK
+   START
 ========================= */
+
+setDefaultAnalyticsDates();
+
+updateAnalyticsRangeButtons();
 
 checkLogin();
 
