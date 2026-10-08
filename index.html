@@ -267,6 +267,12 @@
       border-radius: 14px;
       overflow: hidden;
       position: relative;
+      transition: 0.25s;
+    }
+
+    .advertisement-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
     }
 
     .advertisement-label {
@@ -281,6 +287,13 @@
     }
 
     .advertisement-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .advertisement-body {
       display: grid;
       grid-template-columns: minmax(180px, 320px) 1fr;
       align-items: stretch;
@@ -291,6 +304,7 @@
       height: 190px;
       object-fit: cover;
       background: #e5e7eb;
+      cursor: pointer;
     }
 
     .advertisement-content {
@@ -298,6 +312,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      cursor: pointer;
     }
 
     .advertisement-content h3 {
@@ -752,7 +767,7 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .advertisement-link {
+      .advertisement-body {
         grid-template-columns: 1fr;
       }
 
@@ -834,7 +849,7 @@
 
 <body>
 
-  <!-- TOP BUSINESS DIRECTORY -->
+  <!-- TOP DIRECTORY -->
   <div class="directory-top">
     <div class="directory-top-inner">
 
@@ -960,7 +975,7 @@
 
   </div>
 
-  <!-- ADVERTISEMENT -->
+  <!-- HOMEPAGE ADVERTISEMENTS -->
   <section
     id="homepageAdvertisements"
     class="advertisement-section"
@@ -1300,9 +1315,8 @@
       "https://kcxlwhojwdvbfjjnartw.supabase.co";
 
     /*
-      IMPORTANT:
-      Keep your existing Supabase publishable key here.
-      Do not send the key to anyone.
+      PASTE YOUR EXISTING SUPABASE PUBLISHABLE KEY BELOW.
+      Do not change anything else.
     */
 
     const SUPABASE_PUBLISHABLE_KEY =
@@ -1377,9 +1391,6 @@
 
       try {
 
-        const now =
-          new Date().toISOString();
-
         const { data, error } =
           await supabaseClient
             .from("ads")
@@ -1405,6 +1416,9 @@
           return;
         }
 
+        const current =
+          new Date();
+
         const advertisements =
           (data || []).filter(
             ad => {
@@ -1418,9 +1432,6 @@
                 ad.end_date
                   ? new Date(ad.end_date)
                   : null;
-
-              const current =
-                new Date(now);
 
               if (start && current < start) {
                 return false;
@@ -1503,77 +1514,101 @@
                   )
                 : "";
 
-            const content = `
+            if (destination) {
+
+              return `
+                <div class="advertisement-card">
+
+                  <a
+                    href="${destination}"
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    class="advertisement-link"
+                    aria-label="View advertisement: ${escapeAttribute(title)}"
+                  >
+
+                    <div class="advertisement-label">
+                      Advertisement
+                    </div>
+
+                    <div class="advertisement-body">
+
+                      <img
+                        class="advertisement-image"
+                        src="${escapeAttribute(image)}"
+                        alt="${escapeAttribute(title)}"
+                        onerror="this.src='IMG_2188.jpeg'"
+                      >
+
+                      <div class="advertisement-content">
+
+                        <h3>
+                          ${title}
+                        </h3>
+
+                        ${
+                          description
+                            ? `
+                              <p>
+                                ${description}
+                              </p>
+                            `
+                            : ""
+                        }
+
+                        <span class="advertisement-cta">
+                          Visit advertiser →
+                        </span>
+
+                      </div>
+
+                    </div>
+
+                  </a>
+
+                </div>
+              `;
+
+            }
+
+            return `
               <div class="advertisement-card">
 
                 <div class="advertisement-label">
                   Advertisement
                 </div>
 
-                ${
-                  destination
-                    ? `
-                      <a
-                        href="${destination}"
-                        target="_blank"
-                        rel="noopener sponsored"
-                        class="advertisement-link"
-                      >
-                    `
-                    : `
-                      <div class="advertisement-link">
-                    `
-                }
+                <div class="advertisement-body">
 
-                    <img
-                      class="advertisement-image"
-                      src="${escapeAttribute(image)}"
-                      alt="${escapeAttribute(title)}"
-                      onerror="this.src='IMG_2188.jpeg'"
-                    >
+                  <img
+                    class="advertisement-image"
+                    src="${escapeAttribute(image)}"
+                    alt="${escapeAttribute(title)}"
+                    onerror="this.src='IMG_2188.jpeg'"
+                  >
 
-                    <div class="advertisement-content">
+                  <div class="advertisement-content">
 
-                      <h3>
-                        ${title}
-                      </h3>
+                    <h3>
+                      ${title}
+                    </h3>
 
-                      ${
-                        description
-                          ? `
-                            <p>
-                              ${description}
-                            </p>
-                          `
-                          : ""
-                      }
+                    ${
+                      description
+                        ? `
+                          <p>
+                            ${description}
+                          </p>
+                        `
+                        : ""
+                    }
 
-                      ${
-                        destination
-                          ? `
-                            <span class="advertisement-cta">
-                              Learn more →
-                            </span>
-                          `
-                          : ""
-                      }
+                  </div>
 
-                    </div>
-
-                ${
-                  destination
-                    ? `
-                      </a>
-                    `
-                    : `
-                      </div>
-                    `
-                }
+                </div>
 
               </div>
             `;
-
-            return content;
 
           }
         ).join("");
