@@ -1347,6 +1347,14 @@
           return;
         }
 
+        /*
+          Start analytics immediately.
+
+          Analytics errors are intentionally ignored so
+          they can NEVER stop the website from loading.
+        */
+        startPalmcaseAnalytics();
+
         await loadPosts();
 
         await loadHomepageAdvertisements();
@@ -1364,7 +1372,7 @@
         typeof window.supabase === "undefined" ||
         !SUPABASE_PUBLISHABLE_KEY ||
         SUPABASE_PUBLISHABLE_KEY ===
-        "PASTE_YOUR_EXISTING_KEY_HERE"
+        "PASTE_YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY_HERE"
       ) {
 
         console.error(
@@ -1379,6 +1387,460 @@
           SUPABASE_URL,
           SUPABASE_PUBLISHABLE_KEY
         );
+    }
+
+    /* =========================================================
+       PALMCASEBLOG ANALYTICS
+    ========================================================= */
+
+    async function startPalmcaseAnalytics() {
+
+      try {
+
+        if (!supabaseClient) {
+          return;
+        }
+
+        const visitorId =
+          getPalmcaseVisitorId();
+
+        const excluded =
+          await isPalmcaseDeviceExcluded(
+            visitorId
+          );
+
+        /*
+          If this is one of John's registered owner devices,
+          do not record either unique visits or pageviews.
+        */
+
+        if (excluded) {
+
+          console.log(
+            "Palmcaseblog analytics: owner device excluded."
+          );
+
+          return;
+        }
+
+        const analyticsData =
+          await collectPalmcaseAnalyticsData(
+            visitorId
+          );
+
+        /*
+          1. Unique daily visitor.
+
+          The database prevents the same visitor ID
+          from being counted more than once per day.
+        */
+
+        await supabaseClient.rpc(
+          "record_analytics_visit",
+          {
+            p_visitor_id:
+              analyticsData.visitorId,
+
+            p_page_path:
+              analyticsData.pagePath,
+
+            p_country:
+              analyticsData.country,
+
+            p_device_type:
+              analyticsData.deviceType,
+
+            p_browser:
+              analyticsData.browser,
+
+            p_referrer:
+              analyticsData.referrer
+          }
+        );
+
+        /*
+          2. Every page view.
+
+          Unlike unique visitors, this creates a new
+          record every time a page is opened.
+        */
+
+        await supabaseClient.rpc(
+          "record_analytics_pageview",
+          {
+            p_visitor_id:
+              analyticsData.visitorId,
+
+            p_page_path:
+              analyticsData.pagePath,
+
+            p_country:
+              analyticsData.country,
+
+            p_device_type:
+              analyticsData.deviceType,
+
+            p_browser:
+              analyticsData.browser,
+
+            p_referrer:
+              analyticsData.referrer
+          }
+        );
+
+      } catch (error) {
+
+        /*
+          Analytics must NEVER break Palmcaseblog.
+        */
+
+        console.warn(
+          "Palmcaseblog analytics error:",
+          error
+        );
+
+      }
+
+    }
+
+    function getPalmcaseVisitorId() {
+
+      const storageKey =
+        "palmcaseblog_visitor_id";
+
+      try {
+
+        let visitorId =
+          localStorage.getItem(
+            storageKey
+          );
+
+        if (visitorId) {
+          return visitorId;
+        }
+
+        /*
+          Use crypto.randomUUID when available.
+        */
+
+        if (
+          window.crypto &&
+          typeof window.crypto.randomUUID ===
+          "function"
+        ) {
+
+          visitorId =
+            window.crypto.randomUUID();
+
+        } else {
+
+          /*
+            Fallback for older browsers.
+          */
+
+          visitorId =
+            "pc-" +
+            Date.now().toString(36) +
+            "-" +
+            Math.random()
+              .toString(36)
+              .substring(2, 15);
+
+        }
+
+        localStorage.setItem(
+          storageKey,
+          visitorId
+        );
+
+        return visitorId;
+
+      } catch (error) {
+
+        /*
+          If localStorage is unavailable,
+          create a temporary ID.
+        */
+
+        return (
+          "pc-temp-" +
+          Date.now().toString(36) +
+          "-" +
+          Math.random()
+            .toString(36)
+            .substring(2, 15)
+        );
+
+      }
+
+    }
+
+    async function isPalmcaseDeviceExcluded(
+      visitorId
+    ) {
+
+      try {
+
+        const { data, error } =
+          await supabaseClient.rpc(
+            "is_analytics_device_excluded",
+            {
+              p_device_id:
+                visitorId
+            }
+          );
+
+        if (error) {
+
+          console.warn(
+            "Could not check excluded device:",
+            error
+          );
+
+          /*
+            If the check fails, continue tracking.
+            This means analytics will not silently
+            stop working.
+          */
+
+          return false;
+        }
+
+        return data === true;
+
+      } catch (error) {
+
+        console.warn(
+          "Excluded-device check failed:",
+          error
+        );
+
+        return false;
+
+      }
+
+    }
+
+    async function collectPalmcaseAnalyticsData(
+      visitorId
+    ) {
+
+      const pagePath =
+        window.location.pathname +
+        window.location.search;
+
+      const deviceType =
+        detectPalmcaseDevice();
+
+      const browser =
+        detectPalmcaseBrowser();
+
+      const referrer =
+        document.referrer || "";
+
+      /*
+        Country detection.
+
+        The browser itself does not reliably expose
+        the visitor's country.
+
+        We use ipapi.co to obtain the country code.
+        If the service is unavailable, analytics
+        continues with "Unknown".
+      */
+
+      const country =
+        await detectPalmcaseCountry();
+
+      return {
+
+        visitorId,
+        pagePath,
+        country,
+        deviceType,
+        browser,
+        referrer
+
+      };
+
+    }
+
+    function detectPalmcaseDevice() {
+
+      const userAgent =
+        navigator.userAgent ||
+        "";
+
+      const width =
+        window.innerWidth || 0;
+
+      /*
+        Tablet detection.
+      */
+
+      if (
+        /iPad|Tablet|Android(?!.*Mobile)/i.test(
+          userAgent
+        )
+      ) {
+
+        return "tablet";
+
+      }
+
+      /*
+        Mobile detection.
+      */
+
+      if (
+        /Mobi|Android|iPhone|iPod|Windows Phone/i.test(
+          userAgent
+        )
+      ) {
+
+        return "mobile";
+
+      }
+
+      /*
+        Some devices may not identify
+        themselves clearly, so use viewport width.
+      */
+
+      if (width <= 600) {
+        return "mobile";
+      }
+
+      if (width <= 1024) {
+        return "tablet";
+      }
+
+      return "desktop";
+
+    }
+
+    function detectPalmcaseBrowser() {
+
+      const userAgent =
+        navigator.userAgent ||
+        "";
+
+      if (
+        /Edg\//i.test(userAgent)
+      ) {
+
+        return "Edge";
+
+      }
+
+      if (
+        /OPR\//i.test(userAgent) ||
+        /Opera/i.test(userAgent)
+      ) {
+
+        return "Opera";
+
+      }
+
+      if (
+        /CriOS\//i.test(userAgent)
+      ) {
+
+        return "Chrome";
+
+      }
+
+      if (
+        /Chrome\//i.test(userAgent) &&
+        !/Edg\//i.test(userAgent)
+      ) {
+
+        return "Chrome";
+
+      }
+
+      if (
+        /FxiOS\//i.test(userAgent)
+      ) {
+
+        return "Firefox";
+
+      }
+
+      if (
+        /Firefox\//i.test(userAgent)
+      ) {
+
+        return "Firefox";
+
+      }
+
+      if (
+        /Safari\//i.test(userAgent) &&
+        !/Chrome\//i.test(userAgent) &&
+        !/CriOS\//i.test(userAgent)
+      ) {
+
+        return "Safari";
+
+      }
+
+      if (
+        /MSIE|Trident/i.test(userAgent)
+      ) {
+
+        return "Internet Explorer";
+
+      }
+
+      return "Other";
+
+    }
+
+    async function detectPalmcaseCountry() {
+
+      try {
+
+        const controller =
+          new AbortController();
+
+        const timeout =
+          setTimeout(
+            () => controller.abort(),
+            4000
+          );
+
+        const response =
+          await fetch(
+            "https://ipapi.co/json/",
+            {
+              method: "GET",
+              cache: "no-store",
+              signal: controller.signal
+            }
+          );
+
+        clearTimeout(timeout);
+
+        if (!response.ok) {
+          return "Unknown";
+        }
+
+        const data =
+          await response.json();
+
+        return (
+          data.country_name ||
+          data.country ||
+          "Unknown"
+        );
+
+      } catch (error) {
+
+        return "Unknown";
+
+      }
+
     }
 
     /* =========================
@@ -1479,23 +1941,6 @@
 
     }
 
-    /*
-      Normalize advertiser links.
-
-      Supports:
-
-      https://youtube.com/...
-      http://youtube.com/...
-      youtube.com/...
-      www.youtube.com/...
-      instagram.com/...
-      tiktok.com/...
-      facebook.com/...
-      x.com/...
-      whatsapp.com/...
-      any normal website
-    */
-
     function normalizeExternalUrl(value) {
 
       let raw =
@@ -1505,17 +1950,8 @@
         return "";
       }
 
-      /*
-        Remove accidental spaces.
-      */
-
       raw =
         raw.replace(/\s+/g, "");
-
-      /*
-        If there is no HTTP/HTTPS protocol,
-        add HTTPS automatically.
-      */
 
       if (
         !raw.startsWith("http://") &&
@@ -1531,10 +1967,6 @@
 
         const url =
           new URL(raw);
-
-        /*
-          Only allow HTTP and HTTPS destinations.
-        */
 
         if (
           url.protocol !== "http:" &&
@@ -1602,12 +2034,6 @@
                   ad.destination_url
                 );
 
-              /*
-                VALID LINK:
-                Make the ENTIRE advertisement
-                clickable.
-              */
-
               if (destination) {
 
                 return `
@@ -1674,12 +2100,6 @@
                 `;
 
               }
-
-              /*
-                NO VALID LINK:
-                Still show the advertisement,
-                but do not create a fake link.
-              */
 
               return `
                 <div
