@@ -119,6 +119,10 @@
       color: #111;
     }
 
+    .green {
+      background: #15803d;
+    }
+
     .message {
       margin-top: 15px;
       padding: 12px;
@@ -284,6 +288,33 @@
       border-top: 1px solid #eee;
     }
 
+    .device-id-box {
+      background: #f8f8f8;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 14px;
+      margin-top: 15px;
+      font-size: 13px;
+      word-break: break-all;
+      color: #555;
+    }
+
+    .device-status {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .device-status.success {
+      display: block;
+    }
+
+    .device-status.error {
+      display: block;
+    }
+
     @media (max-width: 600px) {
       header {
         flex-direction: column;
@@ -365,6 +396,66 @@
 <!-- DASHBOARD -->
 
 <div class="container" id="dashboard">
+
+
+  <!-- ANALYTICS DEVICE EXCLUSION -->
+
+  <div class="card">
+
+    <h2 class="section-title">
+      Analytics Device Exclusion
+    </h2>
+
+    <div class="help-box">
+
+      <strong>Owner Device Protection</strong><br>
+
+      Use this section to exclude your own phone or
+      computer from Palmcaseblog visitor statistics.
+
+      <br><br>
+
+      Your device will still be able to visit the website
+      normally, but its analytics visits will not be counted
+      as visitors or page views.
+
+    </div>
+
+    <h3>
+      Current Device
+    </h3>
+
+    <div
+      class="device-id-box"
+      id="currentDeviceId"
+    >
+      Detecting device...
+    </div>
+
+    <label for="deviceName">
+      Device Name
+    </label>
+
+    <input
+      type="text"
+      id="deviceName"
+      placeholder="Example: John's iPhone"
+    >
+
+    <button
+      id="excludeDeviceButton"
+      class="green"
+      onclick="excludeCurrentDevice()"
+    >
+      Exclude This Device
+    </button>
+
+    <div
+      class="device-status"
+      id="deviceStatus"
+    ></div>
+
+  </div>
 
 
   <!-- ARTICLE PUBLISHING -->
@@ -687,13 +778,8 @@ const SUPABASE_URL =
 
 
 /*
-  IMPORTANT:
-
-  Replace ONLY the text between the quotes below
-  with the SAME Supabase publishable key you already
-  use in your current admin.html.
-
-  Do not create a new key.
+  Paste your existing Supabase publishable key here.
+  Do NOT create a new key.
 */
 
 const SUPABASE_PUBLISHABLE_KEY =
@@ -705,6 +791,241 @@ const supabaseClient =
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
+
+
+/* =========================
+   ANALYTICS DEVICE ID
+========================= */
+
+function getAnalyticsVisitorId() {
+
+  const storageKey =
+    "palmcaseblog_visitor_id";
+
+
+  let visitorId =
+    localStorage.getItem(
+      storageKey
+    );
+
+
+  if (!visitorId) {
+
+    if (
+      window.crypto &&
+      typeof window.crypto.randomUUID ===
+      "function"
+    ) {
+
+      visitorId =
+        window.crypto.randomUUID();
+
+    } else {
+
+      visitorId =
+        "visitor-" +
+        Date.now() +
+        "-" +
+        Math.random()
+          .toString(36)
+          .substring(2) +
+        Math.random()
+          .toString(36)
+          .substring(2);
+
+    }
+
+
+    localStorage.setItem(
+      storageKey,
+      visitorId
+    );
+
+  }
+
+
+  return visitorId;
+
+}
+
+
+/* =========================
+   LOAD DEVICE INFORMATION
+========================= */
+
+function loadCurrentDevice() {
+
+  const visitorId =
+    getAnalyticsVisitorId();
+
+
+  document
+    .getElementById(
+      "currentDeviceId"
+    )
+    .textContent =
+      visitorId;
+
+
+  const savedDeviceName =
+    localStorage.getItem(
+      "palmcaseblog_device_name"
+    );
+
+
+  if (savedDeviceName) {
+
+    document
+      .getElementById(
+        "deviceName"
+      )
+      .value =
+        savedDeviceName;
+
+  }
+
+}
+
+
+/* =========================
+   EXCLUDE CURRENT DEVICE
+========================= */
+
+async function excludeCurrentDevice() {
+
+  const button =
+    document.getElementById(
+      "excludeDeviceButton"
+    );
+
+
+  const status =
+    document.getElementById(
+      "deviceStatus"
+    );
+
+
+  const deviceNameInput =
+    document.getElementById(
+      "deviceName"
+    );
+
+
+  const visitorId =
+    getAnalyticsVisitorId();
+
+
+  let deviceName =
+    deviceNameInput
+      .value
+      .trim();
+
+
+  status.style.display =
+    "none";
+
+
+  if (!deviceName) {
+
+    deviceName =
+      "Palmcaseblog Owner Device";
+
+  }
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Excluding Device...";
+
+
+  try {
+
+    const {
+      data: {
+        session
+      }
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (!session) {
+
+      throw new Error(
+        "You must be logged in as an administrator."
+      );
+
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient.rpc(
+        "add_analytics_excluded_device",
+        {
+          p_device_id:
+            visitorId,
+
+          p_device_name:
+            deviceName
+        }
+      );
+
+
+    if (error) {
+
+      throw error;
+
+    }
+
+
+    localStorage.setItem(
+      "palmcaseblog_device_name",
+      deviceName
+    );
+
+
+    status.className =
+      "device-status success";
+
+
+    status.textContent =
+      "✅ This device has been successfully excluded from Palmcaseblog analytics.";
+
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Device exclusion error:",
+      error
+    );
+
+
+    status.className =
+      "device-status error";
+
+
+    status.textContent =
+      "❌ Device exclusion failed: " +
+      error.message;
+
+  }
+
+  finally {
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Exclude This Device";
+
+  }
+
+}
 
 
 /* =========================
@@ -824,6 +1145,8 @@ function showDashboard(user) {
       "Logged in as: " +
       user.email;
 
+
+  loadCurrentDevice();
 
   loadAdvertisements();
 
@@ -972,11 +1295,6 @@ async function publishArticle() {
       "articles/" +
       fileName;
 
-
-    /*
-      IMPORTANT:
-      Your existing bucket is article_image.
-    */
 
     const {
       error: uploadError
@@ -1246,15 +1564,6 @@ async function createAdvertisement() {
   }
 
 
-  if (imageFile && videoFile) {
-
-    /*
-      Both are allowed.
-    */
-
-  }
-
-
   if (
     startDate &&
     endDate &&
@@ -1285,10 +1594,6 @@ async function createAdvertisement() {
 
     let videoUrl = null;
 
-
-    /* =========================
-       UPLOAD IMAGE
-    ========================= */
 
     if (imageFile) {
 
@@ -1352,10 +1657,6 @@ async function createAdvertisement() {
     }
 
 
-    /* =========================
-       UPLOAD VIDEO
-    ========================= */
-
     if (videoFile) {
 
       const videoExtension =
@@ -1418,10 +1719,6 @@ async function createAdvertisement() {
     }
 
 
-    /* =========================
-       SAVE ADVERTISEMENT
-    ========================= */
-
     const {
       error
     } =
@@ -1477,8 +1774,6 @@ async function createAdvertisement() {
     successMessage.style.display =
       "block";
 
-
-    /* CLEAR FORM */
 
     document
       .getElementById(
