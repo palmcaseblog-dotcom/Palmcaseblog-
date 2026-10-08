@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Palmcaseblog Admin</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -27,6 +28,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 15px;
     }
 
     header h1 {
@@ -39,7 +41,7 @@
     }
 
     .container {
-      max-width: 850px;
+      max-width: 1000px;
       margin: 30px auto;
       padding: 0 18px;
     }
@@ -54,6 +56,10 @@
 
     h2 {
       margin-bottom: 20px;
+    }
+
+    h3 {
+      margin-bottom: 12px;
     }
 
     label {
@@ -90,6 +96,10 @@
       cursor: pointer;
     }
 
+    button:hover {
+      opacity: 0.9;
+    }
+
     button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
@@ -98,6 +108,15 @@
     .secondary {
       background: #666;
       margin-left: 8px;
+    }
+
+    .danger {
+      background: #b91c1c;
+    }
+
+    .orange {
+      background: #f59e0b;
+      color: #111;
     }
 
     .message {
@@ -157,17 +176,114 @@
       color: #555;
       margin-top: 8px;
     }
+
+    .section-title {
+      border-bottom: 2px solid #eee;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .ad-list {
+      display: grid;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .ad-item {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      background: #fafafa;
+    }
+
+    .ad-item img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    .ad-meta {
+      color: #666;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .active {
+      color: #15803d;
+      font-weight: bold;
+    }
+
+    .inactive {
+      color: #b91c1c;
+      font-weight: bold;
+    }
+
+    .ad-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .ad-actions button {
+      margin-top: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+    }
+
+    .help-box {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      color: #7c2d12;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .container {
+        margin-top: 20px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .secondary {
+        margin-left: 0;
+      }
+    }
   </style>
 </head>
 
 <body>
 
 <header>
-  <h1>Palmcaseblog</h1>
-  <span>Publisher Dashboard</span>
+  <div>
+    <h1>Palmcaseblog</h1>
+    <span>Publisher & Advertising Dashboard</span>
+  </div>
+
+  <button
+    id="headerLogout"
+    class="secondary"
+    onclick="logout()"
+    style="display:none;margin-top:0;"
+  >
+    Logout
+  </button>
 </header>
 
 <!-- LOGIN -->
+
 <div class="container" id="loginCard">
 
   <div class="card">
@@ -175,6 +291,7 @@
     <h2>Admin Login</h2>
 
     <label for="email">Email</label>
+
     <input
       type="email"
       id="email"
@@ -182,6 +299,7 @@
     >
 
     <label for="password">Password</label>
+
     <input
       type="password"
       id="password"
@@ -192,31 +310,52 @@
       Login
     </button>
 
-    <div class="message error" id="loginError"></div>
+    <div
+      class="message error"
+      id="loginError"
+    ></div>
 
   </div>
 
 </div>
 
+
 <!-- DASHBOARD -->
+
 <div class="container" id="dashboard">
+
+  <!-- ARTICLE PUBLISHING -->
 
   <div class="card">
 
-    <h2>Create New Article</h2>
+    <h2 class="section-title">
+      Create New Article
+    </h2>
 
-    <div class="user-status" id="userStatus"></div>
+    <div
+      class="user-status"
+      id="userStatus"
+    ></div>
 
-    <label for="headline">Headline</label>
+    <label for="headline">
+      Headline
+    </label>
+
     <input
       type="text"
       id="headline"
       placeholder="Enter your article headline"
     >
 
-    <label for="category">Category</label>
+    <label for="category">
+      Category
+    </label>
+
     <select id="category">
-      <option value="">Select category</option>
+
+      <option value="">
+        Select category
+      </option>
 
       <option>News</option>
       <option>Entertainment</option>
@@ -231,37 +370,56 @@
 
     </select>
 
-    <label for="imageFile">Featured Image</label>
+    <label for="imageFile">
+      Featured Image
+    </label>
+
     <input
       type="file"
       id="imageFile"
       accept="image/*"
     >
 
-    <label for="article">Article</label>
+    <label for="article">
+      Article
+    </label>
+
     <textarea
       id="article"
       placeholder="Write your article here..."
     ></textarea>
 
-    <button id="publishButton" onclick="publishArticle()">
+    <button
+      id="publishButton"
+      onclick="publishArticle()"
+    >
       Publish Article
     </button>
 
-    <button class="secondary" onclick="logout()">
-      Logout
-    </button>
+    <div
+      class="message success"
+      id="successMessage"
+    ></div>
 
-    <div class="message success" id="successMessage"></div>
-    <div class="message error" id="errorMessage"></div>
+    <div
+      class="message error"
+      id="errorMessage"
+    ></div>
 
-    <div class="preview" id="preview">
+    <div
+      class="preview"
+      id="preview"
+    >
 
       <h3 id="previewHeadline"></h3>
 
       <p id="previewCategory"></p>
 
-      <img id="previewImage" src="" alt="Article image">
+      <img
+        id="previewImage"
+        src=""
+        alt="Article image"
+      >
 
       <br><br>
 
@@ -271,19 +429,190 @@
 
   </div>
 
-  <a class="back" href="index.html">
+
+  <!-- ADVERTISING -->
+
+  <div class="card">
+
+    <h2 class="section-title">
+      Advertising Management
+    </h2>
+
+    <div class="help-box">
+
+      <strong>Advert Manager</strong><br>
+
+      Create advertisements for Palmcaseblog by adding
+      the advertiser's image, message, destination link,
+      placement and campaign dates.
+
+    </div>
+
+
+    <label for="adTitle">
+      Advertisement Title
+    </label>
+
+    <input
+      type="text"
+      id="adTitle"
+      placeholder="Example: ABC Phones Weekend Sale"
+    >
+
+
+    <label for="adDescription">
+      Advertisement Text
+    </label>
+
+    <textarea
+      id="adDescription"
+      placeholder="Write the advertisement message..."
+      style="min-height:140px;"
+    ></textarea>
+
+
+    <label for="adImage">
+      Advertisement Image
+    </label>
+
+    <input
+      type="file"
+      id="adImage"
+      accept="image/*"
+    >
+
+
+    <label for="adDestination">
+      Destination Link
+    </label>
+
+    <input
+      type="url"
+      id="adDestination"
+      placeholder="https://example.com"
+    >
+
+
+    <label for="adPlacement">
+      Advertisement Placement
+    </label>
+
+    <select id="adPlacement">
+
+      <option value="homepage">
+        Homepage Banner
+      </option>
+
+      <option value="article">
+        In-Article
+      </option>
+
+      <option value="bottom">
+        Bottom of Screen
+      </option>
+
+      <option value="popup">
+        Popup
+      </option>
+
+    </select>
+
+
+    <label for="adStartDate">
+      Start Date
+    </label>
+
+    <input
+      type="datetime-local"
+      id="adStartDate"
+    >
+
+
+    <label for="adEndDate">
+      End Date
+    </label>
+
+    <input
+      type="datetime-local"
+      id="adEndDate"
+    >
+
+
+    <button
+      id="createAdButton"
+      class="orange"
+      onclick="createAdvertisement()"
+    >
+      Create Advertisement
+    </button>
+
+
+    <div
+      class="message success"
+      id="adSuccessMessage"
+    ></div>
+
+    <div
+      class="message error"
+      id="adErrorMessage"
+    ></div>
+
+  </div>
+
+
+  <!-- CURRENT ADS -->
+
+  <div class="card">
+
+    <h2 class="section-title">
+      Manage Advertisements
+    </h2>
+
+    <button
+      onclick="loadAdvertisements()"
+      class="secondary"
+      style="margin-left:0;"
+    >
+      Refresh Advertisements
+    </button>
+
+    <div
+      id="adsList"
+      class="ad-list"
+    >
+
+      <div class="ad-item">
+        Loading advertisements...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <a
+    class="back"
+    href="index.html"
+  >
     ← Back to Palmcaseblog
   </a>
 
 </div>
+
 
 <script>
 
 const SUPABASE_URL =
   "https://kcxlwhojwdvbfjjnartw.supabase.co";
 
+/*
+  IMPORTANT:
+  Keep the SAME Supabase publishable key
+  you already use in your current admin.html.
+*/
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+
 
 const supabaseClient =
   window.supabase.createClient(
@@ -292,7 +621,10 @@ const supabaseClient =
   );
 
 
-// CHECK EXISTING LOGIN
+/* =========================
+   CHECK EXISTING LOGIN
+========================= */
+
 async function checkLogin() {
 
   const {
@@ -300,229 +632,394 @@ async function checkLogin() {
   } = await supabaseClient.auth.getSession();
 
   if (session) {
-    showDashboard(session.user);
+
+    showDashboard(
+      session.user
+    );
+
   }
 
 }
 
 
-// LOGIN
+/* =========================
+   LOGIN
+========================= */
+
 async function login() {
 
   const email =
-    document.getElementById("email").value.trim();
+    document
+      .getElementById("email")
+      .value
+      .trim();
 
   const password =
-    document.getElementById("password").value;
+    document
+      .getElementById("password")
+      .value;
 
   const loginError =
-    document.getElementById("loginError");
+    document.getElementById(
+      "loginError"
+    );
 
-  loginError.style.display = "none";
+  loginError.style.display =
+    "none";
+
 
   if (!email || !password) {
 
     loginError.textContent =
       "Please enter your email and password.";
 
-    loginError.style.display = "block";
+    loginError.style.display =
+      "block";
 
     return;
+
   }
+
 
   const {
     data,
     error
-  } = await supabaseClient.auth.signInWithPassword({
-    email: email,
-    password: password
-  });
+  } =
+    await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
 
   if (error) {
 
     loginError.textContent =
       error.message;
 
-    loginError.style.display = "block";
+    loginError.style.display =
+      "block";
 
     return;
+
   }
 
-  showDashboard(data.user);
+
+  showDashboard(
+    data.user
+  );
 
 }
 
 
-// SHOW DASHBOARD
+/* =========================
+   SHOW DASHBOARD
+========================= */
+
 function showDashboard(user) {
 
-  document.getElementById("loginCard").style.display =
-    "none";
+  document
+    .getElementById("loginCard")
+    .style.display = "none";
 
-  document.getElementById("dashboard").style.display =
-    "block";
 
-  document.getElementById("userStatus").textContent =
-    "Logged in as: " + user.email;
+  document
+    .getElementById("dashboard")
+    .style.display = "block";
+
+
+  document
+    .getElementById("headerLogout")
+    .style.display = "block";
+
+
+  document
+    .getElementById("userStatus")
+    .textContent =
+      "Logged in as: " +
+      user.email;
+
+
+  loadAdvertisements();
 
 }
 
 
-// LOGOUT
+/* =========================
+   LOGOUT
+========================= */
+
 async function logout() {
 
   await supabaseClient.auth.signOut();
 
-  document.getElementById("dashboard").style.display =
-    "none";
 
-  document.getElementById("loginCard").style.display =
-    "block";
+  document
+    .getElementById("dashboard")
+    .style.display = "none";
+
+
+  document
+    .getElementById("loginCard")
+    .style.display = "block";
+
+
+  document
+    .getElementById("headerLogout")
+    .style.display = "none";
 
 }
 
 
-// PUBLISH ARTICLE
+/* =========================
+   PUBLISH ARTICLE
+========================= */
+
 async function publishArticle() {
 
   const button =
-    document.getElementById("publishButton");
+    document.getElementById(
+      "publishButton"
+    );
+
 
   const headline =
-    document.getElementById("headline").value.trim();
+    document
+      .getElementById("headline")
+      .value
+      .trim();
+
 
   const category =
-    document.getElementById("category").value;
+    document
+      .getElementById("category")
+      .value;
+
 
   const article =
-    document.getElementById("article").value.trim();
+    document
+      .getElementById("article")
+      .value
+      .trim();
+
 
   const imageFile =
-    document.getElementById("imageFile").files[0];
+    document
+      .getElementById("imageFile")
+      .files[0];
+
 
   const successMessage =
-    document.getElementById("successMessage");
+    document.getElementById(
+      "successMessage"
+    );
+
 
   const errorMessage =
-    document.getElementById("errorMessage");
+    document.getElementById(
+      "errorMessage"
+    );
 
-  successMessage.style.display = "none";
-  errorMessage.style.display = "none";
 
-  if (!headline || !category || !article) {
+  successMessage.style.display =
+    "none";
+
+  errorMessage.style.display =
+    "none";
+
+
+  if (
+    !headline ||
+    !category ||
+    !article
+  ) {
 
     errorMessage.textContent =
       "Please enter the headline, category and article.";
 
-    errorMessage.style.display = "block";
+    errorMessage.style.display =
+      "block";
 
     return;
+
   }
+
 
   if (!imageFile) {
 
     errorMessage.textContent =
       "Please select a featured image.";
 
-    errorMessage.style.display = "block";
+    errorMessage.style.display =
+      "block";
 
     return;
+
   }
 
+
   button.disabled = true;
-  button.textContent = "Publishing...";
+
+  button.textContent =
+    "Publishing...";
+
 
   try {
 
-    // CREATE UNIQUE IMAGE FILE NAME
     const fileExtension =
-      imageFile.name.split(".").pop();
+      imageFile.name
+        .split(".")
+        .pop();
+
 
     const fileName =
       Date.now() +
       "-" +
-      Math.random().toString(36).substring(2) +
+      Math.random()
+        .toString(36)
+        .substring(2) +
       "." +
       fileExtension;
 
+
     const filePath =
-      "articles/" + fileName;
+      "articles/" +
+      fileName;
 
 
-    // UPLOAD IMAGE
+    /*
+      Keep the same article storage bucket
+      your existing working admin system uses.
+    */
+
     const {
       error: uploadError
-    } = await supabaseClient
-      .storage
-      .from("article-images")
-      .upload(filePath, imageFile, {
-        cacheControl: "3600",
-        upsert: false
-      });
+    } =
+      await supabaseClient
+        .storage
+        .from("article-images")
+        .upload(
+          filePath,
+          imageFile,
+          {
+            cacheControl: "3600",
+            upsert: false
+          }
+        );
+
 
     if (uploadError) {
       throw uploadError;
     }
 
 
-    // GET PUBLIC IMAGE URL
     const {
       data: publicUrlData
-    } = supabaseClient
-      .storage
-      .from("article-images")
-      .getPublicUrl(filePath);
+    } =
+      supabaseClient
+        .storage
+        .from("article-images")
+        .getPublicUrl(
+          filePath
+        );
+
 
     const imageUrl =
       publicUrlData.publicUrl;
 
 
-    // SAVE ARTICLE TO POSTS TABLE
     const {
       error: insertError
-    } = await supabaseClient
-      .from("posts")
-      .insert({
-        headline: headline,
-        category: category,
-        image: imageUrl,
-        article: article
-      });
+    } =
+      await supabaseClient
+        .from("posts")
+        .insert({
+          headline: headline,
+          category: category,
+          image: imageUrl,
+          article: article
+        });
+
 
     if (insertError) {
       throw insertError;
     }
 
 
-    // SHOW PREVIEW
-    document.getElementById("previewHeadline").textContent =
-      headline;
+    document
+      .getElementById(
+        "previewHeadline"
+      )
+      .textContent =
+        headline;
 
-    document.getElementById("previewCategory").textContent =
-      "Category: " + category;
 
-    document.getElementById("previewImage").src =
-      imageUrl;
+    document
+      .getElementById(
+        "previewCategory"
+      )
+      .textContent =
+        "Category: " +
+        category;
 
-    document.getElementById("previewArticle").textContent =
-      article;
 
-    document.getElementById("preview").style.display =
-      "block";
+    document
+      .getElementById(
+        "previewImage"
+      )
+      .src =
+        imageUrl;
+
+
+    document
+      .getElementById(
+        "previewArticle"
+      )
+      .textContent =
+        article;
+
+
+    document
+      .getElementById(
+        "preview"
+      )
+      .style.display =
+        "block";
 
 
     successMessage.textContent =
       "Article published successfully!";
 
+
     successMessage.style.display =
       "block";
 
 
-    // CLEAR FORM
-    document.getElementById("headline").value = "";
-    document.getElementById("category").value = "";
-    document.getElementById("article").value = "";
-    document.getElementById("imageFile").value = "";
+    document
+      .getElementById(
+        "headline"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "category"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "article"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "imageFile"
+      )
+      .value = "";
 
   }
 
@@ -530,24 +1027,718 @@ async function publishArticle() {
 
     console.error(error);
 
+
     errorMessage.textContent =
-      "Publishing failed: " + error.message;
+      "Publishing failed: " +
+      error.message;
+
 
     errorMessage.style.display =
       "block";
+
   }
 
   finally {
 
-    button.disabled = false;
-    button.textContent = "Publish Article";
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Publish Article";
 
   }
 
 }
 
 
-// RUN LOGIN CHECK
+/* =========================
+   CREATE ADVERTISEMENT
+========================= */
+
+async function createAdvertisement() {
+
+  const button =
+    document.getElementById(
+      "createAdButton"
+    );
+
+
+  const title =
+    document
+      .getElementById("adTitle")
+      .value
+      .trim();
+
+
+  const description =
+    document
+      .getElementById("adDescription")
+      .value
+      .trim();
+
+
+  const destinationUrl =
+    document
+      .getElementById("adDestination")
+      .value
+      .trim();
+
+
+  const placement =
+    document
+      .getElementById("adPlacement")
+      .value;
+
+
+  const startDate =
+    document
+      .getElementById("adStartDate")
+      .value;
+
+
+  const endDate =
+    document
+      .getElementById("adEndDate")
+      .value;
+
+
+  const imageFile =
+    document
+      .getElementById("adImage")
+      .files[0];
+
+
+  const successMessage =
+    document.getElementById(
+      "adSuccessMessage"
+    );
+
+
+  const errorMessage =
+    document.getElementById(
+      "adErrorMessage"
+    );
+
+
+  successMessage.style.display =
+    "none";
+
+  errorMessage.style.display =
+    "none";
+
+
+  if (!title) {
+
+    errorMessage.textContent =
+      "Please enter an advertisement title.";
+
+    errorMessage.style.display =
+      "block";
+
+    return;
+
+  }
+
+
+  if (!imageFile) {
+
+    errorMessage.textContent =
+      "Please select an advertisement image.";
+
+    errorMessage.style.display =
+      "block";
+
+    return;
+
+  }
+
+
+  if (
+    startDate &&
+    endDate &&
+    new Date(endDate) <=
+    new Date(startDate)
+  ) {
+
+    errorMessage.textContent =
+      "The end date must be after the start date.";
+
+    errorMessage.style.display =
+      "block";
+
+    return;
+
+  }
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "Creating Advertisement...";
+
+
+  try {
+
+    const fileExtension =
+      imageFile.name
+        .split(".")
+        .pop();
+
+
+    const fileName =
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .substring(2) +
+      "." +
+      fileExtension;
+
+
+    const filePath =
+      "ads/" +
+      fileName;
+
+
+    /*
+      This uses the new ad_images bucket.
+    */
+
+    const {
+      error: uploadError
+    } =
+      await supabaseClient
+        .storage
+        .from("ad_images")
+        .upload(
+          filePath,
+          imageFile,
+          {
+            cacheControl: "3600",
+            upsert: false
+          }
+        );
+
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+
+    const {
+      data: publicUrlData
+    } =
+      supabaseClient
+        .storage
+        .from("ad_images")
+        .getPublicUrl(
+          filePath
+        );
+
+
+    const imageUrl =
+      publicUrlData.publicUrl;
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("ads")
+        .insert({
+
+          title:
+            title,
+
+          description:
+            description || null,
+
+          image_url:
+            imageUrl,
+
+          destination_url:
+            destinationUrl || null,
+
+          placement:
+            placement,
+
+          start_date:
+            startDate
+              ? new Date(startDate)
+                  .toISOString()
+              : null,
+
+          end_date:
+            endDate
+              ? new Date(endDate)
+                  .toISOString()
+              : null,
+
+          is_active:
+            true
+
+        });
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    successMessage.textContent =
+      "Advertisement created successfully!";
+
+
+    successMessage.style.display =
+      "block";
+
+
+    document
+      .getElementById(
+        "adTitle"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "adDescription"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "adDestination"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "adImage"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "adStartDate"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "adEndDate"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "adPlacement"
+      )
+      .value =
+        "homepage";
+
+
+    await loadAdvertisements();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Advertisement error:",
+      error
+    );
+
+
+    errorMessage.textContent =
+      "Advertisement creation failed: " +
+      error.message;
+
+
+    errorMessage.style.display =
+      "block";
+
+  }
+
+  finally {
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Create Advertisement";
+
+  }
+
+}
+
+
+/* =========================
+   LOAD ADS
+========================= */
+
+async function loadAdvertisements() {
+
+  const adsList =
+    document.getElementById(
+      "adsList"
+    );
+
+
+  adsList.innerHTML =
+    `
+      <div class="ad-item">
+        Loading advertisements...
+      </div>
+    `;
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("ads")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (
+      !data ||
+      data.length === 0
+    ) {
+
+      adsList.innerHTML =
+        `
+          <div class="ad-item">
+            No advertisements have been created yet.
+          </div>
+        `;
+
+      return;
+
+    }
+
+
+    adsList.innerHTML =
+      data
+        .map(
+          ad =>
+            renderAdvertisement(
+              ad
+            )
+        )
+        .join("");
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+
+    adsList.innerHTML =
+      `
+        <div class="ad-item">
+          Unable to load advertisements:
+          ${escapeHTML(error.message)}
+        </div>
+      `;
+
+  }
+
+}
+
+
+/* =========================
+   RENDER ONE AD
+========================= */
+
+function renderAdvertisement(ad) {
+
+  const status =
+    ad.is_active
+      ? "Active"
+      : "Inactive";
+
+
+  const statusClass =
+    ad.is_active
+      ? "active"
+      : "inactive";
+
+
+  const start =
+    ad.start_date
+      ? new Date(
+          ad.start_date
+        ).toLocaleString()
+      : "Not set";
+
+
+  const end =
+    ad.end_date
+      ? new Date(
+          ad.end_date
+        ).toLocaleString()
+      : "Not set";
+
+
+  const image =
+    ad.image_url
+      ? `
+        <img
+          src="${escapeAttribute(ad.image_url)}"
+          alt="${escapeAttribute(ad.title || "Advertisement")}"
+        >
+      `
+      : "";
+
+
+  return `
+    <div class="ad-item">
+
+      <h3>
+        ${escapeHTML(
+          ad.title ||
+          "Untitled advertisement"
+        )}
+      </h3>
+
+      ${image}
+
+      <p>
+        ${escapeHTML(
+          ad.description || ""
+        )}
+      </p>
+
+      <div class="ad-meta">
+        Placement:
+        <strong>
+          ${escapeHTML(
+            ad.placement || "homepage"
+          )}
+        </strong>
+      </div>
+
+      <div class="ad-meta">
+        Start:
+        ${escapeHTML(start)}
+      </div>
+
+      <div class="ad-meta">
+        End:
+        ${escapeHTML(end)}
+      </div>
+
+      <div class="ad-meta">
+        Status:
+        <span class="${statusClass}">
+          ${status}
+        </span>
+      </div>
+
+      ${
+        ad.destination_url
+          ? `
+            <div class="ad-meta">
+              Destination:
+              ${escapeHTML(
+                ad.destination_url
+              )}
+            </div>
+          `
+          : ""
+      }
+
+      <div class="ad-actions">
+
+        <button
+          class="${ad.is_active ? "danger" : "orange"}"
+          onclick="toggleAdvertisement(
+            ${Number(ad.id)},
+            ${ad.is_active}
+          )"
+        >
+          ${
+            ad.is_active
+              ? "Deactivate"
+              : "Activate"
+          }
+        </button>
+
+        <button
+          class="danger"
+          onclick="deleteAdvertisement(
+            ${Number(ad.id)}
+          )"
+        >
+          Delete
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+
+/* =========================
+   TOGGLE AD
+========================= */
+
+async function toggleAdvertisement(
+  id,
+  currentStatus
+) {
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("ads")
+      .update({
+        is_active:
+          !currentStatus
+      })
+      .eq(
+        "id",
+        id
+      );
+
+
+  if (error) {
+
+    alert(
+      "Could not update advertisement: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  await loadAdvertisements();
+
+}
+
+
+/* =========================
+   DELETE AD
+========================= */
+
+async function deleteAdvertisement(id) {
+
+  const confirmed =
+    confirm(
+      "Are you sure you want to delete this advertisement?"
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("ads")
+      .delete()
+      .eq(
+        "id",
+        id
+      );
+
+
+  if (error) {
+
+    alert(
+      "Could not delete advertisement: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  await loadAdvertisements();
+
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value) {
+
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================
+   ESCAPE ATTRIBUTE
+========================= */
+
+function escapeAttribute(value) {
+
+  return escapeHTML(
+    value
+  );
+
+}
+
+
+/* =========================
+   RUN LOGIN CHECK
+========================= */
+
 checkLogin();
 
 </script>
