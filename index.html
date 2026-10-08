@@ -1316,7 +1316,6 @@
 
     /*
       PASTE YOUR EXISTING SUPABASE PUBLISHABLE KEY BELOW.
-      Do not change anything else.
     */
 
     const SUPABASE_PUBLISHABLE_KEY =
@@ -1472,6 +1471,85 @@
 
     }
 
+    /*
+      UNIVERSAL EXTERNAL URL HANDLER
+
+      This accepts any normal HTTP/HTTPS destination:
+      YouTube
+      Instagram
+      TikTok
+      Facebook
+      X
+      WhatsApp
+      Business websites
+      Online stores
+      Any other valid website
+    */
+
+    function normalizeExternalUrl(value) {
+
+      const raw =
+        String(value || "").trim();
+
+      if (!raw) {
+        return "";
+      }
+
+      try {
+
+        const parsed =
+          new URL(
+            raw,
+            window.location.href
+          );
+
+        if (
+          parsed.protocol !== "http:" &&
+          parsed.protocol !== "https:"
+        ) {
+          return "";
+        }
+
+        return parsed.href;
+
+      } catch (error) {
+
+        console.error(
+          "Invalid advertisement destination:",
+          value
+        );
+
+        return "";
+
+      }
+
+    }
+
+    function openAdvertisementLink(
+      url
+    ) {
+
+      const destination =
+        normalizeExternalUrl(url);
+
+      if (!destination) {
+
+        console.error(
+          "Advertisement destination is invalid."
+        );
+
+        return;
+
+      }
+
+      window.open(
+        destination,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+    }
+
     function renderHomepageAdvertisements(
       advertisements
     ) {
@@ -1507,12 +1585,15 @@
               ad.image_url ||
               "IMG_2188.jpeg";
 
+            /*
+              IMPORTANT:
+              Normalize the advertiser's destination URL.
+            */
+
             const destination =
-              ad.destination_url
-                ? escapeAttribute(
-                    ad.destination_url
-                  )
-                : "";
+              normalizeExternalUrl(
+                ad.destination_url
+              );
 
             if (destination) {
 
@@ -1520,10 +1601,11 @@
                 <div class="advertisement-card">
 
                   <a
-                    href="${destination}"
+                    href="${escapeAttribute(destination)}"
                     target="_blank"
                     rel="noopener noreferrer sponsored"
                     class="advertisement-link"
+                    data-ad-destination="${escapeAttribute(destination)}"
                     aria-label="View advertisement: ${escapeAttribute(title)}"
                   >
 
@@ -1612,6 +1694,44 @@
 
           }
         ).join("");
+
+      /*
+        Extra protection:
+        When an advertisement is clicked, make sure the
+        stored external URL is opened directly.
+
+        This works for YouTube, Instagram, TikTok,
+        Facebook, X, WhatsApp, websites, etc.
+      */
+
+      const advertisementLinks =
+        container.querySelectorAll(
+          ".advertisement-link"
+        );
+
+      advertisementLinks.forEach(
+        link => {
+
+          link.addEventListener(
+            "click",
+            event => {
+
+              event.preventDefault();
+
+              const destination =
+                link.getAttribute(
+                  "data-ad-destination"
+                );
+
+              openAdvertisementLink(
+                destination
+              );
+
+            }
+          );
+
+        }
+      );
 
     }
 
