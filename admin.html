@@ -154,6 +154,14 @@
       border-radius: 8px;
     }
 
+    .preview video {
+      width: 100%;
+      max-height: 450px;
+      margin-top: 15px;
+      border-radius: 8px;
+      background: #000;
+    }
+
     .back {
       display: inline-block;
       margin-top: 20px;
@@ -204,10 +212,19 @@
       margin: 10px 0;
     }
 
+    .ad-item video {
+      width: 100%;
+      max-height: 400px;
+      border-radius: 8px;
+      margin: 10px 0;
+      background: #000;
+    }
+
     .ad-meta {
       color: #666;
       font-size: 13px;
       margin-top: 6px;
+      word-break: break-word;
     }
 
     .active {
@@ -241,6 +258,30 @@
       color: #7c2d12;
       font-size: 14px;
       line-height: 1.6;
+    }
+
+    .video-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+      color: #1e3a8a;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .file-note {
+      font-size: 12px;
+      color: #666;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .divider {
+      margin: 25px 0;
+      border: 0;
+      border-top: 1px solid #eee;
     }
 
     @media (max-width: 600px) {
@@ -281,6 +322,7 @@
     Logout
   </button>
 </header>
+
 
 <!-- LOGIN -->
 
@@ -324,6 +366,7 @@
 
 <div class="container" id="dashboard">
 
+
   <!-- ARTICLE PUBLISHING -->
 
   <div class="card">
@@ -357,16 +400,16 @@
         Select category
       </option>
 
-      <option>News</option>
-      <option>Entertainment</option>
-      <option>Politics</option>
-      <option>Sports</option>
-      <option>Technology</option>
-      <option>Lifestyle</option>
-      <option>Crime</option>
-      <option>Relationship</option>
-      <option>World</option>
-      <option>Topics</option>
+      <option value="News">News</option>
+      <option value="Entertainment">Entertainment</option>
+      <option value="Politics">Politics</option>
+      <option value="Sports">Sports</option>
+      <option value="Technology">Technology</option>
+      <option value="Lifestyle">Lifestyle</option>
+      <option value="Crime">Crime</option>
+      <option value="Relationship">Relationship</option>
+      <option value="World">World</option>
+      <option value="Topics">Topics</option>
 
     </select>
 
@@ -442,9 +485,9 @@
 
       <strong>Advert Manager</strong><br>
 
-      Create advertisements for Palmcaseblog by adding
-      the advertiser's image, message, destination link,
-      placement and campaign dates.
+      Create advertisements for Palmcaseblog using an
+      image, video, text, destination link, placement
+      and campaign dates.
 
     </div>
 
@@ -481,6 +524,37 @@
       accept="image/*"
     >
 
+    <div class="file-note">
+      Optional if you are uploading a video advertisement.
+    </div>
+
+
+    <label for="adVideo">
+      Advertisement Video
+    </label>
+
+    <input
+      type="file"
+      id="adVideo"
+      accept="video/*"
+    >
+
+    <div class="file-note">
+      Optional if you are using an image advertisement.
+      You can use either an image, a video, or both.
+    </div>
+
+
+    <div class="video-box">
+
+      <strong>Video advertisement:</strong><br>
+
+      Upload the advertiser's video directly from your
+      phone or computer. Palmcaseblog will store the
+      video and display it on the website.
+
+    </div>
+
 
     <label for="adDestination">
       Destination Link
@@ -491,6 +565,12 @@
       id="adDestination"
       placeholder="https://example.com"
     >
+
+    <div class="file-note">
+      This can be YouTube, Instagram, TikTok, Facebook,
+      X, WhatsApp, a company website, online store, or
+      any valid HTTPS link.
+    </div>
 
 
     <label for="adPlacement">
@@ -605,11 +685,17 @@
 const SUPABASE_URL =
   "https://kcxlwhojwdvbfjjnartw.supabase.co";
 
+
 /*
   IMPORTANT:
-  Keep the SAME Supabase publishable key
-  you already use in your current admin.html.
+
+  Replace ONLY the text between the quotes below
+  with the SAME Supabase publishable key you already
+  use in your current admin.html.
+
+  Do not create a new key.
 */
+
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
 
@@ -622,7 +708,7 @@ const supabaseClient =
 
 
 /* =========================
-   CHECK EXISTING LOGIN
+   CHECK LOGIN
 ========================= */
 
 async function checkLogin() {
@@ -868,7 +954,8 @@ async function publishArticle() {
     const fileExtension =
       imageFile.name
         .split(".")
-        .pop();
+        .pop()
+        .toLowerCase();
 
 
     const fileName =
@@ -887,8 +974,8 @@ async function publishArticle() {
 
 
     /*
-      Keep the same article storage bucket
-      your existing working admin system uses.
+      IMPORTANT:
+      Your existing bucket is article_image.
     */
 
     const {
@@ -896,7 +983,7 @@ async function publishArticle() {
     } =
       await supabaseClient
         .storage
-        .from("article-images")
+        .from("article_image")
         .upload(
           filePath,
           imageFile,
@@ -917,7 +1004,7 @@ async function publishArticle() {
     } =
       supabaseClient
         .storage
-        .from("article-images")
+        .from("article_image")
         .getPublicUrl(
           filePath
         );
@@ -1108,6 +1195,12 @@ async function createAdvertisement() {
       .files[0];
 
 
+  const videoFile =
+    document
+      .getElementById("adVideo")
+      .files[0];
+
+
   const successMessage =
     document.getElementById(
       "adSuccessMessage"
@@ -1140,15 +1233,24 @@ async function createAdvertisement() {
   }
 
 
-  if (!imageFile) {
+  if (!imageFile && !videoFile) {
 
     errorMessage.textContent =
-      "Please select an advertisement image.";
+      "Please select an advertisement image or video.";
 
     errorMessage.style.display =
       "block";
 
     return;
+
+  }
+
+
+  if (imageFile && videoFile) {
+
+    /*
+      Both are allowed.
+    */
 
   }
 
@@ -1179,66 +1281,146 @@ async function createAdvertisement() {
 
   try {
 
-    const fileExtension =
-      imageFile.name
-        .split(".")
-        .pop();
+    let imageUrl = null;
+
+    let videoUrl = null;
 
 
-    const fileName =
-      Date.now() +
-      "-" +
-      Math.random()
-        .toString(36)
-        .substring(2) +
-      "." +
-      fileExtension;
+    /* =========================
+       UPLOAD IMAGE
+    ========================= */
+
+    if (imageFile) {
+
+      const imageExtension =
+        imageFile.name
+          .split(".")
+          .pop()
+          .toLowerCase();
 
 
-    const filePath =
-      "ads/" +
-      fileName;
+      const imageFileName =
+        Date.now() +
+        "-image-" +
+        Math.random()
+          .toString(36)
+          .substring(2) +
+        "." +
+        imageExtension;
 
 
-    /*
-      This uses the new ad_images bucket.
-    */
-
-    const {
-      error: uploadError
-    } =
-      await supabaseClient
-        .storage
-        .from("ad_images")
-        .upload(
-          filePath,
-          imageFile,
-          {
-            cacheControl: "3600",
-            upsert: false
-          }
-        );
+      const imagePath =
+        "ads/" +
+        imageFileName;
 
 
-    if (uploadError) {
-      throw uploadError;
+      const {
+        error: imageUploadError
+      } =
+        await supabaseClient
+          .storage
+          .from("ad_images")
+          .upload(
+            imagePath,
+            imageFile,
+            {
+              cacheControl: "3600",
+              upsert: false
+            }
+          );
+
+
+      if (imageUploadError) {
+        throw imageUploadError;
+      }
+
+
+      const {
+        data: imagePublicUrlData
+      } =
+        supabaseClient
+          .storage
+          .from("ad_images")
+          .getPublicUrl(
+            imagePath
+          );
+
+
+      imageUrl =
+        imagePublicUrlData.publicUrl;
+
     }
 
 
-    const {
-      data: publicUrlData
-    } =
-      supabaseClient
-        .storage
-        .from("ad_images")
-        .getPublicUrl(
-          filePath
-        );
+    /* =========================
+       UPLOAD VIDEO
+    ========================= */
+
+    if (videoFile) {
+
+      const videoExtension =
+        videoFile.name
+          .split(".")
+          .pop()
+          .toLowerCase();
 
 
-    const imageUrl =
-      publicUrlData.publicUrl;
+      const videoFileName =
+        Date.now() +
+        "-video-" +
+        Math.random()
+          .toString(36)
+          .substring(2) +
+        "." +
+        videoExtension;
 
+
+      const videoPath =
+        "ads/" +
+        videoFileName;
+
+
+      const {
+        error: videoUploadError
+      } =
+        await supabaseClient
+          .storage
+          .from("ad_videos")
+          .upload(
+            videoPath,
+            videoFile,
+            {
+              cacheControl: "3600",
+              upsert: false
+            }
+          );
+
+
+      if (videoUploadError) {
+        throw videoUploadError;
+      }
+
+
+      const {
+        data: videoPublicUrlData
+      } =
+        supabaseClient
+          .storage
+          .from("ad_videos")
+          .getPublicUrl(
+            videoPath
+          );
+
+
+      videoUrl =
+        videoPublicUrlData.publicUrl;
+
+    }
+
+
+    /* =========================
+       SAVE ADVERTISEMENT
+    ========================= */
 
     const {
       error
@@ -1255,6 +1437,9 @@ async function createAdvertisement() {
 
           image_url:
             imageUrl,
+
+          video_url:
+            videoUrl,
 
           destination_url:
             destinationUrl || null,
@@ -1293,6 +1478,8 @@ async function createAdvertisement() {
       "block";
 
 
+    /* CLEAR FORM */
+
     document
       .getElementById(
         "adTitle"
@@ -1317,6 +1504,13 @@ async function createAdvertisement() {
     document
       .getElementById(
         "adImage"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "adVideo"
       )
       .value = "";
 
@@ -1512,6 +1706,23 @@ function renderAdvertisement(ad) {
       : "";
 
 
+  const video =
+    ad.video_url
+      ? `
+        <video
+          controls
+          playsinline
+          preload="metadata"
+        >
+          <source
+            src="${escapeAttribute(ad.video_url)}"
+          >
+          Your browser does not support video playback.
+        </video>
+      `
+      : "";
+
+
   return `
     <div class="ad-item">
 
@@ -1523,6 +1734,8 @@ function renderAdvertisement(ad) {
       </h3>
 
       ${image}
+
+      ${video}
 
       <p>
         ${escapeHTML(
@@ -1555,6 +1768,26 @@ function renderAdvertisement(ad) {
           ${status}
         </span>
       </div>
+
+      ${
+        ad.image_url
+          ? `
+            <div class="ad-meta">
+              Image: Uploaded
+            </div>
+          `
+          : ""
+      }
+
+      ${
+        ad.video_url
+          ? `
+            <div class="ad-meta">
+              Video: Uploaded
+            </div>
+          `
+          : ""
+      }
 
       ${
         ad.destination_url
