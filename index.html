@@ -288,9 +288,14 @@
 
     .advertisement-link {
       display: block;
+      width: 100%;
       color: inherit;
       text-decoration: none;
       cursor: pointer;
+    }
+
+    .advertisement-link:hover {
+      text-decoration: none;
     }
 
     .advertisement-body {
@@ -852,6 +857,7 @@
   <!-- TOP DIRECTORY -->
   <div class="directory-top">
     <div class="directory-top-inner">
+
       <span>
         Discover trusted Nigerian businesses and services
       </span>
@@ -859,14 +865,17 @@
       <a href="business-directory.html">
         Business Directory
       </a>
+
     </div>
   </div>
 
   <!-- HEADER -->
   <header>
+
     <div class="header-inner">
 
       <a href="index.html" class="brand">
+
         <img
           src="IMG_2188.jpeg"
           alt="Palmcaseblog logo"
@@ -875,6 +884,7 @@
         <div class="brand-text">
           Palmcase<span>blog</span>
         </div>
+
       </a>
 
       <nav>
@@ -929,6 +939,7 @@
       </nav>
 
     </div>
+
   </header>
 
   <!-- SEARCH -->
@@ -1469,84 +1480,81 @@
     }
 
     /*
-      Converts a stored advertisement URL into a safe
-      HTTP/HTTPS URL.
+      Normalize advertiser links.
 
       Supports:
-      YouTube
-      Instagram
-      TikTok
-      Facebook
-      X
-      WhatsApp
-      Websites
-      Online stores
-      Other HTTPS destinations
+
+      https://youtube.com/...
+      http://youtube.com/...
+      youtube.com/...
+      www.youtube.com/...
+      instagram.com/...
+      tiktok.com/...
+      facebook.com/...
+      x.com/...
+      whatsapp.com/...
+      any normal website
     */
 
     function normalizeExternalUrl(value) {
 
-      const raw =
+      let raw =
         String(value || "").trim();
 
       if (!raw) {
         return "";
       }
 
+      /*
+        Remove accidental spaces.
+      */
+
+      raw =
+        raw.replace(/\s+/g, "");
+
+      /*
+        If there is no HTTP/HTTPS protocol,
+        add HTTPS automatically.
+      */
+
+      if (
+        !raw.startsWith("http://") &&
+        !raw.startsWith("https://")
+      ) {
+
+        raw =
+          "https://" + raw;
+
+      }
+
       try {
 
-        /*
-          If the advertiser entered a normal full URL,
-          keep it as an external URL.
-
-          Example:
-          https://youtube.com/shorts/example
-        */
-
-        const parsed =
+        const url =
           new URL(raw);
 
+        /*
+          Only allow HTTP and HTTPS destinations.
+        */
+
         if (
-          parsed.protocol !== "http:" &&
-          parsed.protocol !== "https:"
+          url.protocol !== "http:" &&
+          url.protocol !== "https:"
         ) {
+
           return "";
+
         }
 
-        return parsed.href;
+        return url.href;
 
       } catch (error) {
 
-        /*
-          If the URL is missing https://, try adding it.
-        */
+        console.error(
+          "Invalid advertisement URL:",
+          value
+        );
 
-        try {
-
-          const fixed =
-            new URL(
-              "https://" + raw
-            );
-
-          if (
-            fixed.protocol !== "http:" &&
-            fixed.protocol !== "https:"
-          ) {
-            return "";
-          }
-
-          return fixed.href;
-
-        } catch (secondError) {
-
-          console.error(
-            "Invalid advertisement destination:",
-            value
-          );
-
-          return "";
-
-        }
+        return "";
 
       }
 
@@ -1565,144 +1573,164 @@
         return;
       }
 
-      container.style.display = "block";
+      container.style.display =
+        "block";
 
       container.innerHTML =
-        advertisements.map(
-          ad => {
+        advertisements
+          .map(
+            ad => {
 
-            const title =
-              escapeHTML(
-                ad.title ||
-                "Advertisement"
-              );
+              const title =
+                escapeHTML(
+                  ad.title ||
+                  "Advertisement"
+                );
 
-            const description =
-              escapeHTML(
-                ad.description ||
-                ""
-              );
+              const description =
+                escapeHTML(
+                  ad.description ||
+                  ""
+                );
 
-            const image =
-              ad.image_url ||
-              "IMG_2188.jpeg";
+              const image =
+                ad.image_url ||
+                "IMG_2188.jpeg";
 
-            /*
-              Get the destination directly from
-              Supabase and convert it to a normal
-              external HTTP/HTTPS URL.
-            */
+              const destination =
+                normalizeExternalUrl(
+                  ad.destination_url
+                );
 
-            const destination =
-              normalizeExternalUrl(
-                ad.destination_url
-              );
+              /*
+                VALID LINK:
+                Make the ENTIRE advertisement
+                clickable.
+              */
 
-            /*
-              IMPORTANT FIX:
-              We do NOT use preventDefault().
-              We do NOT use window.open().
-              The browser handles the link normally.
-            */
+              if (destination) {
 
-            if (destination) {
-
-              return `
-                <div class="advertisement-card">
-
-                  <div class="advertisement-label">
-                    Advertisement
-                  </div>
-
-                  <a
-                    href="${escapeAttribute(destination)}"
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    class="advertisement-link"
-                    aria-label="View advertisement: ${escapeAttribute(title)}"
+                return `
+                  <div
+                    class="advertisement-card"
                   >
 
-                    <div class="advertisement-body">
+                    <div
+                      class="advertisement-label"
+                    >
+                      Advertisement
+                    </div>
 
-                      <img
-                        class="advertisement-image"
-                        src="${escapeAttribute(image)}"
-                        alt="${escapeAttribute(title)}"
-                        onerror="this.src='IMG_2188.jpeg'"
+                    <a
+                      href="${escapeAttribute(destination)}"
+                      target="_blank"
+                      rel="noopener noreferrer sponsored"
+                      class="advertisement-link"
+                      aria-label="Visit advertiser: ${escapeAttribute(title)}"
+                    >
+
+                      <div
+                        class="advertisement-body"
                       >
 
-                      <div class="advertisement-content">
+                        <img
+                          class="advertisement-image"
+                          src="${escapeAttribute(image)}"
+                          alt="${escapeAttribute(title)}"
+                          onerror="this.src='IMG_2188.jpeg'"
+                        >
 
-                        <h3>
-                          ${title}
-                        </h3>
+                        <div
+                          class="advertisement-content"
+                        >
 
-                        ${
-                          description
-                            ? `
-                              <p>
-                                ${description}
-                              </p>
-                            `
-                            : ""
-                        }
+                          <h3>
+                            ${title}
+                          </h3>
 
-                        <span class="advertisement-cta">
-                          Visit advertiser →
-                        </span>
+                          ${
+                            description
+                              ? `
+                                <p>
+                                  ${description}
+                                </p>
+                              `
+                              : ""
+                          }
+
+                          <span
+                            class="advertisement-cta"
+                          >
+                            Visit advertiser →
+                          </span>
+
+                        </div>
 
                       </div>
 
+                    </a>
+
+                  </div>
+                `;
+
+              }
+
+              /*
+                NO VALID LINK:
+                Still show the advertisement,
+                but do not create a fake link.
+              */
+
+              return `
+                <div
+                  class="advertisement-card"
+                >
+
+                  <div
+                    class="advertisement-label"
+                  >
+                    Advertisement
+                  </div>
+
+                  <div
+                    class="advertisement-body"
+                  >
+
+                    <img
+                      class="advertisement-image"
+                      src="${escapeAttribute(image)}"
+                      alt="${escapeAttribute(title)}"
+                      onerror="this.src='IMG_2188.jpeg'"
+                    >
+
+                    <div
+                      class="advertisement-content"
+                    >
+
+                      <h3>
+                        ${title}
+                      </h3>
+
+                      ${
+                        description
+                          ? `
+                            <p>
+                              ${description}
+                            </p>
+                          `
+                          : ""
+                      }
+
                     </div>
 
-                  </a>
+                  </div>
 
                 </div>
               `;
 
             }
-
-            return `
-              <div class="advertisement-card">
-
-                <div class="advertisement-label">
-                  Advertisement
-                </div>
-
-                <div class="advertisement-body">
-
-                  <img
-                    class="advertisement-image"
-                    src="${escapeAttribute(image)}"
-                    alt="${escapeAttribute(title)}"
-                    onerror="this.src='IMG_2188.jpeg'"
-                  >
-
-                  <div class="advertisement-content">
-
-                    <h3>
-                      ${title}
-                    </h3>
-
-                    ${
-                      description
-                        ? `
-                          <p>
-                            ${description}
-                          </p>
-                        `
-                        : ""
-                    }
-
-                  </div>
-
-                </div>
-
-              </div>
-            `;
-
-          }
-        ).join("");
+          )
+          .join("");
 
     }
 
@@ -1739,7 +1767,8 @@
           return;
         }
 
-        allPosts = data || [];
+        allPosts =
+          data || [];
 
         renderFeatured();
         renderLatest();
@@ -1778,58 +1807,74 @@
         allPosts.slice(0, 3);
 
       container.innerHTML =
-        posts.map(
-          (post, index) => {
+        posts
+          .map(
+            (post, index) => {
 
-            const image =
-              post.image ||
-              "IMG_2188.jpeg";
+              const image =
+                post.image ||
+                "IMG_2188.jpeg";
 
-            const title =
-              escapeHTML(
-                post.headline ||
-                "Untitled story"
-              );
+              const title =
+                escapeHTML(
+                  post.headline ||
+                  "Untitled story"
+                );
 
-            const category =
-              escapeHTML(
-                post.category ||
-                "News"
-              );
+              const category =
+                escapeHTML(
+                  post.category ||
+                  "News"
+                );
 
-            return `
-              <a
-                href="article.html?id=${post.id}"
-                class="featured-card ${index === 0 ? "featured-main" : ""}"
-              >
-
-                <img
-                  src="${escapeAttribute(image)}"
-                  alt="${escapeAttribute(title)}"
-                  onerror="this.src='IMG_2188.jpeg'"
+              return `
+                <a
+                  href="article.html?id=${post.id}"
+                  class="featured-card ${
+                    index === 0
+                      ? "featured-main"
+                      : ""
+                  }"
                 >
 
-                <div class="card-content">
+                  <img
+                    src="${escapeAttribute(image)}"
+                    alt="${escapeAttribute(title)}"
+                    onerror="this.src='IMG_2188.jpeg'"
+                  >
 
-                  <span class="category-tag">
-                    ${category}
-                  </span>
+                  <div
+                    class="card-content"
+                  >
 
-                  <div class="card-title">
-                    ${title}
+                    <span
+                      class="category-tag"
+                    >
+                      ${category}
+                    </span>
+
+                    <div
+                      class="card-title"
+                    >
+                      ${title}
+                    </div>
+
+                    <div
+                      class="card-date"
+                    >
+                      ${formatDate(
+                        post.created_at
+                      )}
+                    </div>
+
                   </div>
 
-                  <div class="card-date">
-                    ${formatDate(post.created_at)}
-                  </div>
+                </a>
+              `;
 
-                </div>
-
-              </a>
-            `;
-
-          }
-        ).join("");
+            }
+          )
+          .join("");
 
     }
 
@@ -1852,82 +1897,106 @@
         allPosts.slice(0, 10);
 
       container.innerHTML =
-        posts.map(
-          post => {
+        posts
+          .map(
+            post => {
 
-            const image =
-              post.image ||
-              "IMG_2188.jpeg";
+              const image =
+                post.image ||
+                "IMG_2188.jpeg";
 
-            const title =
-              escapeHTML(
-                post.headline ||
-                "Untitled story"
-              );
+              const title =
+                escapeHTML(
+                  post.headline ||
+                  "Untitled story"
+                );
 
-            const category =
-              escapeHTML(
-                post.category ||
-                "News"
-              );
+              const category =
+                escapeHTML(
+                  post.category ||
+                  "News"
+                );
 
-            const article =
-              stripHTML(
-                post.article ||
-                ""
-              );
+              const article =
+                stripHTML(
+                  post.article ||
+                  ""
+                );
 
-            const excerpt =
-              escapeHTML(
-                article.length > 130
-                  ? article.substring(0, 130) + "..."
-                  : article
-              );
+              const excerpt =
+                escapeHTML(
+                  article.length > 130
+                    ? article.substring(0, 130) + "..."
+                    : article
+                );
 
-            return `
-              <article class="post-card">
+              return `
+                <article
+                  class="post-card"
+                >
 
-                <a href="article.html?id=${post.id}">
-
-                  <img
-                    src="${escapeAttribute(image)}"
-                    alt="${escapeAttribute(title)}"
-                    onerror="this.src='IMG_2188.jpeg'"
+                  <a
+                    href="article.html?id=${post.id}"
                   >
 
-                  <div class="card-content">
+                    <img
+                      src="${escapeAttribute(image)}"
+                      alt="${escapeAttribute(title)}"
+                      onerror="this.src='IMG_2188.jpeg'"
+                    >
 
-                    <span class="category-tag">
-                      ${category}
-                    </span>
+                    <div
+                      class="card-content"
+                    >
 
-                    <div class="card-title">
-                      ${title}
+                      <span
+                        class="category-tag"
+                      >
+                        ${category}
+                      </span>
+
+                      <div
+                        class="card-title"
+                      >
+                        ${title}
+                      </div>
+
+                      ${
+                        excerpt
+                          ? `
+                            <p
+                              class="post-excerpt"
+                            >
+                              ${excerpt}
+                            </p>
+                          `
+                          : ""
+                      }
+
+                      <div
+                        class="card-date"
+                      >
+                        ${formatDate(
+                          post.created_at
+                        )}
+                      </div>
+
+                      <span
+                        class="read-more"
+                      >
+                        Read story →
+                      </span>
+
                     </div>
 
-                    ${
-                      excerpt
-                        ? `<p class="post-excerpt">${excerpt}</p>`
-                        : ""
-                    }
+                  </a>
 
-                    <div class="card-date">
-                      ${formatDate(post.created_at)}
-                    </div>
+                </article>
+              `;
 
-                    <span class="read-more">
-                      Read story →
-                    </span>
-
-                  </div>
-
-                </a>
-
-              </article>
-            `;
-
-          }
-        ).join("");
+            }
+          )
+          .join("");
 
     }
 
@@ -1950,48 +2019,52 @@
         allPosts.slice(0, 5);
 
       container.innerHTML =
-        posts.map(
-          post => {
+        posts
+          .map(
+            post => {
 
-            const title =
-              escapeHTML(
-                post.headline ||
-                "Untitled story"
-              );
+              const title =
+                escapeHTML(
+                  post.headline ||
+                  "Untitled story"
+                );
 
-            const image =
-              post.image ||
-              "IMG_2188.jpeg";
+              const image =
+                post.image ||
+                "IMG_2188.jpeg";
 
-            return `
-              <a
-                href="article.html?id=${post.id}"
-                class="popular-card"
-              >
-
-                <img
-                  src="${escapeAttribute(image)}"
-                  alt="${escapeAttribute(title)}"
-                  onerror="this.src='IMG_2188.jpeg'"
+              return `
+                <a
+                  href="article.html?id=${post.id}"
+                  class="popular-card"
                 >
 
-                <div>
+                  <img
+                    src="${escapeAttribute(image)}"
+                    alt="${escapeAttribute(title)}"
+                    onerror="this.src='IMG_2188.jpeg'"
+                  >
 
-                  <h4>
-                    ${title}
-                  </h4>
+                  <div>
 
-                  <small>
-                    ${formatDate(post.created_at)}
-                  </small>
+                    <h4>
+                      ${title}
+                    </h4>
 
-                </div>
+                    <small>
+                      ${formatDate(
+                        post.created_at
+                      )}
+                    </small>
 
-              </a>
-            `;
+                  </div>
 
-          }
-        ).join("");
+                </a>
+              `;
+
+            }
+          )
+          .join("");
 
     }
 
@@ -2020,48 +2093,52 @@
           .slice(0, 5);
 
       container.innerHTML =
-        posts.map(
-          post => {
+        posts
+          .map(
+            post => {
 
-            const title =
-              escapeHTML(
-                post.headline ||
-                "Untitled story"
-              );
+              const title =
+                escapeHTML(
+                  post.headline ||
+                  "Untitled story"
+                );
 
-            const image =
-              post.image ||
-              "IMG_2188.jpeg";
+              const image =
+                post.image ||
+                "IMG_2188.jpeg";
 
-            return `
-              <a
-                href="article.html?id=${post.id}"
-                class="popular-card"
-              >
-
-                <img
-                  src="${escapeAttribute(image)}"
-                  alt="${escapeAttribute(title)}"
-                  onerror="this.src='IMG_2188.jpeg'"
+              return `
+                <a
+                  href="article.html?id=${post.id}"
+                  class="popular-card"
                 >
 
-                <div>
+                  <img
+                    src="${escapeAttribute(image)}"
+                    alt="${escapeAttribute(title)}"
+                    onerror="this.src='IMG_2188.jpeg'"
+                  >
 
-                  <h4>
-                    ${title}
-                  </h4>
+                  <div>
 
-                  <small>
-                    ${Number(post.views) || 0} views
-                  </small>
+                    <h4>
+                      ${title}
+                    </h4>
 
-                </div>
+                    <small>
+                      ${Number(
+                        post.views
+                      ) || 0} views
+                    </small>
 
-              </a>
-            `;
+                  </div>
 
-          }
-        ).join("");
+                </a>
+              `;
+
+            }
+          )
+          .join("");
 
     }
 
@@ -2069,7 +2146,8 @@
 
       const breakingPost =
         allPosts.find(
-          post => post.breaking === true
+          post =>
+            post.breaking === true
         );
 
       const element =
@@ -2164,7 +2242,9 @@
             ).innerHTML = `
               <div class="empty">
                 No stories found for
-                "<strong>${escapeHTML(query)}</strong>".
+                "<strong>${escapeHTML(
+                  query
+                )}</strong>".
               </div>
             `;
 
@@ -2180,63 +2260,81 @@
           document.getElementById(
             "latestPosts"
           ).innerHTML =
-            results.map(
-              post => {
+            results
+              .map(
+                post => {
 
-                const image =
-                  post.image ||
-                  "IMG_2188.jpeg";
+                  const image =
+                    post.image ||
+                    "IMG_2188.jpeg";
 
-                const title =
-                  escapeHTML(
-                    post.headline ||
-                    "Untitled story"
-                  );
+                  const title =
+                    escapeHTML(
+                      post.headline ||
+                      "Untitled story"
+                    );
 
-                const category =
-                  escapeHTML(
-                    post.category ||
-                    "News"
-                  );
+                  const category =
+                    escapeHTML(
+                      post.category ||
+                      "News"
+                    );
 
-                return `
-                  <article class="post-card">
+                  return `
+                    <article
+                      class="post-card"
+                    >
 
-                    <a href="article.html?id=${post.id}">
-
-                      <img
-                        src="${escapeAttribute(image)}"
-                        alt="${escapeAttribute(title)}"
-                        onerror="this.src='IMG_2188.jpeg'"
+                      <a
+                        href="article.html?id=${post.id}"
                       >
 
-                      <div class="card-content">
+                        <img
+                          src="${escapeAttribute(image)}"
+                          alt="${escapeAttribute(title)}"
+                          onerror="this.src='IMG_2188.jpeg'"
+                        >
 
-                        <span class="category-tag">
-                          ${category}
-                        </span>
+                        <div
+                          class="card-content"
+                        >
 
-                        <div class="card-title">
-                          ${title}
+                          <span
+                            class="category-tag"
+                          >
+                            ${category}
+                          </span>
+
+                          <div
+                            class="card-title"
+                          >
+                            ${title}
+                          </div>
+
+                          <div
+                            class="card-date"
+                          >
+                            ${formatDate(
+                              post.created_at
+                            )}
+                          </div>
+
+                          <span
+                            class="read-more"
+                          >
+                            Read story →
+                          </span>
+
                         </div>
 
-                        <div class="card-date">
-                          ${formatDate(post.created_at)}
-                        </div>
+                      </a>
 
-                        <span class="read-more">
-                          Read story →
-                        </span>
+                    </article>
+                  `;
 
-                      </div>
-
-                    </a>
-
-                  </article>
-                `;
-
-              }
-            ).join("");
+                }
+              )
+              .join("");
 
           document.getElementById(
             "latest"
@@ -2361,7 +2459,9 @@
     function stripHTML(value) {
 
       const div =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
       div.innerHTML =
         value || "";
@@ -2377,16 +2477,33 @@
     function escapeHTML(value) {
 
       return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
 
     }
 
     function escapeAttribute(value) {
+
       return escapeHTML(value);
+
     }
 
     function showDatabaseError(message) {
@@ -2398,22 +2515,28 @@
         "popularPosts"
       ];
 
-      containers.forEach(id => {
+      containers.forEach(
+        id => {
 
-        const element =
-          document.getElementById(id);
+          const element =
+            document.getElementById(
+              id
+            );
 
-        if (element) {
+          if (element) {
 
-          element.innerHTML = `
-            <div class="empty">
-              ${escapeHTML(message)}
-            </div>
-          `;
+            element.innerHTML = `
+              <div class="empty">
+                ${escapeHTML(
+                  message
+                )}
+              </div>
+            `;
+
+          }
 
         }
-
-      });
+      );
 
       const breaking =
         document.getElementById(
