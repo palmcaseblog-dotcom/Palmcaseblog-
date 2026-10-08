@@ -13,11 +13,16 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f5f5f5;
       color: #111;
+      overflow-x: hidden;
     }
 
     header {
@@ -61,6 +66,7 @@
       gap: 18px;
       padding: 12px 20px;
       overflow-x: auto;
+      scrollbar-width: thin;
     }
 
     nav a {
@@ -85,6 +91,7 @@
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      overflow: hidden;
     }
 
     .category {
@@ -99,6 +106,7 @@
       font-size: 42px;
       line-height: 1.15;
       margin: 0 0 15px;
+      overflow-wrap: break-word;
     }
 
     .date {
@@ -120,6 +128,7 @@
     }
 
     .article-image {
+      display: block;
       width: 100%;
       max-height: 550px;
       object-fit: cover;
@@ -127,11 +136,104 @@
       margin-bottom: 25px;
     }
 
+    .article-video {
+      width: 100%;
+      max-height: 650px;
+      display: block;
+      background: #000;
+      border-radius: 10px;
+      margin: 0 0 25px;
+      object-fit: contain;
+    }
+
     .article-body {
       font-size: 18px;
       line-height: 1.8;
       white-space: pre-line;
       overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    /* =========================
+       ARTICLE ADVERTISEMENT
+    ========================= */
+
+    .article-ad-section {
+      margin: 30px 0;
+    }
+
+    .article-ad-label {
+      text-align: center;
+      color: #888;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+    }
+
+    .article-ad {
+      background: #fff;
+      border: 1px solid #e2e2e2;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .article-ad-media {
+      width: 100%;
+      display: block;
+      background: #000;
+    }
+
+    .article-ad-image {
+      width: 100%;
+      max-height: 550px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .article-ad-video {
+      width: 100%;
+      max-height: 650px;
+      min-height: 220px;
+      display: block;
+      background: #000;
+      object-fit: contain;
+    }
+
+    .article-ad-content {
+      padding: 18px;
+    }
+
+    .article-ad-title {
+      margin: 0 0 8px;
+      font-size: 21px;
+      line-height: 1.3;
+      overflow-wrap: break-word;
+    }
+
+    .article-ad-description {
+      margin: 0 0 15px;
+      color: #555;
+      line-height: 1.6;
+      font-size: 15px;
+      overflow-wrap: break-word;
+      white-space: pre-line;
+    }
+
+    .article-ad-link {
+      display: inline-block;
+      background: #d40000;
+      color: white;
+      text-decoration: none;
+      padding: 11px 17px;
+      border-radius: 7px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .article-ad-link:hover {
+      background: #b00000;
     }
 
     .article-actions {
@@ -202,10 +304,15 @@
       background: white;
     }
 
+    /* =========================
+       COMMENTS
+    ========================= */
+
     .comments-section {
       margin-top: 40px;
       padding-top: 30px;
       border-top: 1px solid #eee;
+      scroll-margin-top: 20px;
     }
 
     .comments-heading {
@@ -235,14 +342,20 @@
       padding: 12px;
       font-family: Arial, sans-serif;
       font-size: 15px;
+      background: white;
+      color: #111;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .comment-form textarea {
       min-height: 120px;
+      resize: vertical;
     }
 
     .reply-form textarea {
       min-height: 90px;
+      resize: vertical;
     }
 
     .comment-submit,
@@ -255,6 +368,8 @@
       padding: 12px 20px;
       font-weight: bold;
       cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .reply-submit {
@@ -262,10 +377,17 @@
       font-size: 13px;
     }
 
+    .comment-submit:disabled,
+    .reply-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
     .comment-message,
     .reply-message {
       margin-top: 10px;
       font-size: 14px;
+      overflow-wrap: break-word;
     }
 
     .comment-item {
@@ -276,6 +398,7 @@
     .comment-name {
       font-weight: bold;
       margin-bottom: 5px;
+      overflow-wrap: break-word;
     }
 
     .comment-date {
@@ -288,6 +411,7 @@
       line-height: 1.6;
       white-space: pre-line;
       overflow-wrap: break-word;
+      word-break: break-word;
       margin-bottom: 12px;
     }
 
@@ -309,6 +433,8 @@
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .comment-like-btn:hover,
@@ -452,25 +578,100 @@
     }
 
     @media (max-width: 700px) {
-      h1 {
-        font-size: 30px;
+
+      header {
+        padding: 12px 15px;
+      }
+
+      .logo {
+        font-size: 19px;
+      }
+
+      .logo img {
+        width: 40px;
+        height: 40px;
+      }
+
+      nav .nav-inner {
+        padding: 11px 15px;
+        gap: 15px;
+      }
+
+      main {
+        margin: 20px auto;
+        padding: 0 10px;
       }
 
       .article-box {
-        padding: 20px;
+        padding: 18px;
+        border-radius: 8px;
+      }
+
+      h1 {
+        font-size: 30px;
+        line-height: 1.2;
       }
 
       .article-body {
         font-size: 17px;
+        line-height: 1.75;
       }
 
-      .footer-inner {
-        grid-template-columns: 1fr;
+      .article-image {
+        max-height: 400px;
+        border-radius: 7px;
+      }
+
+      .article-video {
+        max-height: 500px;
+        border-radius: 8px;
+      }
+
+      .article-ad-section {
+        margin: 25px 0;
+      }
+
+      .article-ad {
+        border-radius: 9px;
+      }
+
+      .article-ad-title {
+        font-size: 18px;
+      }
+
+      .article-ad-description {
+        font-size: 14px;
+      }
+
+      .article-ad-video {
+        min-height: 180px;
+        max-height: 500px;
+      }
+
+      .article-ad-image {
+        max-height: 400px;
+      }
+
+      .article-ad-content {
+        padding: 15px;
+      }
+
+      .article-actions {
+        gap: 8px;
       }
 
       .action-btn {
         flex: 1;
         min-width: 100px;
+      }
+
+      .share-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .share-btn {
+        width: 100%;
       }
 
       .replies {
@@ -481,6 +682,21 @@
       .reply-form {
         margin-left: 5px;
       }
+
+      .comment-actions {
+        gap: 7px;
+      }
+
+      .comment-like-btn,
+      .comment-dislike-btn,
+      .reply-btn {
+        font-size: 12px;
+        padding: 7px 9px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -489,15 +705,22 @@
 
 <header>
   <div class="header-inner">
+
     <div class="logo">
-      <img src="IMG_2188.jpeg" alt="Palmcaseblog Logo">
+      <img
+        src="IMG_2188.jpeg"
+        alt="Palmcaseblog Logo"
+      >
+
       <span>Palmcaseblog</span>
     </div>
+
   </div>
 </header>
 
 <nav>
   <div class="nav-inner">
+
     <a href="index.html">Home</a>
     <a href="category.html?category=News">News</a>
     <a href="category.html?category=Entertainment">Entertainment</a>
@@ -509,6 +732,7 @@
     <a href="category.html?category=Relationship">Relationship</a>
     <a href="category.html?category=World">World</a>
     <a href="category.html?category=Topics">Topics</a>
+
   </div>
 </nav>
 
@@ -519,9 +743,11 @@
   </a>
 
   <div id="article-container">
+
     <div class="message">
       Loading article...
     </div>
+
   </div>
 
 </main>
@@ -542,7 +768,10 @@
         Nigerian News, Entertainment, Celebrity Gist and Lifestyle since 2022.
       </p>
 
-      <a class="business-directory-link" href="business-directory.html">
+      <a
+        class="business-directory-link"
+        href="business-directory.html"
+      >
         Nigerian Business Directory →
       </a>
 
@@ -594,6 +823,15 @@
 const SUPABASE_URL =
   "https://kcxlwhojwdvbfjjnartw.supabase.co";
 
+/*
+  IMPORTANT:
+  Replace the placeholder below with the SAME
+  Supabase publishable key already used in
+  your current article.html.
+
+  Do not change the URL above.
+*/
+
 const SUPABASE_KEY =
   "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
 
@@ -604,14 +842,25 @@ const supabaseClient =
   );
 
 const container =
-  document.getElementById("article-container");
+  document.getElementById(
+    "article-container"
+  );
 
 
-function escapeHTML(text) {
+/* =========================
+   BASIC HELPERS
+========================= */
 
-  if (!text) return "";
+function escapeHTML(value) {
 
-  return String(text)
+  if (
+    value === null ||
+    value === undefined
+  ) {
+    return "";
+  }
+
+  return String(value)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -633,32 +882,68 @@ function getArticleId() {
 }
 
 
+function sleep(milliseconds) {
+
+  return new Promise(
+    resolve =>
+      setTimeout(
+        resolve,
+        milliseconds
+      )
+  );
+
+}
+
+
 /* =========================
    ARTICLE LIKE STORAGE
 ========================= */
 
 function likedStorageKey(articleId) {
 
-  return "palmcaseblog_liked_" + articleId;
+  return (
+    "palmcaseblog_liked_" +
+    articleId
+  );
 
 }
 
 
 function hasLiked(articleId) {
 
-  return localStorage.getItem(
-    likedStorageKey(articleId)
-  ) === "true";
+  try {
+
+    return (
+      localStorage.getItem(
+        likedStorageKey(articleId)
+      ) === "true"
+    );
+
+  } catch {
+
+    return false;
+
+  }
 
 }
 
 
 function markAsLiked(articleId) {
 
-  localStorage.setItem(
-    likedStorageKey(articleId),
-    "true"
-  );
+  try {
+
+    localStorage.setItem(
+      likedStorageKey(articleId),
+      "true"
+    );
+
+  } catch {
+
+    console.warn(
+      "Could not save article like locally."
+    );
+
+  }
 
 }
 
@@ -670,63 +955,66 @@ function markAsLiked(articleId) {
 async function likeArticle(articleId) {
 
   const likeButton =
-    document.getElementById("like-button");
+    document.getElementById(
+      "like-button"
+    );
 
   const likeCount =
-    document.getElementById("like-count");
+    document.getElementById(
+      "like-count"
+    );
 
-
-  if (!likeButton || !likeCount) {
+  if (
+    !likeButton ||
+    !likeCount
+  ) {
     return;
   }
 
-
-  if (hasLiked(articleId)) {
-
-    alert("You already liked this article.");
+  if (
+    hasLiked(articleId)
+  ) {
 
     return;
 
   }
-
 
   likeButton.disabled = true;
-
 
   try {
 
     const numericArticleId =
       Number(articleId);
 
-
-    if (!Number.isFinite(numericArticleId)) {
-
+    if (
+      !Number.isFinite(
+        numericArticleId
+      )
+    ) {
       throw new Error(
         "Invalid article ID."
       );
-
     }
 
-
-    const { error } =
+    const result =
       await supabaseClient.rpc(
         "increment_post_likes",
         {
-          post_id: numericArticleId
+          post_id:
+            numericArticleId
         }
       );
 
-
-    if (error) {
+    if (result.error) {
 
       console.error(
         "LIKE SUPABASE ERROR:",
-        error
+        result.error
       );
 
       alert(
         "Like failed: " +
-        error.message
+        result.error.message
       );
 
       likeButton.disabled = false;
@@ -735,34 +1023,26 @@ async function likeArticle(articleId) {
 
     }
 
-
     const currentLikes =
       Number(
         likeCount.textContent
       ) || 0;
 
-
     const newLikes =
       currentLikes + 1;
-
 
     likeCount.textContent =
       newLikes.toLocaleString();
 
+    likeButton.classList.add(
+      "liked"
+    );
 
-    likeButton.classList.add("liked");
+    markAsLiked(
+      articleId
+    );
 
-    likeButton.innerHTML =
-      `❤️ Liked
-       <span id="like-count">
-         ${newLikes.toLocaleString()}
-       </span>`;
-
-
-    markAsLiked(articleId);
-
-    likeButton.disabled = false;
-
+    likeButton.disabled = true;
 
   } catch (error) {
 
@@ -786,28 +1066,55 @@ async function likeArticle(articleId) {
    COMMENT LIKE STORAGE
 ========================= */
 
-function commentLikedStorageKey(commentId) {
+function commentLikedStorageKey(
+  commentId
+) {
 
-  return "palmcaseblog_comment_liked_" + commentId;
-
-}
-
-
-function hasLikedComment(commentId) {
-
-  return localStorage.getItem(
-    commentLikedStorageKey(commentId)
-  ) === "true";
-
-}
-
-
-function markCommentAsLiked(commentId) {
-
-  localStorage.setItem(
-    commentLikedStorageKey(commentId),
-    "true"
+  return (
+    "palmcaseblog_comment_liked_" +
+    commentId
   );
+
+}
+
+
+function hasLikedComment(
+  commentId
+) {
+
+  try {
+
+    return (
+      localStorage.getItem(
+        commentLikedStorageKey(
+          commentId
+        )
+      ) === "true"
+    );
+
+  } catch {
+
+    return false;
+
+  }
+
+}
+
+
+function markCommentAsLiked(
+  commentId
+) {
+
+  try {
+
+    localStorage.setItem(
+      commentLikedStorageKey(
+        commentId
+      ),
+      "true"
+    );
+
+  } catch {}
 
 }
 
@@ -816,100 +1123,132 @@ function markCommentAsLiked(commentId) {
    COMMENT DISLIKE STORAGE
 ========================= */
 
-function commentDislikedStorageKey(commentId) {
+function commentDislikedStorageKey(
+  commentId
+) {
 
-  return "palmcaseblog_comment_disliked_" + commentId;
-
-}
-
-
-function hasDislikedComment(commentId) {
-
-  return localStorage.getItem(
-    commentDislikedStorageKey(commentId)
-  ) === "true";
-
-}
-
-
-function markCommentAsDisliked(commentId) {
-
-  localStorage.setItem(
-    commentDislikedStorageKey(commentId),
-    "true"
+  return (
+    "palmcaseblog_comment_disliked_" +
+    commentId
   );
 
 }
 
 
+function hasDislikedComment(
+  commentId
+) {
+
+  try {
+
+    return (
+      localStorage.getItem(
+        commentDislikedStorageKey(
+          commentId
+        )
+      ) === "true"
+    );
+
+  } catch {
+
+    return false;
+
+  }
+
+}
+
+
+function markCommentAsDisliked(
+  commentId
+) {
+
+  try {
+
+    localStorage.setItem(
+      commentDislikedStorageKey(
+        commentId
+      ),
+      "true"
+    );
+
+  } catch {}
+
+}
+
+
 /* =========================
-   LIKE COMMENT OR REPLY
+   LIKE COMMENT
 ========================= */
 
-async function likeComment(commentId) {
+async function likeComment(
+  commentId
+) {
 
   const button =
     document.getElementById(
-      "comment-like-" + commentId
+      "comment-like-" +
+      commentId
     );
 
   const count =
     document.getElementById(
-      "comment-like-count-" + commentId
+      "comment-like-count-" +
+      commentId
     );
 
-
-  if (!button || !count) {
+  if (
+    !button ||
+    !count
+  ) {
     return;
   }
 
-
-  if (hasLikedComment(commentId)) {
-
-    alert("You already liked this comment.");
+  if (
+    hasLikedComment(
+      commentId
+    )
+  ) {
 
     return;
 
   }
-
 
   button.disabled = true;
-
 
   try {
 
     const numericCommentId =
       Number(commentId);
 
-
-    if (!Number.isFinite(numericCommentId)) {
-
+    if (
+      !Number.isFinite(
+        numericCommentId
+      )
+    ) {
       throw new Error(
         "Invalid comment ID."
       );
-
     }
 
-
-    const { error } =
+    const result =
       await supabaseClient.rpc(
         "increment_comment_likes",
         {
-          comment_id: numericCommentId
+          comment_id:
+            numericCommentId
         }
       );
 
-
-    if (error) {
+    if (result.error) {
 
       console.error(
-        "COMMENT LIKE SUPABASE ERROR:",
-        error
+        "COMMENT LIKE ERROR:",
+        result.error
       );
 
       alert(
         "Comment like failed: " +
-        error.message
+        result.error.message
       );
 
       button.disabled = false;
@@ -918,34 +1257,26 @@ async function likeComment(commentId) {
 
     }
 
-
     const currentLikes =
       Number(
         count.textContent
       ) || 0;
 
-
     const newLikes =
       currentLikes + 1;
-
 
     count.textContent =
       newLikes.toLocaleString();
 
+    button.classList.add(
+      "liked"
+    );
 
-    button.classList.add("liked");
+    markCommentAsLiked(
+      commentId
+    );
 
-    button.innerHTML =
-      `❤️ Liked
-       <span id="comment-like-count-${commentId}">
-         ${newLikes.toLocaleString()}
-       </span>`;
-
-
-    markCommentAsLiked(commentId);
-
-    button.disabled = false;
-
+    button.disabled = true;
 
   } catch (error) {
 
@@ -966,73 +1297,78 @@ async function likeComment(commentId) {
 
 
 /* =========================
-   DISLIKE COMMENT OR REPLY
+   DISLIKE COMMENT
 ========================= */
 
-async function dislikeComment(commentId) {
+async function dislikeComment(
+  commentId
+) {
 
   const button =
     document.getElementById(
-      "comment-dislike-" + commentId
+      "comment-dislike-" +
+      commentId
     );
 
   const count =
     document.getElementById(
-      "comment-dislike-count-" + commentId
+      "comment-dislike-count-" +
+      commentId
     );
 
-
-  if (!button || !count) {
+  if (
+    !button ||
+    !count
+  ) {
     return;
   }
 
-
-  if (hasDislikedComment(commentId)) {
-
-    alert("You already disliked this comment.");
+  if (
+    hasDislikedComment(
+      commentId
+    )
+  ) {
 
     return;
 
   }
-
 
   button.disabled = true;
-
 
   try {
 
     const numericCommentId =
       Number(commentId);
 
-
-    if (!Number.isFinite(numericCommentId)) {
-
+    if (
+      !Number.isFinite(
+        numericCommentId
+      )
+    ) {
       throw new Error(
         "Invalid comment ID."
       );
-
     }
 
-
-    const { error } =
+    const result =
       await supabaseClient.rpc(
         "increment_comment_dislikes",
         {
-          comment_id: numericCommentId
+          comment_id:
+            numericCommentId
         }
       );
 
-
-    if (error) {
+    if (result.error) {
 
       console.error(
-        "COMMENT DISLIKE SUPABASE ERROR:",
-        error
+        "COMMENT DISLIKE ERROR:",
+        result.error
       );
 
       alert(
         "Comment dislike failed: " +
-        error.message
+        result.error.message
       );
 
       button.disabled = false;
@@ -1041,34 +1377,26 @@ async function dislikeComment(commentId) {
 
     }
 
-
     const currentDislikes =
       Number(
         count.textContent
       ) || 0;
 
-
     const newDislikes =
       currentDislikes + 1;
-
 
     count.textContent =
       newDislikes.toLocaleString();
 
+    button.classList.add(
+      "disliked"
+    );
 
-    button.classList.add("disliked");
+    markCommentAsDisliked(
+      commentId
+    );
 
-    button.innerHTML =
-      `👎 Disliked
-       <span id="comment-dislike-count-${commentId}">
-         ${newDislikes.toLocaleString()}
-       </span>`;
-
-
-    markCommentAsDisliked(commentId);
-
-    button.disabled = false;
-
+    button.disabled = true;
 
   } catch (error) {
 
@@ -1089,19 +1417,26 @@ async function dislikeComment(commentId) {
 
 
 /* =========================
-   SHOW / HIDE REPLY FORM
+   REPLY FORM
 ========================= */
 
-function toggleReplyForm(commentId) {
+function toggleReplyForm(
+  commentId
+) {
 
   const form =
     document.getElementById(
-      "reply-form-" + commentId
+      "reply-form-" +
+      commentId
     );
 
-  if (!form) return;
+  if (!form) {
+    return;
+  }
 
-  form.classList.toggle("show");
+  form.classList.toggle(
+    "show"
+  );
 
 }
 
@@ -1117,24 +1452,36 @@ async function submitReply(
 
   const nameInput =
     document.getElementById(
-      "reply-name-" + parentId
+      "reply-name-" +
+      parentId
     );
 
   const replyInput =
     document.getElementById(
-      "reply-text-" + parentId
+      "reply-text-" +
+      parentId
     );
 
   const message =
     document.getElementById(
-      "reply-message-" + parentId
+      "reply-message-" +
+      parentId
     );
 
+  const submitButton =
+    document.querySelector(
+      "#reply-form-" +
+      parentId +
+      " .reply-submit"
+    );
 
-  if (!nameInput || !replyInput || !message) {
+  if (
+    !nameInput ||
+    !replyInput ||
+    !message
+  ) {
     return;
   }
-
 
   const name =
     nameInput.value.trim();
@@ -1142,8 +1489,10 @@ async function submitReply(
   const reply =
     replyInput.value.trim();
 
-
-  if (!name || !reply) {
+  if (
+    !name ||
+    !reply
+  ) {
 
     message.textContent =
       "Please enter your name and reply.";
@@ -1152,45 +1501,72 @@ async function submitReply(
 
   }
 
+  if (submitButton) {
+    submitButton.disabled = true;
+  }
 
   message.textContent =
     "Posting reply...";
 
+  try {
 
-  const { error } =
-    await supabaseClient
-      .from("comments")
-      .insert({
-        post_id: Number(articleId),
-        parent_id: Number(parentId),
-        name: name,
-        comment: reply
-      });
+    const result =
+      await supabaseClient
+        .from("comments")
+        .insert({
+          post_id:
+            Number(articleId),
+          parent_id:
+            Number(parentId),
+          name:
+            name,
+          comment:
+            reply
+        });
 
+    if (result.error) {
 
-  if (error) {
+      console.error(
+        "REPLY SUBMISSION ERROR:",
+        result.error
+      );
+
+      message.textContent =
+        "Sorry, your reply could not be posted.";
+
+      if (submitButton) {
+        submitButton.disabled = false;
+      }
+
+      return;
+
+    }
+
+    nameInput.value = "";
+    replyInput.value = "";
+
+    message.textContent =
+      "Reply posted successfully.";
+
+    await loadComments(
+      articleId
+    );
+
+  } catch (error) {
 
     console.error(
-      "Reply submission error:",
+      "REPLY ERROR:",
       error
     );
 
     message.textContent =
       "Sorry, your reply could not be posted.";
 
-    return;
+    if (submitButton) {
+      submitButton.disabled = false;
+    }
 
   }
-
-
-  nameInput.value = "";
-  replyInput.value = "";
-
-  message.textContent =
-    "Reply posted successfully.";
-
-
-  await loadComments(articleId);
 
 }
 
@@ -1213,62 +1589,61 @@ function renderComment(
         ).toLocaleString(
           "en-US",
           {
-            dateStyle: "medium",
-            timeStyle: "short"
+            dateStyle:
+              "medium",
+            timeStyle:
+              "short"
           }
         )
       : "";
 
-
   const commentLikes =
-    Number(comment.likes || 0);
-
+    Number(
+      comment.likes || 0
+    );
 
   const commentDislikes =
-    Number(comment.dislikes || 0);
-
+    Number(
+      comment.dislikes || 0
+    );
 
   const alreadyLiked =
-    hasLikedComment(comment.id);
-
+    hasLikedComment(
+      comment.id
+    );
 
   const alreadyDisliked =
-    hasDislikedComment(comment.id);
-
+    hasDislikedComment(
+      comment.id
+    );
 
   const children =
     allComments.filter(
       child =>
+        child.parent_id !== null &&
+        child.parent_id !== undefined &&
         Number(child.parent_id) ===
         Number(comment.id)
     );
-
 
   const replyHTML =
     children.length > 0
       ? `
         <div class="replies">
-
-          ${children.map(reply =>
-            renderComment(
-              reply,
-              allComments,
-              articleId,
-              true
+          ${children
+            .map(
+              child =>
+                renderComment(
+                  child,
+                  allComments,
+                  articleId,
+                  true
+                )
             )
-          ).join("")}
-
+            .join("")}
         </div>
       `
       : "";
-
-
-  /*
-     IMPORTANT:
-     Every comment and every reply gets
-     its own reply form.
-     This allows unlimited nested replies.
-  */
 
   const replyFormHTML = `
     <div
@@ -1294,10 +1669,7 @@ function renderComment(
         <button
           class="reply-submit"
           type="button"
-          onclick="submitReply(
-            ${articleId},
-            ${comment.id}
-          )"
+          onclick="submitReply(${Number(articleId)}, ${Number(comment.id)})"
         >
           Post Reply
         </button>
@@ -1312,16 +1684,23 @@ function renderComment(
     </div>
   `;
 
-
   return `
     <div
-      class="${isReply ? "reply-item" : "comment-item"}"
+      class="${
+        isReply
+          ? "reply-item"
+          : "comment-item"
+      }"
       id="comment-${comment.id}"
     >
 
       ${
         isReply
-          ? `<div class="reply-label">↳ Reply</div>`
+          ? `
+            <div class="reply-label">
+              ↳ Reply
+            </div>
+          `
           : ""
       }
 
@@ -1341,42 +1720,64 @@ function renderComment(
 
         <button
           id="comment-like-${comment.id}"
-          class="comment-like-btn ${alreadyLiked ? "liked" : ""}"
+          class="comment-like-btn ${
+            alreadyLiked
+              ? "liked"
+              : ""
+          }"
           type="button"
-          ${alreadyLiked ? "disabled" : ""}
-          onclick="likeComment(${comment.id})"
+          ${
+            alreadyLiked
+              ? "disabled"
+              : ""
+          }
+          onclick="likeComment(${Number(comment.id)})"
         >
+          ${
+            alreadyLiked
+              ? "❤️ Liked"
+              : "❤️ Like"
+          }
 
-          ${alreadyLiked ? "❤️ Liked" : "❤️ Like"}
-
-          <span id="comment-like-count-${comment.id}">
+          <span
+            id="comment-like-count-${comment.id}"
+          >
             ${commentLikes.toLocaleString()}
           </span>
-
         </button>
-
 
         <button
           id="comment-dislike-${comment.id}"
-          class="comment-dislike-btn ${alreadyDisliked ? "disliked" : ""}"
+          class="comment-dislike-btn ${
+            alreadyDisliked
+              ? "disliked"
+              : ""
+          }"
           type="button"
-          ${alreadyDisliked ? "disabled" : ""}
-          onclick="dislikeComment(${comment.id})"
+          ${
+            alreadyDisliked
+              ? "disabled"
+              : ""
+          }
+          onclick="dislikeComment(${Number(comment.id)})"
         >
+          ${
+            alreadyDisliked
+              ? "👎 Disliked"
+              : "👎 Dislike"
+          }
 
-          ${alreadyDisliked ? "👎 Disliked" : "👎 Dislike"}
-
-          <span id="comment-dislike-count-${comment.id}">
+          <span
+            id="comment-dislike-count-${comment.id}"
+          >
             ${commentDislikes.toLocaleString()}
           </span>
-
         </button>
-
 
         <button
           class="reply-btn"
           type="button"
-          onclick="toggleReplyForm(${comment.id})"
+          onclick="toggleReplyForm(${Number(comment.id)})"
         >
           ↩️ Reply
         </button>
@@ -1389,15 +1790,17 @@ function renderComment(
 
     </div>
   `;
-
 }
 
 
 /* =========================
-   LOAD COMMENTS AND REPLIES
+   LOAD COMMENTS
 ========================= */
 
-async function loadComments(articleId) {
+async function loadComments(
+  articleId,
+  attempt = 1
+) {
 
   const commentsList =
     document.getElementById(
@@ -1409,88 +1812,150 @@ async function loadComments(articleId) {
       "comment-count"
     );
 
-  if (!commentsList) return;
+  if (!commentsList) {
+    return;
+  }
 
+  try {
 
-  const {
-    data: comments,
-    error
-  } =
-    await supabaseClient
-      .from("comments")
-      .select("*")
-      .eq("post_id", Number(articleId))
-      .order("created_at", {
-        ascending: true
-      });
+    const result =
+      await supabaseClient
+        .from("comments")
+        .select(
+          "id,post_id,name,comment,created_at,likes,dislikes,parent_id"
+        )
+        .eq(
+          "post_id",
+          Number(articleId)
+        )
+        .order(
+          "created_at",
+          {
+            ascending: true
+          }
+        );
 
+    if (result.error) {
 
-  if (error) {
+      console.error(
+        "COMMENTS LOADING ERROR:",
+        result.error
+      );
+
+      if (attempt < 3) {
+
+        commentsList.innerHTML =
+          `
+            <p class="no-comments">
+              Loading comments...
+            </p>
+          `;
+
+        await sleep(1200);
+
+        return loadComments(
+          articleId,
+          attempt + 1
+        );
+
+      }
+
+      if (commentCount) {
+        commentCount.textContent =
+          "0";
+      }
+
+      commentsList.innerHTML =
+        `
+          <p class="no-comments">
+            Comments could not be loaded.
+            Please refresh the page.
+          </p>
+        `;
+
+      return;
+
+    }
+
+    const comments =
+      Array.isArray(result.data)
+        ? result.data
+        : [];
+
+    if (commentCount) {
+
+      commentCount.textContent =
+        comments.length.toLocaleString();
+
+    }
+
+    if (
+      comments.length === 0
+    ) {
+
+      commentsList.innerHTML =
+        `
+          <p class="no-comments">
+            No comments yet. Be the first to comment.
+          </p>
+        `;
+
+      return;
+
+    }
+
+    const topLevelComments =
+      comments.filter(
+        comment =>
+          comment.parent_id === null ||
+          comment.parent_id === undefined
+      );
+
+    commentsList.innerHTML =
+      topLevelComments
+        .map(
+          comment =>
+            renderComment(
+              comment,
+              comments,
+              articleId,
+              false
+            )
+        )
+        .join("");
+
+  } catch (error) {
 
     console.error(
-      "Comments loading error:",
+      "UNEXPECTED COMMENTS ERROR:",
       error
     );
 
+    if (attempt < 3) {
+
+      await sleep(1200);
+
+      return loadComments(
+        articleId,
+        attempt + 1
+      );
+
+    }
+
     if (commentCount) {
-      commentCount.textContent = "0";
+      commentCount.textContent =
+        "0";
     }
 
     commentsList.innerHTML =
-      `<p class="no-comments">
-        Comments could not be loaded.
-      </p>`;
-
-    return;
-
-  }
-
-
-  const totalComments =
-    comments
-      ? comments.length
-      : 0;
-
-
-  if (commentCount) {
-
-    commentCount.textContent =
-      totalComments.toLocaleString();
+      `
+        <p class="no-comments">
+          Comments could not be loaded.
+          Please refresh the page.
+        </p>
+      `;
 
   }
-
-
-  if (!comments || comments.length === 0) {
-
-    commentsList.innerHTML =
-      `<p class="no-comments">
-        No comments yet. Be the first to comment.
-      </p>`;
-
-    return;
-
-  }
-
-
-  const topLevelComments =
-    comments.filter(
-      comment =>
-        comment.parent_id === null ||
-        comment.parent_id === undefined
-    );
-
-
-  commentsList.innerHTML =
-    topLevelComments
-      .map(comment =>
-        renderComment(
-          comment,
-          comments,
-          articleId,
-          false
-        )
-      )
-      .join("");
 
 }
 
@@ -1499,7 +1964,9 @@ async function loadComments(articleId) {
    SUBMIT MAIN COMMENT
 ========================= */
 
-async function submitComment(articleId) {
+async function submitComment(
+  articleId
+) {
 
   const nameInput =
     document.getElementById(
@@ -1516,6 +1983,18 @@ async function submitComment(articleId) {
       "comment-message"
     );
 
+  const submitButton =
+    document.querySelector(
+      "#comment-form .comment-submit"
+    );
+
+  if (
+    !nameInput ||
+    !commentInput ||
+    !message
+  ) {
+    return;
+  }
 
   const name =
     nameInput.value.trim();
@@ -1523,8 +2002,10 @@ async function submitComment(articleId) {
   const comment =
     commentInput.value.trim();
 
-
-  if (!name || !comment) {
+  if (
+    !name ||
+    !comment
+  ) {
 
     message.textContent =
       "Please enter your name and comment.";
@@ -1533,45 +2014,72 @@ async function submitComment(articleId) {
 
   }
 
+  if (submitButton) {
+    submitButton.disabled = true;
+  }
 
   message.textContent =
     "Posting comment...";
 
+  try {
 
-  const { error } =
-    await supabaseClient
-      .from("comments")
-      .insert({
-        post_id: Number(articleId),
-        name: name,
-        comment: comment,
-        parent_id: null
-      });
+    const result =
+      await supabaseClient
+        .from("comments")
+        .insert({
+          post_id:
+            Number(articleId),
+          name:
+            name,
+          comment:
+            comment,
+          parent_id:
+            null
+        });
 
+    if (result.error) {
 
-  if (error) {
+      console.error(
+        "COMMENT SUBMISSION ERROR:",
+        result.error
+      );
+
+      message.textContent =
+        "Sorry, your comment could not be posted.";
+
+      if (submitButton) {
+        submitButton.disabled = false;
+      }
+
+      return;
+
+    }
+
+    nameInput.value = "";
+    commentInput.value = "";
+
+    message.textContent =
+      "Comment posted successfully.";
+
+    await loadComments(
+      articleId
+    );
+
+  } catch (error) {
 
     console.error(
-      "Comment submission error:",
+      "COMMENT ERROR:",
       error
     );
 
     message.textContent =
       "Sorry, your comment could not be posted.";
 
-    return;
-
   }
 
-
-  nameInput.value = "";
-  commentInput.value = "";
-
-  message.textContent =
-    "Comment posted successfully.";
-
-
-  await loadComments(articleId);
+  if (submitButton) {
+    submitButton.disabled = false;
+  }
 
 }
 
@@ -1587,7 +2095,13 @@ function shareArticle() {
       "share-box"
     );
 
-  shareBox.classList.toggle("show");
+  if (!shareBox) {
+    return;
+  }
+
+  shareBox.classList.toggle(
+    "show"
+  );
 
 }
 
@@ -1597,15 +2111,28 @@ async function copyArticleLink() {
   const url =
     window.location.href;
 
-
   try {
 
-    await navigator.clipboard.writeText(
-      url
-    );
+    if (
+      navigator.clipboard &&
+      navigator.clipboard.writeText
+    ) {
 
-    alert(
-      "Article link copied!"
+      await navigator.clipboard.writeText(
+        url
+      );
+
+      alert(
+        "Article link copied!"
+      );
+
+      return;
+
+    }
+
+    prompt(
+      "Copy this article link:",
+      url
     );
 
   } catch {
@@ -1620,20 +2147,26 @@ async function copyArticleLink() {
 }
 
 
-async function nativeShare(title) {
+async function nativeShare(
+  title
+) {
 
   const url =
     window.location.href;
 
-
-  if (navigator.share) {
+  if (
+    navigator.share
+  ) {
 
     try {
 
       await navigator.share({
-        title: title,
-        text: title,
-        url: url
+        title:
+          title,
+        text:
+          title,
+        url:
+          url
       });
 
     } catch {
@@ -1654,93 +2187,449 @@ async function nativeShare(title) {
 
 
 /* =========================
-   LOAD ARTICLE
+   AD HELPERS
 ========================= */
 
-async function loadArticle() {
+function normalizePlacement(
+  value
+) {
 
-  const articleId =
-    getArticleId();
-
-
-  if (!articleId) {
-
-    container.innerHTML =
-      `<div class="message">
-        <h2>Article not found</h2>
-        <p>No article ID was provided.</p>
-      </div>`;
-
-    return;
-
-  }
-
-
-  const {
-    data: post,
-    error
-  } =
-    await supabaseClient
-      .from("posts")
-      .select("*")
-      .eq("id", Number(articleId))
-      .single();
-
-
-  if (error || !post) {
-
-    console.error(error);
-
-    container.innerHTML =
-      `<div class="message">
-        <h2>Article not found</h2>
-        <p>We couldn't find this article.</p>
-      </div>`;
-
-    return;
-
-  }
-
-
-  /* VIEW COUNTER */
-
-  const {
-    error: viewError
-  } =
-    await supabaseClient.rpc(
-      "increment_post_views",
-      {
-        post_id: Number(articleId)
-      }
+  return String(
+    value || ""
+  )
+    .toLowerCase()
+    .replace(
+      /[^a-z]/g,
+      ""
     );
 
-
-  let currentViews =
-    Number(post.views || 0);
+}
 
 
-  if (!viewError) {
+function isArticlePlacement(
+  value
+) {
 
-    currentViews++;
+  const placement =
+    normalizePlacement(
+      value
+    );
+
+  return (
+    placement === "article" ||
+    placement === "articles" ||
+    placement === "articlepage" ||
+    placement === "articlepages" ||
+    placement === "inarticle"
+  );
+
+}
+
+
+function isAdCurrentlyActive(
+  ad
+) {
+
+  if (!ad) {
+    return false;
+  }
+
+  if (
+    ad.is_active !== true
+  ) {
+    return false;
+  }
+
+  const now =
+    Date.now();
+
+  if (
+    ad.start_date
+  ) {
+
+    const start =
+      new Date(
+        ad.start_date
+      ).getTime();
+
+    if (
+      Number.isFinite(start) &&
+      now < start
+    ) {
+      return false;
+    }
 
   }
 
+  if (
+    ad.end_date
+  ) {
 
-  const currentLikes =
-    Number(post.likes || 0);
+    const end =
+      new Date(
+        ad.end_date
+      ).getTime();
+
+    if (
+      Number.isFinite(end) &&
+      now > end
+    ) {
+      return false;
+    }
+
+  }
+
+  return true;
+
+}
 
 
-  document.title =
-    (post.headline || "Article") +
-    " | Palmcaseblog";
+function safeExternalUrl(
+  url
+) {
+
+  if (!url) {
+    return "";
+  }
+
+  try {
+
+    const parsed =
+      new URL(
+        String(url).trim()
+      );
+
+    if (
+      parsed.protocol === "http:" ||
+      parsed.protocol === "https:"
+    ) {
+
+      return parsed.href;
+
+    }
+
+  } catch {
+
+    return "";
+
+  }
+
+  return "";
+
+}
 
 
-  container.innerHTML = `
+/* =========================
+   RENDER ARTICLE AD
+========================= */
 
+function renderArticleAdvertisement(
+  ad
+) {
+
+  const section =
+    document.getElementById(
+      "article-ad-container"
+    );
+
+  if (
+    !section ||
+    !ad
+  ) {
+    return;
+  }
+
+  const imageUrl =
+    safeExternalUrl(
+      ad.image_url
+    );
+
+  const videoUrl =
+    safeExternalUrl(
+      ad.video_url
+    );
+
+  const destinationUrl =
+    safeExternalUrl(
+      ad.destination_url
+    );
+
+  const title =
+    escapeHTML(
+      ad.title ||
+      "Advertisement"
+    );
+
+  const description =
+    escapeHTML(
+      ad.description ||
+      ""
+    );
+
+  let mediaHTML = "";
+
+  /*
+    Video takes priority when both
+    video and image are available.
+  */
+
+  if (videoUrl) {
+
+    mediaHTML =
+      `
+        <video
+          class="article-ad-video"
+          controls
+          playsinline
+          webkit-playsinline
+          preload="metadata"
+        >
+          <source
+            src="${escapeHTML(videoUrl)}"
+          >
+          Your browser does not support video playback.
+        </video>
+      `;
+
+  } else if (imageUrl) {
+
+    mediaHTML =
+      `
+        <img
+          class="article-ad-image"
+          src="${escapeHTML(imageUrl)}"
+          alt="${title}"
+          loading="lazy"
+        >
+      `;
+
+  }
+
+  let buttonHTML = "";
+
+  if (destinationUrl) {
+
+    buttonHTML =
+      `
+        <a
+          class="article-ad-link"
+          href="${escapeHTML(destinationUrl)}"
+          target="_blank"
+          rel="noopener noreferrer sponsored"
+        >
+          Learn More →
+        </a>
+      `;
+
+  }
+
+  section.innerHTML =
+    `
+      <section class="article-ad-section">
+
+        <div class="article-ad-label">
+          Advertisement
+        </div>
+
+        <div class="article-ad">
+
+          ${
+            mediaHTML
+              ? `
+                <div class="article-ad-media">
+                  ${mediaHTML}
+                </div>
+              `
+              : ""
+          }
+
+          <div class="article-ad-content">
+
+            <h2 class="article-ad-title">
+              ${title}
+            </h2>
+
+            ${
+              description
+                ? `
+                  <p class="article-ad-description">
+                    ${description}
+                  </p>
+                `
+                : ""
+            }
+
+            ${buttonHTML}
+
+          </div>
+
+        </div>
+
+      </section>
+    `;
+
+}
+
+
+/* =========================
+   LOAD ARTICLE AD
+========================= */
+
+async function loadArticleAdvertisement() {
+
+  const section =
+    document.getElementById(
+      "article-ad-container"
+    );
+
+  if (!section) {
+    return;
+  }
+
+  try {
+
+    const result =
+      await supabaseClient
+        .from("ads")
+        .select(
+          "id,title,description,image_url,video_url,destination_url,placement,start_date,end_date,is_active,created_at"
+        )
+        .eq(
+          "is_active",
+          true
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+    if (result.error) {
+
+      console.error(
+        "ARTICLE ADVERTISEMENT ERROR:",
+        result.error
+      );
+
+      section.innerHTML = "";
+
+      return;
+
+    }
+
+    const ads =
+      Array.isArray(result.data)
+        ? result.data
+        : [];
+
+    const activeArticleAds =
+      ads.filter(
+        ad =>
+          isArticlePlacement(
+            ad.placement
+          ) &&
+          isAdCurrentlyActive(
+            ad
+          )
+      );
+
+    if (
+      activeArticleAds.length === 0
+    ) {
+
+      section.innerHTML = "";
+
+      return;
+
+    }
+
+    const ad =
+      activeArticleAds[0];
+
+    renderArticleAdvertisement(
+      ad
+    );
+
+  } catch (error) {
+
+    console.error(
+      "UNEXPECTED ARTICLE AD ERROR:",
+      error
+    );
+
+    section.innerHTML = "";
+
+  }
+
+}
+
+
+/* =========================
+   ARTICLE HTML
+========================= */
+
+function buildArticleHTML(
+  post,
+  currentViews,
+  currentLikes,
+  articleId
+) {
+
+  const imageHTML =
+    post.image
+      ? `
+        <img
+          class="article-image"
+          src="${escapeHTML(post.image)}"
+          alt="${escapeHTML(
+            post.headline ||
+            "Palmcaseblog article"
+          )}"
+        >
+      `
+      : "";
+
+  const videoHTML =
+    post.video_url
+      ? `
+        <video
+          class="article-video"
+          controls
+          playsinline
+          webkit-playsinline
+          preload="metadata"
+        >
+          <source
+            src="${escapeHTML(post.video_url)}"
+          >
+          Your browser does not support video playback.
+        </video>
+      `
+      : "";
+
+  const articleDate =
+    post.created_at
+      ? new Date(
+          post.created_at
+        ).toLocaleDateString(
+          "en-US",
+          {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          }
+        )
+      : "";
+
+  return `
     <article class="article-box">
 
       <div class="category">
-        ${escapeHTML(post.category || "News")}
+        ${escapeHTML(
+          post.category ||
+          "News"
+        )}
       </div>
 
       <h1>
@@ -1751,22 +2640,7 @@ async function loadArticle() {
       </h1>
 
       <div class="date">
-
-        ${
-          post.created_at
-            ? new Date(
-                post.created_at
-              ).toLocaleDateString(
-                "en-US",
-                {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric"
-                }
-              )
-            : ""
-        }
-
+        ${escapeHTML(articleDate)}
       </div>
 
       <div class="article-stats">
@@ -1787,22 +2661,9 @@ async function loadArticle() {
 
       </div>
 
+      ${imageHTML}
 
-      ${
-        post.image
-          ? `
-            <img
-              class="article-image"
-              src="${escapeHTML(post.image)}"
-              alt="${escapeHTML(
-                post.headline ||
-                "Palmcaseblog article"
-              )}"
-            >
-          `
-          : ""
-      }
-
+      ${videoHTML}
 
       <div class="article-body">
         ${escapeHTML(
@@ -1811,6 +2672,7 @@ async function loadArticle() {
         )}
       </div>
 
+      <div id="article-ad-container"></div>
 
       <div class="article-actions">
 
@@ -1825,7 +2687,6 @@ async function loadArticle() {
           </span>
         </button>
 
-
         <button
           id="comment-button"
           class="action-btn"
@@ -1833,7 +2694,6 @@ async function loadArticle() {
         >
           💬 Comment
         </button>
-
 
         <button
           id="share-button"
@@ -1844,7 +2704,6 @@ async function loadArticle() {
         </button>
 
       </div>
-
 
       <div
         id="share-box"
@@ -1909,18 +2768,23 @@ async function loadArticle() {
 
       </div>
 
-
       <section
         id="comments-section"
         class="comments-section"
       >
 
         <div class="comments-heading">
-          <h2>
-            💬 Comments (<span id="comment-count">0</span>)
-          </h2>
-        </div>
 
+          <h2>
+            💬 Comments
+            (
+            <span id="comment-count">
+              0
+            </span>
+            )
+          </h2>
+
+        </div>
 
         <form
           id="comment-form"
@@ -1956,7 +2820,6 @@ async function loadArticle() {
 
         </form>
 
-
         <div id="comments-list">
 
           <p class="no-comments">
@@ -1968,72 +2831,122 @@ async function loadArticle() {
       </section>
 
     </article>
-
   `;
 
+}
 
-  /* =========================
-     LIKE BUTTON SETUP
-  ========================= */
+
+/* =========================
+   CONNECT BUTTONS
+========================= */
+
+function connectArticleButtons(
+  articleId,
+  articleTitle
+) {
 
   const likeButton =
     document.getElementById(
       "like-button"
     );
 
+  if (likeButton) {
 
-  if (hasLiked(articleId)) {
+    if (
+      hasLiked(articleId)
+    ) {
 
-    likeButton.classList.add(
-      "liked"
-    );
+      likeButton.classList.add(
+        "liked"
+      );
 
-    likeButton.innerHTML =
-      `❤️ Liked
-       <span id="like-count">
-         ${currentLikes.toLocaleString()}
-       </span>`;
+      likeButton.disabled = true;
 
-  }
-
-
-  likeButton.addEventListener(
-    "click",
-    function(event) {
-
-      event.preventDefault();
-
-      likeArticle(articleId);
+      likeButton.innerHTML =
+        `
+          ❤️ Liked
+          <span id="like-count">
+            ${
+              document.getElementById(
+                "like-count"
+              )?.textContent || "0"
+            }
+          </span>
+        `;
 
     }
-  );
 
-
-  /* COMMENT BUTTON */
-
-  document
-    .getElementById("comment-button")
-    .addEventListener(
+    likeButton.addEventListener(
       "click",
-      function() {
+      function(event) {
 
-        document
-          .getElementById(
-            "comments-section"
-          )
-          .scrollIntoView({
-            behavior: "smooth"
-          });
+        event.preventDefault();
+
+        likeArticle(
+          articleId
+        );
 
       }
     );
 
+  }
 
-  /* SHARE BUTTON */
 
-  document
-    .getElementById("share-button")
-    .addEventListener(
+  const commentButton =
+    document.getElementById(
+      "comment-button"
+    );
+
+  if (commentButton) {
+
+    commentButton.addEventListener(
+      "click",
+      function() {
+
+        const commentsSection =
+          document.getElementById(
+            "comments-section"
+          );
+
+        if (commentsSection) {
+
+          commentsSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
+          setTimeout(
+            function() {
+
+              const nameInput =
+                document.getElementById(
+                  "comment-name"
+                );
+
+              if (nameInput) {
+                nameInput.focus();
+              }
+
+            },
+            500
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  const shareButton =
+    document.getElementById(
+      "share-button"
+    );
+
+  if (shareButton) {
+
+    shareButton.addEventListener(
       "click",
       function() {
 
@@ -2042,23 +2955,21 @@ async function loadArticle() {
       }
     );
 
-
-  const articleTitle =
-    post.headline ||
-    "Palmcaseblog";
+  }
 
 
   const articleUrl =
     window.location.href;
 
 
-  /* WHATSAPP */
-
-  document
-    .getElementById(
+  const whatsappButton =
+    document.getElementById(
       "whatsapp-share"
-    )
-    .addEventListener(
+    );
+
+  if (whatsappButton) {
+
+    whatsappButton.addEventListener(
       "click",
       function() {
 
@@ -2069,20 +2980,24 @@ async function loadArticle() {
             " " +
             articleUrl
           ),
-          "_blank"
+          "_blank",
+          "noopener"
         );
 
       }
     );
 
+  }
 
-  /* FACEBOOK */
 
-  document
-    .getElementById(
+  const facebookButton =
+    document.getElementById(
       "facebook-share"
-    )
-    .addEventListener(
+    );
+
+  if (facebookButton) {
+
+    facebookButton.addEventListener(
       "click",
       function() {
 
@@ -2091,20 +3006,24 @@ async function loadArticle() {
           encodeURIComponent(
             articleUrl
           ),
-          "_blank"
+          "_blank",
+          "noopener"
         );
 
       }
     );
 
+  }
 
-  /* X */
 
-  document
-    .getElementById(
+  const xButton =
+    document.getElementById(
       "x-share"
-    )
-    .addEventListener(
+    );
+
+  if (xButton) {
+
+    xButton.addEventListener(
       "click",
       function() {
 
@@ -2117,20 +3036,24 @@ async function loadArticle() {
           encodeURIComponent(
             articleUrl
           ),
-          "_blank"
+          "_blank",
+          "noopener"
         );
 
       }
     );
 
+  }
 
-  /* TELEGRAM */
 
-  document
-    .getElementById(
+  const telegramButton =
+    document.getElementById(
       "telegram-share"
-    )
-    .addEventListener(
+    );
+
+  if (telegramButton) {
+
+    telegramButton.addEventListener(
       "click",
       function() {
 
@@ -2143,20 +3066,24 @@ async function loadArticle() {
           encodeURIComponent(
             articleTitle
           ),
-          "_blank"
+          "_blank",
+          "noopener"
         );
 
       }
     );
 
+  }
 
-  /* INSTAGRAM */
 
-  document
-    .getElementById(
+  const instagramButton =
+    document.getElementById(
       "instagram-share"
-    )
-    .addEventListener(
+    );
+
+  if (instagramButton) {
+
+    instagramButton.addEventListener(
       "click",
       function() {
 
@@ -2167,14 +3094,17 @@ async function loadArticle() {
       }
     );
 
+  }
 
-  /* COPY LINK */
 
-  document
-    .getElementById(
+  const copyButton =
+    document.getElementById(
       "copy-link"
-    )
-    .addEventListener(
+    );
+
+  if (copyButton) {
+
+    copyButton.addEventListener(
       "click",
       function() {
 
@@ -2183,14 +3113,17 @@ async function loadArticle() {
       }
     );
 
+  }
 
-  /* COMMENT FORM */
 
-  document
-    .getElementById(
+  const commentForm =
+    document.getElementById(
       "comment-form"
-    )
-    .addEventListener(
+    );
+
+  if (commentForm) {
+
+    commentForm.addEventListener(
       "submit",
       async function(event) {
 
@@ -2203,17 +3136,216 @@ async function loadArticle() {
       }
     );
 
-
-  /* LOAD COMMENTS */
-
-  await loadComments(
-    articleId
-  );
+  }
 
 }
 
 
-loadArticle();
+/* =========================
+   LOAD ARTICLE
+========================= */
+
+async function loadArticle() {
+
+  const articleId =
+    getArticleId();
+
+  if (!articleId) {
+
+    container.innerHTML =
+      `
+        <div class="message">
+          <h2>Article not found</h2>
+          <p>No article ID was provided.</p>
+        </div>
+      `;
+
+    return;
+
+  }
+
+  const numericArticleId =
+    Number(articleId);
+
+  if (
+    !Number.isFinite(
+      numericArticleId
+    )
+  ) {
+
+    container.innerHTML =
+      `
+        <div class="message">
+          <h2>Article not found</h2>
+          <p>Invalid article ID.</p>
+        </div>
+      `;
+
+    return;
+
+  }
+
+  try {
+
+    const result =
+      await supabaseClient
+        .from("posts")
+        .select("*")
+        .eq(
+          "id",
+          numericArticleId
+        )
+        .single();
+
+    if (
+      result.error ||
+      !result.data
+    ) {
+
+      console.error(
+        "ARTICLE LOAD ERROR:",
+        result.error
+      );
+
+      container.innerHTML =
+        `
+          <div class="message">
+            <h2>Article not found</h2>
+            <p>We couldn't find this article.</p>
+          </div>
+        `;
+
+      return;
+
+    }
+
+    const post =
+      result.data;
+
+
+    /* =========================
+       VIEW COUNTER
+    ========================= */
+
+    const viewResult =
+      await supabaseClient.rpc(
+        "increment_post_views",
+        {
+          post_id:
+            numericArticleId
+        }
+      );
+
+    let currentViews =
+      Number(
+        post.views || 0
+      );
+
+    if (
+      !viewResult.error
+    ) {
+      currentViews++;
+    }
+
+
+    const currentLikes =
+      Number(
+        post.likes || 0
+      );
+
+
+    document.title =
+      (
+        post.headline ||
+        "Article"
+      ) +
+      " | Palmcaseblog";
+
+
+    /* =========================
+       RENDER ARTICLE
+    ========================= */
+
+    container.innerHTML =
+      buildArticleHTML(
+        post,
+        currentViews,
+        currentLikes,
+        articleId
+      );
+
+
+    /* =========================
+       CONNECT BUTTONS
+    ========================= */
+
+    connectArticleButtons(
+      articleId,
+      post.headline ||
+        "Palmcaseblog"
+    );
+
+
+    /* =========================
+       LOAD COMMENTS
+    ========================= */
+
+    await loadComments(
+      articleId
+    );
+
+
+    /* =========================
+       LOAD ARTICLE AD
+    ========================= */
+
+    await loadArticleAdvertisement();
+
+  } catch (error) {
+
+    console.error(
+      "CRITICAL ARTICLE ERROR:",
+      error
+    );
+
+    container.innerHTML =
+      `
+        <div class="message">
+
+          <h2>
+            Something went wrong
+          </h2>
+
+          <p>
+            Please refresh the page and try again.
+          </p>
+
+        </div>
+      `;
+
+  }
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+if (
+  document.readyState === "loading"
+) {
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    loadArticle
+  );
+
+} else {
+
+  loadArticle();
+
+}
 
 </script>
 
