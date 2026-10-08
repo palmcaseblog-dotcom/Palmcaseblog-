@@ -1,30 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Category — Palmcaseblog</title>
 
   <meta
     name="description"
-    content="Palmcaseblog category stories — Nigerian news, entertainment, sports, politics, technology, lifestyle, crime, relationship, world and trending topics."
+    content="Palmcaseblog category news, entertainment, politics, sports, technology, lifestyle and trending stories."
   >
 
-  <meta
-    name="theme-color"
-    content="#111827"
-  >
-
-  <title>Palmcaseblog — Category</title>
+  <link rel="icon" type="image/jpeg" href="IMG_2188.jpeg">
 
   <style>
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -33,706 +23,531 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: #f5f6f8;
+      background: #f7f7f8;
       color: #111827;
       line-height: 1.6;
     }
 
     a {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
     img {
-      max-width: 100%;
+      width: 100%;
       display: block;
     }
 
-    .container {
-      width: min(1180px, 92%);
-      margin: auto;
-    }
-
-    .breaking {
+    /* HEADER */
+    .top-bar {
       background: #111827;
-      color: white;
-      padding: 9px 20px;
+      color: #fff;
+      padding: 10px 20px;
       text-align: center;
       font-size: 14px;
     }
 
-    .breaking strong {
+    .top-bar a {
       color: #f59e0b;
+      font-weight: 700;
     }
 
     header {
-      background: white;
+      background: #fff;
       border-bottom: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
-    .topbar {
-      min-height: 90px;
+    .header-inner {
+      max-width: 1200px;
+      margin: auto;
+      padding: 15px 20px;
       display: flex;
       align-items: center;
+      gap: 25px;
       justify-content: space-between;
-      gap: 20px;
     }
 
-    .logo {
+    .brand {
       display: flex;
       align-items: center;
-      font-size: 28px;
-      font-weight: 800;
-    }
-
-    .logo img {
-      width: 58px;
-      height: 58px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-
-    .header-search {
-      display: flex;
-      gap: 7px;
-    }
-
-    .header-search input {
-      width: 240px;
-      padding: 11px;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-    }
-
-    button {
-      border: none;
-      cursor: pointer;
-      background: #111827;
-      color: white;
-      padding: 11px 16px;
-      border-radius: 6px;
-      font-weight: 600;
-    }
-
-    .nav {
-      background: #111827;
-      color: white;
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      min-height: 50px;
-      overflow-x: auto;
-    }
-
-    .nav a {
-      font-size: 14px;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: 900;
+      color: #111827;
       white-space: nowrap;
     }
 
-    .nav a:hover,
-    .nav a.active {
-      color: #f59e0b;
-    }
-
-    .page-header {
-      padding: 45px 0 25px;
-    }
-
-    .eyebrow {
-      font-size: 12px;
-      font-weight: 800;
-      color: #d97706;
-      letter-spacing: 1px;
-    }
-
-    .page-header h1 {
-      font-size: 38px;
-      margin-top: 5px;
-    }
-
-    .page-header p {
-      color: #6b7280;
-      margin-top: 8px;
-    }
-
-    .content-layout {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 30px;
-      margin-bottom: 50px;
-    }
-
-    .posts-grid {
-      display: grid;
-      gap: 18px;
-    }
-
-    .post-card {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      gap: 20px;
-      background: white;
-      border-radius: 10px;
-      padding: 15px;
-      border: 1px solid #e5e7eb;
-      transition: transform .2s;
-    }
-
-    .post-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .post-card img {
-      width: 240px;
-      height: 160px;
+    .brand img {
+      width: 42px;
+      height: 42px;
       object-fit: cover;
       border-radius: 8px;
     }
 
-    .post-card h2 {
-      font-size: 22px;
-      line-height: 1.3;
-      margin: 7px 0;
+    nav {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .post-card p {
-      color: #6b7280;
+    nav a {
       font-size: 14px;
+      font-weight: 700;
+      color: #374151;
+      padding: 6px 2px;
     }
 
-    .tag {
-      display: inline-block;
-      background: #f59e0b;
-      color: #111827;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 4px 8px;
-      border-radius: 4px;
-    }
-
-    .date {
-      color: #9ca3af;
-      font-size: 12px;
-      margin-top: 8px;
-    }
-
-    .side-box {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 20px;
-    }
-
-    .side-box h3 {
-      margin-bottom: 15px;
-    }
-
-    .popular-item {
-      display: block;
-      padding: 13px 0;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .popular-item:last-child {
-      border-bottom: none;
-    }
-
-    .popular-item strong {
-      display: block;
-      font-size: 15px;
-    }
-
-    .loading {
-      background: white;
-      padding: 35px;
-      border-radius: 10px;
-      text-align: center;
-      color: #6b7280;
-    }
-
-    footer {
-      background: #0b1120;
-      color: white;
-      margin-top: 50px;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 40px;
-      padding: 45px 0;
-    }
-
-    .footer-grid h4 {
-      margin-bottom: 12px;
-    }
-
-    .footer-grid a {
-      display: block;
-      color: #d1d5db;
-      margin-bottom: 7px;
-    }
-
-    .footer-grid a:hover {
+    nav a:hover,
+    nav a.active {
       color: #f59e0b;
     }
 
-    .footer-grid p {
-      color: #9ca3af;
+    .directory-btn {
+      background: #f59e0b;
+      color: #111827 !important;
+      padding: 8px 12px;
+      border-radius: 6px;
     }
 
-    .footer-description {
-      margin-top: 10px;
-      font-size: 14px;
-      line-height: 1.7;
+    .directory-btn:hover {
+      background: #d97706;
     }
 
-    .footer-brand-line {
-      color: #d1d5db !important;
-      margin-top: 12px;
-      font-size: 14px;
+    /* SEARCH */
+    .search-area {
+      background: #fff;
+      padding: 15px 20px;
+      border-bottom: 1px solid #e5e7eb;
     }
 
-    .business-directory-link {
-      display: inline-block !important;
-      color: #f59e0b !important;
+    .search-box {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 12px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 7px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: #f59e0b;
+    }
+
+    .search-box button {
+      border: none;
+      background: #111827;
+      color: #fff;
+      padding: 0 20px;
+      border-radius: 7px;
       font-weight: 700;
+      cursor: pointer;
+    }
+
+    .search-box button:hover {
+      background: #f59e0b;
+      color: #111827;
+    }
+
+    /* MAIN */
+    main {
+      max-width: 1200px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .category-header {
+      background: #111827;
+      color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+    }
+
+    .category-header span {
+      display: inline-block;
+      color: #f59e0b;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+      letter-spacing: .5px;
+    }
+
+    .category-header h1 {
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+    .category-header p {
+      color: #d1d5db;
+    }
+
+    .status {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 25px;
+      text-align: center;
+      color: #6b7280;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .post-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .post-image {
+      height: 210px;
+      background: #e5e7eb;
+      object-fit: cover;
+    }
+
+    .post-content {
+      padding: 18px;
+    }
+
+    .post-category {
+      color: #f59e0b;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    .post-title {
+      font-size: 20px;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
+    .post-title:hover {
+      color: #d97706;
+    }
+
+    .post-excerpt {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .post-date {
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 60px;
+      background: #111827;
+      color: #fff;
+      padding: 45px 20px 25px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    .footer-brand h2 {
+      margin-bottom: 10px;
+    }
+
+    .footer-brand p {
+      color: #d1d5db;
+      font-size: 14px;
+      max-width: 450px;
+    }
+
+    .footer-column h3 {
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: #d1d5db;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .footer-column a:hover {
+      color: #f59e0b;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
       margin-top: 15px;
     }
 
+    .social-links a {
+      display: inline-block;
+      border: 1px solid #374151;
+      padding: 7px 10px;
+      border-radius: 6px;
+      color: #fff;
+    }
+
     .copyright {
-      text-align: center;
-      padding: 18px;
-      border-top: 1px solid #1f2937;
+      max-width: 1200px;
+      margin: 35px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid #374151;
       color: #9ca3af;
       font-size: 13px;
     }
 
-    @media (max-width: 800px) {
-
-      .topbar {
-        min-height: 75px;
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
       }
 
-      .logo {
+      nav {
+        justify-content: flex-start;
+      }
+
+      .posts-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .top-bar {
+        font-size: 13px;
+      }
+
+      .header-inner {
+        padding: 12px 15px;
+      }
+
+      .brand {
         font-size: 21px;
       }
 
-      .logo img {
-        width: 45px;
-        height: 45px;
+      nav {
+        gap: 10px;
       }
 
-      .header-search {
-        display: none;
+      nav a {
+        font-size: 13px;
       }
 
-      .nav-inner {
-        gap: 20px;
-        min-height: 45px;
+      main {
+        padding: 0 15px;
+        margin-top: 25px;
       }
 
-      .content-layout {
+      .category-header {
+        padding: 22px;
+      }
+
+      .category-header h1 {
+        font-size: 27px;
+      }
+
+      .posts-grid {
         grid-template-columns: 1fr;
       }
 
-      .post-card {
+      .footer-inner {
         grid-template-columns: 1fr;
       }
-
-      .post-card img {
-        width: 100%;
-        height: 210px;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
     }
-
-    @media (max-width: 500px) {
-
-      .page-header h1 {
-        font-size: 30px;
-      }
-
-    }
-
   </style>
-
 </head>
 
 <body>
 
-  <div class="breaking">
-
-    <strong>PALMCASEBLOG:</strong>
-
-    Stay updated with the latest stories.
-
+  <div class="top-bar">
+    <a href="business-directory.html">Nigerian Business Directory</a>
   </div>
 
-
   <header>
+    <div class="header-inner">
 
-    <div class="topbar container">
-
-      <a
-        class="logo"
-        href="index.html"
-      >
-
-        <img
-          src="IMG_2188.jpeg"
-          alt="Palmcaseblog Logo"
-        >
-
+      <a href="index.html" class="brand">
+        <img src="IMG_2188.jpeg" alt="Palmcaseblog logo">
         <span>Palmcaseblog</span>
-
       </a>
 
-
-      <div class="header-search">
-
-        <input
-          id="searchInput"
-          type="search"
-          placeholder="Search stories..."
-        >
-
-        <button id="searchBtn">
-          Search
-        </button>
-
-      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="category.html?category=news">News</a>
+        <a href="category.html?category=entertainment">Entertainment</a>
+        <a href="category.html?category=politics">Politics</a>
+        <a href="category.html?category=sports">Sports</a>
+        <a href="category.html?category=technology">Technology</a>
+        <a href="category.html?category=lifestyle">Lifestyle</a>
+        <a href="category.html?category=crime">Crime</a>
+        <a href="category.html?category=relationship">Relationship</a>
+        <a href="category.html?category=world">World</a>
+        <a href="business-directory.html" class="directory-btn">Directory</a>
+      </nav>
 
     </div>
-
-
-    <nav class="nav">
-
-      <div class="container nav-inner">
-
-        <a href="index.html">
-          Home
-        </a>
-
-        <a href="category.html?category=News">
-          News
-        </a>
-
-        <a href="category.html?category=Entertainment">
-          Entertainment
-        </a>
-
-        <a href="category.html?category=Politics">
-          Politics
-        </a>
-
-        <a href="category.html?category=Sports">
-          Sports
-        </a>
-
-        <a href="category.html?category=Technology">
-          Technology
-        </a>
-
-        <a href="category.html?category=Lifestyle">
-          Lifestyle
-        </a>
-
-        <a href="category.html?category=Crime">
-          Crime
-        </a>
-
-        <a href="category.html?category=Relationship">
-          Relationship
-        </a>
-
-        <a href="category.html?category=World">
-          World
-        </a>
-
-        <a href="category.html?category=Topics">
-          Topics
-        </a>
-
-      </div>
-
-    </nav>
-
   </header>
 
+  <section class="search-area">
+    <form class="search-box" id="searchForm">
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Search Palmcaseblog..."
+        autocomplete="off"
+      >
+      <button type="submit">Search</button>
+    </form>
+  </section>
 
-  <main class="container">
+  <main>
 
-
-    <section class="page-header">
-
-      <span class="eyebrow">
-        PALMCASEBLOG CATEGORY
-      </span>
-
-      <h1 id="categoryTitle">
-        Loading...
-      </h1>
-
+    <section class="category-header">
+      <span>Category</span>
+      <h1 id="categoryTitle">Loading...</h1>
       <p id="categoryDescription">
-        Loading stories...
+        Loading stories from Palmcaseblog...
       </p>
-
     </section>
 
+    <div id="statusMessage" class="status">
+      Loading stories...
+    </div>
 
-    <section class="content-layout">
-
-
-      <div>
-
-        <div
-          id="posts"
-          class="posts-grid"
-        >
-
-          <div class="loading">
-            Loading stories...
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <aside>
-
-
-        <div class="side-box">
-
-          <h3>
-            Popular Posts
-          </h3>
-
-          <div id="popular">
-
-            <div class="popular-item">
-
-              <strong>
-                Loading...
-              </strong>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="side-box">
-
-          <h3>
-            Explore Categories
-          </h3>
-
-          <a
-            class="popular-item"
-            href="category.html?category=News"
-          >
-            News
-          </a>
-
-          <a
-            class="popular-item"
-            href="category.html?category=Entertainment"
-          >
-            Entertainment
-          </a>
-
-          <a
-            class="popular-item"
-            href="category.html?category=Sports"
-          >
-            Sports
-          </a>
-
-          <a
-            class="popular-item"
-            href="category.html?category=Politics"
-          >
-            Politics
-          </a>
-
-          <a
-            class="popular-item"
-            href="category.html?category=Technology"
-          >
-            Technology
-          </a>
-
-          <a
-            class="popular-item"
-            href="category.html?category=Lifestyle"
-          >
-            Lifestyle
-          </a>
-
-          <a
-            class="popular-item"
-            href="category.html?category=Crime"
-          >
-            Crime
-          </a>
-
-          <a
-            class="popular-item"
-            href="category.html?category=Relationship"
-          >
-            Relationship
-          </a>
-
-          <a
-            class="popular-item"
-            href="category.html?category=World"
-          >
-            World
-          </a>
-
-          <a
-            class="popular-item"
-            href="category.html?category=Topics"
-          >
-            Topics
-          </a>
-
-        </div>
-
-
-      </aside>
-
-
-    </section>
+    <section id="postsGrid" class="posts-grid"></section>
 
   </main>
 
-
   <footer>
 
-    <div class="container footer-grid">
+    <div class="footer-inner">
 
-      <div>
-
-        <a
-          class="logo"
-          href="index.html"
-        >
-
-          <img
-            src="IMG_2188.jpeg"
-            alt="Palmcaseblog Logo"
-          >
-
-          <span>Palmcaseblog</span>
-
-        </a>
-
-        <p class="footer-description">
-          Trending stories. Real conversations. One destination.
-        </p>
-
-        <p class="footer-brand-line">
-          Nigerian News, Entertainment, Celebrity Gist and Lifestyle since 2022.
-        </p>
-
-        <a
-          class="business-directory-link"
-          href="business-directory.html"
-        >
-          Nigerian Business Directory →
-        </a>
-
-      </div>
-
-
-      <div>
-
-        <h4>
-          Categories
-        </h4>
-
-        <a href="category.html?category=News">
-          News
-        </a>
-
-        <a href="category.html?category=Entertainment">
-          Entertainment
-        </a>
-
-        <a href="category.html?category=Sports">
-          Sports
-        </a>
-
-        <a href="category.html?category=Politics">
-          Politics
-        </a>
-
-        <a href="category.html?category=Technology">
-          Technology
-        </a>
-
-        <a href="category.html?category=Lifestyle">
-          Lifestyle
-        </a>
-
-        <a href="category.html?category=Crime">
-          Crime
-        </a>
-
-        <a href="category.html?category=Relationship">
-          Relationship
-        </a>
-
-        <a href="category.html?category=World">
-          World
-        </a>
-
-        <a href="category.html?category=Topics">
-          Topics
-        </a>
-
-      </div>
-
-
-      <div>
-
-        <h4>
-          Palmcaseblog
-        </h4>
+      <div class="footer-brand">
+        <h2>Palmcaseblog</h2>
 
         <p>
-          Trending stories and important updates.
+          Nigerian news, entertainment, celebrity gist, sports, politics,
+          technology, lifestyle and trending stories.
         </p>
 
+        <div class="social-links">
+          <a
+            href="https://www.instagram.com/palmcaseblog_ng/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
+          </a>
+
+          <a
+            href="https://www.tiktok.com/@palmcaseblog"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            TikTok
+          </a>
+
+          <a
+            href="https://www.facebook.com/share/18yrjp4Lv7/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Facebook
+          </a>
+
+          <a
+            href="https://x.com/plamcase"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            X
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h3>Explore</h3>
+
+        <a href="index.html">Home</a>
+        <a href="category.html?category=news">News</a>
+        <a href="category.html?category=entertainment">Entertainment</a>
+        <a href="category.html?category=sports">Sports</a>
+        <a href="category.html?category=politics">Politics</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Useful Links</h3>
+
+        <a href="business-directory.html">
+          Business Directory
+        </a>
+
+        <a href="contact.html">
+          Contact Us
+        </a>
+
+        <a href="feedback.html">
+          Feedback
+        </a>
+
+        <a href="advertise.html">
+          Advertise With Us
+        </a>
+
+        <a href="privacy.html">
+          Privacy Policy
+        </a>
+
+        <a href="terms.html">
+          Terms & Conditions
+        </a>
       </div>
 
     </div>
 
-
     <div class="copyright">
-
-      ©
-      <span id="year"></span>
-      Palmcaseblog.
-      All rights reserved.
-
+      © 2026 Palmcaseblog. All rights reserved.
     </div>
 
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
 
@@ -740,339 +555,401 @@
       "https://kcxlwhojwdvbfjjnartw.supabase.co";
 
     const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+      "PASTE_YOUR_EXISTING_KEY_HERE";
 
+    let supabaseClient = null;
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
+    const categoryNames = {
+      news: "News",
+      entertainment: "Entertainment",
+      politics: "Politics",
+      sports: "Sports",
+      technology: "Technology",
+      lifestyle: "Lifestyle",
+      crime: "Crime",
+      relationship: "Relationship",
+      world: "World"
+    };
+
+    const categoryDescriptions = {
+      news: "Latest Nigerian and breaking news stories from Palmcaseblog.",
+      entertainment: "Celebrity news, entertainment stories and trending gist.",
+      politics: "Politics, government and current political stories.",
+      sports: "Latest sports news, football stories and sporting updates.",
+      technology: "Technology, gadgets, digital trends and innovation.",
+      lifestyle: "Lifestyle, people, culture, fashion and everyday stories.",
+      crime: "Crime, security and major crime-related developments.",
+      relationship: "Relationship, love, family and personal-life stories.",
+      world: "Important stories and developments from around the world."
+    };
+
+    function escapeHTML(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function stripHTML(value) {
+      const div = document.createElement("div");
+      div.innerHTML = value || "";
+      return div.textContent || div.innerText || "";
+    }
+
+    function formatDate(dateValue) {
+      if (!dateValue) return "";
+
+      const date = new Date(dateValue);
+
+      if (Number.isNaN(date.getTime())) {
+        return "";
+      }
+
+      return date.toLocaleDateString("en-NG", {
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+      });
+    }
+
+    function getCategoryFromURL() {
+
+      const params = new URLSearchParams(
+        window.location.search
       );
-
-
-    document.getElementById("year")
-      .textContent =
-      new Date().getFullYear();
-
-
-    function escapeHTML(text) {
-
-      const div =
-        document.createElement("div");
-
-      div.textContent =
-        text || "";
-
-      return div.innerHTML;
-
-    }
-
-
-    function articleLink(post) {
-
-      return "article.html?id=" +
-        encodeURIComponent(post.id);
-
-    }
-
-
-    function getCategory() {
-
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
-
-      return params.get("category") || "News";
-
-    }
-
-
-    async function loadCategory() {
 
       const category =
-        getCategory();
-
-
-      const title =
-        document.getElementById(
-          "categoryTitle"
-        );
-
-
-      const description =
-        document.getElementById(
-          "categoryDescription"
-        );
-
-
-      const postsContainer =
-        document.getElementById(
-          "posts"
-        );
-
-
-      const popularContainer =
-        document.getElementById(
-          "popular"
-        );
-
-
-      title.textContent =
-        category;
-
-
-      description.textContent =
-        "Latest " +
-        category +
-        " stories from Palmcaseblog.";
-
-
-      const {
-        data: posts,
-        error
-      } =
-        await supabaseClient
-          .from("posts")
-          .select("*")
-          .eq(
-            "category",
-            category
-          )
-          .order(
-            "created_at",
-            {
-              ascending: false
-            }
-          );
-
-
-      if (error) {
-
-        console.error(
-          "Supabase category error:",
-          error
-        );
-
-
-        postsContainer.innerHTML = `
-
-          <div class="loading">
-
-            Unable to load ${escapeHTML(category)}
-            stories right now.
-
-          </div>
-
-        `;
-
-        return;
-
-      }
-
-
-      if (
-        !posts ||
-        posts.length === 0
-      ) {
-
-        postsContainer.innerHTML = `
-
-          <div class="loading">
-
-            No ${escapeHTML(category)}
-            stories have been published yet.
-
-          </div>
-
-        `;
-
-        popularContainer.innerHTML = `
-
-          <div class="popular-item">
-
-            <strong>
-              No stories available.
-            </strong>
-
-          </div>
-
-        `;
-
-        return;
-
-      }
-
-
-      postsContainer.innerHTML = "";
-
-
-      posts.forEach(
-        function(post) {
-
-          const card =
-            document.createElement("a");
-
-
-          card.href =
-            articleLink(post);
-
-
-          card.className =
-            "post-card";
-
-
-          const date =
-            post.created_at
-              ? new Date(
-                  post.created_at
-                ).toLocaleDateString(
-                  "en-NG",
-                  {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric"
-                  }
-                )
-              : "";
-
-
-          card.innerHTML = `
-
-            <img
-              src="${escapeHTML(post.image)}"
-              alt="${escapeHTML(post.headline)}"
-            >
-
-            <div>
-
-              <span class="tag">
-                ${escapeHTML(post.category)}
-              </span>
-
-              <h2>
-                ${escapeHTML(post.headline)}
-              </h2>
-
-              <p>
-                ${escapeHTML(post.article)}
-              </p>
-
-              <div class="date">
-                ${escapeHTML(date)}
-              </div>
-
-            </div>
-
-          `;
-
-
-          postsContainer.appendChild(
-            card
-          );
-
-        }
-      );
-
-
-      popularContainer.innerHTML = "";
-
-
-      posts.slice(0, 5)
-        .forEach(
-          function(post) {
-
-            const item =
-              document.createElement("a");
-
-
-            item.href =
-              articleLink(post);
-
-
-            item.className =
-              "popular-item";
-
-
-            item.innerHTML = `
-
-              <strong>
-                ${escapeHTML(post.headline)}
-              </strong>
-
-            `;
-
-
-            popularContainer.appendChild(
-              item
-            );
-
-          }
-        );
-
+        params.get("category");
+
+      return category
+        ? category.trim().toLowerCase()
+        : "";
     }
 
+    function initializeSupabase() {
 
-    document.getElementById("searchBtn")
-      .addEventListener(
-        "click",
-        function() {
+      if (
+        typeof window.supabase === "undefined"
+      ) {
+        throw new Error(
+          "Supabase library did not load."
+        );
+      }
 
-          const search =
-            document.getElementById(
-              "searchInput"
-            ).value
+      if (
+        !SUPABASE_PUBLISHABLE_KEY ||
+        SUPABASE_PUBLISHABLE_KEY ===
+        "PASTE_YOUR_EXISTING_KEY_HERE"
+      ) {
+        throw new Error(
+          "Supabase publishable key has not been added."
+        );
+      }
+
+      supabaseClient =
+        window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_PUBLISHABLE_KEY
+        );
+    }
+
+    async function loadCategoryPosts() {
+
+      const category =
+        getCategoryFromURL();
+
+      const categoryTitle =
+        document.getElementById("categoryTitle");
+
+      const categoryDescription =
+        document.getElementById("categoryDescription");
+
+      const statusMessage =
+        document.getElementById("statusMessage");
+
+      const postsGrid =
+        document.getElementById("postsGrid");
+
+      /* Make sure the page knows the category FIRST */
+
+      const displayName =
+        categoryNames[category] ||
+        (
+          category
+            ? category.charAt(0).toUpperCase() +
+              category.slice(1)
+            : "Stories"
+        );
+
+      categoryTitle.textContent =
+        displayName;
+
+      categoryDescription.textContent =
+        categoryDescriptions[category] ||
+        "Latest stories published on Palmcaseblog.";
+
+      /* Then load Supabase */
+
+      try {
+
+        initializeSupabase();
+
+        statusMessage.textContent =
+          `Loading ${displayName} stories...`;
+
+        /*
+          We fetch posts first and then filter locally.
+          This avoids the category page briefly showing
+          "no stories" because of URL/category timing.
+        */
+
+        const {
+          data,
+          error
+        } = await supabaseClient
+          .from("posts")
+          .select("*")
+          .order("created_at", {
+            ascending: false
+          });
+
+        if (error) {
+          throw error;
+        }
+
+        const posts =
+          Array.isArray(data)
+            ? data
+            : [];
+
+        /*
+          Category matching is case-insensitive.
+          So "News", "news", or "NEWS"
+          will all match correctly.
+        */
+
+        const filteredPosts =
+          posts.filter(post => {
+
+            const postCategory =
+              String(
+                post.category || ""
+              )
               .trim()
               .toLowerCase();
 
+            return postCategory === category;
+          });
 
-          const cards =
-            document.querySelectorAll(
-              ".post-card"
+        renderPosts(
+          filteredPosts,
+          displayName
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Category loading error:",
+          error
+        );
+
+        statusMessage.innerHTML =
+          `
+            <strong>Unable to load stories.</strong>
+            <br>
+            Please refresh the page and try again.
+          `;
+
+        postsGrid.innerHTML = "";
+      }
+    }
+
+    function renderPosts(posts, categoryName) {
+
+      const statusMessage =
+        document.getElementById("statusMessage");
+
+      const postsGrid =
+        document.getElementById("postsGrid");
+
+      if (!posts.length) {
+
+        statusMessage.innerHTML =
+          `
+            <strong>No ${escapeHTML(categoryName)} stories have been published yet.</strong>
+            <br>
+            Check back soon for new stories.
+          `;
+
+        postsGrid.innerHTML = "";
+        return;
+      }
+
+      statusMessage.innerHTML =
+        `
+          Showing ${posts.length}
+          ${posts.length === 1 ? "story" : "stories"}
+          in ${escapeHTML(categoryName)}.
+        `;
+
+      postsGrid.innerHTML =
+        posts.map(post => {
+
+          const title =
+            escapeHTML(
+              post.headline ||
+              "Untitled story"
             );
 
+          const articleText =
+            stripHTML(
+              post.article || ""
+            );
 
-          cards.forEach(
-            function(card) {
+          const excerpt =
+            escapeHTML(
+              articleText.length > 150
+                ? articleText.substring(0, 150) + "..."
+                : articleText
+            );
 
-              const text =
-                card.textContent
-                  .toLowerCase();
+          const image =
+            post.image
+              ? escapeHTML(post.image)
+              : "";
 
+          const category =
+            escapeHTML(
+              post.category || categoryName
+            );
 
-              card.style.display =
-                !search ||
-                text.includes(search)
-                  ? "grid"
-                  : "none";
+          const date =
+            escapeHTML(
+              formatDate(
+                post.created_at
+              )
+            );
 
-            }
-          );
+          const postId =
+            encodeURIComponent(
+              post.id
+            );
 
-        }
-      );
+          return `
+            <article class="post-card">
 
+              <a href="article.html?id=${postId}">
 
-    document.getElementById("searchInput")
-      .addEventListener(
-        "keydown",
+                ${
+                  image
+                    ? `
+                      <img
+                        class="post-image"
+                        src="${image}"
+                        alt="${title}"
+                        loading="lazy"
+                      >
+                    `
+                    : `
+                      <div
+                        class="post-image"
+                        style="
+                          display:flex;
+                          align-items:center;
+                          justify-content:center;
+                          color:#6b7280;
+                        "
+                      >
+                        Palmcaseblog
+                      </div>
+                    `
+                }
+
+                <div class="post-content">
+
+                  <div class="post-category">
+                    ${category}
+                  </div>
+
+                  <h2 class="post-title">
+                    ${title}
+                  </h2>
+
+                  ${
+                    excerpt
+                      ? `
+                        <p class="post-excerpt">
+                          ${excerpt}
+                        </p>
+                      `
+                      : ""
+                  }
+
+                  <div class="post-date">
+                    ${date}
+                  </div>
+
+                </div>
+
+              </a>
+
+            </article>
+          `;
+
+        }).join("");
+    }
+
+    function setupSearch() {
+
+      const searchForm =
+        document.getElementById(
+          "searchForm"
+        );
+
+      const searchInput =
+        document.getElementById(
+          "searchInput"
+        );
+
+      searchForm.addEventListener(
+        "submit",
         function(event) {
 
-          if (
-            event.key === "Enter"
-          ) {
+          event.preventDefault();
 
-            document
-              .getElementById("searchBtn")
-              .click();
+          const query =
+            searchInput.value.trim();
 
+          if (!query) {
+            return;
           }
 
+          window.location.href =
+            "index.html?search=" +
+            encodeURIComponent(query);
         }
       );
+    }
 
+    /*
+      IMPORTANT:
+      Wait for the whole page to load before
+      reading the category and loading posts.
+      This prevents the one-tap problem.
+    */
 
-    loadCategory();
+    window.addEventListener(
+      "load",
+      function() {
+
+        setupSearch();
+
+        loadCategoryPosts();
+
+      }
+    );
 
   </script>
 
