@@ -2589,7 +2589,7 @@ async function publishArticle() {
     } =
       await supabaseClient
         .storage
-        .from("article image")
+        .from("article-image")
         .upload(
           filePath,
           imageFile,
@@ -2608,7 +2608,7 @@ async function publishArticle() {
     } =
       supabaseClient
         .storage
-        .from("article image")
+        .from("article-image")
         .getPublicUrl(
           filePath
         );
