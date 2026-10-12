@@ -1,916 +1,316 @@
+
+
 <!DOCTYPE html>
 
 <html lang="en">
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Palmcaseblog Admin Dashboard</title>
+<title>Palmcaseblog Admin</title>
 
-  <meta name="robots" content="noindex,nofollow">
+<meta name="robots" content="noindex,nofollow">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
+<style>
 
-    :root {
+:root{--bg:#0b1120;--panel:#111827;--panel2:#1b2638;--text:#f9fafb;--muted:#9ca3af;--orange:#f59e0b;--border:#334155;--red:#dc2626;--green:#15803d}
 
-      --bg: #0b1120;
+*{box-sizing:border-box}
 
-      --panel: #111827;
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;line-height:1.6}
 
-      --panel2: #182235;
+header{background:#080d18;border-bottom:1px solid var(--border);padding:16px}
 
-      --text: #f9fafb;
+.header-inner,main{max-width:1150px;margin:auto}
 
-      --muted: #9ca3af;
+.header-inner{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 
-      --orange: #f59e0b;
+header h1{font-size:22px;margin:0}header span{color:var(--orange)}
 
-      --border: #293449;
+main{padding:20px 14px 60px}
 
-      --green: #22c55e;
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:20px}
 
-      --red: #ef4444;
+h2{font-size:21px;margin:0 0 12px}h3{font-size:17px;margin:0 0 6px}
 
-    }
+p,.muted,small{color:var(--muted)}
 
-    * { box-sizing: border-box; }
+label{display:block;font-weight:bold;font-size:14px;margin:12px 0 5px}
 
-    body {
+input,select,textarea{width:100%;padding:12px;background:#080f1d;border:1px solid #475569;border-radius:8px;color:white;font:inherit}
 
-      margin: 0;
+textarea{min-height:130px;resize:vertical}
 
-      background: var(--bg);
+button,.link{display:inline-block;padding:10px 14px;border:0;border-radius:8px;background:var(--orange);color:#111827;font-weight:bold;cursor:pointer;text-decoration:none;margin:5px 5px 5px 0}
 
-      color: var(--text);
+button:disabled{opacity:.55;cursor:wait}
 
-      font-family: Arial, sans-serif;
+.secondary{background:#334155;color:white}.danger{background:var(--red);color:white}.success{background:var(--green);color:white}
 
-      line-height: 1.6;
+.hidden{display:none!important}
 
-    }
+.status{padding:12px;background:#1e293b;border-radius:8px;margin:12px 0;overflow-wrap:anywhere}
 
-    header {
+.status.error{color:#fecaca}.status.success{color:#bbf7d0}
 
-      background: #080d18;
+.article-item,.ad-item{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px;margin:12px 0;overflow-wrap:anywhere}
 
-      border-bottom: 1px solid var(--border);
+.article-item img,.ad-item img{width:180px;max-width:100%;max-height:130px;object-fit:cover;border-radius:7px;display:block;margin:10px 0}
 
-      padding: 18px;
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:0}
 
-      position: sticky;
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 
-      top: 0;
+.stat{background:var(--panel2);padding:14px;border-radius:8px;overflow-wrap:anywhere}
 
-      z-index: 10;
+.stat strong{display:block;color:var(--orange);font-size:23px}
 
-    }
+.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:380px}
 
-    .header-inner {
+td,th{text-align:left;padding:9px;border-bottom:1px solid var(--border);font-size:14px}
 
-      max-width: 1200px;
+th{color:var(--orange)}.preview{max-width:300px;max-height:200px;object-fit:contain;display:block;margin-top:12px}
 
-      margin: auto;
+@media(max-width:650px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:13px}}
 
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      gap: 12px;
-
-      flex-wrap: wrap;
-
-    }
-
-    header h1 {
-
-      font-size: 22px;
-
-      margin: 0;
-
-    }
-
-    header h1 span { color: var(--orange); }
-
-    main {
-
-      max-width: 1200px;
-
-      padding: 22px 15px 60px;
-
-      margin: auto;
-
-    }
-
-    .panel {
-
-      background: var(--panel);
-
-      border: 1px solid var(--border);
-
-      border-radius: 12px;
-
-      padding: 20px;
-
-      margin-bottom: 22px;
-
-      min-width: 0;
-
-    }
-
-    h2 {
-
-      font-size: 21px;
-
-      margin: 0 0 14px;
-
-    }
-
-    h3 {
-
-      font-size: 17px;
-
-      margin: 16px 0 8px;
-
-    }
-
-    p { color: var(--muted); }
-
-    label {
-
-      display: block;
-
-      font-size: 14px;
-
-      font-weight: bold;
-
-      margin: 12px 0 5px;
-
-    }
-
-    input, select, textarea {
-
-      display: block;
-
-      width: 100%;
-
-      border: 1px solid #374151;
-
-      border-radius: 8px;
-
-      background: #0b1220;
-
-      color: white;
-
-      padding: 12px;
-
-      font-size: 15px;
-
-      font-family: inherit;
-
-    }
-
-    textarea {
-
-      min-height: 130px;
-
-      resize: vertical;
-
-    }
-
-    button, .button-link {
-
-      border: 0;
-
-      border-radius: 8px;
-
-      padding: 11px 15px;
-
-      background: var(--orange);
-
-      color: #111827;
-
-      font-weight: bold;
-
-      font-size: 14px;
-
-      cursor: pointer;
-
-      text-decoration: none;
-
-      display: inline-block;
-
-      margin: 5px 5px 5px 0;
-
-    }
-
-    button.secondary {
-
-      background: #334155;
-
-      color: white;
-
-    }
-
-    button.danger {
-
-      background: #991b1b;
-
-      color: white;
-
-    }
-
-    button.success {
-
-      background: #166534;
-
-      color: white;
-
-    }
-
-    button:disabled {
-
-      opacity: .55;
-
-      cursor: wait;
-
-    }
-
-    .muted { color: var(--muted); }
-
-    .hidden { display: none !important; }
-
-    .status {
-
-      padding: 12px;
-
-      border-radius: 8px;
-
-      margin: 12px 0;
-
-      overflow-wrap: anywhere;
-
-      background: #182235;
-
-    }
-
-    .status.error { color: #fecaca; }
-
-    .status.success { color: #bbf7d0; }
-
-    .grid {
-
-      display: grid;
-
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-
-      gap: 14px;
-
-    }
-
-    .stat {
-
-      background: var(--panel2);
-
-      padding: 16px;
-
-      border-radius: 10px;
-
-      border: 1px solid var(--border);
-
-    }
-
-    .stat strong {
-
-      display: block;
-
-      color: var(--orange);
-
-      font-size: 25px;
-
-      overflow-wrap: anywhere;
-
-    }
-
-    .stat span {
-
-      color: var(--muted);
-
-      font-size: 13px;
-
-    }
-
-    .two-col {
-
-      display: grid;
-
-      grid-template-columns: 1fr 1fr;
-
-      gap: 18px;
-
-    }
-
-    .article-item, .ad-item {
-
-      border: 1px solid var(--border);
-
-      background: var(--panel2);
-
-      padding: 14px;
-
-      border-radius: 10px;
-
-      margin: 12px 0;
-
-      overflow-wrap: anywhere;
-
-    }
-
-    .article-item h3, .ad-item h3 {
-
-      margin: 0 0 5px;
-
-    }
-
-    .article-item small, .ad-item small {
-
-      color: var(--muted);
-
-    }
-
-    .article-item img, .ad-item img {
-
-      max-width: 100%;
-
-      width: 180px;
-
-      height: auto;
-
-      max-height: 130px;
-
-      object-fit: cover;
-
-      border-radius: 8px;
-
-      display: block;
-
-      margin: 10px 0;
-
-    }
-
-    .row {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 8px;
-
-      flex-wrap: wrap;
-
-    }
-
-    .row > * { min-width: 0; }
-
-    .table-wrap {
-
-      overflow-x: auto;
-
-      width: 100%;
-
-    }
-
-    table {
-
-      width: 100%;
-
-      border-collapse: collapse;
-
-      min-width: 440px;
-
-    }
-
-    th, td {
-
-      border-bottom: 1px solid var(--border);
-
-      text-align: left;
-
-      padding: 10px;
-
-      font-size: 14px;
-
-      overflow-wrap: anywhere;
-
-    }
-
-    th { color: var(--orange); }
-
-    .preview {
-
-      width: 100%;
-
-      max-width: 320px;
-
-      max-height: 220px;
-
-      object-fit: contain;
-
-      display: block;
-
-      margin-top: 12px;
-
-      border-radius: 8px;
-
-    }
-
-    @media (max-width: 760px) {
-
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-      .two-col { grid-template-columns: 1fr; }
-
-      .panel { padding: 15px; }
-
-    }
-
-    @media (max-width: 420px) {
-
-      .grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-
-      .stat { padding: 12px; }
-
-      .stat strong { font-size: 20px; }
-
-    }
-
-  </style>
+</style>
 
 </head>
 
 <body>
 
-<header>
+<header><div class="header-inner">
 
-  <div class="header-inner">
+<h1>Palmcase<span>blog</span> Admin</h1>
 
-    <h1>Palmcase<span>blog</span> Admin</h1>
+<button id="logoutButton" class="secondary hidden" type="button">Log Out</button>
 
-    <button id="logoutButton" class="secondary hidden" type="button">
-
-      Log Out
-
-    </button>
-
-  </div>
-
-</header>
+</div></header>
 
 <main>
 
-  <div id="globalMessage" class="status hidden" role="status"></div>
+<div id="globalMessage" class="status hidden" role="status"></div>
 
-  <!-- LOGIN -->
+<section id="loginPanel" class="panel">
 
-  <section id="loginPanel" class="panel">
+<h2>Admin Login</h2>
 
-    <h2>Admin Login</h2>
+<form id="loginForm">
 
-    <p>Sign in with your authorized Palmcaseblog admin account.</p>
+<label for="loginEmail">Email</label>
 
-    <form id="loginForm">
+<input id="loginEmail" type="email" autocomplete="username" required>
 
-      <label for="loginEmail">Email address</label>
+<label for="loginPassword">Password</label>
 
-      <input id="loginEmail" type="email" autocomplete="username" required>
+<input id="loginPassword" type="password" autocomplete="current-password" required>
 
-      <label for="loginPassword">Password</label>
+<button id="loginButton" type="submit">Log In</button>
 
-      <input id="loginPassword" type="password"
+</form>
 
-             autocomplete="current-password" required>
+</section>
 
-      <button id="loginButton" type="submit">Log In</button>
+<section id="dashboard" class="hidden">
 
-    </form>
+<div class="panel">
 
-  </section>
+<h2>Palmcaseblog Dashboard</h2>
 
-  <!-- DASHBOARD -->
+<a class="link" href="index.html" target="_blank" rel="noopener">View Website</a>
 
-  <section id="dashboard" class="hidden">
+</div>
 
-    <div class="panel">
+<section class="panel" id="editorPanel">
 
-      <h2>Welcome to Palmcaseblog</h2>
+<h2 id="editorHeading">Publish New Article</h2>
 
-      <p>Publish new stories, edit existing articles, manage advertisements,
+<p id="editorHelp">Fill in the fields to publish an article.</p>
 
-        and review your website analytics.</p>
+<div id="editingNotice" class="status hidden">You are editing an existing article.</div>
 
-      <div class="row">
+<form id="articleForm">
 
-        <a class="button-link" href="index.html" target="_blank"
+<label for="headline">Headline</label>
 
-           rel="noopener">View Website</a>
+<input id="headline" maxlength="250" required>
 
-        <a class="button-link" href="article.html" target="_blank"
+<label for="category">Category</label>
 
-           rel="noopener">Open Article Page</a>
+<select id="category">
 
-      </div>
+<option>News</option><option>Entertainment</option><option>Politics</option>
 
-    </div>
+<option>Sports</option><option>Technology</option><option>Lifestyle</option>
 
-    <!-- PUBLISH AND EDIT ARTICLES -->
+<option>Crime</option><option>Relationship</option><option>World</option><option>Topics</option>
 
-    <section class="panel" id="articleEditorPanel">
+</select>
 
-      <h2 id="editorHeading">Publish a New Article</h2>
+<label for="description">Article Description / Summary</label>
 
-      <p id="editorHelp">
+<textarea id="description" rows="4" placeholder="Enter the article description"></textarea>
 
-        Fill in the fields below to publish a new article.
+<label for="articleImage">Article Image</label>
 
-      </p>
+<input id="articleImage" type="file" accept="image/*">
 
-      <div id="editingNotice" class="status hidden">
+<p class="muted">When editing, leave this empty to keep the existing image.</p>
 
-        You are editing an existing article. Saving will update that article
+<img id="imagePreview" class="preview hidden" alt="Article image preview">
 
-        instead of creating a new one.
+<label for="article">Full Article Text</label>
 
-      </div>
+<textarea id="article" rows="14" required placeholder="Write the full article here"></textarea>
 
-      <form id="articleForm">
+<button id="saveArticleButton" type="submit">Publish Article</button>
 
-        <label for="headline">Article Headline</label>
+<button id="cancelEditButton" class="secondary hidden" type="button">Cancel Editing</button>
 
-        <input id="headline" type="text" maxlength="250" required
+</form>
 
-               placeholder="Enter the article headline">
+</section>
 
-        <label for="category">Category</label>
+<section class="panel">
 
-        <select id="category" required>
+<div class="row">
 
-          <option value="News">News</option>
+<h2>Published Articles</h2>
 
-          <option value="Entertainment">Entertainment</option>
+<button id="refreshArticlesButton" class="secondary" type="button">Refresh Articles</button>
 
-          <option value="Politics">Politics</option>
+</div>
 
-          <option value="Sports">Sports</option>
+<label for="articleSearch">Search articles</label>
 
-          <option value="Technology">Technology</option>
+<input id="articleSearch" type="search" placeholder="Search headline or category">
 
-          <option value="Lifestyle">Lifestyle</option>
+<div id="articlesMessage" class="muted">Loading articles...</div>
 
-          <option value="Crime">Crime</option>
+<div id="publishedArticlesList"></div>
 
-          <option value="Relationship">Relationship</option>
+</section>
 
-          <option value="World">World</option>
+<section class="panel">
 
-          <option value="Topics">Topics</option>
+<h2>Website Analytics</h2>
 
-        </select>
+<div class="row">
 
-        <label for="description">Article Description / Summary</label>
+<div><label for="analyticsStart">Start Date</label><input id="analyticsStart" type="date"></div>
 
-        <textarea id="description" rows="3"
+<div><label for="analyticsEnd">End Date</label><input id="analyticsEnd" type="date"></div>
 
-          placeholder="Write a short summary for the article"></textarea>
+</div>
 
-        <label for="articleImage">Article Image</label>
+<button id="loadAnalyticsButton" type="button">Load Analytics</button>
 
-        <input id="articleImage" type="file"
+<p id="analyticsMessage"></p>
 
-               accept="image/jpeg,image/png,image/webp,image/gif">
+<div class="grid">
 
-        <p class="muted">
+<div class="stat"><span>Visitors</span><strong id="totalVisitors">—</strong></div>
 
-          When editing, leave the image field empty to keep the existing image.
+<div class="stat"><span>Page Views</span><strong id="totalPageViews">—</strong></div>
 
-        </p>
+<div class="stat"><span>Countries</span><strong id="totalCountries">—</strong></div>
 
-        <img id="imagePreview" class="preview hidden" alt="Selected article image">
+</div>
 
-        <label for="article">Full Article Text</label>
+<div class="row">
 
-        <textarea id="article" rows="14" required
+<div><h3>Countries</h3><div id="countriesResults" class="table-wrap"></div></div>
 
-          placeholder="Write the complete article here"></textarea>
+<div><h3>Devices</h3><div id="devicesResults" class="table-wrap"></div></div>
 
-        <div class="row">
+</div>
 
-          <button id="saveArticleButton" type="submit">
+<div class="row">
 
-            Publish Article
+<div><h3>Browsers</h3><div id="browsersResults" class="table-wrap"></div></div>
 
-          </button>
+<div><h3>Traffic Sources</h3><div id="referrersResults" class="table-wrap"></div></div>
 
-          <button id="cancelEditButton" class="secondary hidden"
+</div>
 
-                  type="button">
+<div class="row">
 
-            Cancel Editing
+<div><h3>Popular Pages</h3><div id="topPagesResults" class="table-wrap"></div></div>
 
-          </button>
+<div><h3>Daily Visitors</h3><div id="dailyVisitorsResults" class="table-wrap"></div></div>
 
-        </div>
+</div>
 
-      </form>
+</section>
 
-    </section>
+<section class="panel">
 
-    <!-- EXISTING ARTICLES -->
+<h2>Exclude Analytics Device</h2>
 
-    <section class="panel" id="publishedArticlesPanel">
+<form id="excludeDeviceForm">
 
-      <div class="row">
+<label for="deviceId">Device ID</label><input id="deviceId" required>
 
-        <h2 style="margin-right:auto">Published Articles</h2>
+<label for="deviceName">Device Name</label><input id="deviceName">
 
-        <button id="refreshArticlesButton" class="secondary" type="button">
+<button type="submit">Exclude Device</button>
 
-          Refresh Articles
+</form>
 
-        </button>
+<p id="excludeDeviceMessage"></p>
 
-      </div>
+</section>
 
-      <p>Select an article and press Edit to change its headline, category,
+<section class="panel">
 
-        description, image, or article text.</p>
+<h2>Create Advertisement</h2>
 
-      <label for="articleSearch">Search Published Articles</label>
+<form id="adForm">
 
-      <input id="articleSearch" type="search"
+<label for="adTitle">Advertisement Title</label><input id="adTitle" required>
 
-             placeholder="Search by headline or category">
+<label for="adDescription">Description</label><textarea id="adDescription" rows="3"></textarea>
 
-      <div id="articlesMessage" class="muted">Loading articles...</div>
+<label for="adImage">Advertisement Image</label><input id="adImage" type="file" accept="image/*">
 
-      <div id="publishedArticlesList"></div>
+<label for="adVideo">Advertisement Video (optional)</label><input id="adVideo" type="file" accept="video/*">
 
-    </section>
+<label for="adDestination">Destination URL</label><input id="adDestination" type="url" placeholder="https://example.com">
 
-    <!-- ANALYTICS -->
+<label for="adPlacement">Placement</label>
 
-    <section class="panel">
+<select id="adPlacement"><option value="homepage">Homepage</option><option value="article">Article Page</option><option value="sidebar">Sidebar</option><option value="all">All Pages</option></select>
 
-      <h2>Website Analytics</h2>
+<div class="row">
 
-      <div class="row">
+<div><label for="adStart">Start Date</label><input id="adStart" type="date"></div>
 
-        <div style="flex:1">
+<div><label for="adEnd">End Date</label><input id="adEnd" type="date"></div>
 
-          <label for="analyticsStart">Start Date</label>
+</div>
 
-          <input id="analyticsStart" type="date">
+<label><input id="adActive" type="checkbox" checked style="width:auto"> Advertisement active</label>
 
-        </div>
+<button id="saveAdButton" type="submit">Save Advertisement</button>
 
-        <div style="flex:1">
+</form>
 
-          <label for="analyticsEnd">End Date</label>
+</section>
 
-          <input id="analyticsEnd" type="date">
+<section class="panel">
 
-        </div>
+<div class="row"><h2>Manage Advertisements</h2><button id="refreshAdsButton" class="secondary" type="button">Refresh Ads</button></div>
 
-      </div>
+<div id="adsMessage"></div><div id="adsList"></div>
 
-      <button id="loadAnalyticsButton" type="button">Load Analytics</button>
+</section>
 
-      <div id="analyticsMessage" class="muted"></div>
-
-      <div class="grid" style="margin-top:16px">
-
-        <div class="stat">
-
-          <span>Visitors</span>
-
-          <strong id="totalVisitors">—</strong>
-
-        </div>
-
-        <div class="stat">
-
-          <span>Page Views</span>
-
-          <strong id="totalPageViews">—</strong>
-
-        </div>
-
-        <div class="stat">
-
-          <span>Countries</span>
-
-          <strong id="totalCountries">—</strong>
-
-        </div>
-
-      </div>
-
-      <div class="two-col" style="margin-top:20px">
-
-        <div>
-
-          <h3>Top Countries</h3>
-
-          <div id="countriesResults" class="table-wrap muted">No data loaded.</div>
-
-        </div>
-
-        <div>
-
-          <h3>Devices</h3>
-
-          <div id="devicesResults" class="table-wrap muted">No data loaded.</div>
-
-        </div>
-
-        <div>
-
-          <h3>Browsers</h3>
-
-          <div id="browsersResults" class="table-wrap muted">No data loaded.</div>
-
-        </div>
-
-        <div>
-
-          <h3>Traffic Sources</h3>
-
-          <div id="referrersResults" class="table-wrap muted">No data loaded.</div>
-
-        </div>
-
-        <div>
-
-          <h3>Popular Pages</h3>
-
-          <div id="topPagesResults" class="table-wrap muted">No data loaded.</div>
-
-        </div>
-
-        <div>
-
-          <h3>Daily Visitors</h3>
-
-          <div id="dailyVisitorsResults" class="table-wrap muted">No data loaded.</div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- EXCLUDE ANALYTICS DEVICE -->
-
-    <section class="panel">
-
-      <h2>Exclude an Analytics Device</h2>
-
-      <p>
-
-        Use this only if your analytics setup supports device exclusion
-
-        through the configured Supabase function.
-
-      </p>
-
-      <form id="excludeDeviceForm">
-
-        <label for="deviceId">Device ID</label>
-
-        <input id="deviceId" type="text" required>
-
-        <label for="deviceName">Device Name</label>
-
-        <input id="deviceName" type="text" placeholder="e.g. Admin phone">
-
-        <button type="submit">Exclude Device</button>
-
-      </form>
-
-      <div id="excludeDeviceMessage" class="muted"></div>
-
-    </section>
-
-    <!-- ADVERTISEMENT CREATION -->
-
-    <section class="panel">
-
-      <h2>Create Advertisement</h2>
-
-      <form id="adForm">
-
-        <label for="adTitle">Advertisement Title</label>
-
-        <input id="adTitle" type="text" required>
-
-        <label for="adDescription">Description</label>
-
-        <textarea id="adDescription" rows="3"></textarea>
-
-        <label for="adImage">Advertisement Image</label>
-
-        <input id="adImage" type="file"
-
-               accept="image/jpeg,image/png,image/webp,image/gif">
-
-        <label for="adVideo">Advertisement Video (optional)</label>
-
-        <input id="adVideo" type="file" accept="video/*">
-
-        <label for="adDestination">Destination URL</label>
-
-        <input id="adDestination" type="url"
-
-               placeholder="https://example.com">
-
-        <label for="adPlacement">Placement</label>
-
-        <select id="adPlacement">
-
-          <option value="homepage">Homepage</option>
-
-          <option value="article">Article Page</option>
-
-          <option value="sidebar">Sidebar</option>
-
-          <option value="all">All Pages</option>
-
-        </select>
-
-        <div class="two-col">
-
-          <div>
-
-            <label for="adStart">Start Date</label>
-
-            <input id="adStart" type="date">
-
-          </div>
-
-          <div>
-
-            <label for="adEnd">End Date</label>
-
-            <input id="adEnd" type="date">
-
-          </div>
-
-        </div>
-
-        <label>
-
-          <input id="adActive" type="checkbox" checked
-
-                 style="display:inline;width:auto">
-
-          Advertisement is active
-
-        </label>
-
-        <button id="saveAdButton" type="submit">Save Advertisement</button>
-
-      </form>
-
-    </section>
-
-    <!-- ADVERTISEMENT MANAGEMENT -->
-
-    <section class="panel">
-
-      <div class="row">
-
-        <h2 style="margin-right:auto">Manage Advertisements</h2>
-
-        <button id="refreshAdsButton" class="secondary" type="button">
-
-          Refresh Ads
-
-        </button>
-
-      </div>
-
-      <div id="adsMessage" class="muted">Loading advertisements...</div>
-
-      <div id="adsList"></div>
-
-    </section>
-
-  </section>
+</section>
 
 </main>
 
@@ -918,1375 +318,763 @@
 
 (() => {
 
-  "use strict";
+"use strict";
 
-  // Palmcaseblog Supabase configuration
+const SUPABASE_URL = "https://kcxlwhojwdvbfjjnartw.supabase.co";
 
-  const SUPABASE_URL = "https://kcxlwhojwdvbfjjnartw.supabase.co";
+const SUPABASE_KEY = "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
 
-  const SUPABASE_KEY = "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+// Confirm these names match your Supabase Storage buckets.
 
-  // Confirm the exact bucket names in Supabase Storage.
+const ARTICLE_IMAGE_BUCKET = "article image";
 
-  const ARTICLE_IMAGE_BUCKET = "article image";
+const AD_IMAGE_BUCKET = "ad_images";
 
-  const AD_IMAGE_BUCKET = "ad_images";
+const AD_VIDEO_BUCKET = "ad_videos";
 
-  const AD_VIDEO_BUCKET = "ad_videos";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const $ = id => document.getElementById(id);
 
-  let currentUser = null;
+let currentUser = null;
 
-  let publishedArticles = [];
+let posts = [];
 
-  let editingPostId = null;
+let editingPostId = null;
 
-  let currentImageUrl = "";
+let currentImageUrl = "";
 
-  let advertisements = [];
+let ads = [];
 
-  const $ = id => document.getElementById(id);
+function message(id, text, type = "") {
 
-  function showMessage(elementId, message, type = "") {
+  const el = $(id);
 
-    const el = $(elementId);
+  el.textContent = text;
 
-    if (!el) return;
+  el.className = "status" + (type ? " " + type : "");
 
-    el.textContent = message;
+  el.classList.remove("hidden");
 
-    el.className = "status" + (type ? " " + type : "");
+}
 
-    el.classList.remove("hidden");
+function clearMessage(id) {
 
-  }
+  $(id).textContent = "";
 
-  function clearMessage(elementId) {
+  $(id).className = "hidden";
 
-    const el = $(elementId);
+}
 
-    if (!el) return;
+function escapeHTML(value) {
 
-    el.textContent = "";
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
 
-    el.className = "hidden";
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
 
-  }
+  })[c]);
 
-  function setButtonLoading(button, loading, loadingText = "Please wait...") {
+}
 
-    if (!button) return;
+function setLoading(button, on, text) {
 
-    if (loading) {
+  if (on) {
 
-      button.dataset.originalText = button.textContent;
+    button.dataset.oldText = button.textContent;
 
-      button.textContent = loadingText;
+    button.textContent = text;
 
-      button.disabled = true;
+    button.disabled = true;
 
-    } else {
+  } else {
 
-      button.textContent = button.dataset.originalText || button.textContent;
+    button.textContent = button.dataset.oldText || button.textContent;
 
-      button.disabled = false;
-
-    }
+    button.disabled = false;
 
   }
 
-  function escapeHTML(value) {
+}
 
-    return String(value ?? "").replace(/[&<>"']/g, character => ({
+function localDate(date) {
 
-      "&": "&amp;",
+  const d = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
 
-      "<": "&lt;",
+  return d.toISOString().slice(0,10);
 
-      ">": "&gt;",
+}
 
-      '"': "&quot;",
+function setupDates() {
 
-      "'": "&#39;"
+  const end = localDate(new Date());
 
-    })[character]);
+  const start = new Date();
 
-  }
+  start.setDate(start.getDate() - 6);
 
-  function formatDate(value) {
+  $("analyticsStart").value = localDate(start);
 
-    if (!value) return "Date unavailable";
+  $("analyticsEnd").value = end;
 
-    const date = new Date(value);
+}
 
-    return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleString();
+async function uploadFile(bucket, file, folder) {
 
-  }
+  if (!file) return null;
 
-  function makeTable(rows) {
+  const name = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
 
-    if (!Array.isArray(rows) || rows.length === 0) {
+  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2,8)}-${name}`;
 
-      return '<p class="muted">No data available for this period.</p>';
+  const {error} = await db.storage.from(bucket).upload(path,file,{
 
-    }
+    upsert:false,cacheControl:"3600",contentType:file.type || undefined
 
-    const normalized = rows.map(row => {
+  });
 
-      if (typeof row !== "object" || row === null) {
+  if (error) throw error;
 
-        return { value: row };
+  const {data} = db.storage.from(bucket).getPublicUrl(path);
 
-      }
+  if (!data?.publicUrl) throw new Error("Could not create public image URL.");
 
-      return row;
+  return data.publicUrl;
+
+}
+
+async function showLogin() {
+
+  $("dashboard").classList.add("hidden");
+
+  $("loginPanel").classList.remove("hidden");
+
+  $("logoutButton").classList.add("hidden");
+
+}
+
+async function showDashboard() {
+
+  $("loginPanel").classList.add("hidden");
+
+  $("dashboard").classList.remove("hidden");
+
+  $("logoutButton").classList.remove("hidden");
+
+  setupDates();
+
+  await Promise.allSettled([loadPosts(),loadAds(),loadAnalytics()]);
+
+}
+
+$("loginForm").addEventListener("submit",async e=>{
+
+  e.preventDefault();
+
+  const b=$("loginButton"); setLoading(b,true,"Signing in...");
+
+  try {
+
+    const {data,error}=await db.auth.signInWithPassword({
+
+      email:$("loginEmail").value.trim(),
+
+      password:$("loginPassword").value
 
     });
 
-    const keys = [...new Set(normalized.flatMap(row => Object.keys(row)))];
+    if(error) throw error;
 
-    return `
+    currentUser=data.user;
 
-      <table>
+    await showDashboard();
 
-        <thead>
+    message("globalMessage","Logged in successfully.","success");
 
-          <tr>${keys.map(key => `<th>${escapeHTML(key.replaceAll("_", " "))}</th>`).join("")}</tr>
+  } catch(err) {
 
-        </thead>
+    message("globalMessage","Login failed: "+err.message,"error");
 
-        <tbody>
+  } finally {setLoading(b,false);}
 
-          ${normalized.map(row => `
+});
 
-            <tr>${keys.map(key => {
+$("logoutButton").addEventListener("click",async()=>{
 
-              const value = row[key];
+  const {error}=await db.auth.signOut();
 
-              return `<td>${escapeHTML(
+  if(error){message("globalMessage","Logout failed: "+error.message,"error");return;}
 
-                value === null || value === undefined
+  currentUser=null;
 
-                  ? ""
+  resetEditor();
 
-                  : typeof value === "object"
+  await showLogin();
 
-                    ? JSON.stringify(value)
+});
 
-                    : value
+$("articleImage").addEventListener("change",()=>{
 
-              )}</td>`;
+  const file=$("articleImage").files[0];
 
-            }).join("")}</tr>
+  const img=$("imagePreview");
 
-          `).join("")}
+  if(!file) {
 
-        </tbody>
+    if(currentImageUrl){img.src=currentImageUrl;img.classList.remove("hidden");}
 
-      </table>
+    else {img.removeAttribute("src");img.classList.add("hidden");}
 
-    `;
-
-  }
-
-  function unwrapRows(result) {
-
-    if (Array.isArray(result)) return result;
-
-    if (result && Array.isArray(result.data)) return result.data;
-
-    if (result && Array.isArray(result.rows)) return result.rows;
-
-    if (result && typeof result === "object") return [result];
-
-    return [];
+    return;
 
   }
 
-  function firstNumber(object, candidates) {
+  if(!file.type.startsWith("image/")){
 
-    for (const key of candidates) {
+    message("globalMessage","Please select a valid image.","error");
 
-      const value = Number(object?.[key]);
-
-      if (object?.[key] !== undefined && Number.isFinite(value)) {
-
-        return value;
-
-      }
-
-    }
-
-    return null;
+    $("articleImage").value="";return;
 
   }
 
-  function getToday() {
+  img.src=URL.createObjectURL(file);
 
-    const now = new Date();
+  img.classList.remove("hidden");
 
-    const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+});
 
-    return local.toISOString().slice(0, 10);
+async function loadPosts() {
 
-  }
+  $("articlesMessage").textContent="Loading articles...";
 
-  function setDefaultDates() {
+  const {data,error}=await db.from("posts").select("*").order("created_at",{ascending:false});
 
-    const end = getToday();
+  if(error){
 
-    const startDate = new Date();
+    posts=[];
 
-    startDate.setDate(startDate.getDate() - 6);
+    $("articlesMessage").textContent="Could not load articles: "+error.message;
 
-    const localStart = new Date(
+    $("publishedArticlesList").innerHTML="";
 
-      startDate.getTime() - startDate.getTimezoneOffset() * 60000
-
-    ).toISOString().slice(0, 10);
-
-    $("analyticsStart").value = localStart;
-
-    $("analyticsEnd").value = end;
+    return;
 
   }
 
-  async function uploadFile(bucket, file, prefix) {
+  posts=data||[];
 
-    if (!file) return null;
+  renderPosts();
 
-    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+}
 
-    const path = `${prefix}/${Date.now()}-${Math.random().toString(36).slice(2, 9)}-${safeName}`;
+function renderPosts() {
 
-    const { error } = await db.storage
+  const term=$("articleSearch").value.trim().toLowerCase();
 
-      .from(bucket)
+  const filtered=posts.filter(p=>
 
-      .upload(path, file, {
+    String(p.headline||"").toLowerCase().includes(term)||
 
-        cacheControl: "3600",
+    String(p.category||"").toLowerCase().includes(term)
 
-        upsert: false,
+  );
 
-        contentType: file.type || undefined
+  $("articlesMessage").textContent=filtered.length+" article(s) found.";
 
-      });
+  if(!filtered.length){
 
-    if (error) throw error;
+    $("publishedArticlesList").innerHTML='<p class="muted">No matching articles found.</p>';
 
-    const { data } = db.storage.from(bucket).getPublicUrl(path);
-
-    if (!data?.publicUrl) {
-
-      throw new Error("The uploaded file's public URL could not be created.");
-
-    }
-
-    return data.publicUrl;
+    return;
 
   }
 
-  async function showDashboard() {
+  $("publishedArticlesList").innerHTML=filtered.map(p=>{
 
-    $("loginPanel").classList.add("hidden");
+    const img=p.image||p.image_url||"";
 
-    $("dashboard").classList.remove("hidden");
+    return `<article class="article-item">
 
-    $("logoutButton").classList.remove("hidden");
+      <h3>${escapeHTML(p.headline||"Untitled")}</h3>
 
-    setDefaultDates();
+      <small>Category: ${escapeHTML(p.category||"Uncategorized")} · ${escapeHTML(p.created_at||"")}</small>
 
-    await Promise.allSettled([
+      ${img?`<img src="${escapeHTML(img)}" alt="" loading="lazy">`:""}
 
-      loadPublishedArticles(),
+      <p>${escapeHTML(p.description||"No description added.")}</p>
 
-      loadAdvertisements(),
+      <button type="button" data-edit="${escapeHTML(p.id)}">Edit Article</button>
 
-      loadAnalytics()
+      <button type="button" class="danger" data-delete="${escapeHTML(p.id)}">Delete Article</button>
 
-    ]);
+      <a class="link" target="_blank" rel="noopener" href="article.html?id=${encodeURIComponent(p.id)}">View Article</a>
 
-  }
+    </article>`;
 
-  async function showLogin() {
+  }).join("");
 
-    $("dashboard").classList.add("hidden");
+}
 
-    $("loginPanel").classList.remove("hidden");
+$("articleSearch").addEventListener("input",renderPosts);
 
-    $("logoutButton").classList.add("hidden");
+$("refreshArticlesButton").addEventListener("click",loadPosts);
 
-  }
+$("publishedArticlesList").addEventListener("click",async e=>{
 
-  // LOGIN
+  const edit=e.target.closest("[data-edit]");
 
-  $("loginForm").addEventListener("submit", async event => {
+  const del=e.target.closest("[data-delete]");
 
-    event.preventDefault();
+  if(edit){
 
-    const button = $("loginButton");
+    const post=posts.find(p=>String(p.id)===edit.dataset.edit);
 
-    setButtonLoading(button, true, "Signing in...");
+    if(!post){message("globalMessage","Article not found.","error");return;}
 
-    clearMessage("globalMessage");
+    editingPostId=post.id;
 
-    try {
+    currentImageUrl=post.image||post.image_url||"";
 
-      const { data, error } = await db.auth.signInWithPassword({
+    $("headline").value=post.headline||"";
 
-        email: $("loginEmail").value.trim(),
+    $("category").value=post.category||"News";
 
-        password: $("loginPassword").value
+    $("description").value=post.description||"";
 
-      });
+    $("article").value=post.article||post.article_text||"";
 
-      if (error) throw error;
+    $("articleImage").value="";
 
-      currentUser = data.user;
+    $("editorHeading").textContent="Edit Published Article";
 
-      await showDashboard();
-
-      showMessage("globalMessage", "You are signed in.", "success");
-
-    } catch (error) {
-
-      showMessage(
-
-        "globalMessage",
-
-        "Login failed: " + (error.message || "Please check your login details."),
-
-        "error"
-
-      );
-
-    } finally {
-
-      setButtonLoading(button, false);
-
-    }
-
-  });
-
-  // LOGOUT
-
-  $("logoutButton").addEventListener("click", async () => {
-
-    const { error } = await db.auth.signOut();
-
-    if (error) {
-
-      showMessage("globalMessage", "Logout failed: " + error.message, "error");
-
-      return;
-
-    }
-
-    currentUser = null;
-
-    editingPostId = null;
-
-    await showLogin();
-
-    showMessage("globalMessage", "You have logged out.", "success");
-
-  });
-
-  // ARTICLE IMAGE PREVIEW
-
-  $("articleImage").addEventListener("change", () => {
-
-    const file = $("articleImage").files[0];
-
-    const preview = $("imagePreview");
-
-    if (!file) {
-
-      if (currentImageUrl) {
-
-        preview.src = currentImageUrl;
-
-        preview.classList.remove("hidden");
-
-      } else {
-
-        preview.removeAttribute("src");
-
-        preview.classList.add("hidden");
-
-      }
-
-      return;
-
-    }
-
-    if (!file.type.startsWith("image/")) {
-
-      showMessage("globalMessage", "Please choose a valid image file.", "error");
-
-      $("articleImage").value = "";
-
-      return;
-
-    }
-
-    preview.src = URL.createObjectURL(file);
-
-    preview.classList.remove("hidden");
-
-  });
-
-  // LOAD ALL PUBLISHED ARTICLES
-
-  async function loadPublishedArticles() {
-
-    $("articlesMessage").textContent = "Loading published articles...";
-
-    const { data, error } = await db
-
-      .from("posts")
-
-      .select("*")
-
-      .order("created_at", { ascending: false });
-
-    if (error) {
-
-      publishedArticles = [];
-
-      $("articlesMessage").textContent =
-
-        "Could not load articles: " + error.message;
-
-      $("publishedArticlesList").innerHTML = "";
-
-      return;
-
-    }
-
-    publishedArticles = data || [];
-
-    renderPublishedArticles();
-
-  }
-
-  function renderPublishedArticles() {
-
-    const search = $("articleSearch").value.trim().toLowerCase();
-
-    const filtered = publishedArticles.filter(post => {
-
-      const headline = String(post.headline || "").toLowerCase();
-
-      const category = String(post.category || "").toLowerCase();
-
-      return headline.includes(search) || category.includes(search);
-
-    });
-
-    $("articlesMessage").textContent =
-
-      filtered.length + " article(s) found.";
-
-    if (!filtered.length) {
-
-      $("publishedArticlesList").innerHTML =
-
-        '<p class="muted">No matching articles were found.</p>';
-
-      return;
-
-    }
-
-    $("publishedArticlesList").innerHTML = filtered.map(post => {
-
-      const imageUrl = post.image || post.image_url || "";
-
-      const description = post.description || "";
-
-      return `
-
-        <article class="article-item">
-
-          <h3>${escapeHTML(post.headline || "Untitled article")}</h3>
-
-          <small>
-
-            Category: ${escapeHTML(post.category || "Uncategorized")}
-
-            · Published: ${escapeHTML(formatDate(post.created_at))}
-
-          </small>
-
-          ${imageUrl
-
-            ? `<img src="${escapeHTML(imageUrl)}" alt="" loading="lazy">`
-
-            : ""}
-
-          ${description
-
-            ? `<p>${escapeHTML(description)}</p>`
-
-            : '<p class="muted">No description has been added.</p>'}
-
-          <div class="row">
-
-            <button type="button" data-edit-post="${escapeHTML(post.id)}">
-
-              Edit Article
-
-            </button>
-
-            <a class="button-link"
-
-               href="article.html?id=${encodeURIComponent(post.id)}"
-
-               target="_blank" rel="noopener">View Article</a>
-
-          </div>
-
-        </article>
-
-      `;
-
-    }).join("");
-
-  }
-
-  $("articleSearch").addEventListener("input", renderPublishedArticles);
-
-  $("refreshArticlesButton").addEventListener("click", loadPublishedArticles);
-
-  $("publishedArticlesList").addEventListener("click", event => {
-
-    const button = event.target.closest("[data-edit-post]");
-
-    if (!button) return;
-
-    const post = publishedArticles.find(
-
-      item => String(item.id) === button.dataset.editPost
-
-    );
-
-    if (!post) {
-
-      showMessage("globalMessage", "That article could not be found.", "error");
-
-      return;
-
-    }
-
-    beginEditingArticle(post);
-
-  });
-
-  // BEGIN EDITING
-
-  function beginEditingArticle(post) {
-
-    editingPostId = post.id;
-
-    currentImageUrl = post.image || post.image_url || "";
-
-    $("headline").value = post.headline || "";
-
-    $("category").value = post.category || "News";
-
-    $("description").value = post.description || "";
-
-    $("article").value = post.article || post.article_text || "";
-
-    $("articleImage").value = "";
-
-    $("editorHeading").textContent = "Edit Published Article";
-
-    $("editorHelp").textContent =
-
-      "Make your changes below, then press Save Changes.";
+    $("editorHelp").textContent="Edit the description, headline, article text or image, then save.";
 
     $("editingNotice").classList.remove("hidden");
 
-    $("saveArticleButton").textContent = "Save Changes";
+    $("saveArticleButton").textContent="Save Changes";
 
     $("cancelEditButton").classList.remove("hidden");
 
-    const preview = $("imagePreview");
+    if(currentImageUrl){
 
-    if (currentImageUrl) {
+      $("imagePreview").src=currentImageUrl;
 
-      preview.src = currentImageUrl;
-
-      preview.classList.remove("hidden");
+      $("imagePreview").classList.remove("hidden");
 
     } else {
 
-      preview.removeAttribute("src");
+      $("imagePreview").removeAttribute("src");
 
-      preview.classList.add("hidden");
+      $("imagePreview").classList.add("hidden");
 
     }
 
-    $("articleEditorPanel").scrollIntoView({
+    $("editorPanel").scrollIntoView({behavior:"smooth"});
 
-      behavior: "smooth",
+    return;
 
-      block: "start"
+  }
+
+  if(del){
+
+    const id=del.dataset.delete;
+
+    const post=posts.find(p=>String(p.id)===id);
+
+    if(!post)return;
+
+    if(!confirm('Permanently delete this article?\n\n'+(post.headline||"Untitled article")+'\n\nThis cannot be undone.'))return;
+
+    del.disabled=true;
+
+    try {
+
+      // Verify a row was actually deleted; RLS may silently affect zero rows.
+
+      const {data,error}=await db.from("posts").delete().eq("id",id).select("id").maybeSingle();
+
+      if(error)throw error;
+
+      if(!data)throw new Error("No article was deleted. Check the posts table DELETE policy and your admin login.");
+
+      if(String(editingPostId)===id)resetEditor();
+
+      message("globalMessage","Article deleted successfully.","success");
+
+      await loadPosts();
+
+    } catch(err) {
+
+      message("globalMessage","Could not delete article: "+err.message,"error");
+
+      del.disabled=false;
+
+    }
+
+  }
+
+});
+
+function resetEditor() {
+
+  editingPostId=null;currentImageUrl="";
+
+  $("articleForm").reset();
+
+  $("editorHeading").textContent="Publish New Article";
+
+  $("editorHelp").textContent="Fill in the fields to publish an article.";
+
+  $("editingNotice").classList.add("hidden");
+
+  $("cancelEditButton").classList.add("hidden");
+
+  $("saveArticleButton").textContent="Publish Article";
+
+  $("imagePreview").removeAttribute("src");
+
+  $("imagePreview").classList.add("hidden");
+
+}
+
+$("cancelEditButton").addEventListener("click",resetEditor);
+
+$("articleForm").addEventListener("submit",async e=>{
+
+  e.preventDefault();
+
+  if(!currentUser){message("globalMessage","Please log in first.","error");return;}
+
+  const b=$("saveArticleButton");setLoading(b,true,"Saving...");
+
+  try {
+
+    const headline=$("headline").value.trim();
+
+    const category=$("category").value;
+
+    const description=$("description").value.trim();
+
+    const article=$("article").value.trim();
+
+    const file=$("articleImage").files[0];
+
+    if(!headline||!article)throw new Error("Headline and article text are required.");
+
+    let image=currentImageUrl;
+
+    if(file)image=await uploadFile(ARTICLE_IMAGE_BUCKET,file,"articles");
+
+    if(!editingPostId&&!image)throw new Error("Please select an article image.");
+
+    if(editingPostId){
+
+      // Description is included in the same update as the other article fields.
+
+      const {data,error}=await db.from("posts").update({
+
+        headline,category,description,image,article
+
+      }).eq("id",editingPostId).select("id").maybeSingle();
+
+      if(error)throw error;
+
+      if(!data)throw new Error("Supabase updated zero rows. Check the UPDATE policy on posts and confirm you are logged in.");
+
+      message("globalMessage","Article and description updated successfully.","success");
+
+    } else {
+
+      const {data,error}=await db.from("posts").insert({
+
+        headline,category,description,image,article
+
+      }).select("id").single();
+
+      if(error)throw error;
+
+      if(!data)throw new Error("The new article was not returned by Supabase.");
+
+      message("globalMessage","Article published successfully.","success");
+
+    }
+
+    resetEditor();
+
+    await loadPosts();
+
+  } catch(err) {
+
+    message("globalMessage","Save failed: "+err.message,"error");
+
+  } finally {setLoading(b,false);}
+
+});
+
+function rowsFrom(data){
+
+  if(Array.isArray(data))return data;
+
+  if(data&&Array.isArray(data.data))return data.data;
+
+  if(data&&typeof data==="object")return [data];
+
+  return [];
+
+}
+
+function tableHTML(data){
+
+  const rows=rowsFrom(data);
+
+  if(!rows.length)return '<p class="muted">No data available.</p>';
+
+  const keys=[...new Set(rows.flatMap(r=>Object.keys(r||{})))];
+
+  return `<table><thead><tr>${keys.map(k=>`<th>${escapeHTML(k.replaceAll("_"," "))}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${keys.map(k=>`<td>${escapeHTML(typeof r[k]==="object"?JSON.stringify(r[k]):r[k]??"")}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+
+}
+
+async function rpcAnalytics(name,start,end){
+
+  const {data,error}=await db.rpc(name,{p_start_date:start,p_end_date:end});
+
+  if(error)throw error;return data;
+
+}
+
+async function loadAnalytics(){
+
+  const start=$("analyticsStart").value,end=$("analyticsEnd").value;
+
+  if(!start||!end||start>end){$("analyticsMessage").textContent="Choose a valid date range.";return;}
+
+  const b=$("loadAnalyticsButton");setLoading(b,true,"Loading...");
+
+  $("analyticsMessage").textContent="Loading analytics...";
+
+  const names=[
+
+    ["summary","get_analytics_summary"],["countries","get_analytics_countries"],
+
+    ["devices","get_analytics_devices"],["browsers","get_analytics_browsers"],
+
+    ["referrers","get_analytics_referrers"],["pages","get_analytics_top_pages"],
+
+    ["daily","get_analytics_daily_visitors"]
+
+  ];
+
+  const out={};let failed=0;
+
+  await Promise.all(names.map(async([key,name])=>{
+
+    try{out[key]=await rpcAnalytics(name,start,end);}
+
+    catch(err){out[key]=null;failed++;console.error(name,err);}
+
+  }));
+
+  const s=Array.isArray(out.summary)?out.summary[0]:out.summary;
+
+  const number=(obj,keys)=>{for(const k of keys){if(obj?.[k]!=null&&Number.isFinite(Number(obj[k])))return Number(obj[k]);}return "—";};
+
+  $("totalVisitors").textContent=number(s,["total_visitors","visitors","unique_visitors","visitor_count"]);
+
+  $("totalPageViews").textContent=number(s,["total_page_views","page_views","views","total_views"]);
+
+  $("totalCountries").textContent=rowsFrom(out.countries).length;
+
+  $("countriesResults").innerHTML=tableHTML(out.countries);
+
+  $("devicesResults").innerHTML=tableHTML(out.devices);
+
+  $("browsersResults").innerHTML=tableHTML(out.browsers);
+
+  $("referrersResults").innerHTML=tableHTML(out.referrers);
+
+  $("topPagesResults").innerHTML=tableHTML(out.pages);
+
+  $("dailyVisitorsResults").innerHTML=tableHTML(out.daily);
+
+  $("analyticsMessage").textContent=failed?`${failed} analytics request(s) failed. Check that the Supabase functions exist.`:"Analytics loaded.";
+
+  setLoading(b,false);
+
+}
+
+$("loadAnalyticsButton").addEventListener("click",loadAnalytics);
+
+$("excludeDeviceForm").addEventListener("submit",async e=>{
+
+  e.preventDefault();
+
+  try{
+
+    const {error}=await db.rpc("add_analytics_excluded_device",{
+
+      p_device_id:$("deviceId").value.trim(),
+
+      p_device_name:$("deviceName").value.trim()||null
 
     });
 
-  }
+    if(error)throw error;
 
-  // CANCEL EDITING
+    $("excludeDeviceForm").reset();
 
-  function resetArticleForm() {
+    $("excludeDeviceMessage").textContent="Device exclusion submitted.";
 
-    editingPostId = null;
+  }catch(err){$("excludeDeviceMessage").textContent="Could not exclude device: "+err.message;}
 
-    currentImageUrl = "";
+});
 
-    $("articleForm").reset();
+$("adForm").addEventListener("submit",async e=>{
 
-    $("editorHeading").textContent = "Publish a New Article";
+  e.preventDefault();
 
-    $("editorHelp").textContent =
+  const b=$("saveAdButton");setLoading(b,true,"Saving...");
 
-      "Fill in the fields below to publish a new article.";
+  try{
 
-    $("editingNotice").classList.add("hidden");
+    const imageFile=$("adImage").files[0],videoFile=$("adVideo").files[0];
 
-    $("cancelEditButton").classList.add("hidden");
+    const image_url=imageFile?await uploadFile(AD_IMAGE_BUCKET,imageFile,"ads"):null;
 
-    $("saveArticleButton").textContent = "Publish Article";
+    const video_url=videoFile?await uploadFile(AD_VIDEO_BUCKET,videoFile,"ads"):null;
 
-    $("imagePreview").removeAttribute("src");
+    const record={
 
-    $("imagePreview").classList.add("hidden");
+      title:$("adTitle").value.trim(),
 
-  }
+      description:$("adDescription").value.trim()||null,
 
-  $("cancelEditButton").addEventListener("click", resetArticleForm);
+      image_url,video_url,
 
-  // SAVE NEW ARTICLE OR UPDATE EXISTING ARTICLE
+      destination_url:$("adDestination").value.trim()||null,
 
-  $("articleForm").addEventListener("submit", async event => {
+      placement:$("adPlacement").value,
 
-    event.preventDefault();
+      start_date:$("adStart").value||null,
 
-    if (!currentUser) {
+      end_date:$("adEnd").value||null,
 
-      showMessage("globalMessage", "Please log in first.", "error");
+      is_active:$("adActive").checked
 
-      return;
+    };
+
+    if(!record.title)throw new Error("Enter an advertisement title.");
+
+    const {error}=await db.from("ads").insert(record);
+
+    if(error)throw error;
+
+    $("adForm").reset();$("adActive").checked=true;
+
+    message("globalMessage","Advertisement saved.","success");
+
+    await loadAds();
+
+  }catch(err){message("globalMessage","Advertisement error: "+err.message,"error");}
+
+  finally{setLoading(b,false);}
+
+});
+
+async function loadAds(){
+
+  $("adsMessage").textContent="Loading advertisements...";
+
+  const {data,error}=await db.from("ads").select("*").order("created_at",{ascending:false});
+
+  if(error){$("adsMessage").textContent="Could not load ads: "+error.message;return;}
+
+  ads=data||[];renderAds();
+
+}
+
+function renderAds(){
+
+  $("adsMessage").textContent=ads.length+" advertisement(s).";
+
+  if(!ads.length){$("adsList").innerHTML='<p class="muted">No advertisements found.</p>';return;}
+
+  $("adsList").innerHTML=ads.map(a=>`<article class="ad-item">
+
+    <h3>${escapeHTML(a.title)}</h3>
+
+    <p>${escapeHTML(a.description||"")}</p>
+
+    <small>${escapeHTML(a.placement||"")} · ${a.is_active?"Active":"Inactive"}</small>
+
+    ${a.image_url?`<img src="${escapeHTML(a.image_url)}" alt="">`:""}
+
+    <button class="secondary" type="button" data-toggle-ad="${escapeHTML(a.id)}" data-active="${a.is_active}">
+
+    ${a.is_active?"Deactivate":"Activate"}</button>
+
+    <button class="danger" type="button" data-delete-ad="${escapeHTML(a.id)}">Delete Advertisement</button>
+
+  </article>`).join("");
+
+}
+
+$("refreshAdsButton").addEventListener("click",loadAds);
+
+$("adsList").addEventListener("click",async e=>{
+
+  const toggle=e.target.closest("[data-toggle-ad]");
+
+  const del=e.target.closest("[data-delete-ad]");
+
+  try{
+
+    if(toggle){
+
+      const {data,error}=await db.from("ads").update({is_active:toggle.dataset.active!=="true"}).eq("id",toggle.dataset.toggleAd).select("id").maybeSingle();
+
+      if(error)throw error;if(!data)throw new Error("No advertisement updated. Check UPDATE permissions.");
+
+      await loadAds();
 
     }
 
-    const button = $("saveArticleButton");
+    if(del){
 
-    setButtonLoading(button, true, "Saving article...");
+      if(!confirm("Delete this advertisement?"))return;
 
-    clearMessage("globalMessage");
+      const {data,error}=await db.from("ads").delete().eq("id",del.dataset.deleteAd).select("id").maybeSingle();
 
-    try {
+      if(error)throw error;if(!data)throw new Error("No advertisement deleted. Check DELETE permissions.");
 
-      const headline = $("headline").value.trim();
-
-      const category = $("category").value;
-
-      const description = $("description").value.trim();
-
-      const article = $("article").value.trim();
-
-      const selectedImage = $("articleImage").files[0];
-
-      if (!headline || !article) {
-
-        throw new Error("Please enter both a headline and the full article.");
-
-      }
-
-      let imageUrl = currentImageUrl;
-
-      if (selectedImage) {
-
-        imageUrl = await uploadFile(
-
-          ARTICLE_IMAGE_BUCKET,
-
-          selectedImage,
-
-          "articles"
-
-        );
-
-      }
-
-      if (!imageUrl && !editingPostId) {
-
-        throw new Error("Please select an image for this article.");
-
-      }
-
-      const articleData = {
-
-        headline,
-
-        category,
-
-        description,
-
-        image: imageUrl,
-
-        article
-
-      };
-
-      if (editingPostId) {
-
-        const { error } = await db
-
-          .from("posts")
-
-          .update(articleData)
-
-          .eq("id", editingPostId);
-
-        if (error) throw error;
-
-        showMessage(
-
-          "globalMessage",
-
-          "Article updated successfully. Your changes have been saved.",
-
-          "success"
-
-        );
-
-      } else {
-
-        const { error } = await db
-
-          .from("posts")
-
-          .insert(articleData);
-
-        if (error) throw error;
-
-        showMessage(
-
-          "globalMessage",
-
-          "Your new article has been published successfully.",
-
-          "success"
-
-        );
-
-      }
-
-      resetArticleForm();
-
-      await loadPublishedArticles();
-
-    } catch (error) {
-
-      showMessage(
-
-        "globalMessage",
-
-        "Could not save the article: " + (error.message || "Unknown error"),
-
-        "error"
-
-      );
-
-    } finally {
-
-      setButtonLoading(button, false);
+      await loadAds();
 
     }
 
-  });
+  }catch(err){message("globalMessage","Advertisement action failed: "+err.message,"error");}
 
-  // ANALYTICS
+});
 
-  async function callAnalyticsFunction(functionName, startDate, endDate) {
+async function initialize(){
 
-    const { data, error } = await db.rpc(functionName, {
+  const {data,error}=await db.auth.getSession();
 
-      p_start_date: startDate,
+  if(error){message("globalMessage",error.message,"error");await showLogin();return;}
 
-      p_end_date: endDate
+  currentUser=data.session?.user||null;
 
-    });
+  if(currentUser)await showDashboard();else await showLogin();
 
-    if (error) throw new Error(functionName + ": " + error.message);
+}
 
-    return data;
+db.auth.onAuthStateChange((_event,session)=>{
 
-  }
+  currentUser=session?.user||null;
 
-  async function loadAnalytics() {
+  if(!currentUser)showLogin();
 
-    const startDate = $("analyticsStart").value;
+});
 
-    const endDate = $("analyticsEnd").value;
-
-    if (!startDate || !endDate) {
-
-      $("analyticsMessage").textContent = "Please choose both dates.";
-
-      return;
-
-    }
-
-    if (startDate > endDate) {
-
-      $("analyticsMessage").textContent =
-
-        "The start date must be before or equal to the end date.";
-
-      return;
-
-    }
-
-    $("analyticsMessage").textContent = "Loading analytics...";
-
-    const button = $("loadAnalyticsButton");
-
-    setButtonLoading(button, true, "Loading...");
-
-    const tasks = [
-
-      ["summary", "get_analytics_summary"],
-
-      ["countries", "get_analytics_countries"],
-
-      ["devices", "get_analytics_devices"],
-
-      ["browsers", "get_analytics_browsers"],
-
-      ["referrers", "get_analytics_referrers"],
-
-      ["topPages", "get_analytics_top_pages"],
-
-      ["daily", "get_analytics_daily_visitors"]
-
-    ];
-
-    try {
-
-      const results = await Promise.allSettled(
-
-        tasks.map(async ([key, fn]) => ({
-
-          key,
-
-          value: await callAnalyticsFunction(fn, startDate, endDate)
-
-        }))
-
-      );
-
-      const resultMap = {};
-
-      results.forEach((result, index) => {
-
-        const key = tasks[index][0];
-
-        if (result.status === "fulfilled") {
-
-          resultMap[key] = result.value.value;
-
-        } else {
-
-          resultMap[key] = null;
-
-          console.error("Analytics request failed:", key, result.reason);
-
-        }
-
-      });
-
-      const summary = resultMap.summary;
-
-      const summaryObject = Array.isArray(summary) ? summary[0] : summary;
-
-      $("totalVisitors").textContent =
-
-        firstNumber(summaryObject, [
-
-          "total_visitors", "visitors", "unique_visitors", "visitor_count"
-
-        ]) ?? "—";
-
-      $("totalPageViews").textContent =
-
-        firstNumber(summaryObject, [
-
-          "total_page_views", "page_views", "views", "total_views"
-
-        ]) ?? "—";
-
-      const countries = unwrapRows(resultMap.countries);
-
-      $("totalCountries").textContent = countries.length || "0";
-
-      $("countriesResults").innerHTML = makeTable(countries);
-
-      $("devicesResults").innerHTML = makeTable(unwrapRows(resultMap.devices));
-
-      $("browsersResults").innerHTML = makeTable(unwrapRows(resultMap.browsers));
-
-      $("referrersResults").innerHTML = makeTable(unwrapRows(resultMap.referrers));
-
-      $("topPagesResults").innerHTML = makeTable(unwrapRows(resultMap.topPages));
-
-      $("dailyVisitorsResults").innerHTML = makeTable(unwrapRows(resultMap.daily));
-
-      const failed = results.filter(result => result.status === "rejected").length;
-
-      $("analyticsMessage").textContent = failed
-
-        ? `${failed} analytics request(s) failed. Check that the corresponding Supabase functions exist and that your account has permission to call them.`
-
-        : "Analytics loaded.";
-
-    } catch (error) {
-
-      $("analyticsMessage").textContent =
-
-        "Analytics error: " + (error.message || "Unknown error");
-
-    } finally {
-
-      setButtonLoading(button, false);
-
-    }
-
-  }
-
-  $("loadAnalyticsButton").addEventListener("click", loadAnalytics);
-
-  // EXCLUDE ANALYTICS DEVICE
-
-  $("excludeDeviceForm").addEventListener("submit", async event => {
-
-    event.preventDefault();
-
-    const deviceId = $("deviceId").value.trim();
-
-    const deviceName = $("deviceName").value.trim();
-
-    try {
-
-      const { error } = await db.rpc("add_analytics_excluded_device", {
-
-        p_device_id: deviceId,
-
-        p_device_name: deviceName || null
-
-      });
-
-      if (error) throw error;
-
-      $("excludeDeviceForm").reset();
-
-      $("excludeDeviceMessage").textContent = "Device exclusion submitted.";
-
-    } catch (error) {
-
-      $("excludeDeviceMessage").textContent =
-
-        "Could not exclude device: " + error.message;
-
-    }
-
-  });
-
-  // CREATE ADVERTISEMENT
-
-  $("adForm").addEventListener("submit", async event => {
-
-    event.preventDefault();
-
-    if (!currentUser) {
-
-      showMessage("globalMessage", "Please log in first.", "error");
-
-      return;
-
-    }
-
-    const button = $("saveAdButton");
-
-    setButtonLoading(button, true, "Saving advertisement...");
-
-    try {
-
-      const imageFile = $("adImage").files[0];
-
-      const videoFile = $("adVideo").files[0];
-
-      let imageUrl = null;
-
-      let videoUrl = null;
-
-      if (imageFile) {
-
-        imageUrl = await uploadFile(AD_IMAGE_BUCKET, imageFile, "ads");
-
-      }
-
-      if (videoFile) {
-
-        videoUrl = await uploadFile(AD_VIDEO_BUCKET, videoFile, "ads");
-
-      }
-
-      const adData = {
-
-        title: $("adTitle").value.trim(),
-
-        description: $("adDescription").value.trim() || null,
-
-        image_url: imageUrl,
-
-        video_url: videoUrl,
-
-        destination_url: $("adDestination").value.trim() || null,
-
-        placement: $("adPlacement").value,
-
-        start_date: $("adStart").value || null,
-
-        end_date: $("adEnd").value || null,
-
-        is_active: $("adActive").checked
-
-      };
-
-      if (!adData.title) throw new Error("Enter an advertisement title.");
-
-      const { error } = await db.from("ads").insert(adData);
-
-      if (error) throw error;
-
-      $("adForm").reset();
-
-      $("adActive").checked = true;
-
-      showMessage(
-
-        "globalMessage",
-
-        "Advertisement saved successfully.",
-
-        "success"
-
-      );
-
-      await loadAdvertisements();
-
-    } catch (error) {
-
-      showMessage(
-
-        "globalMessage",
-
-        "Could not save advertisement: " + error.message,
-
-        "error"
-
-      );
-
-    } finally {
-
-      setButtonLoading(button, false);
-
-    }
-
-  });
-
-  // LOAD ADVERTISEMENTS
-
-  async function loadAdvertisements() {
-
-    $("adsMessage").textContent = "Loading advertisements...";
-
-    const { data, error } = await db
-
-      .from("ads")
-
-      .select("*")
-
-      .order("created_at", { ascending: false });
-
-    if (error) {
-
-      advertisements = [];
-
-      $("adsMessage").textContent =
-
-        "Could not load advertisements: " + error.message;
-
-      $("adsList").innerHTML = "";
-
-      return;
-
-    }
-
-    advertisements = data || [];
-
-    renderAdvertisements();
-
-  }
-
-  function renderAdvertisements() {
-
-    $("adsMessage").textContent =
-
-      advertisements.length + " advertisement(s).";
-
-    if (!advertisements.length) {
-
-      $("adsList").innerHTML =
-
-        '<p class="muted">No advertisements found.</p>';
-
-      return;
-
-    }
-
-    $("adsList").innerHTML = advertisements.map(ad => `
-
-      <article class="ad-item">
-
-        <h3>${escapeHTML(ad.title || "Untitled advertisement")}</h3>
-
-        <small>
-
-          Placement: ${escapeHTML(ad.placement || "Not specified")}
-
-          · Status: ${ad.is_active ? "Active" : "Inactive"}
-
-        </small>
-
-        ${ad.image_url
-
-          ? `<img src="${escapeHTML(ad.image_url)}" alt="" loading="lazy">`
-
-          : ""}
-
-        ${ad.description
-
-          ? `<p>${escapeHTML(ad.description)}</p>`
-
-          : ""}
-
-        ${ad.destination_url
-
-          ? `<p><a href="${escapeHTML(ad.destination_url)}"
-
-                  target="_blank" rel="noopener">Open destination</a></p>`
-
-          : ""}
-
-        <div class="row">
-
-          <button type="button" class="secondary"
-
-            data-toggle-ad="${escapeHTML(ad.id)}"
-
-            data-active="${ad.is_active ? "true" : "false"}">
-
-            ${ad.is_active ? "Deactivate" : "Activate"}
-
-          </button>
-
-          <button type="button" class="danger"
-
-            data-delete-ad="${escapeHTML(ad.id)}">
-
-            Delete Advertisement
-
-          </button>
-
-        </div>
-
-      </article>
-
-    `).join("");
-
-  }
-
-  $("refreshAdsButton").addEventListener("click", loadAdvertisements);
-
-  $("adsList").addEventListener("click", async event => {
-
-    const toggleButton = event.target.closest("[data-toggle-ad]");
-
-    const deleteButton = event.target.closest("[data-delete-ad]");
-
-    if (toggleButton) {
-
-      const id = toggleButton.dataset.toggleAd;
-
-      const currentlyActive = toggleButton.dataset.active === "true";
-
-      toggleButton.disabled = true;
-
-      try {
-
-        const { error } = await db
-
-          .from("ads")
-
-          .update({ is_active: !currentlyActive })
-
-          .eq("id", id);
-
-        if (error) throw error;
-
-        showMessage(
-
-          "globalMessage",
-
-          "Advertisement status updated.",
-
-          "success"
-
-        );
-
-        await loadAdvertisements();
-
-      } catch (error) {
-
-        showMessage(
-
-          "globalMessage",
-
-          "Could not update advertisement: " + error.message,
-
-          "error"
-
-        );
-
-        toggleButton.disabled = false;
-
-      }
-
-    }
-
-    if (deleteButton) {
-
-      const id = deleteButton.dataset.deleteAd;
-
-      if (!confirm("Are you sure you want to delete this advertisement?")) {
-
-        return;
-
-      }
-
-      deleteButton.disabled = true;
-
-      try {
-
-        const { error } = await db.from("ads").delete().eq("id", id);
-
-        if (error) throw error;
-
-        showMessage(
-
-          "globalMessage",
-
-          "Advertisement deleted.",
-
-          "success"
-
-        );
-
-        await loadAdvertisements();
-
-      } catch (error) {
-
-        showMessage(
-
-          "globalMessage",
-
-          "Could not delete advertisement: " + error.message,
-
-          "error"
-
-        );
-
-        deleteButton.disabled = false;
-
-      }
-
-    }
-
-  });
-
-  // CHECK EXISTING SESSION
-
-  async function initialize() {
-
-    const { data, error } = await db.auth.getSession();
-
-    if (error) {
-
-      showMessage(
-
-        "globalMessage",
-
-        "Could not check login session: " + error.message,
-
-        "error"
-
-      );
-
-      await showLogin();
-
-      return;
-
-    }
-
-    currentUser = data.session?.user || null;
-
-    if (currentUser) {
-
-      await showDashboard();
-
-    } else {
-
-      await showLogin();
-
-    }
-
-  }
-
-  db.auth.onAuthStateChange((_event, session) => {
-
-    currentUser = session?.user || null;
-
-    if (!currentUser) {
-
-      showLogin();
-
-    } else {
-
-      showDashboard();
-
-    }
-
-  });
-
-  initialize();
+initialize();
 
 })();
 
