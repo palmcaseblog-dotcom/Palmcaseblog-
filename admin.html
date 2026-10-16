@@ -1,1085 +1,1173 @@
 
-
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Palmcaseblog Admin</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | Palmcaseblog</title>
 <meta name="robots" content="noindex,nofollow">
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-
-:root{--bg:#0b1120;--panel:#111827;--panel2:#1b2638;--text:#f9fafb;--muted:#9ca3af;--orange:#f59e0b;--border:#334155;--red:#dc2626;--green:#15803d}
-
-*{box-sizing:border-box}
-
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;line-height:1.6}
-
-header{background:#080d18;border-bottom:1px solid var(--border);padding:16px}
-
-.header-inner,main{max-width:1150px;margin:auto}
-
-.header-inner{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-
-header h1{font-size:22px;margin:0}header span{color:var(--orange)}
-
-main{padding:20px 14px 60px}
-
-.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:20px}
-
-h2{font-size:21px;margin:0 0 12px}h3{font-size:17px;margin:0 0 6px}
-
-p,.muted,small{color:var(--muted)}
-
-label{display:block;font-weight:bold;font-size:14px;margin:12px 0 5px}
-
-input,select,textarea{width:100%;padding:12px;background:#080f1d;border:1px solid #475569;border-radius:8px;color:white;font:inherit}
-
-textarea{min-height:130px;resize:vertical}
-
-button,.link{display:inline-block;padding:10px 14px;border:0;border-radius:8px;background:var(--orange);color:#111827;font-weight:bold;cursor:pointer;text-decoration:none;margin:5px 5px 5px 0}
-
-button:disabled{opacity:.55;cursor:wait}
-
-.secondary{background:#334155;color:white}.danger{background:var(--red);color:white}.success{background:var(--green);color:white}
-
-.hidden{display:none!important}
-
-.status{padding:12px;background:#1e293b;border-radius:8px;margin:12px 0;overflow-wrap:anywhere}
-
-.status.error{color:#fecaca}.status.success{color:#bbf7d0}
-
-.article-item,.ad-item{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px;margin:12px 0;overflow-wrap:anywhere}
-
-.article-item img,.ad-item img{width:180px;max-width:100%;max-height:130px;object-fit:cover;border-radius:7px;display:block;margin:10px 0}
-
-.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:0}
-
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-
-.stat{background:var(--panel2);padding:14px;border-radius:8px;overflow-wrap:anywhere}
-
-.stat strong{display:block;color:var(--orange);font-size:23px}
-
-.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:380px}
-
-td,th{text-align:left;padding:9px;border-bottom:1px solid var(--border);font-size:14px}
-
-th{color:var(--orange)}.preview{max-width:300px;max-height:200px;object-fit:contain;display:block;margin-top:12px}
-
-@media(max-width:650px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:13px}}
-
+:root {
+  --bg:#0b1120;
+  --panel:#111827;
+  --panel2:#182235;
+  --line:#29364b;
+  --text:#f8fafc;
+  --muted:#9ca3af;
+  --orange:#f59e0b;
+  --green:#22c55e;
+  --red:#ef4444;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+button,input,select,textarea {font:inherit}
+button {cursor:pointer}
+a {color:var(--orange)}
+.hidden {display:none!important}
+.muted {color:var(--muted)}
+.small {font-size:12px}
+.topbar {
+  height:64px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;background:var(--panel);border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:10;
+}
+.brand {font-size:20px;font-weight:800}
+.brand span {color:var(--orange)}
+.top-actions {display:flex;gap:8px;align-items:center}
+.layout {display:flex;min-height:calc(100vh - 64px)}
+.sidebar {
+  width:240px;flex-shrink:0;background:var(--panel);
+  border-right:1px solid var(--line);padding:18px 12px;
+}
+.side-label {
+  font-size:11px;color:var(--muted);text-transform:uppercase;
+  letter-spacing:1px;margin:8px 12px 12px;
+}
+.nav-btn {
+  width:100%;text-align:left;background:transparent;color:#dbe4f0;
+  border:0;padding:13px 12px;border-radius:8px;margin-bottom:5px;
+}
+.nav-btn:hover,.nav-btn.active {background:#283448;color:var(--orange)}
+.main {flex:1;min-width:0;padding:24px;max-width:1500px}
+.page {display:none}
+.page.active {display:block}
+h1 {font-size:26px;margin:0 0 8px}
+h2 {font-size:19px;margin-top:0}
+h3 {font-size:15px}
+.page-intro {color:var(--muted);margin-bottom:24px;line-height:1.5}
+.grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.stats {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0}
+.stat,.panel {
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:18px;min-width:0;
+}
+.stat-label {font-size:13px;color:var(--muted)}
+.stat-number {font-size:27px;font-weight:800;margin-top:9px;overflow-wrap:anywhere}
+.field {margin-bottom:15px}
+label {display:block;font-size:13px;margin-bottom:7px;color:#dbe4f0}
+input,select,textarea {
+  width:100%;padding:12px;border-radius:7px;border:1px solid #37445a;
+  background:#0b1120;color:var(--text);outline:none;
+}
+input:focus,select:focus,textarea:focus {border-color:var(--orange)}
+textarea {min-height:120px;resize:vertical}
+button.primary,.primary {
+  background:var(--orange);color:#111827;border:0;border-radius:7px;
+  padding:11px 15px;font-weight:700;
+}
+button.secondary {
+  background:#29364b;color:white;border:1px solid #40506a;
+  border-radius:7px;padding:10px 13px;
+}
+button.danger {
+  background:#7f1d1d;color:white;border:0;border-radius:7px;padding:9px 11px;
+}
+button.success {
+  background:#166534;color:white;border:0;border-radius:7px;padding:9px 11px;
+}
+button:disabled {opacity:.55;cursor:not-allowed}
+.actions {display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.message {
+  padding:12px;border-radius:8px;margin:12px 0;line-height:1.5;
+  overflow-wrap:anywhere;
+}
+.message.success-msg {background:#12351f;color:#bbf7d0}
+.message.error-msg {background:#451a1a;color:#fecaca}
+.message.info-msg {background:#172554;color:#bfdbfe}
+.item {
+  background:var(--panel2);border:1px solid var(--line);
+  border-radius:9px;padding:15px;margin-top:12px;overflow-wrap:anywhere;
+}
+.item-title {font-weight:700;margin-bottom:7px;line-height:1.4}
+.item-meta {font-size:12px;color:var(--muted);line-height:1.7}
+.item p {line-height:1.5}
+.badge {
+  display:inline-block;font-size:11px;padding:5px 8px;border-radius:20px;
+  background:#29364b;color:#e5e7eb;margin:4px 4px 4px 0;
+}
+.badge.pending {background:#713f12;color:#fde68a}
+.badge.approved,.badge.active {background:#14532d;color:#bbf7d0}
+.badge.rejected,.badge.inactive {background:#7f1d1d;color:#fecaca}
+.row-between {display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+hr {border:0;border-top:1px solid var(--line);margin:20px 0}
+.preview {max-width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-top:10px}
+#loginPanel {max-width:440px;margin:65px auto;padding:25px}
+#loginPanel .brand {margin-bottom:18px}
+#globalMessage {margin-bottom:16px}
+.loading {color:var(--muted);padding:14px 0}
+.empty {color:var(--muted);padding:16px 0}
+@media(max-width:900px) {
+  .layout {display:block}
+  .sidebar {
+    width:100%;border-right:0;border-bottom:1px solid var(--line);
+    padding:10px;position:static;
+  }
+  .side-label {margin:5px 8px}
+  .nav-list {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+  .nav-btn {margin:0;padding:11px 9px;font-size:13px}
+  .main {padding:17px}
+  .stats {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px) {
+  .grid {grid-template-columns:1fr}
+  .topbar {padding:0 12px}
+  .brand {font-size:17px}
+  .stats {gap:9px}
+  .stat {padding:13px}
+  .stat-number {font-size:22px}
+  .main {padding:13px}
+  h1 {font-size:23px}
+}
 </style>
-
 </head>
-
 <body>
 
-<header><div class="header-inner">
-
-<h1>Palmcase<span>blog</span> Admin</h1>
-
-<button id="logoutButton" class="secondary hidden" type="button">Log Out</button>
-
-</div></header>
-
-<main>
-
-<div id="globalMessage" class="status hidden" role="status"></div>
+<header class="topbar">
+  <div class="brand">Palmcase<span>blog</span> Admin</div>
+  <div class="top-actions">
+    <a href="index.html" target="_blank" rel="noopener">View site</a>
+    <button id="logoutButton" class="secondary hidden">Log out</button>
+  </div>
+</header>
 
 <section id="loginPanel" class="panel">
-
-<h2>Admin Login</h2>
-
-<form id="loginForm">
-
-<label for="loginEmail">Email</label>
-
-<input id="loginEmail" type="email" autocomplete="username" required>
-
-<label for="loginPassword">Password</label>
-
-<input id="loginPassword" type="password" autocomplete="current-password" required>
-
-<button id="loginButton" type="submit">Log In</button>
-
-</form>
-
+  <div class="brand">Admin <span>Login</span></div>
+  <p class="muted">Sign in to manage Palmcaseblog.</p>
+  <form id="loginForm">
+    <div class="field">
+      <label for="loginEmail">Email address</label>
+      <input id="loginEmail" type="email" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password" autocomplete="current-password" required>
+    </div>
+    <button class="primary" type="submit" id="loginButton">Sign in</button>
+    <div id="loginMessage" aria-live="polite"></div>
+  </form>
 </section>
 
-<section id="dashboard" class="hidden">
+<div id="dashboard" class="layout hidden">
+  <aside class="sidebar">
+    <div class="side-label">Main menu</div>
+    <nav class="nav-list">
+      <button class="nav-btn active" data-page="home">🏠 Dashboard Home</button>
+      <button class="nav-btn" data-page="publish">✍️ Publish Article</button>
+      <button class="nav-btn" data-page="articles">📰 Manage Articles</button>
+      <button class="nav-btn" data-page="businesses">🏪 Business Directory</button>
+      <button class="nav-btn" data-page="analytics">📊 Analytics</button>
+      <button class="nav-btn" data-page="ads">📢 Advertisements</button>
+    </nav>
+    <hr>
+    <p class="muted small">Palmcaseblog content management</p>
+  </aside>
 
-<div class="panel">
+  <main class="main">
+    <div id="globalMessage" aria-live="polite"></div>
 
-<h2>Palmcaseblog Dashboard</h2>
+    <section id="page-home" class="page active">
+      <h1>Dashboard Home</h1>
+      <p class="page-intro">Welcome to your Palmcaseblog control panel. Select a section from the menu to manage it.</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Total articles</div><div class="stat-number" id="homeArticleCount">—</div></div>
+        <div class="stat"><div class="stat-label">Business listings</div><div class="stat-number" id="homeBusinessCount">—</div></div>
+        <div class="stat"><div class="stat-label">Pending businesses</div><div class="stat-number" id="homePendingCount">—</div></div>
+        <div class="stat"><div class="stat-label">Advertisements</div><div class="stat-number" id="homeAdCount">—</div></div>
+      </div>
+      <div class="grid">
+        <div class="panel">
+          <h2>Quick actions</h2>
+          <p class="muted">Publish new stories, review businesses, and manage ads.</p>
+          <div class="actions">
+            <button class="primary" data-go="publish">Publish an article</button>
+            <button class="secondary" data-go="articles">Manage articles</button>
+            <button class="secondary" data-go="businesses">Review businesses</button>
+            <button class="secondary" data-go="ads">Manage ads</button>
+          </div>
+        </div>
+        <div class="panel">
+          <h2>Latest articles</h2>
+          <div id="homeLatestArticles" class="loading">Loading articles…</div>
+        </div>
+      </div>
+    </section>
 
-<a class="link" href="index.html" target="_blank" rel="noopener">View Website</a>
+    <section id="page-publish" class="page">
+      <h1 id="editorHeading">Publish Article</h1>
+      <p class="page-intro">Create a story for Palmcaseblog. Required fields are marked below.</p>
+      <div class="panel">
+        <form id="articleForm">
+          <input type="hidden" id="articleId">
+          <div class="field">
+            <label for="headline">Headline *</label>
+            <input id="headline" maxlength="250" required placeholder="Enter the article headline">
+          </div>
+          <div class="field">
+            <label for="category">Category *</label>
+            <select id="category" required>
+              <option value="news">News</option>
+              <option value="entertainment">Entertainment</option>
+              <option value="politics">Politics</option>
+              <option value="sports">Sports</option>
+              <option value="technology">Technology</option>
+              <option value="lifestyle">Lifestyle</option>
+              <option value="crime">Crime</option>
+              <option value="relationship">Relationship</option>
+              <option value="world">World</option>
+              <option value="topics">Topics</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="description">Short description / excerpt</label>
+            <textarea id="description" rows="3" placeholder="A short introduction to the story"></textarea>
+          </div>
+          <div class="field">
+            <label for="articleImage">Article image</label>
+            <input id="articleImage" type="file" accept="image/jpeg,image/png,image/webp">
+            <div class="muted small">Choose an image from your device. If you edit an article without choosing a new image, its existing image is kept.</div>
+            <img id="articleImagePreview" class="preview hidden" alt="Article image preview">
+          </div>
+          <div class="field">
+            <label for="articleText">Full article *</label>
+            <textarea id="articleText" rows="12" required placeholder="Write the full article here"></textarea>
+          </div>
+          <div class="actions">
+            <button id="saveArticleButton" class="primary" type="submit">Publish article</button>
+            <button id="cancelEditButton" class="secondary hidden" type="button">Cancel edit</button>
+          </div>
+          <div id="articleMessage" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
 
+    <section id="page-articles" class="page">
+      <div class="row-between">
+        <div>
+          <h1>Manage Articles</h1>
+          <p class="page-intro">Edit, view, or delete published stories.</p>
+        </div>
+        <button class="primary" data-go="publish">+ New article</button>
+      </div>
+      <div class="panel">
+        <div class="field">
+          <label for="articleSearch">Search articles</label>
+          <input id="articleSearch" placeholder="Search by headline or category">
+        </div>
+        <div id="articleList" class="loading">Loading articles…</div>
+      </div>
+    </section>
+
+    <section id="page-businesses" class="page">
+      <h1>Business Directory</h1>
+      <p class="page-intro">Review submitted businesses and approve or reject listings. Only approved listings should appear publicly.</p>
+      <div class="panel">
+        <div class="field">
+          <label for="businessFilter">Filter listings</label>
+          <select id="businessFilter">
+            <option value="all">All listings</option>
+            <option value="pending">Pending review</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+        <button id="reloadBusinessesButton" class="secondary">Refresh listings</button>
+        <div id="businessList" class="loading">Loading business listings…</div>
+      </div>
+    </section>
+
+    <section id="page-analytics" class="page">
+      <h1>Analytics</h1>
+      <p class="page-intro">Review visitor statistics using the analytics functions configured in your Supabase project.</p>
+      <div class="panel">
+        <div class="grid">
+          <div class="field"><label for="analyticsStart">Start date</label><input id="analyticsStart" type="date"></div>
+          <div class="field"><label for="analyticsEnd">End date</label><input id="analyticsEnd" type="date"></div>
+        </div>
+        <button id="loadAnalyticsButton" class="primary">Load analytics</button>
+        <div id="analyticsMessage" aria-live="polite"></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Visitors / visits</div><div class="stat-number" id="analyticsVisitors">—</div></div>
+        <div class="stat"><div class="stat-label">Page views</div><div class="stat-number" id="analyticsViews">—</div></div>
+        <div class="stat"><div class="stat-label">Countries</div><div class="stat-number" id="analyticsCountryCount">—</div></div>
+        <div class="stat"><div class="stat-label">Devices</div><div class="stat-number" id="analyticsDeviceCount">—</div></div>
+      </div>
+      <div class="grid">
+        <div class="panel"><h2>Countries</h2><div id="analyticsCountries" class="empty">Load analytics to view data.</div></div>
+        <div class="panel"><h2>Devices</h2><div id="analyticsDevices" class="empty">Load analytics to view data.</div></div>
+        <div class="panel"><h2>Browsers</h2><div id="analyticsBrowsers" class="empty">Load analytics to view data.</div></div>
+        <div class="panel"><h2>Referrers</h2><div id="analyticsReferrers" class="empty">Load analytics to view data.</div></div>
+        <div class="panel"><h2>Top pages</h2><div id="analyticsTopPages" class="empty">Load analytics to view data.</div></div>
+        <div class="panel"><h2>Daily visitors</h2><div id="analyticsDaily" class="empty">Load analytics to view data.</div></div>
+      </div>
+      <hr>
+      <div class="panel">
+        <h2>Exclude a device from analytics</h2>
+        <p class="muted">Use the exact device identifier expected by your existing analytics function.</p>
+        <div class="field">
+          <label for="excludedDevice">Device identifier</label>
+          <input id="excludedDevice" placeholder="Enter device identifier">
+        </div>
+        <button id="excludeDeviceButton" class="secondary">Exclude device</button>
+        <div id="excludeDeviceMessage" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="page-ads" class="page">
+      <h1>Advertisements</h1>
+      <p class="page-intro">Create advertising campaigns and manage existing ads.</p>
+      <div class="panel">
+        <h2 id="adFormHeading">Create advertisement</h2>
+        <form id="adForm">
+          <input type="hidden" id="adId">
+          <div class="field"><label for="adTitle">Advertisement title *</label><input id="adTitle" required></div>
+          <div class="field"><label for="adDescription">Description</label><textarea id="adDescription" rows="3"></textarea></div>
+          <div class="field"><label for="adImageFile">Image file</label><input id="adImageFile" type="file" accept="image/jpeg,image/png,image/webp"></div>
+          <div class="field"><label for="adImageUrl">Image URL (optional)</label><input id="adImageUrl" type="url" placeholder="https://..."></div>
+          <div class="field"><label for="adVideoUrl">Video URL (optional)</label><input id="adVideoUrl" type="url" placeholder="https://..."></div>
+          <div class="field"><label for="adDestinationUrl">Destination URL</label><input id="adDestinationUrl" type="url" placeholder="https://..."></div>
+          <div class="field">
+            <label for="adPlacement">Placement *</label>
+            <select id="adPlacement" required>
+              <option value="homepage">Homepage</option>
+              <option value="article">Article page</option>
+              <option value="sidebar">Sidebar</option>
+              <option value="all">All placements</option>
+            </select>
+          </div>
+          <div class="grid">
+            <div class="field"><label for="adStartDate">Start date</label><input id="adStartDate" type="date"></div>
+            <div class="field"><label for="adEndDate">End date</label><input id="adEndDate" type="date"></div>
+          </div>
+          <div class="field">
+            <label><input id="adActive" type="checkbox" checked style="width:auto;margin-right:7px"> Advertisement is active</label>
+          </div>
+          <div class="actions">
+            <button id="saveAdButton" class="primary" type="submit">Save advertisement</button>
+            <button id="cancelAdEditButton" class="secondary hidden" type="button">Cancel edit</button>
+          </div>
+          <div id="adMessage" aria-live="polite"></div>
+        </form>
+      </div>
+      <div class="panel" style="margin-top:20px">
+        <div class="row-between">
+          <h2>Manage advertisements</h2>
+          <button id="reloadAdsButton" class="secondary">Refresh</button>
+        </div>
+        <div id="adList" class="loading">Loading advertisements…</div>
+      </div>
+    </section>
+  </main>
 </div>
-
-<section class="panel" id="editorPanel">
-
-<h2 id="editorHeading">Publish New Article</h2>
-
-<p id="editorHelp">Fill in the fields to publish an article.</p>
-
-<div id="editingNotice" class="status hidden">You are editing an existing article.</div>
-
-<form id="articleForm">
-
-<label for="headline">Headline</label>
-
-<input id="headline" maxlength="250" required>
-
-<label for="category">Category</label>
-
-<select id="category">
-
-<option>News</option><option>Entertainment</option><option>Politics</option>
-
-<option>Sports</option><option>Technology</option><option>Lifestyle</option>
-
-<option>Crime</option><option>Relationship</option><option>World</option><option>Topics</option>
-
-</select>
-
-<label for="description">Article Description / Summary</label>
-
-<textarea id="description" rows="4" placeholder="Enter the article description"></textarea>
-
-<label for="articleImage">Article Image</label>
-
-<input id="articleImage" type="file" accept="image/*">
-
-<p class="muted">When editing, leave this empty to keep the existing image.</p>
-
-<img id="imagePreview" class="preview hidden" alt="Article image preview">
-
-<label for="article">Full Article Text</label>
-
-<textarea id="article" rows="14" required placeholder="Write the full article here"></textarea>
-
-<button id="saveArticleButton" type="submit">Publish Article</button>
-
-<button id="cancelEditButton" class="secondary hidden" type="button">Cancel Editing</button>
-
-</form>
-
-</section>
-
-<section class="panel">
-
-<div class="row">
-
-<h2>Published Articles</h2>
-
-<button id="refreshArticlesButton" class="secondary" type="button">Refresh Articles</button>
-
-</div>
-
-<label for="articleSearch">Search articles</label>
-
-<input id="articleSearch" type="search" placeholder="Search headline or category">
-
-<div id="articlesMessage" class="muted">Loading articles...</div>
-
-<div id="publishedArticlesList"></div>
-
-</section>
-
-<section class="panel">
-
-<h2>Website Analytics</h2>
-
-<div class="row">
-
-<div><label for="analyticsStart">Start Date</label><input id="analyticsStart" type="date"></div>
-
-<div><label for="analyticsEnd">End Date</label><input id="analyticsEnd" type="date"></div>
-
-</div>
-
-<button id="loadAnalyticsButton" type="button">Load Analytics</button>
-
-<p id="analyticsMessage"></p>
-
-<div class="grid">
-
-<div class="stat"><span>Visitors</span><strong id="totalVisitors">—</strong></div>
-
-<div class="stat"><span>Page Views</span><strong id="totalPageViews">—</strong></div>
-
-<div class="stat"><span>Countries</span><strong id="totalCountries">—</strong></div>
-
-</div>
-
-<div class="row">
-
-<div><h3>Countries</h3><div id="countriesResults" class="table-wrap"></div></div>
-
-<div><h3>Devices</h3><div id="devicesResults" class="table-wrap"></div></div>
-
-</div>
-
-<div class="row">
-
-<div><h3>Browsers</h3><div id="browsersResults" class="table-wrap"></div></div>
-
-<div><h3>Traffic Sources</h3><div id="referrersResults" class="table-wrap"></div></div>
-
-</div>
-
-<div class="row">
-
-<div><h3>Popular Pages</h3><div id="topPagesResults" class="table-wrap"></div></div>
-
-<div><h3>Daily Visitors</h3><div id="dailyVisitorsResults" class="table-wrap"></div></div>
-
-</div>
-
-</section>
-
-<section class="panel">
-
-<h2>Exclude Analytics Device</h2>
-
-<form id="excludeDeviceForm">
-
-<label for="deviceId">Device ID</label><input id="deviceId" required>
-
-<label for="deviceName">Device Name</label><input id="deviceName">
-
-<button type="submit">Exclude Device</button>
-
-</form>
-
-<p id="excludeDeviceMessage"></p>
-
-</section>
-
-<section class="panel">
-
-<h2>Create Advertisement</h2>
-
-<form id="adForm">
-
-<label for="adTitle">Advertisement Title</label><input id="adTitle" required>
-
-<label for="adDescription">Description</label><textarea id="adDescription" rows="3"></textarea>
-
-<label for="adImage">Advertisement Image</label><input id="adImage" type="file" accept="image/*">
-
-<label for="adVideo">Advertisement Video (optional)</label><input id="adVideo" type="file" accept="video/*">
-
-<label for="adDestination">Destination URL</label><input id="adDestination" type="url" placeholder="https://example.com">
-
-<label for="adPlacement">Placement</label>
-
-<select id="adPlacement"><option value="homepage">Homepage</option><option value="article">Article Page</option><option value="sidebar">Sidebar</option><option value="all">All Pages</option></select>
-
-<div class="row">
-
-<div><label for="adStart">Start Date</label><input id="adStart" type="date"></div>
-
-<div><label for="adEnd">End Date</label><input id="adEnd" type="date"></div>
-
-</div>
-
-<label><input id="adActive" type="checkbox" checked style="width:auto"> Advertisement active</label>
-
-<button id="saveAdButton" type="submit">Save Advertisement</button>
-
-</form>
-
-</section>
-
-<section class="panel">
-
-<div class="row"><h2>Manage Advertisements</h2><button id="refreshAdsButton" class="secondary" type="button">Refresh Ads</button></div>
-
-<div id="adsMessage"></div><div id="adsList"></div>
-
-</section>
-
-</section>
-
-</main>
 
 <script>
-
 (() => {
+  "use strict";
 
-"use strict";
+  const SUPABASE_URL = "https://kcxlwhojwdvbfjjnartw.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
 
-const SUPABASE_URL = "https://kcxlwhojwdvbfjjnartw.supabase.co";
+  const ARTICLE_IMAGE_BUCKET = "article-images";
+  const AD_IMAGE_BUCKET = "ad_images";
+  const AD_VIDEO_BUCKET = "ad_videos";
 
-const SUPABASE_KEY = "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Confirm these names match your Supabase Storage buckets.
+  let postsCache = [];
+  let businessesCache = [];
+  let adsCache = [];
+  let currentArticleImage = "";
+  let currentAdImage = "";
+  let currentAdVideo = "";
+  let activePage = "home";
 
-const ARTICLE_IMAGE_BUCKET = "article-images";
+  const $ = id => document.getElementById(id);
 
-const AD_IMAGE_BUCKET = "ad_images";
-
-const AD_VIDEO_BUCKET = "ad_videos";
-
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-const $ = id => document.getElementById(id);
-
-let currentUser = null;
-
-let posts = [];
-
-let editingPostId = null;
-
-let currentImageUrl = "";
-
-let ads = [];
-
-function message(id, text, type = "") {
-
-  const el = $(id);
-
-  el.textContent = text;
-
-  el.className = "status" + (type ? " " + type : "");
-
-  el.classList.remove("hidden");
-
-}
-
-function clearMessage(id) {
-
-  $(id).textContent = "";
-
-  $(id).className = "hidden";
-
-}
-
-function escapeHTML(value) {
-
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-
-  })[c]);
-
-}
-
-function setLoading(button, on, text) {
-
-  if (on) {
-
-    button.dataset.oldText = button.textContent;
-
-    button.textContent = text;
-
-    button.disabled = true;
-
-  } else {
-
-    button.textContent = button.dataset.oldText || button.textContent;
-
-    button.disabled = false;
-
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, ch => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[ch]));
   }
 
-}
+  function safeURL(value) {
+    try {
+      const u = new URL(String(value || ""), window.location.href);
+      return ["http:","https:"].includes(u.protocol) ? u.href : "";
+    } catch {
+      return "";
+    }
+  }
 
-function localDate(date) {
+  function showMessage(id, message, type = "info-msg") {
+    const el = $(id);
+    if (!el) return;
+    el.className = "message " + type;
+    el.textContent = message;
+  }
 
-  const d = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  function clearMessage(id) {
+    const el = $(id);
+    if (el) {
+      el.textContent = "";
+      el.className = "";
+    }
+  }
 
-  return d.toISOString().slice(0,10);
+  function setBusy(button, busy, busyText = "Please wait…") {
+    if (!button) return;
+    if (busy) {
+      button.dataset.originalText = button.textContent;
+      button.textContent = busyText;
+      button.disabled = true;
+    } else {
+      button.textContent = button.dataset.originalText || button.textContent;
+      button.disabled = false;
+    }
+  }
 
-}
+  function friendlyError(error) {
+    return error?.message || String(error || "An unexpected error occurred.");
+  }
 
-function setupDates() {
+  function switchPage(page) {
+    activePage = page;
+    document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".nav-btn").forEach(el => {
+      el.classList.toggle("active", el.dataset.page === page);
+    });
+    const selected = $("page-" + page);
+    if (selected) selected.classList.add("active");
+    clearMessage("globalMessage");
 
-  const end = localDate(new Date());
+    if (page === "articles") loadPosts();
+    if (page === "businesses") loadBusinesses();
+    if (page === "ads") loadAds();
+    if (page === "home") refreshHome();
+  }
 
-  const start = new Date();
-
-  start.setDate(start.getDate() - 6);
-
-  $("analyticsStart").value = localDate(start);
-
-  $("analyticsEnd").value = end;
-
-}
-
-async function uploadFile(bucket, file, folder) {
-
-  if (!file) return null;
-
-  const name = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-
-  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2,8)}-${name}`;
-
-  const {error} = await db.storage.from(bucket).upload(path,file,{
-
-    upsert:false,cacheControl:"3600",contentType:file.type || undefined
-
+  document.querySelectorAll("[data-page]").forEach(button => {
+    button.addEventListener("click", () => switchPage(button.dataset.page));
   });
 
-  if (error) throw error;
-
-  const {data} = db.storage.from(bucket).getPublicUrl(path);
-
-  if (!data?.publicUrl) throw new Error("Could not create public image URL.");
-
-  return data.publicUrl;
-
-}
-
-async function showLogin() {
-
-  $("dashboard").classList.add("hidden");
-
-  $("loginPanel").classList.remove("hidden");
-
-  $("logoutButton").classList.add("hidden");
-
-}
-
-async function showDashboard() {
-
-  $("loginPanel").classList.add("hidden");
-
-  $("dashboard").classList.remove("hidden");
-
-  $("logoutButton").classList.remove("hidden");
-
-  setupDates();
-
-  await Promise.allSettled([loadPosts(),loadAds(),loadAnalytics()]);
-
-}
-
-$("loginForm").addEventListener("submit",async e=>{
-
-  e.preventDefault();
-
-  const b=$("loginButton"); setLoading(b,true,"Signing in...");
-
-  try {
-
-    const {data,error}=await db.auth.signInWithPassword({
-
-      email:$("loginEmail").value.trim(),
-
-      password:$("loginPassword").value
-
-    });
-
-    if(error) throw error;
-
-    currentUser=data.user;
-
-    await showDashboard();
-
-    message("globalMessage","Logged in successfully.","success");
-
-  } catch(err) {
-
-    message("globalMessage","Login failed: "+err.message,"error");
-
-  } finally {setLoading(b,false);}
-
-});
-
-$("logoutButton").addEventListener("click",async()=>{
-
-  const {error}=await db.auth.signOut();
-
-  if(error){message("globalMessage","Logout failed: "+error.message,"error");return;}
-
-  currentUser=null;
-
-  resetEditor();
-
-  await showLogin();
-
-});
-
-$("articleImage").addEventListener("change",()=>{
-
-  const file=$("articleImage").files[0];
-
-  const img=$("imagePreview");
-
-  if(!file) {
-
-    if(currentImageUrl){img.src=currentImageUrl;img.classList.remove("hidden");}
-
-    else {img.removeAttribute("src");img.classList.add("hidden");}
-
-    return;
-
-  }
-
-  if(!file.type.startsWith("image/")){
-
-    message("globalMessage","Please select a valid image.","error");
-
-    $("articleImage").value="";return;
-
-  }
-
-  img.src=URL.createObjectURL(file);
-
-  img.classList.remove("hidden");
-
-});
-
-async function loadPosts() {
-
-  $("articlesMessage").textContent="Loading articles...";
-
-  const {data,error}=await db.from("posts").select("*").order("created_at",{ascending:false});
-
-  if(error){
-
-    posts=[];
-
-    $("articlesMessage").textContent="Could not load articles: "+error.message;
-
-    $("publishedArticlesList").innerHTML="";
-
-    return;
-
-  }
-
-  posts=data||[];
-
-  renderPosts();
-
-}
-
-function renderPosts() {
-
-  const term=$("articleSearch").value.trim().toLowerCase();
-
-  const filtered=posts.filter(p=>
-
-    String(p.headline||"").toLowerCase().includes(term)||
-
-    String(p.category||"").toLowerCase().includes(term)
-
-  );
-
-  $("articlesMessage").textContent=filtered.length+" article(s) found.";
-
-  if(!filtered.length){
-
-    $("publishedArticlesList").innerHTML='<p class="muted">No matching articles found.</p>';
-
-    return;
-
-  }
-
-  $("publishedArticlesList").innerHTML=filtered.map(p=>{
-
-    const img=p.image||p.image_url||"";
-
-    return `<article class="article-item">
-
-      <h3>${escapeHTML(p.headline||"Untitled")}</h3>
-
-      <small>Category: ${escapeHTML(p.category||"Uncategorized")} · ${escapeHTML(p.created_at||"")}</small>
-
-      ${img?`<img src="${escapeHTML(img)}" alt="" loading="lazy">`:""}
-
-      <p>${escapeHTML(p.description||"No description added.")}</p>
-
-      <button type="button" data-edit="${escapeHTML(p.id)}">Edit Article</button>
-
-      <button type="button" class="danger" data-delete="${escapeHTML(p.id)}">Delete Article</button>
-
-      <a class="link" target="_blank" rel="noopener" href="article.html?id=${encodeURIComponent(p.id)}">View Article</a>
-
-    </article>`;
-
-  }).join("");
-
-}
-
-$("articleSearch").addEventListener("input",renderPosts);
-
-$("refreshArticlesButton").addEventListener("click",loadPosts);
-
-$("publishedArticlesList").addEventListener("click",async e=>{
-
-  const edit=e.target.closest("[data-edit]");
-
-  const del=e.target.closest("[data-delete]");
-
-  if(edit){
-
-    const post=posts.find(p=>String(p.id)===edit.dataset.edit);
-
-    if(!post){message("globalMessage","Article not found.","error");return;}
-
-    editingPostId=post.id;
-
-    currentImageUrl=post.image||post.image_url||"";
-
-    $("headline").value=post.headline||"";
-
-    $("category").value=post.category||"News";
-
-    $("description").value=post.description||"";
-
-    $("article").value=post.article||post.article_text||"";
-
-    $("articleImage").value="";
-
-    $("editorHeading").textContent="Edit Published Article";
-
-    $("editorHelp").textContent="Edit the description, headline, article text or image, then save.";
-
-    $("editingNotice").classList.remove("hidden");
-
-    $("saveArticleButton").textContent="Save Changes";
-
-    $("cancelEditButton").classList.remove("hidden");
-
-    if(currentImageUrl){
-
-      $("imagePreview").src=currentImageUrl;
-
-      $("imagePreview").classList.remove("hidden");
-
-    } else {
-
-      $("imagePreview").removeAttribute("src");
-
-      $("imagePreview").classList.add("hidden");
-
+  document.querySelectorAll("[data-go]").forEach(button => {
+    button.addEventListener("click", () => switchPage(button.dataset.go));
+  });
+
+  async function uploadFile(bucket, file, folder) {
+    if (!file) return "";
+    const allowed = ["image/jpeg","image/png","image/webp","video/mp4","video/webm"];
+    if (!allowed.includes(file.type)) {
+      throw new Error("Choose a supported JPG, PNG, WebP, MP4, or WebM file.");
+    }
+    const maxSize = file.type.startsWith("video/") ? 50 * 1024 * 1024 : 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+      throw new Error(file.type.startsWith("video/")
+        ? "Video must be 50 MB or smaller."
+        : "Image must be 5 MB or smaller.");
     }
 
-    $("editorPanel").scrollIntoView({behavior:"smooth"});
+    const extension = (file.name.split(".").pop() || "file").toLowerCase().replace(/[^a-z0-9]/g,"");
+    const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2,9)}.${extension}`;
 
-    return;
+    const { data, error } = await db.storage.from(bucket).upload(path, file, {
+      cacheControl: "3600",
+      upsert: false,
+      contentType: file.type
+    });
 
+    if (error) throw error;
+
+    const { data: publicData } = db.storage.from(bucket).getPublicUrl(data.path);
+    if (!publicData?.publicUrl) throw new Error("Upload completed but no public URL was returned.");
+    return publicData.publicUrl;
   }
 
-  if(del){
+  function showLoggedIn() {
+    $("loginPanel").classList.add("hidden");
+    $("dashboard").classList.remove("hidden");
+    $("logoutButton").classList.remove("hidden");
+  }
 
-    const id=del.dataset.delete;
+  function showLoggedOut() {
+    $("loginPanel").classList.remove("hidden");
+    $("dashboard").classList.add("hidden");
+    $("logoutButton").classList.add("hidden");
+  }
 
-    const post=posts.find(p=>String(p.id)===id);
-
-    if(!post)return;
-
-    if(!confirm('Permanently delete this article?\n\n'+(post.headline||"Untitled article")+'\n\nThis cannot be undone.'))return;
-
-    del.disabled=true;
+  $("loginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const button = $("loginButton");
+    setBusy(button, true, "Signing in…");
+    clearMessage("loginMessage");
 
     try {
-
-      // Verify a row was actually deleted; RLS may silently affect zero rows.
-
-      const {data,error}=await db.from("posts").delete().eq("id",id).select("id").maybeSingle();
-
-      if(error)throw error;
-
-      if(!data)throw new Error("No article was deleted. Check the posts table DELETE policy and your admin login.");
-
-      if(String(editingPostId)===id)resetEditor();
-
-      message("globalMessage","Article deleted successfully.","success");
-
-      await loadPosts();
-
-    } catch(err) {
-
-      message("globalMessage","Could not delete article: "+err.message,"error");
-
-      del.disabled=false;
-
+      const { error } = await db.auth.signInWithPassword({
+        email: $("loginEmail").value.trim(),
+        password: $("loginPassword").value
+      });
+      if (error) throw error;
+      showLoggedIn();
+      await refreshHome();
+    } catch (error) {
+      showMessage("loginMessage", friendlyError(error), "error-msg");
+    } finally {
+      setBusy(button, false);
     }
+  });
 
+  $("logoutButton").addEventListener("click", async () => {
+    const { error } = await db.auth.signOut();
+    if (error) {
+      showMessage("globalMessage", friendlyError(error), "error-msg");
+      return;
+    }
+    showLoggedOut();
+  });
+
+  db.auth.onAuthStateChange((event, session) => {
+    if (session) {
+      showLoggedIn();
+      setTimeout(() => refreshHome(), 0);
+    } else {
+      showLoggedOut();
+    }
+  });
+
+  async function checkSession() {
+    const { data, error } = await db.auth.getSession();
+    if (error) {
+      showMessage("loginMessage", friendlyError(error), "error-msg");
+      return;
+    }
+    if (data.session) {
+      showLoggedIn();
+      await refreshHome();
+    } else {
+      showLoggedOut();
+    }
   }
 
-});
+  // ARTICLES
 
-function resetEditor() {
+  async function loadPosts() {
+    $("articleList").innerHTML = '<div class="loading">Loading articles…</div>';
+    const { data, error } = await db.from("posts").select("*").order("created_at", {ascending:false});
 
-  editingPostId=null;currentImageUrl="";
-
-  $("articleForm").reset();
-
-  $("editorHeading").textContent="Publish New Article";
-
-  $("editorHelp").textContent="Fill in the fields to publish an article.";
-
-  $("editingNotice").classList.add("hidden");
-
-  $("cancelEditButton").classList.add("hidden");
-
-  $("saveArticleButton").textContent="Publish Article";
-
-  $("imagePreview").removeAttribute("src");
-
-  $("imagePreview").classList.add("hidden");
-
-}
-
-$("cancelEditButton").addEventListener("click",resetEditor);
-
-$("articleForm").addEventListener("submit",async e=>{
-
-  e.preventDefault();
-
-  if(!currentUser){message("globalMessage","Please log in first.","error");return;}
-
-  const b=$("saveArticleButton");setLoading(b,true,"Saving...");
-
-  try {
-
-    const headline=$("headline").value.trim();
-
-    const category=$("category").value;
-
-    const description=$("description").value.trim();
-
-    const article=$("article").value.trim();
-
-    const file=$("articleImage").files[0];
-
-    if(!headline||!article)throw new Error("Headline and article text are required.");
-
-    let image=currentImageUrl;
-
-    if(file)image=await uploadFile(ARTICLE_IMAGE_BUCKET,file,"articles");
-
-    if(!editingPostId&&!image)throw new Error("Please select an article image.");
-
-    if(editingPostId){
-
-      // Description is included in the same update as the other article fields.
-
-      const {data,error}=await db.from("posts").update({
-
-        headline,category,description,image,article
-
-      }).eq("id",editingPostId).select("id").maybeSingle();
-
-      if(error)throw error;
-
-      if(!data)throw new Error("Supabase updated zero rows. Check the UPDATE policy on posts and confirm you are logged in.");
-
-      message("globalMessage","Article and description updated successfully.","success");
-
-    } else {
-
-      const {data,error}=await db.from("posts").insert({
-
-        headline,category,description,image,article
-
-      }).select("id").single();
-
-      if(error)throw error;
-
-      if(!data)throw new Error("The new article was not returned by Supabase.");
-
-      message("globalMessage","Article published successfully.","success");
-
+    if (error) {
+      $("articleList").innerHTML = "";
+      showMessage("globalMessage", "Could not load articles: " + friendlyError(error), "error-msg");
+      return;
     }
 
-    resetEditor();
+    postsCache = data || [];
+    renderPosts();
+    renderHomeLatest();
+    $("homeArticleCount").textContent = postsCache.length;
+  }
 
-    await loadPosts();
+  function renderPosts() {
+    const term = $("articleSearch").value.trim().toLowerCase();
+    const filtered = postsCache.filter(post =>
+      String(post.headline || "").toLowerCase().includes(term) ||
+      String(post.category || "").toLowerCase().includes(term)
+    );
 
-  } catch(err) {
+    if (!filtered.length) {
+      $("articleList").innerHTML = '<div class="empty">No articles found.</div>';
+      return;
+    }
 
-    message("globalMessage","Save failed: "+err.message,"error");
+    $("articleList").innerHTML = filtered.map(post => {
+      const id = escapeHTML(post.id);
+      const title = escapeHTML(post.headline || "Untitled");
+      const category = escapeHTML(post.category || "Uncategorised");
+      const date = post.created_at ? new Date(post.created_at).toLocaleString() : "Date unavailable";
+      const description = escapeHTML(post.description || "");
+      const image = safeURL(post.image);
+      return `
+        <article class="item">
+          <div class="item-title">${title}</div>
+          <div class="item-meta">${category} · ${escapeHTML(date)}</div>
+          ${image ? `<img class="preview" src="${escapeHTML(image)}" alt="" loading="lazy">` : ""}
+          ${description ? `<p>${description}</p>` : ""}
+          <div class="actions">
+            <button class="secondary" data-edit-post="${id}">Edit</button>
+            <a class="secondary" style="display:inline-block;padding:10px 13px;border-radius:7px;text-decoration:none" href="article.html?id=${encodeURIComponent(post.id)}" target="_blank" rel="noopener">View</a>
+            <button class="danger" data-delete-post="${id}">Delete</button>
+          </div>
+        </article>`;
+    }).join("");
 
-  } finally {setLoading(b,false);}
-
-});
-
-function rowsFrom(data){
-
-  if(Array.isArray(data))return data;
-
-  if(data&&Array.isArray(data.data))return data.data;
-
-  if(data&&typeof data==="object")return [data];
-
-  return [];
-
-}
-
-function tableHTML(data){
-
-  const rows=rowsFrom(data);
-
-  if(!rows.length)return '<p class="muted">No data available.</p>';
-
-  const keys=[...new Set(rows.flatMap(r=>Object.keys(r||{})))];
-
-  return `<table><thead><tr>${keys.map(k=>`<th>${escapeHTML(k.replaceAll("_"," "))}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${keys.map(k=>`<td>${escapeHTML(typeof r[k]==="object"?JSON.stringify(r[k]):r[k]??"")}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
-
-}
-
-async function rpcAnalytics(name,start,end){
-
-  const {data,error}=await db.rpc(name,{p_start_date:start,p_end_date:end});
-
-  if(error)throw error;return data;
-
-}
-
-async function loadAnalytics(){
-
-  const start=$("analyticsStart").value,end=$("analyticsEnd").value;
-
-  if(!start||!end||start>end){$("analyticsMessage").textContent="Choose a valid date range.";return;}
-
-  const b=$("loadAnalyticsButton");setLoading(b,true,"Loading...");
-
-  $("analyticsMessage").textContent="Loading analytics...";
-
-  const names=[
-
-    ["summary","get_analytics_summary"],["countries","get_analytics_countries"],
-
-    ["devices","get_analytics_devices"],["browsers","get_analytics_browsers"],
-
-    ["referrers","get_analytics_referrers"],["pages","get_analytics_top_pages"],
-
-    ["daily","get_analytics_daily_visitors"]
-
-  ];
-
-  const out={};let failed=0;
-
-  await Promise.all(names.map(async([key,name])=>{
-
-    try{out[key]=await rpcAnalytics(name,start,end);}
-
-    catch(err){out[key]=null;failed++;console.error(name,err);}
-
-  }));
-
-  const s=Array.isArray(out.summary)?out.summary[0]:out.summary;
-
-  const number=(obj,keys)=>{for(const k of keys){if(obj?.[k]!=null&&Number.isFinite(Number(obj[k])))return Number(obj[k]);}return "—";};
-
-  $("totalVisitors").textContent=number(s,["total_visitors","visitors","unique_visitors","visitor_count"]);
-
-  $("totalPageViews").textContent=number(s,["total_page_views","page_views","views","total_views"]);
-
-  $("totalCountries").textContent=rowsFrom(out.countries).length;
-
-  $("countriesResults").innerHTML=tableHTML(out.countries);
-
-  $("devicesResults").innerHTML=tableHTML(out.devices);
-
-  $("browsersResults").innerHTML=tableHTML(out.browsers);
-
-  $("referrersResults").innerHTML=tableHTML(out.referrers);
-
-  $("topPagesResults").innerHTML=tableHTML(out.pages);
-
-  $("dailyVisitorsResults").innerHTML=tableHTML(out.daily);
-
-  $("analyticsMessage").textContent=failed?`${failed} analytics request(s) failed. Check that the Supabase functions exist.`:"Analytics loaded.";
-
-  setLoading(b,false);
-
-}
-
-$("loadAnalyticsButton").addEventListener("click",loadAnalytics);
-
-$("excludeDeviceForm").addEventListener("submit",async e=>{
-
-  e.preventDefault();
-
-  try{
-
-    const {error}=await db.rpc("add_analytics_excluded_device",{
-
-      p_device_id:$("deviceId").value.trim(),
-
-      p_device_name:$("deviceName").value.trim()||null
-
+    $("articleList").querySelectorAll("[data-edit-post]").forEach(button => {
+      button.addEventListener("click", () => editPost(button.dataset.editPost));
     });
+    $("articleList").querySelectorAll("[data-delete-post]").forEach(button => {
+      button.addEventListener("click", () => deletePost(button.dataset.deletePost));
+    });
+  }
 
-    if(error)throw error;
+  function renderHomeLatest() {
+    const latest = postsCache.slice(0,5);
+    $("homeLatestArticles").innerHTML = latest.length
+      ? latest.map(post => `
+        <div class="item">
+          <div class="item-title">${escapeHTML(post.headline || "Untitled")}</div>
+          <div class="item-meta">${escapeHTML(post.category || "")} · ${escapeHTML(post.created_at ? new Date(post.created_at).toLocaleDateString() : "")}</div>
+        </div>`).join("")
+      : '<div class="empty">No articles have been published yet.</div>';
+  }
 
-    $("excludeDeviceForm").reset();
+  $("articleSearch").addEventListener("input", renderPosts);
 
-    $("excludeDeviceMessage").textContent="Device exclusion submitted.";
+  $("articleImage").addEventListener("change", () => {
+    const file = $("articleImage").files[0];
+    const preview = $("articleImagePreview");
+    if (!file) {
+      preview.classList.add("hidden");
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      showMessage("articleMessage", "Please select an image file.", "error-msg");
+      $("articleImage").value = "";
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      showMessage("articleMessage", "The image must be 5 MB or smaller.", "error-msg");
+      $("articleImage").value = "";
+      return;
+    }
+    preview.src = URL.createObjectURL(file);
+    preview.classList.remove("hidden");
+  });
 
-  }catch(err){$("excludeDeviceMessage").textContent="Could not exclude device: "+err.message;}
+  function resetArticleForm() {
+    $("articleForm").reset();
+    $("articleId").value = "";
+    currentArticleImage = "";
+    $("editorHeading").textContent = "Publish Article";
+    $("saveArticleButton").textContent = "Publish article";
+    $("cancelEditButton").classList.add("hidden");
+    $("articleImagePreview").classList.add("hidden");
+    clearMessage("articleMessage");
+  }
 
-});
+  $("cancelEditButton").addEventListener("click", resetArticleForm);
 
-$("adForm").addEventListener("submit",async e=>{
+  function editPost(id) {
+    const post = postsCache.find(item => String(item.id) === String(id));
+    if (!post) return;
 
-  e.preventDefault();
+    $("articleId").value = post.id;
+    $("headline").value = post.headline || "";
+    $("category").value = String(post.category || "news").toLowerCase();
+    $("description").value = post.description || "";
+    $("articleText").value = post.article || "";
+    $("articleImage").value = "";
+    currentArticleImage = post.image || "";
 
-  const b=$("saveAdButton");setLoading(b,true,"Saving...");
+    if (currentArticleImage) {
+      $("articleImagePreview").src = currentArticleImage;
+      $("articleImagePreview").classList.remove("hidden");
+    } else {
+      $("articleImagePreview").classList.add("hidden");
+    }
 
-  try{
+    $("editorHeading").textContent = "Edit Article";
+    $("saveArticleButton").textContent = "Save article changes";
+    $("cancelEditButton").classList.remove("hidden");
+    switchPage("publish");
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
 
-    const imageFile=$("adImage").files[0],videoFile=$("adVideo").files[0];
+  $("articleForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const button = $("saveArticleButton");
+    setBusy(button, true, "Saving article…");
+    clearMessage("articleMessage");
 
-    const image_url=imageFile?await uploadFile(AD_IMAGE_BUCKET,imageFile,"ads"):null;
+    try {
+      const id = $("articleId").value;
+      const file = $("articleImage").files[0];
+      let image = currentArticleImage;
 
-    const video_url=videoFile?await uploadFile(AD_VIDEO_BUCKET,videoFile,"ads"):null;
+      if (file) image = await uploadFile(ARTICLE_IMAGE_BUCKET, file, "articles");
 
-    const record={
+      const record = {
+        headline: $("headline").value.trim(),
+        category: $("category").value,
+        description: $("description").value.trim(),
+        image: image || null,
+        article: $("articleText").value.trim()
+      };
 
-      title:$("adTitle").value.trim(),
+      if (!record.headline || !record.article) {
+        throw new Error("Headline and full article are required.");
+      }
 
-      description:$("adDescription").value.trim()||null,
+      let result;
+      if (id) {
+        result = await db.from("posts").update(record).eq("id", id);
+      } else {
+        result = await db.from("posts").insert(record);
+      }
 
-      image_url,video_url,
+      if (result.error) throw result.error;
 
-      destination_url:$("adDestination").value.trim()||null,
+      showMessage("articleMessage", id ? "Article updated successfully." : "Article published successfully.", "success-msg");
+      resetArticleForm();
+      await loadPosts();
+      await refreshHome();
+      switchPage("articles");
+    } catch (error) {
+      showMessage("articleMessage", friendlyError(error), "error-msg");
+    } finally {
+      setBusy(button, false);
+    }
+  });
 
-      placement:$("adPlacement").value,
+  async function deletePost(id) {
+    const post = postsCache.find(item => String(item.id) === String(id));
+    if (!post) return;
+    if (!confirm(`Delete this article?\n\n${post.headline || "Untitled"}\n\nThis cannot be undone.`)) return;
 
-      start_date:$("adStart").value||null,
+    const { error } = await db.from("posts").delete().eq("id", id);
+    if (error) {
+      showMessage("globalMessage", "Could not delete article: " + friendlyError(error), "error-msg");
+      return;
+    }
+    showMessage("globalMessage", "Article deleted.", "success-msg");
+    await loadPosts();
+    await refreshHome();
+  }
 
-      end_date:$("adEnd").value||null,
+  // BUSINESS DIRECTORY
 
-      is_active:$("adActive").checked
+  async function loadBusinesses() {
+    $("businessList").innerHTML = '<div class="loading">Loading business listings…</div>';
+    const { data, error } = await db.from("businesses")
+      .select("*")
+      .order("created_at", {ascending:false});
 
-    };
+    if (error) {
+      $("businessList").innerHTML = "";
+      showMessage("globalMessage", "Could not load businesses: " + friendlyError(error) + ". Check your Supabase SELECT policy.", "error-msg");
+      return;
+    }
 
-    if(!record.title)throw new Error("Enter an advertisement title.");
+    businessesCache = data || [];
+    renderBusinesses();
+    $("homeBusinessCount").textContent = businessesCache.length;
+    $("homePendingCount").textContent = businessesCache.filter(b => (b.status || "pending") === "pending").length;
+  }
 
-    const {error}=await db.from("ads").insert(record);
+  function renderBusinesses() {
+    const filter = $("businessFilter").value;
+    const rows = businessesCache.filter(b => filter === "all" || (b.status || "pending") === filter);
 
-    if(error)throw error;
+    if (!rows.length) {
+      $("businessList").innerHTML = '<div class="empty">No listings match this filter.</div>';
+      return;
+    }
 
-    $("adForm").reset();$("adActive").checked=true;
+    $("businessList").innerHTML = rows.map(b => {
+      const status = String(b.status || "pending").toLowerCase();
+      const photo = safeURL(b.image_url);
+      const phone = escapeHTML(b.phone || "");
+      const whatsapp = escapeHTML(b.whatsapp || "");
+      const email = escapeHTML(b.email || "");
+      const website = safeURL(b.website);
+      return `
+        <article class="item">
+          <div class="row-between">
+            <div class="item-title">${escapeHTML(b.business || "Unnamed business")}</div>
+            <span class="badge ${escapeHTML(status)}">${escapeHTML(status)}</span>
+          </div>
+          <div class="item-meta">
+            Category: ${escapeHTML(b.category || "Other")}<br>
+            Location: ${escapeHTML(b.location || "Not supplied")}<br>
+            Owner: ${escapeHTML(b.owner_name || "Not supplied")}<br>
+            Submitted: ${escapeHTML(b.created_at ? new Date(b.created_at).toLocaleString() : "Unknown")}
+          </div>
+          ${photo ? `<img class="preview" src="${escapeHTML(photo)}" alt="Business photo" loading="lazy">` : ""}
+          <p>${escapeHTML(b.description || "")}</p>
+          ${phone ? `<div class="item-meta">Phone: ${phone}</div>` : ""}
+          ${whatsapp ? `<div class="item-meta">WhatsApp: ${whatsapp}</div>` : ""}
+          ${email ? `<div class="item-meta">Email: ${email}</div>` : ""}
+          ${website ? `<p><a href="${escapeHTML(website)}" target="_blank" rel="noopener noreferrer">Visit website</a></p>` : ""}
+          <div class="actions">
+            ${status !== "approved" ? `<button class="success" data-business-status="${escapeHTML(b.id)}" data-status="approved">Approve</button>` : ""}
+            ${status !== "rejected" ? `<button class="secondary" data-business-status="${escapeHTML(b.id)}" data-status="rejected">Reject</button>` : ""}
+            ${status !== "pending" ? `<button class="secondary" data-business-status="${escapeHTML(b.id)}" data-status="pending">Set pending</button>` : ""}
+          </div>
+        </article>`;
+    }).join("");
 
-    message("globalMessage","Advertisement saved.","success");
+    $("businessList").querySelectorAll("[data-business-status]").forEach(button => {
+      button.addEventListener("click", () => updateBusinessStatus(button.dataset.businessStatus, button.dataset.status));
+    });
+  }
 
+  async function updateBusinessStatus(id, status) {
+    if (!confirm(`Change this business listing status to "${status}"?`)) return;
+    const { error } = await db.from("businesses").update({status}).eq("id", id);
+    if (error) {
+      showMessage("globalMessage", "Could not update business status: " + friendlyError(error) + ". The admin-only UPDATE policy may not be set up yet.", "error-msg");
+      return;
+    }
+    showMessage("globalMessage", "Business status updated.", "success-msg");
+    await loadBusinesses();
+  }
+
+  $("businessFilter").addEventListener("change", renderBusinesses);
+  $("reloadBusinessesButton").addEventListener("click", loadBusinesses);
+
+  // ADVERTISEMENTS
+
+  async function loadAds() {
+    $("adList").innerHTML = '<div class="loading">Loading advertisements…</div>';
+    const { data, error } = await db.from("ads").select("*").order("created_at", {ascending:false});
+
+    if (error) {
+      $("adList").innerHTML = "";
+      showMessage("globalMessage", "Could not load advertisements: " + friendlyError(error), "error-msg");
+      return;
+    }
+
+    adsCache = data || [];
+    renderAds();
+    $("homeAdCount").textContent = adsCache.length;
+  }
+
+  function renderAds() {
+    if (!adsCache.length) {
+      $("adList").innerHTML = '<div class="empty">No advertisements have been created yet.</div>';
+      return;
+    }
+
+    $("adList").innerHTML = adsCache.map(ad => {
+      const active = Boolean(ad.is_active);
+      const image = safeURL(ad.image_url);
+      const video = safeURL(ad.video_url);
+      const destination = safeURL(ad.destination_url);
+      return `
+        <article class="item">
+          <div class="row-between">
+            <div class="item-title">${escapeHTML(ad.title || "Untitled ad")}</div>
+            <span class="badge ${active ? "active" : "inactive"}">${active ? "Active" : "Inactive"}</span>
+          </div>
+          <div class="item-meta">
+            Placement: ${escapeHTML(ad.placement || "Not set")}<br>
+            Start: ${escapeHTML(ad.start_date || "Not set")} · End: ${escapeHTML(ad.end_date || "Not set")}
+          </div>
+          ${image ? `<img class="preview" src="${escapeHTML(image)}" alt="Advertisement image" loading="lazy">` : ""}
+          ${ad.description ? `<p>${escapeHTML(ad.description)}</p>` : ""}
+          ${video ? `<p><a href="${escapeHTML(video)}" target="_blank" rel="noopener">Open video</a></p>` : ""}
+          ${destination ? `<p><a href="${escapeHTML(destination)}" target="_blank" rel="noopener">Open destination</a></p>` : ""}
+          <div class="actions">
+            <button class="secondary" data-edit-ad="${escapeHTML(ad.id)}">Edit</button>
+            <button class="secondary" data-toggle-ad="${escapeHTML(ad.id)}" data-active="${active ? "true" : "false"}">${active ? "Deactivate" : "Activate"}</button>
+            <button class="danger" data-delete-ad="${escapeHTML(ad.id)}">Delete</button>
+          </div>
+        </article>`;
+    }).join("");
+
+    $("adList").querySelectorAll("[data-edit-ad]").forEach(button => button.addEventListener("click", () => editAd(button.dataset.editAd)));
+    $("adList").querySelectorAll("[data-toggle-ad]").forEach(button => button.addEventListener("click", () => toggleAd(button.dataset.toggleAd, button.dataset.active === "true")));
+    $("adList").querySelectorAll("[data-delete-ad]").forEach(button => button.addEventListener("click", () => deleteAd(button.dataset.deleteAd)));
+  }
+
+  function resetAdForm() {
+    $("adForm").reset();
+    $("adId").value = "";
+    currentAdImage = "";
+    currentAdVideo = "";
+    $("adFormHeading").textContent = "Create advertisement";
+    $("saveAdButton").textContent = "Save advertisement";
+    $("cancelAdEditButton").classList.add("hidden");
+    clearMessage("adMessage");
+  }
+
+  $("cancelAdEditButton").addEventListener("click", resetAdForm);
+
+  function editAd(id) {
+    const ad = adsCache.find(item => String(item.id) === String(id));
+    if (!ad) return;
+    $("adId").value = ad.id;
+    $("adTitle").value = ad.title || "";
+    $("adDescription").value = ad.description || "";
+    $("adImageUrl").value = ad.image_url || "";
+    $("adVideoUrl").value = ad.video_url || "";
+    $("adDestinationUrl").value = ad.destination_url || "";
+    $("adPlacement").value = ad.placement || "homepage";
+    $("adStartDate").value = ad.start_date || "";
+    $("adEndDate").value = ad.end_date || "";
+    $("adActive").checked = Boolean(ad.is_active);
+    $("adImageFile").value = "";
+    currentAdImage = ad.image_url || "";
+    currentAdVideo = ad.video_url || "";
+    $("adFormHeading").textContent = "Edit advertisement";
+    $("saveAdButton").textContent = "Save changes";
+    $("cancelAdEditButton").classList.remove("hidden");
+    switchPage("ads");
+    $("adForm").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+
+  $("adForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const button = $("saveAdButton");
+    setBusy(button, true, "Saving ad…");
+    clearMessage("adMessage");
+
+    try {
+      const id = $("adId").value;
+      const imageFile = $("adImageFile").files[0];
+      let imageUrl = $("adImageUrl").value.trim() || currentAdImage;
+      if (imageFile) imageUrl = await uploadFile(AD_IMAGE_BUCKET, imageFile, "advertisements");
+
+      const record = {
+        title: $("adTitle").value.trim(),
+        description: $("adDescription").value.trim(),
+        image_url: imageUrl || null,
+        video_url: $("adVideoUrl").value.trim() || currentAdVideo || null,
+        destination_url: $("adDestinationUrl").value.trim() || null,
+        placement: $("adPlacement").value,
+        start_date: $("adStartDate").value || null,
+        end_date: $("adEndDate").value || null,
+        is_active: $("adActive").checked
+      };
+
+      if (!record.title) throw new Error("Advertisement title is required.");
+      if (record.start_date && record.end_date && record.end_date < record.start_date) {
+        throw new Error("End date cannot be earlier than start date.");
+      }
+
+      const result = id
+        ? await db.from("ads").update(record).eq("id", id)
+        : await db.from("ads").insert(record);
+
+      if (result.error) throw result.error;
+
+      showMessage("adMessage", id ? "Advertisement updated." : "Advertisement created.", "success-msg");
+      resetAdForm();
+      await loadAds();
+      await refreshHome();
+    } catch (error) {
+      showMessage("adMessage", friendlyError(error), "error-msg");
+    } finally {
+      setBusy(button, false);
+    }
+  });
+
+  async function toggleAd(id, currentlyActive) {
+    const { error } = await db.from("ads").update({is_active:!currentlyActive}).eq("id",id);
+    if (error) {
+      showMessage("globalMessage", "Could not update ad: " + friendlyError(error), "error-msg");
+      return;
+    }
     await loadAds();
+    await refreshHome();
+  }
 
-  }catch(err){message("globalMessage","Advertisement error: "+err.message,"error");}
+  async function deleteAd(id) {
+    const ad = adsCache.find(item => String(item.id) === String(id));
+    if (!confirm(`Delete advertisement "${ad?.title || "Untitled"}"? This cannot be undone.`)) return;
+    const { error } = await db.from("ads").delete().eq("id",id);
+    if (error) {
+      showMessage("globalMessage", "Could not delete ad: " + friendlyError(error), "error-msg");
+      return;
+    }
+    showMessage("globalMessage", "Advertisement deleted.", "success-msg");
+    await loadAds();
+    await refreshHome();
+  }
 
-  finally{setLoading(b,false);}
+  $("reloadAdsButton").addEventListener("click", loadAds);
 
-});
+  // ANALYTICS
+  // These calls use the existing Supabase RPC function names.
+  // If your database uses different parameter names, the error will be displayed.
 
-async function loadAds(){
+  function todayISO() {
+    return new Date().toISOString().slice(0,10);
+  }
 
-  $("adsMessage").textContent="Loading advertisements...";
+  function daysAgoISO(days) {
+    const date = new Date();
+    date.setDate(date.getDate() - days);
+    return date.toISOString().slice(0,10);
+  }
 
-  const {data,error}=await db.from("ads").select("*").order("created_at",{ascending:false});
+  $("analyticsStart").value = daysAgoISO(6);
+  $("analyticsEnd").value = todayISO();
 
-  if(error){$("adsMessage").textContent="Could not load ads: "+error.message;return;}
+  function renderDataList(id, data) {
+    const el = $(id);
+    if (!Array.isArray(data) || !data.length) {
+      el.innerHTML = '<div class="empty">No data returned for this period.</div>';
+      return;
+    }
+    el.innerHTML = data.slice(0,30).map(row => {
+      if (row === null || typeof row !== "object") {
+        return `<div class="item">${escapeHTML(row)}</div>`;
+      }
+      const entries = Object.entries(row);
+      const label = entries.slice(0,2).map(([key,value]) =>
+        `<strong>${escapeHTML(key.replaceAll("_"," "))}:</strong> ${escapeHTML(value ?? "—")}`
+      ).join("<br>");
+      return `<div class="item item-meta">${label}</div>`;
+    }).join("");
+  }
 
-  ads=data||[];renderAds();
+  async function callAnalyticsRPC(name, start, end) {
+    const {data,error} = await db.rpc(name, {
+      start_date: start,
+      end_date: end
+    });
+    if (error) throw new Error(`${name}: ${error.message}`);
+    return data;
+  }
 
-}
+  $("loadAnalyticsButton").addEventListener("click", loadAnalytics);
 
-function renderAds(){
+  async function loadAnalytics() {
+    const button = $("loadAnalyticsButton");
+    const start = $("analyticsStart").value;
+    const end = $("analyticsEnd").value;
 
-  $("adsMessage").textContent=ads.length+" advertisement(s).";
-
-  if(!ads.length){$("adsList").innerHTML='<p class="muted">No advertisements found.</p>';return;}
-
-  $("adsList").innerHTML=ads.map(a=>`<article class="ad-item">
-
-    <h3>${escapeHTML(a.title)}</h3>
-
-    <p>${escapeHTML(a.description||"")}</p>
-
-    <small>${escapeHTML(a.placement||"")} · ${a.is_active?"Active":"Inactive"}</small>
-
-    ${a.image_url?`<img src="${escapeHTML(a.image_url)}" alt="">`:""}
-
-    <button class="secondary" type="button" data-toggle-ad="${escapeHTML(a.id)}" data-active="${a.is_active}">
-
-    ${a.is_active?"Deactivate":"Activate"}</button>
-
-    <button class="danger" type="button" data-delete-ad="${escapeHTML(a.id)}">Delete Advertisement</button>
-
-  </article>`).join("");
-
-}
-
-$("refreshAdsButton").addEventListener("click",loadAds);
-
-$("adsList").addEventListener("click",async e=>{
-
-  const toggle=e.target.closest("[data-toggle-ad]");
-
-  const del=e.target.closest("[data-delete-ad]");
-
-  try{
-
-    if(toggle){
-
-      const {data,error}=await db.from("ads").update({is_active:toggle.dataset.active!=="true"}).eq("id",toggle.dataset.toggleAd).select("id").maybeSingle();
-
-      if(error)throw error;if(!data)throw new Error("No advertisement updated. Check UPDATE permissions.");
-
-      await loadAds();
-
+    if (!start || !end || start > end) {
+      showMessage("analyticsMessage","Choose a valid start and end date.","error-msg");
+      return;
     }
 
-    if(del){
+    setBusy(button,true,"Loading analytics…");
+    clearMessage("analyticsMessage");
 
-      if(!confirm("Delete this advertisement?"))return;
+    try {
+      const names = [
+        ["summary","get_analytics_summary"],
+        ["countries","get_analytics_countries"],
+        ["devices","get_analytics_devices"],
+        ["browsers","get_analytics_browsers"],
+        ["referrers","get_analytics_referrers"],
+        ["top_pages","get_analytics_top_pages"],
+        ["daily","get_analytics_daily_visitors"]
+      ];
 
-      const {data,error}=await db.from("ads").delete().eq("id",del.dataset.deleteAd).select("id").maybeSingle();
+      const results = await Promise.all(names.map(async ([key,name]) => {
+        try {
+          return [key, await callAnalyticsRPC(name,start,end), null];
+        } catch (error) {
+          return [key, null, error];
+        }
+      }));
 
-      if(error)throw error;if(!data)throw new Error("No advertisement deleted. Check DELETE permissions.");
+      const resultMap = Object.fromEntries(results.map(([key,data,error]) => [key,{data,error}]));
+      const summary = resultMap.summary.data;
+      const firstSummary = Array.isArray(summary) ? (summary[0] || {}) : (summary || {});
 
-      await loadAds();
+      $("analyticsVisitors").textContent =
+        firstSummary.visitors ?? firstSummary.total_visitors ?? firstSummary.total_visits ?? "—";
+      $("analyticsViews").textContent =
+        firstSummary.page_views ?? firstSummary.total_page_views ?? firstSummary.views ?? "—";
 
+      const countries = resultMap.countries.data;
+      const devices = resultMap.devices.data;
+      $("analyticsCountryCount").textContent = Array.isArray(countries) ? countries.length : "—";
+      $("analyticsDeviceCount").textContent = Array.isArray(devices) ? devices.length : "—";
+
+      renderDataList("analyticsCountries",countries);
+      renderDataList("analyticsDevices",devices);
+      renderDataList("analyticsBrowsers",resultMap.browsers.data);
+      renderDataList("analyticsReferrers",resultMap.referrers.data);
+      renderDataList("analyticsTopPages",resultMap.top_pages.data);
+      renderDataList("analyticsDaily",resultMap.daily.data);
+
+      const errors = results.filter(row => row[2]).map(row => row[2].message);
+      if (errors.length) {
+        showMessage("analyticsMessage",
+          "Some analytics calls failed. Check the function parameter names and permissions in Supabase. " + errors.join(" | "),
+          "error-msg");
+      } else {
+        showMessage("analyticsMessage","Analytics loaded successfully.","success-msg");
+      }
+    } catch (error) {
+      showMessage("analyticsMessage",friendlyError(error),"error-msg");
+    } finally {
+      setBusy(button,false);
     }
+  }
 
-  }catch(err){message("globalMessage","Advertisement action failed: "+err.message,"error");}
+  $("excludeDeviceButton").addEventListener("click", async () => {
+    const device = $("excludedDevice").value.trim();
+    if (!device) {
+      showMessage("excludeDeviceMessage","Enter a device identifier first.","error-msg");
+      return;
+    }
+    const button = $("excludeDeviceButton");
+    setBusy(button,true,"Submitting…");
+    try {
+      const {error} = await db.rpc("add_analytics_excluded_device", {
+        device_name: device
+      });
+      if (error) throw error;
+      showMessage("excludeDeviceMessage","Device exclusion request submitted.","success-msg");
+      $("excludedDevice").value = "";
+    } catch (error) {
+      showMessage("excludeDeviceMessage",
+        "Could not exclude device: " + friendlyError(error) +
+        ". Your existing RPC may use a different parameter name.",
+        "error-msg");
+    } finally {
+      setBusy(button,false);
+    }
+  });
 
-});
+  // HOME
 
-async function initialize(){
+  async function refreshHome() {
+    try {
+      await loadPosts();
+    } catch (error) {
+      console.error(error);
+    }
+    try {
+      await loadBusinesses();
+    } catch (error) {
+      console.error(error);
+    }
+    try {
+      await loadAds();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-  const {data,error}=await db.auth.getSession();
-
-  if(error){message("globalMessage",error.message,"error");await showLogin();return;}
-
-  currentUser=data.session?.user||null;
-
-  if(currentUser)await showDashboard();else await showLogin();
-
-}
-
-db.auth.onAuthStateChange((_event,session)=>{
-
-  currentUser=session?.user||null;
-
-  if(!currentUser)showLogin();
-
-});
-
-initialize();
-
+  checkSession();
 })();
-
 </script>
-
 </body>
-
 </html>
