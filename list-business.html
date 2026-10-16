@@ -488,7 +488,38 @@
 
         <div class="field full">
 
-          <label for="imageUrl">Business photo URL</label>
+          
+<div class="field full">
+  <label for="businessImage">Business photo</label>
+  <input
+    id="businessImage"
+    name="business_image"
+    type="file"
+    accept="image/jpeg,image/png,image/webp"
+  >
+  <span class="hint">
+    Optional. Choose a photo from your phone gallery.
+    JPG, PNG or WebP only. Maximum size: 5 MB.
+  </span>
+
+  <img
+    id="businessImagePreview"
+    alt="Preview of your business photo"
+    style="display:none;max-width:100%;max-height:260px;margin-top:12px;border-radius:8px;"
+  >
+
+  <label for="imageUrl" style="margin-top:16px;">
+    Or enter a photo URL
+  </label>
+  <input
+    id="imageUrl"
+    name="image_url"
+    type="url"
+    maxlength="1000"
+    placeholder="https://example.com/your-business-photo.jpg"
+  >
+</div>
+
 
           <input id="imageUrl" name="image_url" type="url" maxlength="1000"
 
