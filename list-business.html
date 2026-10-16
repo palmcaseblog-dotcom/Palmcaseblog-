@@ -1,0 +1,727 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#111827">
+
+  <title>List Your Business | Palmcaseblog</title>
+
+  <meta name="description" content="Submit your business to the Palmcaseblog Business Directory and reach more customers.">
+
+  <style>
+
+    :root {
+
+      --bg: #111827;
+
+      --card: #1f2937;
+
+      --orange: #f59e0b;
+
+      --text: #f9fafb;
+
+      --muted: #9ca3af;
+
+      --border: #374151;
+
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+
+      margin: 0;
+
+      background: var(--bg);
+
+      color: var(--text);
+
+      font-family: Arial, Helvetica, sans-serif;
+
+      line-height: 1.6;
+
+    }
+
+    a { color: var(--orange); text-decoration: none; }
+
+    header {
+
+      background: #0b1120;
+
+      border-bottom: 1px solid var(--border);
+
+      padding: 18px 20px;
+
+    }
+
+    .header-inner {
+
+      max-width: 900px;
+
+      margin: auto;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      flex-wrap: wrap;
+
+      gap: 12px;
+
+    }
+
+    .logo {
+
+      color: white;
+
+      font-weight: 800;
+
+      font-size: 23px;
+
+    }
+
+    .logo span { color: var(--orange); }
+
+    main {
+
+      max-width: 800px;
+
+      margin: 40px auto;
+
+      padding: 0 16px;
+
+    }
+
+    .intro { text-align: center; margin-bottom: 28px; }
+
+    .intro h1 {
+
+      font-size: clamp(28px, 5vw, 40px);
+
+      line-height: 1.2;
+
+      margin-bottom: 12px;
+
+    }
+
+    .intro h1 span { color: var(--orange); }
+
+    .intro p { color: var(--muted); }
+
+    form {
+
+      background: var(--card);
+
+      border: 1px solid var(--border);
+
+      border-radius: 12px;
+
+      padding: 24px;
+
+    }
+
+    .form-grid {
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 18px;
+
+    }
+
+    .field { min-width: 0; }
+
+    .full { grid-column: 1 / -1; }
+
+    label {
+
+      display: block;
+
+      margin-bottom: 7px;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+    }
+
+    .required { color: var(--orange); }
+
+    input, select, textarea {
+
+      width: 100%;
+
+      border: 1px solid #4b5563;
+
+      background: #111827;
+
+      color: white;
+
+      border-radius: 7px;
+
+      padding: 12px;
+
+      font: inherit;
+
+      outline: none;
+
+    }
+
+    input:focus, select:focus, textarea:focus {
+
+      border-color: var(--orange);
+
+    }
+
+    textarea {
+
+      min-height: 130px;
+
+      resize: vertical;
+
+    }
+
+    input::placeholder, textarea::placeholder {
+
+      color: #9ca3af;
+
+    }
+
+    .hint {
+
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 12px;
+
+      margin-top: 5px;
+
+    }
+
+    .notice {
+
+      margin: 20px 0;
+
+      padding: 13px;
+
+      border-radius: 7px;
+
+      background: #111827;
+
+      border: 1px solid var(--border);
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+    }
+
+    .submit-button {
+
+      width: 100%;
+
+      padding: 14px;
+
+      border: 0;
+
+      border-radius: 7px;
+
+      background: var(--orange);
+
+      color: #111827;
+
+      font-size: 16px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+    }
+
+    .submit-button:disabled {
+
+      opacity: 0.6;
+
+      cursor: wait;
+
+    }
+
+    #formMessage {
+
+      display: none;
+
+      margin-top: 18px;
+
+      padding: 14px;
+
+      border-radius: 7px;
+
+      overflow-wrap: anywhere;
+
+    }
+
+    #formMessage.success {
+
+      display: block;
+
+      background: #064e3b;
+
+      color: #d1fae5;
+
+      border: 1px solid #059669;
+
+    }
+
+    #formMessage.error {
+
+      display: block;
+
+      background: #450a0a;
+
+      color: #fee2e2;
+
+      border: 1px solid #b91c1c;
+
+    }
+
+    footer {
+
+      text-align: center;
+
+      padding: 25px 15px;
+
+      color: var(--muted);
+
+      border-top: 1px solid var(--border);
+
+      font-size: 13px;
+
+    }
+
+    @media (max-width: 600px) {
+
+      main { margin: 28px auto; }
+
+      form { padding: 18px; }
+
+      .form-grid { grid-template-columns: 1fr; }
+
+      .full { grid-column: auto; }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+
+    <div class="header-inner">
+
+      <a class="logo" href="index.html">PALMCASE<span>BLOG</span></a>
+
+      <a href="business-directory.html">← Business Directory</a>
+
+    </div>
+
+  </header>
+
+  <main>
+
+    <section class="intro">
+
+      <h1>List Your <span>Business</span></h1>
+
+      <p>
+
+        Tell us about your business and help more customers discover
+
+        your products and services through Palmcaseblog.
+
+      </p>
+
+    </section>
+
+    <form id="businessForm">
+
+      <div class="form-grid">
+
+        <div class="field">
+
+          <label for="ownerName">Your name <span class="required">*</span></label>
+
+          <input id="ownerName" name="owner_name" required maxlength="100"
+
+                 autocomplete="name" placeholder="Business owner's name">
+
+        </div>
+
+        <div class="field">
+
+          <label for="businessName">Business name <span class="required">*</span></label>
+
+          <input id="businessName" name="business" required maxlength="150"
+
+                 placeholder="Enter your business name">
+
+        </div>
+
+        <div class="field">
+
+          <label for="category">Business category <span class="required">*</span></label>
+
+          <select id="category" name="category" required>
+
+            <option value="">Choose a category</option>
+
+            <option value="Restaurants & Food">Restaurants & Food</option>
+
+            <option value="Fashion & Beauty">Fashion & Beauty</option>
+
+            <option value="Technology">Technology</option>
+
+            <option value="Real Estate">Real Estate</option>
+
+            <option value="Hotels & Hospitality">Hotels & Hospitality</option>
+
+            <option value="Education">Education</option>
+
+            <option value="Health & Wellness">Health & Wellness</option>
+
+            <option value="Transportation">Transportation</option>
+
+            <option value="Construction">Construction</option>
+
+            <option value="Finance">Finance</option>
+
+            <option value="Events & Entertainment">Events & Entertainment</option>
+
+            <option value="Professional Services">Professional Services</option>
+
+            <option value="Shopping & Retail">Shopping & Retail</option>
+
+            <option value="Agriculture">Agriculture</option>
+
+            <option value="Other">Other</option>
+
+          </select>
+
+        </div>
+
+        <div class="field">
+
+          <label for="location">Business location <span class="required">*</span></label>
+
+          <input id="location" name="location" required maxlength="200"
+
+                 placeholder="e.g. Wuse 2, Abuja">
+
+        </div>
+
+        <div class="field full">
+
+          <label for="description">Describe your business <span class="required">*</span></label>
+
+          <textarea id="description" name="description" required
+
+                    minlength="10" maxlength="3000"
+
+                    placeholder="Explain what you sell, the services you offer, and what makes your business special."></textarea>
+
+          <span class="hint">Write at least 10 characters. Maximum 3,000 characters.</span>
+
+        </div>
+
+        <div class="field">
+
+          <label for="phone">Phone number <span class="required">*</span></label>
+
+          <input id="phone" name="phone" type="tel" required maxlength="30"
+
+                 autocomplete="tel" placeholder="Your business phone number">
+
+        </div>
+
+        <div class="field">
+
+          <label for="whatsapp">WhatsApp number</label>
+
+          <input id="whatsapp" name="whatsapp" type="tel" maxlength="30"
+
+                 placeholder="Include country code if possible">
+
+        </div>
+
+        <div class="field">
+
+          <label for="email">Business email</label>
+
+          <input id="email" name="email" type="email" maxlength="254"
+
+                 autocomplete="email" placeholder="you@example.com">
+
+        </div>
+
+        <div class="field">
+
+          <label for="website">Website or social media link</label>
+
+          <input id="website" name="website" type="url" maxlength="500"
+
+                 placeholder="https://example.com">
+
+        </div>
+
+        <div class="field full">
+
+          <label for="imageUrl">Business photo URL</label>
+
+          <input id="imageUrl" name="image_url" type="url" maxlength="1000"
+
+                 placeholder="https://example.com/your-business-photo.jpg">
+
+          <span class="hint">
+
+            Optional. This must be a publicly accessible image URL.
+
+            Direct photo uploads can be added later.
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="notice">
+
+        By submitting this form, you confirm that the information is
+
+        accurate and that you are allowed to provide it. Your listing
+
+        will be reviewed by Palmcaseblog before it appears publicly.
+
+        Submitting a listing does not guarantee publication.
+
+      </div>
+
+      <button class="submit-button" id="submitButton" type="submit">
+
+        Submit Business for Review
+
+      </button>
+
+      <div id="formMessage" role="status" aria-live="polite"></div>
+
+    </form>
+
+  </main>
+
+  <footer>
+
+    © <span id="year"></span> Palmcaseblog. All rights reserved.
+
+  </footer>
+
+  <script>
+
+    "use strict";
+
+    const SUPABASE_URL =
+
+      "https://kcxlwhojwdvbfjjnartw.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+
+      "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+
+    const form = document.getElementById("businessForm");
+
+    const submitButton = document.getElementById("submitButton");
+
+    const formMessage = document.getElementById("formMessage");
+
+    document.getElementById("year").textContent =
+
+      new Date().getFullYear();
+
+    function showMessage(type, message) {
+
+      formMessage.className = type;
+
+      formMessage.textContent = message;
+
+    }
+
+    form.addEventListener("submit", async function (event) {
+
+      event.preventDefault();
+
+      if (!form.reportValidity()) {
+
+        return;
+
+      }
+
+      submitButton.disabled = true;
+
+      submitButton.textContent = "Submitting...";
+
+      formMessage.className = "";
+
+      formMessage.textContent = "";
+
+      const formData = new FormData(form);
+
+      const listing = {
+
+        owner_name: String(formData.get("owner_name") || "").trim(),
+
+        business: String(formData.get("business") || "").trim(),
+
+        category: String(formData.get("category") || "").trim(),
+
+        location: String(formData.get("location") || "").trim(),
+
+        description: String(formData.get("description") || "").trim(),
+
+        phone: String(formData.get("phone") || "").trim(),
+
+        whatsapp: String(formData.get("whatsapp") || "").trim(),
+
+        email: String(formData.get("email") || "").trim(),
+
+        website: String(formData.get("website") || "").trim(),
+
+        image_url: String(formData.get("image_url") || "").trim(),
+
+        // The database policy requires public submissions to be pending.
+
+        status: "pending"
+
+      };
+
+      try {
+
+        const response = await fetch(
+
+          SUPABASE_URL + "/rest/v1/businesses",
+
+          {
+
+            method: "POST",
+
+            headers: {
+
+              "apikey": SUPABASE_PUBLISHABLE_KEY,
+
+              "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY,
+
+              "Content-Type": "application/json",
+
+              "Accept": "application/json",
+
+              "Prefer": "return=minimal"
+
+            },
+
+            body: JSON.stringify(listing)
+
+          }
+
+        );
+
+        if (!response.ok) {
+
+          const details = await response.text();
+
+          console.error("Business submission error:", response.status, details);
+
+          if (response.status === 401 || response.status === 403) {
+
+            throw new Error(
+
+              "Permission denied. Please contact Palmcaseblog support."
+
+            );
+
+          }
+
+          if (response.status === 400 || response.status === 404) {
+
+            throw new Error(
+
+              "The database rejected the submitted details. Please contact Palmcaseblog support."
+
+            );
+
+          }
+
+          throw new Error(
+
+            "We could not submit your listing right now. Please try again later."
+
+          );
+
+        }
+
+        form.reset();
+
+        showMessage(
+
+          "success",
+
+          "Your business has been submitted successfully! It is awaiting review by Palmcaseblog. Your listing will appear in the directory after it is approved."
+
+        );
+
+        formMessage.scrollIntoView({
+
+          behavior: "smooth",
+
+          block: "center"
+
+        });
+
+      } catch (error) {
+
+        console.error("Submission failed:", error);
+
+        showMessage(
+
+          "error",
+
+          error.message ||
+
+          "Something went wrong. Please check your internet connection and try again."
+
+        );
+
+      } finally {
+
+        submitButton.disabled = false;
+
+        submitButton.textContent = "Submit Business for Review";
+
+      }
+
+    });
+
+  </script>
+
+</body>
+
+</html>
