@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Details | Palmcaseblog</title>
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="View business information and contact details on the Palmcaseblog Business Directory.">
+
+  <style>
+    :root {
+      --background: #111827;
+      --surface: #1f2937;
+      --orange: #f59e0b;
+      --orange-hover: #d97706;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --border: #374151;
+      --danger: #fca5a5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .header {
+      background: #0b1120;
+      border-bottom: 1px solid var(--border);
+      padding: 18px 20px;
+    }
+
+    .header-inner {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .brand {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .brand span {
+      color: var(--orange);
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 35px auto;
+      padding: 0 18px 50px;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--orange);
+      margin-bottom: 22px;
+      font-weight: 700;
+    }
+
+    .business-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      overflow-wrap: anywhere;
+    }
+
+    .business-photo {
+      display: block;
+      width: 100%;
+      max-height: 430px;
+      object-fit: cover;
+      border-radius: 9px;
+      margin-bottom: 22px;
+    }
+
+    .category {
+      display: inline-block;
+      color: var(--orange);
+      background: rgba(245, 158, 11, 0.12);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(27px, 5vw, 38px);
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .location {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .description {
+      white-space: pre-line;
+      margin: 22px 0;
+    }
+
+    .details-heading {
+      font-size: 20px;
+      margin: 25px 0 12px;
+    }
+
+    .contact-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+
+    .contact-item strong {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .contact-item a {
+      color: var(--orange);
+      overflow-wrap: anywhere;
+    }
+
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
+
+    .listed-date {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 22px;
+    }
+
+    .status {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 25px;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .status h2 {
+      margin-bottom: 8px;
+    }
+
+    .status.error h2 {
+      color: var(--danger);
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 22px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 560px) {
+      .business-panel {
+        padding: 17px;
+      }
+
+      .container {
+        margin-top: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        PALMCASE<span>BLOG</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <a class="back-link" href="business-directory.html">
+      ← Back to Business Directory
+    </a>
+
+    <div id="businessContent" class="status" aria-live="polite">
+      <h2>Loading business details...</h2>
+      <p>Please wait while we retrieve this listing.</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    © <span id="currentYear"></span> Palmcaseblog. All rights reserved.
+  </footer>
+
+  <script>
+    "use strict";
+
+    const SUPABASE_URL =
+      "https://kcxlwhojwdvbfjjnartw.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+
+    const content = document.getElementById("businessContent");
+
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+
+    function addContactItem(parent, label, value, href) {
+      if (!value) return;
+
+      const item = document.createElement("div");
+      item.className = "contact-item";
+
+      const heading = document.createElement("strong");
+      heading.textContent = label;
+      item.appendChild(heading);
+
+      if (href) {
+        const link = document.createElement("a");
+        link.href = href;
+        link.textContent = value;
+
+        if (href.startsWith("https://")) {
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+        }
+
+        item.appendChild(link);
+      } else {
+        const text = document.createElement("span");
+        text.textContent = value;
+        item.appendChild(text);
+      }
+
+      parent.appendChild(item);
+    }
+
+    function safeWebsite(value) {
+      if (!value) return "";
+
+      try {
+        let candidate = String(value).trim();
+
+        if (!/^https?:\/\//i.test(candidate)) {
+          candidate = "https://" + candidate;
+        }
+
+        const parsed = new URL(candidate);
+
+        if (parsed.protocol === "https:" || parsed.protocol === "http:") {
+          return parsed.href;
+        }
+      } catch (_) {}
+
+      return "";
+    }
+
+    function showError(message) {
+      content.className = "status error";
+
+      const heading = document.createElement("h2");
+      heading.textContent = "Unable to load this business";
+
+      const paragraph = document.createElement("p");
+      paragraph.textContent = message;
+
+      content.replaceChildren(heading, paragraph);
+    }
+
+    function displayBusiness(business) {
+      content.className = "business-panel";
+      content.replaceChildren();
+
+      if (business.image_url) {
+        try {
+          const photoURL = new URL(business.image_url);
+
+          if (
+            photoURL.protocol === "https:" ||
+            photoURL.protocol === "http:"
+          ) {
+            const image = document.createElement("img");
+            image.className = "business-photo";
+            image.src = photoURL.href;
+            image.alt = (business.business || "Business") + " photo";
+            image.onerror = function () {
+              image.remove();
+            };
+            content.appendChild(image);
+          }
+        } catch (_) {}
+      }
+
+      const category = document.createElement("span");
+      category.className = "category";
+      category.textContent = String(business.category || "General")
+        .replace(/[-_]+/g, " ")
+        .replace(/\b\w/g, function (letter) {
+          return letter.toUpperCase();
+        });
+      content.appendChild(category);
+
+      const heading = document.createElement("h1");
+      heading.textContent = business.business || "Business";
+      content.appendChild(heading);
+
+      if (business.location) {
+        const location = document.createElement("p");
+        location.className = "location";
+        location.textContent = "📍 " + business.location;
+        content.appendChild(location);
+      }
+
+      const description = document.createElement("p");
+      description.className = "description";
+      description.textContent =
+        business.description || "No business description provided.";
+      content.appendChild(description);
+
+      const contactHeading = document.createElement("h2");
+      contactHeading.className = "details-heading";
+      contactHeading.textContent = "Contact Information";
+      content.appendChild(contactHeading);
+
+      const contacts = document.createElement("div");
+      content.appendChild(contacts);
+
+      const phone = String(business.phone || "").trim();
+      const whatsapp = String(business.whatsapp || "").trim();
+      const email = String(business.email || "").trim();
+      const website = String(business.website || "").trim();
+
+      addContactItem(
+        contacts,
+        "Phone",
+        phone,
+        phone ? "tel:" + phone.replace(/[^\d+*#,;]/g, "") : ""
+      );
+
+      const whatsappNumber = whatsapp.replace(/\D/g, "");
+
+      addContactItem(
+        contacts,
+        "WhatsApp",
+        whatsapp,
+        whatsappNumber
+          ? "https://wa.me/" + whatsappNumber
+          : ""
+      );
+
+      addContactItem(
+        contacts,
+        "Email",
+        email,
+        email ? "mailto:" + email : ""
+      );
+
+      const websiteURL = safeWebsite(website);
+
+      addContactItem(
+        contacts,
+        "Website",
+        website,
+        websiteURL
+      );
+
+      if (business.created_at) {
+        const date = new Date(business.created_at);
+
+        if (!Number.isNaN(date.getTime())) {
+          const listed = document.createElement("p");
+          listed.className = "listed-date";
+          listed.textContent =
+            "Listed " +
+            date.toLocaleDateString(undefined, {
+              year: "numeric",
+              month: "long",
+              day: "numeric"
+            });
+
+          content.appendChild(listed);
+        }
+      }
+    }
+
+    async function loadBusiness() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+
+      if (!id) {
+        showError("No business ID was provided. Return to the directory and select a business.");
+        return;
+      }
+
+      try {
+        const query = new URLSearchParams({
+          select: "id,created_at,business,owner_name,category,location,description,phone,whatsapp,email,website,image_url",
+          id: "eq." + id,
+          limit: "1"
+        });
+
+        const response = await fetch(
+          SUPABASE_URL + "/rest/v1/businesses?" + query.toString(),
+          {
+            method: "GET",
+            headers: {
+              "apikey": SUPABASE_PUBLISHABLE_KEY,
+              "Accept": "application/json"
+            }
+          }
+        );
+
+        if (!response.ok) {
+          const details = await response.text();
+          throw new Error(
+            "Supabase returned HTTP " +
+            response.status +
+            ". " +
+            details
+          );
+        }
+
+        const businesses = await response.json();
+
+        if (!Array.isArray(businesses) || businesses.length === 0) {
+          showError("This business could not be found or is not publicly available.");
+          return;
+        }
+
+        displayBusiness(businesses[0]);
+      } catch (error) {
+        console.error("Business details error:", error);
+
+        showError(
+          error && error.message
+            ? error.message
+            : "A connection error occurred. Please try again."
+        );
+      }
+    }
+
+    loadBusiness();
+  </script>
+</body>
+</html>
