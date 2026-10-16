@@ -1,480 +1,784 @@
+
+
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Nigerian Business Directory | Palmcaseblog</title>
 
-  <meta
-    name="description"
-    content="Discover Nigerian businesses, services and brands through the Palmcaseblog Nigerian Business Directory."
-  >
+  <meta name="description" content="Discover Nigerian businesses, restaurants, fashion brands, technology companies and service providers through the Palmcaseblog Business Directory.">
+
+  <meta name="theme-color" content="#111111">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
+
       font-family: Arial, sans-serif;
+
       background: #f5f5f5;
+
       color: #111;
+
+      line-height: 1.6;
+
     }
 
+    a { color: inherit; }
+
+    button, input { font: inherit; }
+
     header {
+
       background: #111;
+
       color: white;
+
       padding: 15px 20px;
+
     }
 
     .header-inner {
+
       max-width: 1100px;
+
       margin: auto;
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
-      gap: 20px;
+
+      gap: 15px;
+
     }
 
     .logo {
+
       display: flex;
+
       align-items: center;
+
       gap: 10px;
+
       font-size: 22px;
+
       font-weight: bold;
+
     }
 
     .logo img {
+
       width: 45px;
+
       height: 45px;
+
       object-fit: cover;
+
       border-radius: 50%;
+
     }
 
     .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: bold;
-    }
 
-    .home-link:hover {
-      text-decoration: underline;
+      color: white;
+
+      text-decoration: none;
+
+      font-size: 14px;
+
+      font-weight: bold;
+
     }
 
     nav {
+
       background: white;
+
       border-bottom: 1px solid #ddd;
+
     }
 
     .nav-inner {
+
       max-width: 1100px;
+
       margin: auto;
+
       display: flex;
+
       gap: 18px;
+
       padding: 12px 20px;
+
       overflow-x: auto;
+
     }
 
     nav a {
+
       color: #111;
+
       text-decoration: none;
+
       font-weight: 600;
+
       white-space: nowrap;
+
     }
 
-    nav a:hover {
-      color: #d40000;
-    }
+    nav a:hover { color: #d40000; }
 
     main {
+
       max-width: 1100px;
+
       margin: 35px auto;
+
       padding: 0 20px;
+
+    }
+
+    .hero, .section {
+
+      background: white;
+
+      padding: 30px;
+
+      border-radius: 12px;
+
+      box-shadow: 0 2px 10px rgba(0,0,0,.07);
+
+      margin-bottom: 25px;
+
     }
 
     .hero {
-      background: white;
+
       padding: 40px 30px;
-      border-radius: 12px;
+
       text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-      margin-bottom: 25px;
+
     }
 
     .hero h1 {
+
       font-size: 38px;
+
+      line-height: 1.2;
+
       margin-bottom: 15px;
+
     }
 
     .hero p {
+
       max-width: 700px;
+
       margin: auto;
+
       color: #555;
+
       line-height: 1.7;
+
       font-size: 17px;
+
     }
 
     .search-box {
-      margin-top: 25px;
+
+      max-width: 700px;
+
+      margin: 25px auto 0;
+
     }
 
     .search-box input {
-      width: 100%;
-      max-width: 700px;
-      padding: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-    }
 
-    .section {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-      margin-bottom: 25px;
+      width: 100%;
+
+      padding: 15px;
+
+      border: 1px solid #ccc;
+
+      border-radius: 8px;
+
+      font-size: 16px;
+
     }
 
     .section h2 {
+
       font-size: 25px;
+
       margin-bottom: 20px;
+
     }
 
     .categories {
+
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+
       gap: 15px;
+
     }
 
     .category-card {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      min-height: 75px;
+
       border: 1px solid #ddd;
-      padding: 18px;
+
+      padding: 15px;
+
       border-radius: 8px;
+
       text-decoration: none;
+
       color: #111;
+
       font-weight: bold;
+
       background: #fafafa;
+
       text-align: center;
-      transition: 0.2s;
+
+      transition: .2s;
+
     }
 
-    .category-card:hover {
+    .category-card:hover,
+
+    .category-card.active {
+
       background: #111;
+
       color: white;
+
+      border-color: #111;
+
+    }
+
+    .results-heading {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 12px;
+
+      flex-wrap: wrap;
+
+      margin-bottom: 18px;
+
+    }
+
+    .results-heading h2 { margin: 0; }
+
+    .results-count {
+
+      color: #666;
+
+      font-size: 14px;
+
+    }
+
+    .filter-status {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 12px;
+
+      flex-wrap: wrap;
+
+      margin-bottom: 18px;
+
+      color: #555;
+
+      font-size: 14px;
+
+    }
+
+    .clear-filter {
+
+      border: 1px solid #ccc;
+
+      border-radius: 6px;
+
+      padding: 8px 12px;
+
+      background: white;
+
+      cursor: pointer;
+
+      font-weight: bold;
+
+    }
+
+    .clear-filter:hover { background: #eee; }
+
+    .business-grid {
+
+      display: grid;
+
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      gap: 18px;
+
+    }
+
+    .business-card {
+
+      min-width: 0;
+
+      border: 1px solid #e1e1e1;
+
+      border-radius: 10px;
+
+      padding: 22px;
+
+      background: #fff;
+
+      overflow-wrap: anywhere;
+
+    }
+
+    .business-card h3 {
+
+      font-size: 20px;
+
+      line-height: 1.35;
+
+      margin-bottom: 9px;
+
+    }
+
+    .business-category {
+
+      display: inline-block;
+
+      padding: 4px 9px;
+
+      background: #fff1d6;
+
+      color: #754800;
+
+      border-radius: 5px;
+
+      font-size: 12px;
+
+      font-weight: bold;
+
+      margin-bottom: 12px;
+
+    }
+
+    .business-description {
+
+      color: #555;
+
+      white-space: pre-line;
+
+    }
+
+    .business-date {
+
+      margin-top: 14px;
+
+      color: #888;
+
+      font-size: 12px;
+
     }
 
     .directory-message {
+
       text-align: center;
+
       padding: 35px 20px;
+
       border: 1px dashed #ccc;
+
       border-radius: 10px;
+
       color: #666;
+
       line-height: 1.7;
+
+    }
+
+    .directory-message h3 {
+
+      color: #222;
+
+      margin-bottom: 8px;
+
     }
 
     .listing-section {
+
       display: grid;
+
       grid-template-columns: 1fr 1fr;
+
       gap: 25px;
+
     }
 
     .listing-box {
+
       border: 1px solid #ddd;
+
       border-radius: 10px;
+
       padding: 25px;
+
     }
 
-    .listing-box h3 {
-      margin-bottom: 12px;
-    }
+    .listing-box h3 { margin-bottom: 12px; }
 
     .listing-box p {
+
       color: #555;
+
       line-height: 1.7;
+
       margin-bottom: 18px;
+
     }
 
     .button {
+
       display: inline-block;
+
       background: #111;
+
       color: white;
+
       text-decoration: none;
+
       padding: 13px 20px;
+
       border-radius: 7px;
+
       font-weight: bold;
+
+      border: 0;
+
+      cursor: pointer;
+
     }
 
-    .button:hover {
-      background: #d40000;
-    }
+    .button:hover { background: #d40000; }
 
     footer {
+
       background: #111;
+
       color: white;
+
       margin-top: 50px;
+
       padding: 40px 20px;
+
     }
 
     .footer-inner {
+
       max-width: 1100px;
+
       margin: auto;
+
       display: grid;
+
       grid-template-columns: 2fr 1fr 1fr;
+
       gap: 35px;
+
     }
 
-    .footer-section h3 {
-      margin-bottom: 15px;
-    }
+    .footer-section h3 { margin-bottom: 15px; }
 
     .footer-section p {
+
       color: #ccc;
+
       line-height: 1.7;
+
       font-size: 14px;
+
     }
 
     .footer-section a {
+
       display: block;
+
       color: #ccc;
+
       text-decoration: none;
+
       margin-bottom: 9px;
+
       font-size: 14px;
+
     }
 
-    .footer-section a:hover {
-      color: white;
-    }
+    .footer-section a:hover { color: white; }
 
     .business-link {
+
       color: white !important;
+
       font-weight: bold;
+
       margin-top: 15px;
+
     }
 
     .footer-bottom {
+
       max-width: 1100px;
+
       margin: 30px auto 0;
+
       padding-top: 20px;
+
       border-top: 1px solid #333;
+
       text-align: center;
+
       color: #888;
+
       font-size: 13px;
+
     }
 
     @media (max-width: 800px) {
-      .categories {
-        grid-template-columns: repeat(2, 1fr);
-      }
 
-      .listing-section {
-        grid-template-columns: 1fr;
-      }
+      .categories { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-      .footer-inner {
-        grid-template-columns: 1fr;
-      }
+      .listing-section, .footer-inner { grid-template-columns: 1fr; }
 
-      .hero h1 {
-        font-size: 30px;
-      }
+      .hero h1 { font-size: 30px; }
+
     }
 
     @media (max-width: 500px) {
-      .categories {
-        grid-template-columns: 1fr;
-      }
 
-      .hero {
-        padding: 30px 20px;
-      }
+      .hero { padding: 30px 20px; }
 
-      .section {
-        padding: 22px;
-      }
+      .section { padding: 22px; }
+
+      .business-grid { grid-template-columns: 1fr; }
+
+      .logo { font-size: 18px; }
+
+      .logo img { width: 38px; height: 38px; }
+
     }
+
   </style>
+
 </head>
 
 <body>
 
 <header>
+
   <div class="header-inner">
 
     <div class="logo">
+
       <img src="IMG_2188.jpeg" alt="Palmcaseblog Logo">
+
       <span>Palmcaseblog</span>
+
     </div>
 
-    <a href="index.html" class="home-link">
-      Back to Palmcaseblog
-    </a>
+    <a href="index.html" class="home-link">Back to Palmcaseblog</a>
 
   </div>
+
 </header>
 
-
 <nav>
+
   <div class="nav-inner">
 
     <a href="index.html">Home</a>
 
-    <a href="category.html?category=News">
-      News
-    </a>
+    <a href="category.html?category=News">News</a>
 
-    <a href="category.html?category=Entertainment">
-      Entertainment
-    </a>
+    <a href="category.html?category=Entertainment">Entertainment</a>
 
-    <a href="category.html?category=Politics">
-      Politics
-    </a>
+    <a href="category.html?category=Politics">Politics</a>
 
-    <a href="category.html?category=Sports">
-      Sports
-    </a>
+    <a href="category.html?category=Sports">Sports</a>
 
-    <a href="category.html?category=Technology">
-      Technology
-    </a>
+    <a href="category.html?category=Technology">Technology</a>
 
-    <a href="category.html?category=Lifestyle">
-      Lifestyle
-    </a>
+    <a href="category.html?category=Lifestyle">Lifestyle</a>
 
-    <a href="category.html?category=Crime">
-      Crime
-    </a>
+    <a href="category.html?category=Crime">Crime</a>
 
-    <a href="category.html?category=Relationship">
-      Relationship
-    </a>
+    <a href="category.html?category=Relationship">Relationship</a>
 
-    <a href="category.html?category=World">
-      World
-    </a>
+    <a href="category.html?category=World">World</a>
 
-    <a href="category.html?category=Topics">
-      Topics
-    </a>
+    <a href="category.html?category=Topics">Topics</a>
 
   </div>
-</nav>
 
+</nav>
 
 <main>
 
   <section class="hero">
 
-    <h1>
-      Nigerian Business Directory
-    </h1>
+    <h1>Nigerian Business Directory</h1>
 
     <p>
+
       Discover businesses, services, brands and entrepreneurs
+
       across Nigeria through the Palmcaseblog Business Directory.
+
     </p>
 
     <div class="search-box">
 
       <input
+
         type="search"
+
         id="searchInput"
-        placeholder="Search businesses, services or locations..."
+
+        placeholder="Search businesses, categories or services..."
+
+        aria-label="Search businesses"
+
       >
 
     </div>
 
   </section>
 
-
   <section class="section">
 
-    <h2>
-      Browse Business Categories
-    </h2>
+    <h2>Browse Business Categories</h2>
 
-    <div class="categories">
+    <div class="categories" id="categoryGrid">
 
-      <a href="#" class="category-card">
-        Restaurants & Food
-      </a>
+      <a href="?category=Restaurants%20%26%20Food#businessListings"
 
-      <a href="#" class="category-card">
-        Fashion & Beauty
-      </a>
+         class="category-card" data-category="Restaurants & Food">Restaurants &amp; Food</a>
 
-      <a href="#" class="category-card">
-        Technology
-      </a>
+      <a href="?category=Fashion%20%26%20Beauty#businessListings"
 
-      <a href="#" class="category-card">
-        Real Estate
-      </a>
+         class="category-card" data-category="Fashion & Beauty">Fashion &amp; Beauty</a>
 
-      <a href="#" class="category-card">
-        Hotels & Hospitality
-      </a>
+      <a href="?category=Technology#businessListings"
 
-      <a href="#" class="category-card">
-        Education
-      </a>
+         class="category-card" data-category="Technology">Technology</a>
 
-      <a href="#" class="category-card">
-        Health & Wellness
-      </a>
+      <a href="?category=Real%20Estate#businessListings"
 
-      <a href="#" class="category-card">
-        Transportation
-      </a>
+         class="category-card" data-category="Real Estate">Real Estate</a>
 
-      <a href="#" class="category-card">
-        Construction
-      </a>
+      <a href="?category=Hotels%20%26%20Hospitality#businessListings"
 
-      <a href="#" class="category-card">
-        Finance
-      </a>
+         class="category-card" data-category="Hotels & Hospitality">Hotels &amp; Hospitality</a>
 
-      <a href="#" class="category-card">
-        Events & Entertainment
-      </a>
+      <a href="?category=Education#businessListings"
 
-      <a href="#" class="category-card">
-        Professional Services
-      </a>
+         class="category-card" data-category="Education">Education</a>
+
+      <a href="?category=Health%20%26%20Wellness#businessListings"
+
+         class="category-card" data-category="Health & Wellness">Health &amp; Wellness</a>
+
+      <a href="?category=Transportation#businessListings"
+
+         class="category-card" data-category="Transportation">Transportation</a>
+
+      <a href="?category=Construction#businessListings"
+
+         class="category-card" data-category="Construction">Construction</a>
+
+      <a href="?category=Finance#businessListings"
+
+         class="category-card" data-category="Finance">Finance</a>
+
+      <a href="?category=Events%20%26%20Entertainment#businessListings"
+
+         class="category-card" data-category="Events & Entertainment">Events &amp; Entertainment</a>
+
+      <a href="?category=Professional%20Services#businessListings"
+
+         class="category-card" data-category="Professional Services">Professional Services</a>
 
     </div>
 
   </section>
 
+  <section class="section" id="businessListings">
 
-  <section class="section">
+    <div class="results-heading">
 
-    <h2>
-      Featured Businesses
-    </h2>
+      <h2 id="resultsTitle">Featured Businesses</h2>
 
-    <div class="directory-message">
+      <span class="results-count" id="resultsCount"></span>
 
-      <h3>
-        Business listings are coming soon.
-      </h3>
+    </div>
 
-      <p>
-        Palmcaseblog is building a directory where Nigerian
-        businesses and service providers can showcase what
-        they offer and reach new customers.
-      </p>
+    <div class="filter-status">
+
+      <span id="filterDescription">Browse businesses listed on Palmcaseblog.</span>
+
+      <button type="button" id="clearFilter" class="clear-filter" hidden>
+
+        Show All Businesses
+
+      </button>
+
+    </div>
+
+    <div id="businessResults" aria-live="polite">
+
+      <div class="directory-message">
+
+        <h3>Loading business listings...</h3>
+
+        <p>Please wait while we check the directory.</p>
+
+      </div>
 
     </div>
 
   </section>
-
 
   <section class="section">
 
@@ -482,35 +786,36 @@
 
       <div class="listing-box">
 
-        <h3>
-          Own a Business?
-        </h3>
+        <h3>Own a Business?</h3>
 
         <p>
+
           Get your business discovered by people looking for
+
           products and services across Nigeria.
+
         </p>
 
-        <a href="contact.html" class="button">
-          List Your Business
-        </a>
+        <a href="contact.html" class="button">List Your Business</a>
 
       </div>
 
-
       <div class="listing-box">
 
-        <h3>
-          Looking for a Business?
-        </h3>
+        <h3>Looking for a Business?</h3>
 
         <p>
-          Search our growing directory to discover Nigerian
+
+          Search the Palmcaseblog directory for Nigerian
+
           businesses, brands and service providers.
+
         </p>
 
-        <a href="#searchInput" class="button">
+        <a href="#searchInput" class="button" id="searchButton">
+
           Search Directory
+
         </a>
 
       </div>
@@ -521,164 +826,602 @@
 
 </main>
 
-
 <footer>
 
   <div class="footer-inner">
 
     <div class="footer-section">
 
-      <h3>
-        Palmcaseblog
-      </h3>
+      <h3>Palmcaseblog</h3>
 
-      <p>
-        Trending stories. Real conversations. One destination.
-      </p>
+      <p>Trending stories. Real conversations. One destination.</p>
 
       <p style="margin-top:10px;">
+
         Nigerian News, Entertainment, Celebrity Gist and Lifestyle since 2022.
+
       </p>
 
-      <a
-        href="business-directory.html"
-        class="business-link"
-      >
+      <a href="business-directory.html" class="business-link">
+
         Nigerian Business Directory →
+
       </a>
 
     </div>
 
-
     <div class="footer-section">
 
-      <h3>
-        Categories
-      </h3>
+      <h3>Categories</h3>
 
       <a href="category.html?category=News">News</a>
 
-      <a href="category.html?category=Entertainment">
-        Entertainment
-      </a>
+      <a href="category.html?category=Entertainment">Entertainment</a>
 
-      <a href="category.html?category=Politics">
-        Politics
-      </a>
+      <a href="category.html?category=Politics">Politics</a>
 
-      <a href="category.html?category=Sports">
-        Sports
-      </a>
+      <a href="category.html?category=Sports">Sports</a>
 
-      <a href="category.html?category=Technology">
-        Technology
-      </a>
+      <a href="category.html?category=Technology">Technology</a>
 
-      <a href="category.html?category=Lifestyle">
-        Lifestyle
-      </a>
+      <a href="category.html?category=Lifestyle">Lifestyle</a>
 
-      <a href="category.html?category=Crime">
-        Crime
-      </a>
+      <a href="category.html?category=Crime">Crime</a>
 
-      <a href="category.html?category=Relationship">
-        Relationship
-      </a>
+      <a href="category.html?category=Relationship">Relationship</a>
 
-      <a href="category.html?category=World">
-        World
-      </a>
+      <a href="category.html?category=World">World</a>
 
-      <a href="category.html?category=Topics">
-        Topics
-      </a>
+      <a href="category.html?category=Topics">Topics</a>
 
     </div>
 
-
     <div class="footer-section">
 
-      <h3>
-        Quick Links
-      </h3>
+      <h3>Quick Links</h3>
 
-      <a href="index.html">
-        Home
-      </a>
+      <a href="index.html">Home</a>
 
-      <a href="contact.html">
-        Contact
-      </a>
+      <a href="contact.html">Contact</a>
 
-      <a href="feedback.html">
-        Feedback
-      </a>
+      <a href="feedback.html">Feedback</a>
 
-      <a href="advertise.html">
-        Advertise With Us
-      </a>
+      <a href="advertise.html">Advertise With Us</a>
 
-      <a href="editorial-policy.html">
-        Editorial Policy
-      </a>
+      <a href="editorial-policy.html">Editorial Policy</a>
 
-      <a href="privacy.html">
-        Privacy Policy
-      </a>
+      <a href="privacy.html">Privacy Policy</a>
 
-      <a href="cookies.html">
-        Cookie Settings
-      </a>
+      <a href="cookies.html">Cookie Settings</a>
 
-      <a href="terms.html">
-        Terms
-      </a>
+      <a href="terms.html">Terms</a>
 
     </div>
 
   </div>
 
-
   <div class="footer-bottom">
 
-    © 2026 Palmcaseblog. All rights reserved.
+    © <span id="currentYear"></span> Palmcaseblog. All rights reserved.
 
   </div>
 
 </footer>
 
-
 <script>
 
-  const searchInput =
-    document.getElementById("searchInput");
+  /*
 
+    PALMCASEBLOG BUSINESS DIRECTORY
 
-  searchInput.addEventListener(
-    "keydown",
-    function(event) {
+    Table: businesses
 
-      if (event.key === "Enter") {
+    Columns: id, created_at, businesses, category, description
 
-        const search =
-          searchInput.value.trim();
+    Before publishing, enter your existing Supabase anon/publishable
 
-        if (search) {
+    key below. Never put a service_role or secret key in website code.
 
-          alert(
-            "Directory search will be available when business listings are connected."
-          );
+  */
 
-        }
+  const SUPABASE_URL =
+
+    "https://kcxlwhojwdvbfjjnartw.supabase.co";
+
+  const SUPABASE_ANON_KEY =
+
+    "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+
+  const searchInput = document.getElementById("searchInput");
+
+  const resultsContainer = document.getElementById("businessResults");
+
+  const resultsTitle = document.getElementById("resultsTitle");
+
+  const resultsCount = document.getElementById("resultsCount");
+
+  const filterDescription = document.getElementById("filterDescription");
+
+  const clearFilterButton = document.getElementById("clearFilter");
+
+  const categoryCards = [...document.querySelectorAll(".category-card")];
+
+  let allBusinesses = [];
+
+  let selectedCategory = "";
+
+  document.getElementById("currentYear").textContent =
+
+    new Date().getFullYear();
+
+  function normalize(value) {
+
+    return String(value || "")
+
+      .toLowerCase()
+
+      .normalize("NFD")
+
+      .replace(/[\u0300-\u036f]/g, "")
+
+      .replace(/&/g, " and ")
+
+      .replace(/[^a-z0-9]+/g, " ")
+
+      .trim();
+
+  }
+
+  function categoryMatches(businessCategory, chosenCategory) {
+
+    const actual = normalize(businessCategory);
+
+    const chosen = normalize(chosenCategory);
+
+    if (!actual || !chosen) return false;
+
+    if (actual === chosen) return true;
+
+    const aliases = {
+
+      "restaurants and food": [
+
+        "restaurant", "restaurants", "food", "food vendor",
+
+        "food vendors", "catering", "bakery", "bakeries"
+
+      ],
+
+      "fashion and beauty": [
+
+        "fashion", "beauty", "salon", "makeup", "clothing"
+
+      ],
+
+      "hotels and hospitality": [
+
+        "hotel", "hotels", "hospitality", "lodging"
+
+      ],
+
+      "health and wellness": [
+
+        "health", "wellness", "medical", "fitness"
+
+      ],
+
+      "events and entertainment": [
+
+        "event", "events", "entertainment", "music"
+
+      ],
+
+      "professional services": [
+
+        "professional service", "professional services",
+
+        "legal", "consulting", "accounting"
+
+      ]
+
+    };
+
+    const terms = aliases[chosen];
+
+    if (terms && terms.some(term => actual === normalize(term))) {
+
+      return true;
+
+    }
+
+    return actual.includes(chosen) || chosen.includes(actual);
+
+  }
+
+  function showMessage(title, message) {
+
+    resultsContainer.innerHTML = "";
+
+    const box = document.createElement("div");
+
+    box.className = "directory-message";
+
+    const heading = document.createElement("h3");
+
+    heading.textContent = title;
+
+    const paragraph = document.createElement("p");
+
+    paragraph.textContent = message;
+
+    box.append(heading, paragraph);
+
+    resultsContainer.appendChild(box);
+
+  }
+
+  function createBusinessCard(business) {
+
+    const card = document.createElement("article");
+
+    card.className = "business-card";
+
+    const name = document.createElement("h3");
+
+    name.textContent = business.businesses || "Unnamed business";
+
+    const category = document.createElement("span");
+
+    category.className = "business-category";
+
+    category.textContent = business.category || "Business";
+
+    card.append(name, category);
+
+    if (business.description) {
+
+      const description = document.createElement("p");
+
+      description.className = "business-description";
+
+      description.textContent = business.description;
+
+      card.appendChild(description);
+
+    }
+
+    if (business.created_at) {
+
+      const date = new Date(business.created_at);
+
+      if (!Number.isNaN(date.getTime())) {
+
+        const dateText = document.createElement("p");
+
+        dateText.className = "business-date";
+
+        dateText.textContent =
+
+          "Listed " + date.toLocaleDateString("en-NG");
+
+        card.appendChild(dateText);
 
       }
 
     }
-  );
 
+    return card;
+
+  }
+
+  function updateCategoryStyles() {
+
+    categoryCards.forEach(card => {
+
+      const active = normalize(card.dataset.category) ===
+
+        normalize(selectedCategory);
+
+      card.classList.toggle("active", active);
+
+      if (active) {
+
+        card.setAttribute("aria-current", "true");
+
+      } else {
+
+        card.removeAttribute("aria-current");
+
+      }
+
+    });
+
+  }
+
+  function renderBusinesses() {
+
+    const query = normalize(searchInput.value);
+
+    const filtered = allBusinesses.filter(business => {
+
+      const matchesCategory =
+
+        !selectedCategory ||
+
+        categoryMatches(business.category, selectedCategory);
+
+      const searchableText = normalize([
+
+        business.businesses,
+
+        business.category,
+
+        business.description
+
+      ].join(" "));
+
+      const matchesSearch = !query || searchableText.includes(query);
+
+      return matchesCategory && matchesSearch;
+
+    });
+
+    resultsTitle.textContent = selectedCategory
+
+      ? selectedCategory + " Businesses"
+
+      : "Featured Businesses";
+
+    resultsCount.textContent =
+
+      filtered.length + (filtered.length === 1 ? " business" : " businesses");
+
+    filterDescription.textContent = selectedCategory
+
+      ? "Showing businesses in " + selectedCategory + "."
+
+      : "Browse businesses listed on Palmcaseblog.";
+
+    clearFilterButton.hidden = !selectedCategory && !query;
+
+    updateCategoryStyles();
+
+    resultsContainer.innerHTML = "";
+
+    if (filtered.length === 0) {
+
+      if (allBusinesses.length === 0) {
+
+        showMessage(
+
+          "No business listings yet",
+
+          "Palmcaseblog is ready to showcase Nigerian businesses. Once listings are added to the directory, they will appear here."
+
+        );
+
+      } else if (query) {
+
+        showMessage(
+
+          "No matching businesses found",
+
+          "Try another search term or clear your filters to see all available listings."
+
+        );
+
+      } else {
+
+        showMessage(
+
+          "No listings in this category yet",
+
+          "There are currently no businesses listed in this category. Try another category or check back later."
+
+        );
+
+      }
+
+      return;
+
+    }
+
+    const grid = document.createElement("div");
+
+    grid.className = "business-grid";
+
+    filtered.forEach(business => {
+
+      grid.appendChild(createBusinessCard(business));
+
+    });
+
+    resultsContainer.appendChild(grid);
+
+  }
+
+  function setCategory(category, updateUrl = true) {
+
+    selectedCategory = category || "";
+
+    if (updateUrl) {
+
+      const url = new URL(window.location.href);
+
+      if (selectedCategory) {
+
+        url.searchParams.set("category", selectedCategory);
+
+      } else {
+
+        url.searchParams.delete("category");
+
+      }
+
+      history.pushState({}, "", url.pathname + url.search + url.hash);
+
+    }
+
+    renderBusinesses();
+
+  }
+
+  categoryCards.forEach(card => {
+
+    card.addEventListener("click", event => {
+
+      event.preventDefault();
+
+      setCategory(card.dataset.category);
+
+      document.getElementById("businessListings").scrollIntoView({
+
+        behavior: "smooth",
+
+        block: "start"
+
+      });
+
+    });
+
+  });
+
+  searchInput.addEventListener("input", renderBusinesses);
+
+  clearFilterButton.addEventListener("click", () => {
+
+    searchInput.value = "";
+
+    setCategory("");
+
+  });
+
+  document.getElementById("searchButton").addEventListener("click", () => {
+
+    setTimeout(() => searchInput.focus(), 100);
+
+  });
+
+  window.addEventListener("popstate", () => {
+
+    const url = new URL(window.location.href);
+
+    selectedCategory = url.searchParams.get("category") || "";
+
+    renderBusinesses();
+
+  });
+
+  async function loadBusinesses() {
+
+    if (
+
+      !SUPABASE_ANON_KEY ||
+
+      SUPABASE_ANON_KEY ===
+
+        "PASTE_YOUR_SUPABASE_ANON_OR_PUBLISHABLE_KEY_HERE"
+
+    ) {
+
+      showMessage(
+
+        "Connect your business database",
+
+        "The category filters are ready, but the Supabase public key still needs to be added before the directory can load real business records."
+
+      );
+
+      resultsCount.textContent = "";
+
+      return;
+
+    }
+
+    try {
+
+      const endpoint =
+
+        SUPABASE_URL +
+
+        "/rest/v1/businesses?select=id,created_at,businesses,category,description&order=created_at.desc";
+
+      const response = await fetch(endpoint, {
+
+        headers: {
+
+          apikey: SUPABASE_ANON_KEY,
+
+          Authorization: "Bearer " + SUPABASE_ANON_KEY
+
+        }
+
+      });
+
+      if (!response.ok) {
+
+        throw new Error(
+
+          "Supabase returned HTTP " + response.status
+
+        );
+
+      }
+
+      const data = await response.json();
+
+      if (!Array.isArray(data)) {
+
+        throw new Error("Unexpected response from the database.");
+
+      }
+
+      allBusinesses = data;
+
+      renderBusinesses();
+
+    } catch (error) {
+
+      console.error("Business directory error:", error);
+
+      showMessage(
+
+        "We couldn't load business listings",
+
+        "Please try again later. If you manage this website, check your Supabase key, table permissions and public read-access policy."
+
+      );
+
+      resultsCount.textContent = "";
+
+    }
+
+  }
+
+  const initialUrl = new URL(window.location.href);
+
+  selectedCategory = initialUrl.searchParams.get("category") || "";
+
+  if (selectedCategory) {
+
+    const matchingCard = categoryCards.find(card =>
+
+      normalize(card.dataset.category) === normalize(selectedCategory)
+
+    );
+
+    if (matchingCard) {
+
+      selectedCategory = matchingCard.dataset.category;
+
+    }
+
+  }
+
+  loadBusinesses();
 
 </script>
 
 </body>
+
 </html>
