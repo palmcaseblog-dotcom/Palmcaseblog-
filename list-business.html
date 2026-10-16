@@ -34,7 +34,11 @@
 
     }
 
-    * { box-sizing: border-box; }
+    * {
+
+      box-sizing: border-box;
+
+    }
 
     body {
 
@@ -50,7 +54,13 @@
 
     }
 
-    a { color: var(--orange); text-decoration: none; }
+    a {
+
+      color: var(--orange);
+
+      text-decoration: none;
+
+    }
 
     header {
 
@@ -90,7 +100,11 @@
 
     }
 
-    .logo span { color: var(--orange); }
+    .logo span {
+
+      color: var(--orange);
+
+    }
 
     main {
 
@@ -102,7 +116,13 @@
 
     }
 
-    .intro { text-align: center; margin-bottom: 28px; }
+    .intro {
+
+      text-align: center;
+
+      margin-bottom: 28px;
+
+    }
 
     .intro h1 {
 
@@ -114,9 +134,17 @@
 
     }
 
-    .intro h1 span { color: var(--orange); }
+    .intro h1 span {
 
-    .intro p { color: var(--muted); }
+      color: var(--orange);
+
+    }
+
+    .intro p {
+
+      color: var(--muted);
+
+    }
 
     form {
 
@@ -140,9 +168,17 @@
 
     }
 
-    .field { min-width: 0; }
+    .field {
 
-    .full { grid-column: 1 / -1; }
+      min-width: 0;
+
+    }
+
+    .full {
+
+      grid-column: 1 / -1;
+
+    }
 
     label {
 
@@ -156,9 +192,17 @@
 
     }
 
-    .required { color: var(--orange); }
+    .required {
 
-    input, select, textarea {
+      color: var(--orange);
+
+    }
+
+    input,
+
+    select,
+
+    textarea {
 
       width: 100%;
 
@@ -178,7 +222,11 @@
 
     }
 
-    input:focus, select:focus, textarea:focus {
+    input:focus,
+
+    select:focus,
+
+    textarea:focus {
 
       border-color: var(--orange);
 
@@ -192,7 +240,9 @@
 
     }
 
-    input::placeholder, textarea::placeholder {
+    input::placeholder,
+
+    textarea::placeholder {
 
       color: #9ca3af;
 
@@ -207,6 +257,22 @@
       font-size: 12px;
 
       margin-top: 5px;
+
+    }
+
+    #businessImagePreview {
+
+      display: none;
+
+      max-width: 100%;
+
+      max-height: 260px;
+
+      margin-top: 12px;
+
+      border-radius: 8px;
+
+      object-fit: contain;
 
     }
 
@@ -312,13 +378,29 @@
 
     @media (max-width: 600px) {
 
-      main { margin: 28px auto; }
+      main {
 
-      form { padding: 18px; }
+        margin: 28px auto;
 
-      .form-grid { grid-template-columns: 1fr; }
+      }
 
-      .full { grid-column: auto; }
+      form {
+
+        padding: 18px;
+
+      }
+
+      .form-grid {
+
+        grid-template-columns: 1fr;
+
+      }
+
+      .full {
+
+        grid-column: auto;
+
+      }
 
     }
 
@@ -364,9 +446,21 @@
 
           <label for="ownerName">Your name <span class="required">*</span></label>
 
-          <input id="ownerName" name="owner_name" required maxlength="100"
+          <input
 
-                 autocomplete="name" placeholder="Business owner's name">
+            id="ownerName"
+
+            name="owner_name"
+
+            required
+
+            maxlength="100"
+
+            autocomplete="name"
+
+            placeholder="Business owner's name"
+
+          >
 
         </div>
 
@@ -374,9 +468,19 @@
 
           <label for="businessName">Business name <span class="required">*</span></label>
 
-          <input id="businessName" name="business" required maxlength="150"
+          <input
 
-                 placeholder="Enter your business name">
+            id="businessName"
+
+            name="business"
+
+            required
+
+            maxlength="150"
+
+            placeholder="Enter your business name"
+
+          >
 
         </div>
 
@@ -426,9 +530,19 @@
 
           <label for="location">Business location <span class="required">*</span></label>
 
-          <input id="location" name="location" required maxlength="200"
+          <input
 
-                 placeholder="e.g. Wuse 2, Abuja">
+            id="location"
+
+            name="location"
+
+            required
+
+            maxlength="200"
+
+            placeholder="e.g. Wuse 2, Abuja"
+
+          >
 
         </div>
 
@@ -436,11 +550,21 @@
 
           <label for="description">Describe your business <span class="required">*</span></label>
 
-          <textarea id="description" name="description" required
+          <textarea
 
-                    minlength="10" maxlength="3000"
+            id="description"
 
-                    placeholder="Explain what you sell, the services you offer, and what makes your business special."></textarea>
+            name="description"
+
+            required
+
+            minlength="10"
+
+            maxlength="3000"
+
+            placeholder="Explain what you sell, the services you offer, and what makes your business special."
+
+          ></textarea>
 
           <span class="hint">Write at least 10 characters. Maximum 3,000 characters.</span>
 
@@ -450,9 +574,23 @@
 
           <label for="phone">Phone number <span class="required">*</span></label>
 
-          <input id="phone" name="phone" type="tel" required maxlength="30"
+          <input
 
-                 autocomplete="tel" placeholder="Your business phone number">
+            id="phone"
+
+            name="phone"
+
+            type="tel"
+
+            required
+
+            maxlength="30"
+
+            autocomplete="tel"
+
+            placeholder="Your business phone number"
+
+          >
 
         </div>
 
@@ -460,9 +598,19 @@
 
           <label for="whatsapp">WhatsApp number</label>
 
-          <input id="whatsapp" name="whatsapp" type="tel" maxlength="30"
+          <input
 
-                 placeholder="Include country code if possible">
+            id="whatsapp"
+
+            name="whatsapp"
+
+            type="tel"
+
+            maxlength="30"
+
+            placeholder="Include country code if possible"
+
+          >
 
         </div>
 
@@ -470,9 +618,21 @@
 
           <label for="email">Business email</label>
 
-          <input id="email" name="email" type="email" maxlength="254"
+          <input
 
-                 autocomplete="email" placeholder="you@example.com">
+            id="email"
+
+            name="email"
+
+            type="email"
+
+            maxlength="254"
+
+            autocomplete="email"
+
+            placeholder="you@example.com"
+
+          >
 
         </div>
 
@@ -480,56 +640,77 @@
 
           <label for="website">Website or social media link</label>
 
-          <input id="website" name="website" type="url" maxlength="500"
+          <input
 
-                 placeholder="https://example.com">
+            id="website"
+
+            name="website"
+
+            type="url"
+
+            maxlength="500"
+
+            placeholder="https://example.com"
+
+          >
 
         </div>
 
         <div class="field full">
 
-          
-<div class="field full">
-  <label for="businessImage">Business photo</label>
-  <input
-    id="businessImage"
-    name="business_image"
-    type="file"
-    accept="image/jpeg,image/png,image/webp"
-  >
-  <span class="hint">
-    Optional. Choose a photo from your phone gallery.
-    JPG, PNG or WebP only. Maximum size: 5 MB.
-  </span>
+          <label for="businessImage">Business photo</label>
 
-  <img
-    id="businessImagePreview"
-    alt="Preview of your business photo"
-    style="display:none;max-width:100%;max-height:260px;margin-top:12px;border-radius:8px;"
-  >
+          <input
 
-  <label for="imageUrl" style="margin-top:16px;">
-    Or enter a photo URL
-  </label>
-  <input
-    id="imageUrl"
-    name="image_url"
-    type="url"
-    maxlength="1000"
-    placeholder="https://example.com/your-business-photo.jpg"
-  >
-</div>
+            id="businessImage"
 
+            name="business_image"
 
-          <input id="imageUrl" name="image_url" type="url" maxlength="1000"
+            type="file"
 
-                 placeholder="https://example.com/your-business-photo.jpg">
+            accept="image/jpeg,image/png,image/webp"
+
+          >
 
           <span class="hint">
 
-            Optional. This must be a publicly accessible image URL.
+            Optional. Choose a photo from your phone gallery.
 
-            Direct photo uploads can be added later.
+            JPG, PNG or WebP only. Maximum size: 5 MB.
+
+          </span>
+
+          <img
+
+            id="businessImagePreview"
+
+            alt="Preview of your business photo"
+
+          >
+
+          <label for="imageUrl" style="margin-top:16px;">
+
+            Or enter a photo URL
+
+          </label>
+
+          <input
+
+            id="imageUrl"
+
+            name="image_url"
+
+            type="url"
+
+            maxlength="1000"
+
+            placeholder="https://example.com/your-business-photo.jpg"
+
+          >
+
+          <span class="hint">
+
+            Optional. Use a publicly accessible image URL if you are not uploading a photo.
 
           </span>
 
@@ -585,6 +766,24 @@
 
     const formMessage = document.getElementById("formMessage");
 
+    const businessImageInput = document.getElementById("businessImage");
+
+    const businessImagePreview = document.getElementById("businessImagePreview");
+
+    const imageUrlInput = document.getElementById("imageUrl");
+
+    const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+
+    const allowedImageTypes = {
+
+      "image/jpeg": "jpg",
+
+      "image/png": "png",
+
+      "image/webp": "webp"
+
+    };
+
     document.getElementById("year").textContent =
 
       new Date().getFullYear();
@@ -597,11 +796,141 @@
 
     }
 
+    businessImageInput.addEventListener("change", function () {
+
+      const file = this.files[0];
+
+      if (!file) {
+
+        businessImagePreview.removeAttribute("src");
+
+        businessImagePreview.style.display = "none";
+
+        return;
+
+      }
+
+      if (!allowedImageTypes[file.type] || file.size > MAX_IMAGE_SIZE) {
+
+        this.value = "";
+
+        businessImagePreview.removeAttribute("src");
+
+        businessImagePreview.style.display = "none";
+
+        alert("Choose a JPG, PNG or WebP photo no larger than 5 MB.");
+
+        return;
+
+      }
+
+      businessImagePreview.src = URL.createObjectURL(file);
+
+      businessImagePreview.style.display = "block";
+
+    });
+
+    async function uploadBusinessImage(file) {
+
+      if (!allowedImageTypes[file.type] || file.size > MAX_IMAGE_SIZE) {
+
+        throw new Error("Choose a JPG, PNG or WebP photo no larger than 5 MB.");
+
+      }
+
+      const extension = allowedImageTypes[file.type];
+
+      const safeFileName =
+
+        Date.now() + "-" +
+
+        crypto.randomUUID() + "." + extension;
+
+      const uploadPath = "listings/" + safeFileName;
+
+      const uploadResponse = await fetch(
+
+        SUPABASE_URL + "/storage/v1/object/business-images/" + uploadPath,
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "apikey": SUPABASE_PUBLISHABLE_KEY,
+
+            "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY,
+
+            "Content-Type": file.type,
+
+            "x-upsert": "false"
+
+          },
+
+          body: file
+
+        }
+
+      );
+
+      if (!uploadResponse.ok) {
+
+        const details = await uploadResponse.text();
+
+        console.error("Business photo upload failed:", uploadResponse.status, details);
+
+        if (uploadResponse.status === 401 || uploadResponse.status === 403) {
+
+          throw new Error(
+
+            "Photo upload was denied by Supabase. Please check the business-images storage upload policy."
+
+          );
+
+        }
+
+        throw new Error(
+
+          "The photo could not be uploaded. Please try again with another photo."
+
+        );
+
+      }
+
+      return SUPABASE_URL +
+
+        "/storage/v1/object/public/business-images/" +
+
+        uploadPath;
+
+    }
+
     form.addEventListener("submit", async function (event) {
 
       event.preventDefault();
 
       if (!form.reportValidity()) {
+
+        return;
+
+      }
+
+      const photoFile = businessImageInput.files[0];
+
+      if (photoFile &&
+
+          (!allowedImageTypes[photoFile.type] ||
+
+           photoFile.size > MAX_IMAGE_SIZE)) {
+
+        showMessage(
+
+          "error",
+
+          "Choose a JPG, PNG or WebP photo no larger than 5 MB."
+
+        );
 
         return;
 
@@ -639,13 +968,21 @@
 
         image_url: String(formData.get("image_url") || "").trim(),
 
-        // The database policy requires public submissions to be pending.
+        // Every public submission must await admin approval.
 
         status: "pending"
 
       };
 
       try {
+
+        if (photoFile) {
+
+          showMessage("success", "Uploading your business photo...");
+
+          listing.image_url = await uploadBusinessImage(photoFile);
+
+        }
 
         const response = await fetch(
 
@@ -679,7 +1016,15 @@
 
           const details = await response.text();
 
-          console.error("Business submission error:", response.status, details);
+          console.error(
+
+            "Business submission error:",
+
+            response.status,
+
+            details
+
+          );
 
           if (response.status === 401 || response.status === 403) {
 
@@ -691,25 +1036,19 @@
 
           }
 
-          if (response.status === 400 || response.status === 404) {
-
-            throw new Error(
-
-              "The database rejected the submitted details. Please contact Palmcaseblog support."
-
-            );
-
-          }
-
           throw new Error(
 
-            "We could not submit your listing right now. Please try again later."
+            "Your listing could not be submitted. Please try again. If the problem continues, contact Palmcaseblog support."
 
           );
 
         }
 
         form.reset();
+
+        businessImagePreview.removeAttribute("src");
+
+        businessImagePreview.style.display = "none";
 
         showMessage(
 
@@ -729,7 +1068,7 @@
 
       } catch (error) {
 
-        console.error("Submission failed:", error);
+        console.error("Business submission failed:", error);
 
         showMessage(
 
@@ -740,6 +1079,14 @@
           "Something went wrong. Please check your internet connection and try again."
 
         );
+
+        formMessage.scrollIntoView({
+
+          behavior: "smooth",
+
+          block: "center"
+
+        });
 
       } finally {
 
