@@ -132,6 +132,77 @@
       color: var(--orange-dark);
     }
 
+/* PALMCASEBLOG FOLLOWERS */
+
+.follow-widget {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.follow-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.follow-count {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.follow-goal {
+  color: #9ca3af;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.follow-button {
+  border: 0;
+  border-radius: 7px;
+  background: var(--orange);
+  color: var(--dark);
+  padding: 9px 13px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.follow-button:hover {
+  background: #fbbf24;
+}
+
+.follow-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.follow-button.is-following {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.follow-status {
+  width: 100%;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .follow-widget {
+    margin-left: 2px;
+    gap: 7px;
+  }
+
+  .follow-button {
+    padding: 8px 10px;
+  }
+}
+
     nav {
       display: flex;
       align-items: center;
