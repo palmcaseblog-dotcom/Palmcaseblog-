@@ -294,6 +294,33 @@
       margin-bottom: 15px;
     }
 
+    .business-photo {
+      display: block;
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: #111827;
+    }
+
+    .business-view-link {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 14px;
+      background: var(--orange);
+      color: #111827;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .business-view-link:hover {
+      background: var(--orange-hover);
+      color: white;
+    }
+
     .business-category {
       display: inline-block;
       align-self: flex-start;
@@ -312,6 +339,10 @@
       line-height: 1.4;
       margin-bottom: 10px;
       overflow-wrap: anywhere;
+    }
+
+    .business-name a:hover {
+      color: var(--orange);
     }
 
     .business-description {
@@ -642,12 +673,11 @@
     const SUPABASE_PUBLISHABLE_KEY =
       "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
 
-    // Fetch business listings from the existing businesses table.
-    // Supabase RLS should ensure only approved listings are public.
+    // Fetch approved public business listings.
     const SUPABASE_ENDPOINT =
       SUPABASE_URL +
       "/rest/v1/businesses" +
-      "?select=id,created_at,business,category,description" +
+      "?select=id,created_at,business,category,description,image_url,location,phone,whatsapp,email,website,owner_name" +
       "&order=created_at.desc";
 
     const businessGrid = document.getElementById("businessGrid");
@@ -749,10 +779,49 @@
       const card = document.createElement("article");
       card.className = "business-card";
 
-      const icon = document.createElement("div");
-      icon.className = "business-icon";
-      icon.setAttribute("aria-hidden", "true");
-      icon.textContent = categoryIcon(business.category);
+      const detailURL =
+        "business-details.html?id=" +
+        encodeURIComponent(business.id);
+
+      // Show the uploaded photo if a valid HTTP(S) URL exists.
+      let photoURL = "";
+
+      try {
+        const parsedURL = new URL(business.image_url || "");
+
+        if (["https:", "http:"].includes(parsedURL.protocol)) {
+          photoURL = parsedURL.href;
+        }
+      } catch (_) {
+        photoURL = "";
+      }
+
+      if (photoURL) {
+        const image = document.createElement("img");
+        image.className = "business-photo";
+        image.src = photoURL;
+        image.alt = (business.business || "Business") + " photo";
+        image.loading = "lazy";
+
+        image.onerror = function () {
+          image.remove();
+
+          const fallbackIcon = document.createElement("div");
+          fallbackIcon.className = "business-icon";
+          fallbackIcon.setAttribute("aria-hidden", "true");
+          fallbackIcon.textContent = categoryIcon(business.category);
+
+          card.insertBefore(fallbackIcon, card.firstChild);
+        };
+
+        card.appendChild(image);
+      } else {
+        const icon = document.createElement("div");
+        icon.className = "business-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = categoryIcon(business.category);
+        card.appendChild(icon);
+      }
 
       const category = document.createElement("span");
       category.className = "business-category";
@@ -760,17 +829,31 @@
 
       const name = document.createElement("h3");
       name.className = "business-name";
-      name.textContent = business.business || "Unnamed business";
+
+      const nameLink = document.createElement("a");
+      nameLink.href = detailURL;
+      nameLink.textContent = business.business || "Unnamed business";
+      nameLink.setAttribute(
+        "aria-label",
+        "View details for " + (business.business || "this business")
+      );
+
+      name.appendChild(nameLink);
 
       const description = document.createElement("p");
       description.className = "business-description";
       description.textContent =
         business.description || "No description has been provided.";
 
-      card.appendChild(icon);
+      const viewLink = document.createElement("a");
+      viewLink.className = "business-view-link";
+      viewLink.href = detailURL;
+      viewLink.textContent = "View Business →";
+
       card.appendChild(category);
       card.appendChild(name);
       card.appendChild(description);
+      card.appendChild(viewLink);
 
       if (business.created_at) {
         const date = document.createElement("p");
@@ -816,11 +899,13 @@
         (selectedCategory === "all" ? " active" : "");
       allButton.dataset.category = "all";
       allButton.textContent = "All Businesses";
+
       categoryFilters.appendChild(allButton);
 
       categories.forEach(function (categoryName) {
         const button = document.createElement("button");
         button.type = "button";
+
         button.className =
           "category-button" +
           (
@@ -828,8 +913,10 @@
               ? " active"
               : ""
           );
+
         button.dataset.category = categoryName;
         button.textContent = formatCategory(categoryName);
+
         categoryFilters.appendChild(button);
       });
     }
@@ -841,7 +928,8 @@
         const searchableText = normalize([
           business.business,
           business.category,
-          business.description
+          business.description,
+          business.location
         ].join(" "));
 
         const matchesSearch = searchableText.includes(searchTerm);
@@ -949,6 +1037,7 @@
       if (!button) return;
 
       selectedCategory = button.dataset.category || "all";
+
       renderCategoryFilters();
       renderBusinesses();
     });
