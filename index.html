@@ -1425,6 +1425,159 @@
     let supabaseClient = null;
     let allPosts = [];
 
+/* PALMCASEBLOG FOLLOW SYSTEM */
+
+let followActionInProgress = false;
+
+function formatFollowerCount(count) {
+  const number = Number(count) || 0;
+
+  if (number >= 1000000) {
+    return (number / 1000000)
+      .toFixed(number >= 10000000 ? 0 : 1)
+      .replace(/\.0$/, "") + "M";
+  }
+
+  if (number >= 1000) {
+    return (number / 1000)
+      .toFixed(number >= 100000 ? 0 : 1)
+      .replace(/\.0$/, "") + "K";
+  }
+
+  return number.toLocaleString("en-NG");
+}
+
+async function loadFollowerCount() {
+  const countElement = document.getElementById("followerCount");
+  if (!countElement || !supabaseClient) return;
+
+  try {
+    const { data, error } = await supabaseClient.rpc(
+      "get_site_follower_count"
+    );
+
+    if (error) throw error;
+
+    countElement.textContent =
+      formatFollowerCount(data) + " followers";
+  } catch (error) {
+    console.error("Follower count error:", error);
+    countElement.textContent = "Followers unavailable";
+  }
+}
+
+async function refreshFollowButton() {
+  const button = document.getElementById("followButton");
+  if (!button || !supabaseClient) return;
+
+  try {
+    const { data: sessionData, error: sessionError } =
+      await supabaseClient.auth.getSession();
+
+    if (sessionError) throw sessionError;
+
+    const session = sessionData.session;
+
+    if (!session) {
+      button.textContent = "+ Follow";
+      button.classList.remove("is-following");
+      return;
+    }
+
+    const { data, error } = await supabaseClient
+      .from("site_followers")
+      .select("user_id")
+      .eq("user_id", session.user.id)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    button.textContent = data ? "Following ✓" : "+ Follow";
+    button.classList.toggle("is-following", Boolean(data));
+  } catch (error) {
+    console.error("Follow status error:", error);
+  }
+}
+
+async function handleFollowClick() {
+  const button = document.getElementById("followButton");
+  const status = document.getElementById("followStatus");
+
+  if (!button || !status || !supabaseClient || followActionInProgress) {
+    return;
+  }
+
+  followActionInProgress = true;
+  button.disabled = true;
+  status.textContent = "Please wait...";
+
+  try {
+    let { data: sessionData, error: sessionError } =
+      await supabaseClient.auth.getSession();
+
+    if (sessionError) throw sessionError;
+
+    let session = sessionData.session;
+
+    if (!session) {
+      const { data, error } =
+        await supabaseClient.auth.signInAnonymously();
+
+      if (error) throw error;
+      session = data.session;
+    }
+
+    if (!session?.user?.id) {
+      throw new Error("Could not create a follower identity.");
+    }
+
+    const { data: existing, error: checkError } =
+      await supabaseClient
+        .from("site_followers")
+        .select("user_id")
+        .eq("user_id", session.user.id)
+        .maybeSingle();
+
+    if (checkError) throw checkError;
+
+    if (existing) {
+      status.textContent = "You're already following Palmcaseblog.";
+      await refreshFollowButton();
+      return;
+    }
+
+    const { error: insertError } = await supabaseClient
+      .from("site_followers")
+      .insert({ user_id: session.user.id });
+
+    if (insertError) throw insertError;
+
+    status.textContent =
+      "You're now following Palmcaseblog. Thank you!";
+
+    await loadFollowerCount();
+    await refreshFollowButton();
+  } catch (error) {
+    console.error("Follow action error:", error);
+    status.textContent =
+      "We couldn't complete your follow. Please try again.";
+  } finally {
+    followActionInProgress = false;
+    button.disabled = false;
+  }
+}
+
+function setupFollowerSystem() {
+  const button = document.getElementById("followButton");
+
+  if (!button || !supabaseClient) return;
+
+  button.addEventListener("click", handleFollowClick);
+
+  loadFollowerCount();
+  refreshFollowButton();
+}
+
     document.addEventListener(
       "DOMContentLoaded",
       async () => {
