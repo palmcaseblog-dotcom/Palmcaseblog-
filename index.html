@@ -1599,6 +1599,7 @@ function setupFollowerSystem() {
           Analytics errors are intentionally ignored so
           they can NEVER stop the website from loading.
         */
+        setupFollowerSystem();
         startPalmcaseAnalytics();
 
         await loadPosts();
