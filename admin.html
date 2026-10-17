@@ -727,19 +727,31 @@ $("articleImage").addEventListener("change", () => {
     clearMessage("articleMessage");
 
     try {
-      const id = $("articleId").value;
-      const file = $("articleImage").files[0];
-      let image = currentArticleImage;
+      
+const id = $("articleId").value;
+const files = Array.from($("articleImage").files || []);
 
-      if (file) image = await uploadFile(ARTICLE_IMAGE_BUCKET, file, "articles");
+let imageUrls = [...currentArticleImages];
 
-      const record = {
-        headline: $("headline").value.trim(),
-        category: $("category").value,
-        description: $("description").value.trim(),
-        image: image || null,
-        article: $("articleText").value.trim()
-      };
+if (files.length > 0) {
+  imageUrls = await Promise.all(
+    files.map(file =>
+      uploadFile(ARTICLE_IMAGE_BUCKET, file, "articles")
+    )
+  );
+}
+
+const image = imageUrls[0] || currentArticleImage || null;
+
+const record = {
+  headline: $("headline").value.trim(),
+  category: $("category").value,
+  description: $("description").value.trim(),
+  image: image,
+  images: imageUrls,
+  article: $("articleText").value.trim()
+};
+
 
       if (!record.headline || !record.article) {
         throw new Error("Headline and full article are required.");
