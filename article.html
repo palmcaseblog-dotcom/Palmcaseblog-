@@ -3289,6 +3289,108 @@ function connectArticleButtons(
 
 }
 
+/* =========================
+   ARTICLE IMAGE SLIDESHOW
+========================= */
+function initArticleSlideshows() {
+  document.querySelectorAll("[data-article-slideshow]").forEach(slideshow => {
+    if (slideshow.dataset.initialized === "true") return;
+    slideshow.dataset.initialized = "true";
+
+    const slides = Array.from(
+      slideshow.querySelectorAll(".article-slide")
+    );
+    const dots = Array.from(
+      slideshow.querySelectorAll(".article-slide-dot")
+    );
+    const previousButton = slideshow.querySelector("[data-slide-prev]");
+    const nextButton = slideshow.querySelector("[data-slide-next]");
+    const playButton = slideshow.querySelector("[data-slide-play]");
+    const currentNumber = slideshow.querySelector("[data-slide-current]");
+
+    if (slides.length <= 1) return;
+
+    let currentIndex = 0;
+    let timer = null;
+    let paused = false;
+
+    function showSlide(index) {
+      currentIndex = (index + slides.length) % slides.length;
+
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("is-active", i === currentIndex);
+      });
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("is-active", i === currentIndex);
+      });
+
+      if (currentNumber) {
+        currentNumber.textContent = String(currentIndex + 1);
+      }
+    }
+
+    function stopTimer() {
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    function startTimer() {
+      stopTimer();
+
+      if (!paused) {
+        timer = setInterval(() => {
+          showSlide(currentIndex + 1);
+        }, 4000);
+      }
+    }
+
+    if (previousButton) {
+      previousButton.addEventListener("click", () => {
+        showSlide(currentIndex - 1);
+        startTimer();
+      });
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener("click", () => {
+        showSlide(currentIndex + 1);
+        startTimer();
+      });
+    }
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        showSlide(index);
+        startTimer();
+      });
+    });
+
+    if (playButton) {
+      playButton.addEventListener("click", () => {
+        paused = !paused;
+
+        playButton.textContent = paused ? "Play" : "Pause";
+        playButton.setAttribute(
+          "aria-label",
+          paused ? "Play slideshow" : "Pause slideshow"
+        );
+
+        if (paused) {
+          stopTimer();
+        } else {
+          startTimer();
+        }
+      });
+    }
+
+    showSlide(0);
+    startTimer();
+  });
+}
+
 
 /* =========================
    LOAD ARTICLE
