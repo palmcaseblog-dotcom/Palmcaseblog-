@@ -2576,19 +2576,36 @@ function buildArticleHTML(
   articleId
 ) {
 
-  const imageHTML =
-    post.image
-      ? `
+  
+  const articleImages = Array.isArray(post.images)
+    ? post.images.filter(
+        url =>
+          typeof url === "string" &&
+          /^https?:\/\//i.test(url)
+      )
+    : [];
+
+  // Keep older articles with only one image working.
+  if (articleImages.length === 0 && post.image) {
+    articleImages.push(post.image);
+  }
+
+  const imageHTML = articleImages
+    .map(
+      (imageUrl, index) => `
         <img
           class="article-image"
-          src="${escapeHTML(post.image)}"
+          src="${escapeHTML(imageUrl)}"
           alt="${escapeHTML(
-            post.headline ||
-            "Palmcaseblog article"
+            (post.headline || "Palmcaseblog article") +
+            " - Image " +
+            (index + 1)
           )}"
+          loading="${index === 0 ? "eager" : "lazy"}"
         >
       `
-      : "";
+    )
+    .join("");
 
   const videoHTML =
     post.video_url
