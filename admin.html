@@ -704,8 +704,15 @@ $("articleImage").addEventListener("change", () => {
     $("description").value = post.description || "";
     $("articleText").value = post.article || "";
     $("articleImage").value = "";
-    currentArticleImage = post.image || "";
+currentArticleImages = Array.isArray(post.images)
+  ? post.images.filter(url => typeof url === "string")
+  : [];
 
+if (currentArticleImages.length === 0 && post.image) {
+  currentArticleImages = [post.image];
+}
+
+currentArticleImage = currentArticleImages[0] || post.image || "";
     if (currentArticleImage) {
       $("articleImagePreview").src = currentArticleImage;
       $("articleImagePreview").classList.remove("hidden");
