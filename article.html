@@ -3517,13 +3517,16 @@ async function loadArticle() {
        RENDER ARTICLE
     ========================= */
 
-    container.innerHTML =
-      buildArticleHTML(
-        post,
-        currentViews,
-        currentLikes,
-        articleId
-      );
+    
+container.innerHTML =
+  buildArticleHTML(
+    post,
+    currentViews,
+    currentLikes,
+    articleId
+  );
+
+initArticleSlideshows();
 
 
     /* =========================
