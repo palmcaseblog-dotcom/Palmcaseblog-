@@ -2578,34 +2578,70 @@ function buildArticleHTML(
 
   
   const articleImages = Array.isArray(post.images)
-    ? post.images.filter(
-        url =>
-          typeof url === "string" &&
-          /^https?:\/\//i.test(url)
-      )
-    : [];
-
-  // Keep older articles with only one image working.
-  if (articleImages.length === 0 && post.image) {
-    articleImages.push(post.image);
-  }
-
-  const imageHTML = articleImages
-    .map(
-      (imageUrl, index) => `
-        <img
-          class="article-image"
-          src="${escapeHTML(imageUrl)}"
-          alt="${escapeHTML(
-            (post.headline || "Palmcaseblog article") +
-            " - Image " +
-            (index + 1)
-          )}"
-          loading="${index === 0 ? "eager" : "lazy"}"
-        >
-      `
+  ? post.images.filter(
+      url =>
+        typeof url === "string" &&
+        /^https?:\/\//i.test(url)
     )
-    .join("");
+  : [];
+
+if (articleImages.length === 0 && post.image) {
+  articleImages.push(post.image);
+}
+
+const imageHTML = articleImages.length
+  ? `
+    <div class="article-slideshow" data-article-slideshow>
+      <div class="article-slides">
+        ${articleImages
+          .map(
+            (imageUrl, index) => `
+              <img
+                class="article-image article-slide ${index === 0 ? "is-active" : ""}"
+                src="${escapeHTML(imageUrl)}"
+                alt="${escapeHTML(
+                  (post.headline || "Palmcaseblog article") +
+                  " - Image " +
+                  (index + 1)
+                )}"
+                loading="${index === 0 ? "eager" : "lazy"}"
+              >
+            `
+          )
+          .join("")}
+      </div>
+
+      ${
+        articleImages.length > 1
+          ? `
+            <button type="button" class="article-slide-arrow article-slide-prev" data-slide-prev aria-label="Previous image">&#10094;</button>
+            <button type="button" class="article-slide-arrow article-slide-next" data-slide-next aria-label="Next image">&#10095;</button>
+            <button type="button" class="article-slide-play" data-slide-play aria-label="Pause slideshow">Pause</button>
+
+            <div class="article-slide-dots">
+              ${articleImages
+                .map(
+                  (_, index) => `
+                    <button
+                      type="button"
+                      class="article-slide-dot ${index === 0 ? "is-active" : ""}"
+                      data-slide-to="${index}"
+                      aria-label="Go to image ${index + 1}"
+                    ></button>
+                  `
+                )
+                .join("")}
+            </div>
+
+            <div class="article-slide-count">
+              <span data-slide-current>1</span> / ${articleImages.length}
+            </div>
+          `
+          : ""
+      }
+    </div>
+  `
+  : "";
 
   const videoHTML =
     post.video_url
