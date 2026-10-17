@@ -645,26 +645,40 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
 
   $("articleSearch").addEventListener("input", renderPosts);
 
-  $("articleImage").addEventListener("change", () => {
-    const file = $("articleImage").files[0];
-    const preview = $("articleImagePreview");
-    if (!file) {
-      preview.classList.add("hidden");
-      return;
-    }
-    if (!file.type.startsWith("image/")) {
-      showMessage("articleMessage", "Please select an image file.", "error-msg");
+$("articleImage").addEventListener("change", () => {
+  const files = Array.from($("articleImage").files);
+  const preview = $("articleImagePreview");
+
+  preview.innerHTML = "";
+  clearMessage("articleMessage");
+
+  if (!files.length) return;
+
+  for (const file of files) {
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      showMessage("articleMessage", "Choose only JPG, PNG, or WebP images.", "error-msg");
       $("articleImage").value = "";
+      preview.innerHTML = "";
       return;
     }
+
     if (file.size > 5 * 1024 * 1024) {
-      showMessage("articleMessage", "The image must be 5 MB or smaller.", "error-msg");
+      showMessage("articleMessage", "Each image must be 5 MB or smaller.", "error-msg");
       $("articleImage").value = "";
+      preview.innerHTML = "";
       return;
     }
-    preview.src = URL.createObjectURL(file);
-    preview.classList.remove("hidden");
+  }
+
+  files.forEach(file => {
+    const img = document.createElement("img");
+    img.className = "preview";
+    img.alt = "Article image preview";
+    img.src = URL.createObjectURL(file);
+    preview.appendChild(img);
   });
+});
+
 
   function resetArticleForm() {
     $("articleForm").reset();
