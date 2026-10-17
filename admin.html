@@ -245,12 +245,14 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
             <label for="description">Short description / excerpt</label>
             <textarea id="description" rows="3" placeholder="A short introduction to the story"></textarea>
           </div>
-          <div class="field">
-            <label for="articleImage">Article image</label>
-            <input id="articleImage" type="file" accept="image/jpeg,image/png,image/webp">
-            <div class="muted small">Choose an image from your device. If you edit an article without choosing a new image, its existing image is kept.</div>
-            <img id="articleImagePreview" class="preview hidden" alt="Article image preview">
-          </div>
+          
+<div class="field">
+  <label for="articleImage">Article images</label>
+  <input id="articleImage" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+  <div class="muted small">Choose one or more images from your device. If you edit an article without choosing new images, its existing images are kept.</div>
+  <div id="articleImagePreview"></div>
+</div>
+
           <div class="field">
             <label for="articleText">Full article *</label>
             <textarea id="articleText" rows="12" required placeholder="Write the full article here"></textarea>
