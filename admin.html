@@ -716,12 +716,24 @@ if (currentArticleImages.length === 0 && post.image) {
 }
 
 currentArticleImage = currentArticleImages[0] || post.image || "";
-    if (currentArticleImage) {
-      $("articleImagePreview").src = currentArticleImage;
-      $("articleImagePreview").classList.remove("hidden");
-    } else {
-      $("articleImagePreview").classList.add("hidden");
-    }
+    
+const preview = $("articleImagePreview");
+preview.innerHTML = "";
+
+currentArticleImages.forEach((imageUrl, index) => {
+  const img = document.createElement("img");
+  img.className = "preview";
+  img.src = imageUrl;
+  img.alt = `Existing article image ${index + 1}`;
+  img.loading = "lazy";
+  preview.appendChild(img);
+});
+
+preview.classList.toggle(
+  "hidden",
+  currentArticleImages.length === 0
+);
+
 
     $("editorHeading").textContent = "Edit Article";
     $("saveArticleButton").textContent = "Save article changes";
