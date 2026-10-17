@@ -681,16 +681,19 @@ $("articleImage").addEventListener("change", () => {
 });
 
 
-  function resetArticleForm() {
+  
+function resetArticleForm() {
     $("articleForm").reset();
     $("articleId").value = "";
     currentArticleImage = "";
+    currentArticleImages = [];
     $("editorHeading").textContent = "Publish Article";
     $("saveArticleButton").textContent = "Publish article";
     $("cancelEditButton").classList.add("hidden");
     $("articleImagePreview").classList.add("hidden");
     clearMessage("articleMessage");
   }
+
 
   $("cancelEditButton").addEventListener("click", resetArticleForm);
 
