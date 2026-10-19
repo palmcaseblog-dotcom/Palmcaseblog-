@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="description" content="Read the latest Nigerian news, entertainment, celebrity gist, sports, politics and trending stories on Palmcaseblog.">
   <title>Palmcaseblog Article</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -127,110 +127,107 @@
       border-bottom: 1px solid #eee;
     }
 
-    
-.article-slideshow {
-  position: relative;
-  width: 100%;
-  margin-bottom: 25px;
-  overflow: hidden;
-  border-radius: 8px;
-  background: #111;
-}
+    .article-slideshow {
+      position: relative;
+      width: 100%;
+      margin-bottom: 25px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #111;
+    }
 
-.article-slides {
-  position: relative;
-  width: 100%;
-}
+    .article-slides {
+      position: relative;
+      width: 100%;
+    }
 
-.article-slideshow .article-image {
-  display: none;
-  width: 100%;
-  height: auto;
-  max-height: 550px;
-  object-fit: contain;
-  border-radius: 0;
-  margin: 0;
-}
+    .article-slideshow .article-image {
+      display: none;
+      width: 100%;
+      height: auto;
+      max-height: 550px;
+      object-fit: contain;
+      margin: 0;
+    }
 
-.article-slideshow .article-image.is-active {
-  display: block;
-}
+    .article-slideshow .article-image.is-active {
+      display: block;
+    }
 
-.article-slide-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 42px;
-  height: 42px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.65);
-  color: white;
-  font-size: 22px;
-  cursor: pointer;
-  z-index: 2;
-}
+    .article-slide-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.65);
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 2;
+    }
 
-.article-slide-prev {
-  left: 10px;
-}
+    .article-slide-prev {
+      left: 10px;
+    }
 
-.article-slide-next {
-  right: 10px;
-}
+    .article-slide-next {
+      right: 10px;
+    }
 
-.article-slide-play {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 12px;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 2;
-}
+    .article-slide-play {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 2;
+    }
 
-.article-slide-dots {
-  position: absolute;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  z-index: 2;
-}
+    .article-slide-dots {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      z-index: 2;
+    }
 
-.article-slide-dot {
-  width: 10px;
-  height: 10px;
-  padding: 0;
-  border: 1px solid white;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-}
+    .article-slide-dot {
+      width: 10px;
+      height: 10px;
+      padding: 0;
+      border: 1px solid white;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+    }
 
-.article-slide-dot.is-active {
-  background: #f59e0b;
-  transform: scale(1.2);
-}
+    .article-slide-dot.is-active {
+      background: #f59e0b;
+      transform: scale(1.2);
+    }
 
-.article-slide-count {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  padding: 5px 9px;
-  border-radius: 5px;
-  background: rgba(0, 0, 0, 0.65);
-  color: white;
-  font-size: 12px;
-  z-index: 2;
-}
-
+    .article-slide-count {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      padding: 5px 9px;
+      border-radius: 5px;
+      background: rgba(0,0,0,0.65);
+      color: white;
+      font-size: 12px;
+      z-index: 2;
+    }
 
     .article-video {
       width: 100%;
@@ -245,14 +242,18 @@
     .article-body {
       font-size: 18px;
       line-height: 1.8;
-      white-space: pre-line;
       overflow-wrap: break-word;
       word-break: break-word;
     }
 
-    /* =========================
-       ARTICLE ADVERTISEMENT
-    ========================= */
+    .article-paragraph {
+      margin: 0 0 20px;
+      white-space: pre-line;
+    }
+
+    .article-ad-slot:empty {
+      display: none;
+    }
 
     .article-ad-section {
       margin: 30px 0;
@@ -260,10 +261,10 @@
 
     .article-ad-label {
       text-align: center;
-      color: #888;
+      color: #777;
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 1px;
       margin-bottom: 8px;
     }
 
@@ -278,14 +279,15 @@
     .article-ad-media {
       width: 100%;
       display: block;
-      background: #000;
+      background: #111;
     }
 
     .article-ad-image {
       width: 100%;
       max-height: 550px;
       display: block;
-      object-fit: cover;
+      object-fit: contain;
+      background: #f7f7f7;
     }
 
     .article-ad-video {
@@ -400,212 +402,6 @@
       background: white;
     }
 
-    /* =========================
-       COMMENTS
-    ========================= */
-
-    .comments-section {
-      margin-top: 40px;
-      padding-top: 30px;
-      border-top: 1px solid #eee;
-      scroll-margin-top: 20px;
-    }
-
-    .comments-heading {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .comments-heading h2 {
-      margin: 0;
-    }
-
-    .comment-form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .comment-form input,
-    .comment-form textarea,
-    .reply-form input,
-    .reply-form textarea {
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 12px;
-      font-family: Arial, sans-serif;
-      font-size: 15px;
-      background: white;
-      color: #111;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    .comment-form textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .reply-form textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    .comment-submit,
-    .reply-submit {
-      width: fit-content;
-      border: none;
-      background: #d40000;
-      color: white;
-      border-radius: 8px;
-      padding: 12px 20px;
-      font-weight: bold;
-      cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    .reply-submit {
-      padding: 9px 15px;
-      font-size: 13px;
-    }
-
-    .comment-submit:disabled,
-    .reply-submit:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-
-    .comment-message,
-    .reply-message {
-      margin-top: 10px;
-      font-size: 14px;
-      overflow-wrap: break-word;
-    }
-
-    .comment-item {
-      padding: 18px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .comment-name {
-      font-weight: bold;
-      margin-bottom: 5px;
-      overflow-wrap: break-word;
-    }
-
-    .comment-date {
-      color: #888;
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
-
-    .comment-text {
-      line-height: 1.6;
-      white-space: pre-line;
-      overflow-wrap: break-word;
-      word-break: break-word;
-      margin-bottom: 12px;
-    }
-
-    .comment-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .comment-like-btn,
-    .comment-dislike-btn,
-    .reply-btn {
-      border: 1px solid #ddd;
-      background: white;
-      color: #333;
-      border-radius: 7px;
-      padding: 7px 11px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    .comment-like-btn:hover,
-    .comment-dislike-btn:hover,
-    .reply-btn:hover {
-      border-color: #d40000;
-    }
-
-    .comment-like-btn.liked {
-      color: #d40000;
-      border-color: #d40000;
-      background: #fff5f5;
-    }
-
-    .comment-dislike-btn.disliked {
-      color: #555;
-      border-color: #555;
-      background: #f2f2f2;
-    }
-
-    .comment-like-btn:disabled,
-    .comment-dislike-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-
-    .reply-form {
-      display: none;
-      margin-top: 15px;
-      margin-left: 20px;
-      padding: 15px;
-      background: #f8f8f8;
-      border: 1px solid #eee;
-      border-radius: 9px;
-    }
-
-    .reply-form.show {
-      display: block;
-    }
-
-    .reply-form-inner {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .replies {
-      margin-left: 30px;
-      margin-top: 15px;
-      border-left: 3px solid #eee;
-      padding-left: 18px;
-    }
-
-    .reply-item {
-      padding: 15px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .reply-item:last-child {
-      border-bottom: none;
-    }
-
-    .reply-label {
-      color: #777;
-      font-size: 12px;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-
-    .no-comments {
-      color: #777;
-      font-size: 14px;
-      margin-top: 20px;
-    }
-
     .back-link {
       display: inline-block;
       margin-bottom: 20px;
@@ -674,7 +470,6 @@
     }
 
     @media (max-width: 700px) {
-
       header {
         padding: 12px 15px;
       }
@@ -713,9 +508,8 @@
         line-height: 1.75;
       }
 
-      .article-image {
+      .article-slideshow .article-image {
         max-height: 400px;
-        border-radius: 7px;
       }
 
       .article-video {
@@ -770,26 +564,6 @@
         width: 100%;
       }
 
-      .replies {
-        margin-left: 10px;
-        padding-left: 12px;
-      }
-
-      .reply-form {
-        margin-left: 5px;
-      }
-
-      .comment-actions {
-        gap: 7px;
-      }
-
-      .comment-like-btn,
-      .comment-dislike-btn,
-      .reply-btn {
-        font-size: 12px;
-        padding: 7px 9px;
-      }
-
       .footer-inner {
         grid-template-columns: 1fr;
       }
@@ -801,22 +575,15 @@
 
 <header>
   <div class="header-inner">
-
     <div class="logo">
-      <img
-        src="IMG_2188.jpeg"
-        alt="Palmcaseblog Logo"
-      >
-
+      <img src="IMG_2188.jpeg" alt="Palmcaseblog Logo">
       <span>Palmcaseblog</span>
     </div>
-
   </div>
 </header>
 
 <nav>
   <div class="nav-inner">
-
     <a href="index.html">Home</a>
     <a href="category.html?category=News">News</a>
     <a href="category.html?category=Entertainment">Entertainment</a>
@@ -828,55 +595,33 @@
     <a href="category.html?category=Relationship">Relationship</a>
     <a href="category.html?category=World">World</a>
     <a href="category.html?category=Topics">Topics</a>
-
   </div>
 </nav>
 
 <main>
-
-  <a href="index.html" class="back-link">
-    ← Back to Palmcaseblog
-  </a>
+  <a href="index.html" class="back-link">← Back to Palmcaseblog</a>
 
   <div id="article-container">
-
-    <div class="message">
-      Loading article...
-    </div>
-
+    <div class="message">Loading article...</div>
   </div>
-
 </main>
 
 <footer>
-
   <div class="footer-inner">
 
     <div class="footer-section">
-
       <h3>Palmcaseblog</h3>
-
-      <p>
-        Trending stories. Real conversations. One destination.
-      </p>
-
+      <p>Trending stories. Real conversations. One destination.</p>
       <p class="footer-brand-line">
         Nigerian News, Entertainment, Celebrity Gist and Lifestyle since 2022.
       </p>
-
-      <a
-        class="business-directory-link"
-        href="business-directory.html"
-      >
+      <a class="business-directory-link" href="business-directory.html">
         Nigerian Business Directory →
       </a>
-
     </div>
 
     <div class="footer-section">
-
       <h3>Categories</h3>
-
       <a href="category.html?category=News">News</a>
       <a href="category.html?category=Entertainment">Entertainment</a>
       <a href="category.html?category=Politics">Politics</a>
@@ -887,13 +632,10 @@
       <a href="category.html?category=Relationship">Relationship</a>
       <a href="category.html?category=World">World</a>
       <a href="category.html?category=Topics">Topics</a>
-
     </div>
 
     <div class="footer-section">
-
       <h3>Quick Links</h3>
-
       <a href="index.html">Home</a>
       <a href="business-directory.html">Nigerian Business Directory</a>
       <a href="contact.html">Contact</a>
@@ -903,7 +645,6 @@
       <a href="privacy.html">Privacy Policy</a>
       <a href="cookies.html">Cookie Settings</a>
       <a href="terms.html">Terms</a>
-
     </div>
 
   </div>
@@ -911,48 +652,25 @@
   <div class="footer-bottom">
     © 2026 Palmcaseblog. All rights reserved.
   </div>
-
 </footer>
 
 <script>
-
 const SUPABASE_URL =
   "https://kcxlwhojwdvbfjjnartw.supabase.co";
-
-/*
-  IMPORTANT:
-  Replace the placeholder below with the SAME
-  Supabase publishable key already used in
-  your current article.html.
-
-  Do not change the URL above.
-*/
 
 const SUPABASE_KEY =
   "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-const container =
-  document.getElementById(
-    "article-container"
-  );
+const container = document.getElementById("article-container");
 
-
-/* =========================
-   BASIC HELPERS
-========================= */
 
 function escapeHTML(value) {
-
-  if (
-    value === null ||
-    value === undefined
-  ) {
+  if (value === null || value === undefined) {
     return "";
   }
 
@@ -962,1517 +680,247 @@ function escapeHTML(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
-
 }
 
 
 function getArticleId() {
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-  return params.get("id");
-
+  return new URLSearchParams(window.location.search).get("id");
 }
 
-
-function sleep(milliseconds) {
-
-  return new Promise(
-    resolve =>
-      setTimeout(
-        resolve,
-        milliseconds
-      )
-  );
-
-}
-
-
-/* =========================
-   ARTICLE LIKE STORAGE
-========================= */
 
 function likedStorageKey(articleId) {
-
-  return (
-    "palmcaseblog_liked_" +
-    articleId
-  );
-
+  return "palmcaseblog_liked_" + articleId;
 }
 
 
 function hasLiked(articleId) {
-
   try {
-
-    return (
-      localStorage.getItem(
-        likedStorageKey(articleId)
-      ) === "true"
-    );
-
+    return localStorage.getItem(likedStorageKey(articleId)) === "true";
   } catch {
-
     return false;
-
   }
-
 }
 
 
 function markAsLiked(articleId) {
-
   try {
-
-    localStorage.setItem(
-      likedStorageKey(articleId),
-      "true"
-    );
-
-  } catch {
-
-    console.warn(
-      "Could not save article like locally."
-    );
-
+    localStorage.setItem(likedStorageKey(articleId), "true");
+  } catch (error) {
+    console.warn("Could not save article like locally.", error);
   }
-
 }
 
 
-/* =========================
-   LIKE ARTICLE
-========================= */
-
 async function likeArticle(articleId) {
+  const likeButton = document.getElementById("like-button");
+  const likeCount = document.getElementById("like-count");
+  const topLikeCount = document.getElementById("top-like-count");
 
-  const likeButton =
-    document.getElementById(
-      "like-button"
-    );
-
-  const likeCount =
-    document.getElementById(
-      "like-count"
-    );
-
-  if (
-    !likeButton ||
-    !likeCount
-  ) {
+  if (!likeButton || !likeCount || hasLiked(articleId)) {
     return;
   }
 
-  if (
-    hasLiked(articleId)
-  ) {
+  const numericArticleId = Number(articleId);
 
+  if (!Number.isFinite(numericArticleId)) {
     return;
-
   }
 
   likeButton.disabled = true;
 
   try {
-
-    const numericArticleId =
-      Number(articleId);
-
-    if (
-      !Number.isFinite(
-        numericArticleId
-      )
-    ) {
-      throw new Error(
-        "Invalid article ID."
-      );
-    }
-
-    const result =
-      await supabaseClient.rpc(
-        "increment_post_likes",
-        {
-          post_id:
-            numericArticleId
-        }
-      );
+    const result = await supabaseClient.rpc("increment_post_likes", {
+      post_id: numericArticleId
+    });
 
     if (result.error) {
-
-      console.error(
-        "LIKE SUPABASE ERROR:",
-        result.error
-      );
-
-      alert(
-        "Like failed: " +
-        result.error.message
-      );
-
+      console.error("ARTICLE LIKE ERROR:", result.error);
+      alert("Your like could not be saved. Please try again.");
       likeButton.disabled = false;
-
       return;
-
     }
 
-    const currentLikes =
-      Number(
-        likeCount.textContent
-      ) || 0;
+    const newLikes = (Number(likeCount.textContent) || 0) + 1;
 
-    const newLikes =
-      currentLikes + 1;
+    likeCount.textContent = newLikes.toLocaleString();
 
-    likeCount.textContent =
-      newLikes.toLocaleString();
+    if (topLikeCount) {
+      topLikeCount.textContent = newLikes.toLocaleString();
+    }
 
-    likeButton.classList.add(
-      "liked"
-    );
+    likeButton.classList.add("liked");
+    likeButton.innerHTML =
+      '❤️ Liked <span id="like-count">' +
+      newLikes.toLocaleString() +
+      "</span>";
 
-    markAsLiked(
-      articleId
-    );
-
-    likeButton.disabled = true;
-
+    markAsLiked(articleId);
   } catch (error) {
-
-    console.error(
-      "LIKE ERROR:",
-      error
-    );
-
-    alert(
-      "Something went wrong with the Like button."
-    );
-
+    console.error("ARTICLE LIKE ERROR:", error);
+    alert("Something went wrong with the Like button.");
     likeButton.disabled = false;
-
   }
-
 }
 
-
-/* =========================
-   COMMENT LIKE STORAGE
-========================= */
-
-function commentLikedStorageKey(
-  commentId
-) {
-
-  return (
-    "palmcaseblog_comment_liked_" +
-    commentId
-  );
-
-}
-
-
-function hasLikedComment(
-  commentId
-) {
-
-  try {
-
-    return (
-      localStorage.getItem(
-        commentLikedStorageKey(
-          commentId
-        )
-      ) === "true"
-    );
-
-  } catch {
-
-    return false;
-
-  }
-
-}
-
-
-function markCommentAsLiked(
-  commentId
-) {
-
-  try {
-
-    localStorage.setItem(
-      commentLikedStorageKey(
-        commentId
-      ),
-      "true"
-    );
-
-  } catch {}
-
-}
-
-
-/* =========================
-   COMMENT DISLIKE STORAGE
-========================= */
-
-function commentDislikedStorageKey(
-  commentId
-) {
-
-  return (
-    "palmcaseblog_comment_disliked_" +
-    commentId
-  );
-
-}
-
-
-function hasDislikedComment(
-  commentId
-) {
-
-  try {
-
-    return (
-      localStorage.getItem(
-        commentDislikedStorageKey(
-          commentId
-        )
-      ) === "true"
-    );
-
-  } catch {
-
-    return false;
-
-  }
-
-}
-
-
-function markCommentAsDisliked(
-  commentId
-) {
-
-  try {
-
-    localStorage.setItem(
-      commentDislikedStorageKey(
-        commentId
-      ),
-      "true"
-    );
-
-  } catch {}
-
-}
-
-
-/* =========================
-   LIKE COMMENT
-========================= */
-
-async function likeComment(
-  commentId
-) {
-
-  const button =
-    document.getElementById(
-      "comment-like-" +
-      commentId
-    );
-
-  const count =
-    document.getElementById(
-      "comment-like-count-" +
-      commentId
-    );
-
-  if (
-    !button ||
-    !count
-  ) {
-    return;
-  }
-
-  if (
-    hasLikedComment(
-      commentId
-    )
-  ) {
-
-    return;
-
-  }
-
-  button.disabled = true;
-
-  try {
-
-    const numericCommentId =
-      Number(commentId);
-
-    if (
-      !Number.isFinite(
-        numericCommentId
-      )
-    ) {
-      throw new Error(
-        "Invalid comment ID."
-      );
-    }
-
-    const result =
-      await supabaseClient.rpc(
-        "increment_comment_likes",
-        {
-          comment_id:
-            numericCommentId
-        }
-      );
-
-    if (result.error) {
-
-      console.error(
-        "COMMENT LIKE ERROR:",
-        result.error
-      );
-
-      alert(
-        "Comment like failed: " +
-        result.error.message
-      );
-
-      button.disabled = false;
-
-      return;
-
-    }
-
-    const currentLikes =
-      Number(
-        count.textContent
-      ) || 0;
-
-    const newLikes =
-      currentLikes + 1;
-
-    count.textContent =
-      newLikes.toLocaleString();
-
-    button.classList.add(
-      "liked"
-    );
-
-    markCommentAsLiked(
-      commentId
-    );
-
-    button.disabled = true;
-
-  } catch (error) {
-
-    console.error(
-      "COMMENT LIKE ERROR:",
-      error
-    );
-
-    alert(
-      "Something went wrong with the comment Like button."
-    );
-
-    button.disabled = false;
-
-  }
-
-}
-
-
-/* =========================
-   DISLIKE COMMENT
-========================= */
-
-async function dislikeComment(
-  commentId
-) {
-
-  const button =
-    document.getElementById(
-      "comment-dislike-" +
-      commentId
-    );
-
-  const count =
-    document.getElementById(
-      "comment-dislike-count-" +
-      commentId
-    );
-
-  if (
-    !button ||
-    !count
-  ) {
-    return;
-  }
-
-  if (
-    hasDislikedComment(
-      commentId
-    )
-  ) {
-
-    return;
-
-  }
-
-  button.disabled = true;
-
-  try {
-
-    const numericCommentId =
-      Number(commentId);
-
-    if (
-      !Number.isFinite(
-        numericCommentId
-      )
-    ) {
-      throw new Error(
-        "Invalid comment ID."
-      );
-    }
-
-    const result =
-      await supabaseClient.rpc(
-        "increment_comment_dislikes",
-        {
-          comment_id:
-            numericCommentId
-        }
-      );
-
-    if (result.error) {
-
-      console.error(
-        "COMMENT DISLIKE ERROR:",
-        result.error
-      );
-
-      alert(
-        "Comment dislike failed: " +
-        result.error.message
-      );
-
-      button.disabled = false;
-
-      return;
-
-    }
-
-    const currentDislikes =
-      Number(
-        count.textContent
-      ) || 0;
-
-    const newDislikes =
-      currentDislikes + 1;
-
-    count.textContent =
-      newDislikes.toLocaleString();
-
-    button.classList.add(
-      "disliked"
-    );
-
-    markCommentAsDisliked(
-      commentId
-    );
-
-    button.disabled = true;
-
-  } catch (error) {
-
-    console.error(
-      "COMMENT DISLIKE ERROR:",
-      error
-    );
-
-    alert(
-      "Something went wrong with the comment Dislike button."
-    );
-
-    button.disabled = false;
-
-  }
-
-}
-
-
-/* =========================
-   REPLY FORM
-========================= */
-
-function toggleReplyForm(
-  commentId
-) {
-
-  const form =
-    document.getElementById(
-      "reply-form-" +
-      commentId
-    );
-
-  if (!form) {
-    return;
-  }
-
-  form.classList.toggle(
-    "show"
-  );
-
-}
-
-
-/* =========================
-   SUBMIT REPLY
-========================= */
-
-async function submitReply(
-  articleId,
-  parentId
-) {
-
-  const nameInput =
-    document.getElementById(
-      "reply-name-" +
-      parentId
-    );
-
-  const replyInput =
-    document.getElementById(
-      "reply-text-" +
-      parentId
-    );
-
-  const message =
-    document.getElementById(
-      "reply-message-" +
-      parentId
-    );
-
-  const submitButton =
-    document.querySelector(
-      "#reply-form-" +
-      parentId +
-      " .reply-submit"
-    );
-
-  if (
-    !nameInput ||
-    !replyInput ||
-    !message
-  ) {
-    return;
-  }
-
-  const name =
-    nameInput.value.trim();
-
-  const reply =
-    replyInput.value.trim();
-
-  if (
-    !name ||
-    !reply
-  ) {
-
-    message.textContent =
-      "Please enter your name and reply.";
-
-    return;
-
-  }
-
-  if (submitButton) {
-    submitButton.disabled = true;
-  }
-
-  message.textContent =
-    "Posting reply...";
-
-  try {
-
-    const result =
-      await supabaseClient
-        .from("comments")
-        .insert({
-          post_id:
-            Number(articleId),
-          parent_id:
-            Number(parentId),
-          name:
-            name,
-          comment:
-            reply
-        });
-
-    if (result.error) {
-
-      console.error(
-        "REPLY SUBMISSION ERROR:",
-        result.error
-      );
-
-      message.textContent =
-        "Sorry, your reply could not be posted.";
-
-      if (submitButton) {
-        submitButton.disabled = false;
-      }
-
-      return;
-
-    }
-
-    nameInput.value = "";
-    replyInput.value = "";
-
-    message.textContent =
-      "Reply posted successfully.";
-
-    await loadComments(
-      articleId
-    );
-
-  } catch (error) {
-
-    console.error(
-      "REPLY ERROR:",
-      error
-    );
-
-    message.textContent =
-      "Sorry, your reply could not be posted.";
-
-    if (submitButton) {
-      submitButton.disabled = false;
-    }
-
-  }
-
-}
-
-
-/* =========================
-   RENDER COMMENT
-========================= */
-
-function renderComment(
-  comment,
-  allComments,
-  articleId,
-  isReply = false
-) {
-
-  const date =
-    comment.created_at
-      ? new Date(
-          comment.created_at
-        ).toLocaleString(
-          "en-US",
-          {
-            dateStyle:
-              "medium",
-            timeStyle:
-              "short"
-          }
-        )
-      : "";
-
-  const commentLikes =
-    Number(
-      comment.likes || 0
-    );
-
-  const commentDislikes =
-    Number(
-      comment.dislikes || 0
-    );
-
-  const alreadyLiked =
-    hasLikedComment(
-      comment.id
-    );
-
-  const alreadyDisliked =
-    hasDislikedComment(
-      comment.id
-    );
-
-  const children =
-    allComments.filter(
-      child =>
-        child.parent_id !== null &&
-        child.parent_id !== undefined &&
-        Number(child.parent_id) ===
-        Number(comment.id)
-    );
-
-  const replyHTML =
-    children.length > 0
-      ? `
-        <div class="replies">
-          ${children
-            .map(
-              child =>
-                renderComment(
-                  child,
-                  allComments,
-                  articleId,
-                  true
-                )
-            )
-            .join("")}
-        </div>
-      `
-      : "";
-
-  const replyFormHTML = `
-    <div
-      id="reply-form-${comment.id}"
-      class="reply-form"
-    >
-
-      <div class="reply-form-inner">
-
-        <input
-          id="reply-name-${comment.id}"
-          type="text"
-          maxlength="80"
-          placeholder="Your name"
-        >
-
-        <textarea
-          id="reply-text-${comment.id}"
-          maxlength="2000"
-          placeholder="Write your reply..."
-        ></textarea>
-
-        <button
-          class="reply-submit"
-          type="button"
-          onclick="submitReply(${Number(articleId)}, ${Number(comment.id)})"
-        >
-          Post Reply
-        </button>
-
-        <div
-          id="reply-message-${comment.id}"
-          class="reply-message"
-        ></div>
-
-      </div>
-
-    </div>
-  `;
-
-  return `
-    <div
-      class="${
-        isReply
-          ? "reply-item"
-          : "comment-item"
-      }"
-      id="comment-${comment.id}"
-    >
-
-      ${
-        isReply
-          ? `
-            <div class="reply-label">
-              ↳ Reply
-            </div>
-          `
-          : ""
-      }
-
-      <div class="comment-name">
-        ${escapeHTML(comment.name)}
-      </div>
-
-      <div class="comment-date">
-        ${escapeHTML(date)}
-      </div>
-
-      <div class="comment-text">
-        ${escapeHTML(comment.comment)}
-      </div>
-
-      <div class="comment-actions">
-
-        <button
-          id="comment-like-${comment.id}"
-          class="comment-like-btn ${
-            alreadyLiked
-              ? "liked"
-              : ""
-          }"
-          type="button"
-          ${
-            alreadyLiked
-              ? "disabled"
-              : ""
-          }
-          onclick="likeComment(${Number(comment.id)})"
-        >
-          ${
-            alreadyLiked
-              ? "❤️ Liked"
-              : "❤️ Like"
-          }
-
-          <span
-            id="comment-like-count-${comment.id}"
-          >
-            ${commentLikes.toLocaleString()}
-          </span>
-        </button>
-
-        <button
-          id="comment-dislike-${comment.id}"
-          class="comment-dislike-btn ${
-            alreadyDisliked
-              ? "disliked"
-              : ""
-          }"
-          type="button"
-          ${
-            alreadyDisliked
-              ? "disabled"
-              : ""
-          }
-          onclick="dislikeComment(${Number(comment.id)})"
-        >
-          ${
-            alreadyDisliked
-              ? "👎 Disliked"
-              : "👎 Dislike"
-          }
-
-          <span
-            id="comment-dislike-count-${comment.id}"
-          >
-            ${commentDislikes.toLocaleString()}
-          </span>
-        </button>
-
-        <button
-          class="reply-btn"
-          type="button"
-          onclick="toggleReplyForm(${Number(comment.id)})"
-        >
-          ↩️ Reply
-        </button>
-
-      </div>
-
-      ${replyFormHTML}
-
-      ${replyHTML}
-
-    </div>
-  `;
-}
-
-
-/* =========================
-   LOAD COMMENTS
-========================= */
-
-async function loadComments(
-  articleId,
-  attempt = 1
-) {
-
-  const commentsList =
-    document.getElementById(
-      "comments-list"
-    );
-
-  const commentCount =
-    document.getElementById(
-      "comment-count"
-    );
-
-  if (!commentsList) {
-    return;
-  }
-
-  try {
-
-    const result =
-      await supabaseClient
-        .from("comments")
-        .select(
-          "id,post_id,name,comment,created_at,likes,dislikes,parent_id"
-        )
-        .eq(
-          "post_id",
-          Number(articleId)
-        )
-        .order(
-          "created_at",
-          {
-            ascending: true
-          }
-        );
-
-    if (result.error) {
-
-      console.error(
-        "COMMENTS LOADING ERROR:",
-        result.error
-      );
-
-      if (attempt < 3) {
-
-        commentsList.innerHTML =
-          `
-            <p class="no-comments">
-              Loading comments...
-            </p>
-          `;
-
-        await sleep(1200);
-
-        return loadComments(
-          articleId,
-          attempt + 1
-        );
-
-      }
-
-      if (commentCount) {
-        commentCount.textContent =
-          "0";
-      }
-
-      commentsList.innerHTML =
-        `
-          <p class="no-comments">
-            Comments could not be loaded.
-            Please refresh the page.
-          </p>
-        `;
-
-      return;
-
-    }
-
-    const comments =
-      Array.isArray(result.data)
-        ? result.data
-        : [];
-
-    if (commentCount) {
-
-      commentCount.textContent =
-        comments.length.toLocaleString();
-
-    }
-
-    if (
-      comments.length === 0
-    ) {
-
-      commentsList.innerHTML =
-        `
-          <p class="no-comments">
-            No comments yet. Be the first to comment.
-          </p>
-        `;
-
-      return;
-
-    }
-
-    const topLevelComments =
-      comments.filter(
-        comment =>
-          comment.parent_id === null ||
-          comment.parent_id === undefined
-      );
-
-    commentsList.innerHTML =
-      topLevelComments
-        .map(
-          comment =>
-            renderComment(
-              comment,
-              comments,
-              articleId,
-              false
-            )
-        )
-        .join("");
-
-  } catch (error) {
-
-    console.error(
-      "UNEXPECTED COMMENTS ERROR:",
-      error
-    );
-
-    if (attempt < 3) {
-
-      await sleep(1200);
-
-      return loadComments(
-        articleId,
-        attempt + 1
-      );
-
-    }
-
-    if (commentCount) {
-      commentCount.textContent =
-        "0";
-    }
-
-    commentsList.innerHTML =
-      `
-        <p class="no-comments">
-          Comments could not be loaded.
-          Please refresh the page.
-        </p>
-      `;
-
-  }
-
-}
-
-
-/* =========================
-   SUBMIT MAIN COMMENT
-========================= */
-
-async function submitComment(
-  articleId
-) {
-
-  const nameInput =
-    document.getElementById(
-      "comment-name"
-    );
-
-  const commentInput =
-    document.getElementById(
-      "comment-text"
-    );
-
-  const message =
-    document.getElementById(
-      "comment-message"
-    );
-
-  const submitButton =
-    document.querySelector(
-      "#comment-form .comment-submit"
-    );
-
-  if (
-    !nameInput ||
-    !commentInput ||
-    !message
-  ) {
-    return;
-  }
-
-  const name =
-    nameInput.value.trim();
-
-  const comment =
-    commentInput.value.trim();
-
-  if (
-    !name ||
-    !comment
-  ) {
-
-    message.textContent =
-      "Please enter your name and comment.";
-
-    return;
-
-  }
-
-  if (submitButton) {
-    submitButton.disabled = true;
-  }
-
-  message.textContent =
-    "Posting comment...";
-
-  try {
-
-    const result =
-      await supabaseClient
-        .from("comments")
-        .insert({
-          post_id:
-            Number(articleId),
-          name:
-            name,
-          comment:
-            comment,
-          parent_id:
-            null
-        });
-
-    if (result.error) {
-
-      console.error(
-        "COMMENT SUBMISSION ERROR:",
-        result.error
-      );
-
-      message.textContent =
-        "Sorry, your comment could not be posted.";
-
-      if (submitButton) {
-        submitButton.disabled = false;
-      }
-
-      return;
-
-    }
-
-    nameInput.value = "";
-    commentInput.value = "";
-
-    message.textContent =
-      "Comment posted successfully.";
-
-    await loadComments(
-      articleId
-    );
-
-  } catch (error) {
-
-    console.error(
-      "COMMENT ERROR:",
-      error
-    );
-
-    message.textContent =
-      "Sorry, your comment could not be posted.";
-
-  }
-
-  if (submitButton) {
-    submitButton.disabled = false;
-  }
-
-}
-
-
-/* =========================
-   SHARE
-========================= */
 
 function shareArticle() {
+  const shareBox = document.getElementById("share-box");
 
-  const shareBox =
-    document.getElementById(
-      "share-box"
-    );
-
-  if (!shareBox) {
-    return;
+  if (shareBox) {
+    shareBox.classList.toggle("show");
   }
-
-  shareBox.classList.toggle(
-    "show"
-  );
-
 }
 
 
 async function copyArticleLink() {
-
-  const url =
-    window.location.href;
+  const url = window.location.href;
 
   try {
-
-    if (
-      navigator.clipboard &&
-      navigator.clipboard.writeText
-    ) {
-
-      await navigator.clipboard.writeText(
-        url
-      );
-
-      alert(
-        "Article link copied!"
-      );
-
-      return;
-
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(url);
+      alert("Article link copied!");
+    } else {
+      prompt("Copy this article link:", url);
     }
-
-    prompt(
-      "Copy this article link:",
-      url
-    );
-
   } catch {
-
-    prompt(
-      "Copy this article link:",
-      url
-    );
-
+    prompt("Copy this article link:", url);
   }
-
 }
 
 
-async function nativeShare(
-  title
-) {
+async function nativeShare(title) {
+  const url = window.location.href;
 
-  const url =
-    window.location.href;
-
-  if (
-    navigator.share
-  ) {
-
+  if (navigator.share) {
     try {
-
       await navigator.share({
-        title:
-          title,
-        text:
-          title,
-        url:
-          url
+        title: title,
+        text: title,
+        url: url
       });
-
-    } catch {
-
-      console.log(
-        "Share cancelled."
-      );
-
+    } catch (error) {
+      console.log("Share cancelled or unavailable.", error);
     }
-
   } else {
-
     shareArticle();
-
   }
-
 }
 
 
-/* =========================
-   AD HELPERS
-========================= */
-
-function normalizePlacement(
-  value
-) {
-
-  return String(
-    value || ""
-  )
+function normalizePlacement(value) {
+  return String(value || "")
     .toLowerCase()
-    .replace(
-      /[^a-z]/g,
-      ""
-    );
-
+    .replace(/[^a-z]/g, "");
 }
 
 
-function isArticlePlacement(
-  value
-) {
-
-  const placement =
-    normalizePlacement(
-      value
-    );
-
-  return (
-    placement === "article" ||
-    placement === "articles" ||
-    placement === "articlepage" ||
-    placement === "articlepages" ||
-    placement === "inarticle"
-  );
-
-}
-
-
-function isAdCurrentlyActive(
-  ad
-) {
-
-  if (!ad) {
+function isAdCurrentlyActive(ad) {
+  if (!ad || ad.is_active !== true) {
     return false;
   }
 
-  if (
-    ad.is_active !== true
-  ) {
-    return false;
-  }
+  const now = Date.now();
 
-  const now =
-    Date.now();
+  if (ad.start_date) {
+    const start = new Date(ad.start_date).getTime();
 
-  if (
-    ad.start_date
-  ) {
-
-    const start =
-      new Date(
-        ad.start_date
-      ).getTime();
-
-    if (
-      Number.isFinite(start) &&
-      now < start
-    ) {
+    if (Number.isFinite(start) && now < start) {
       return false;
     }
-
   }
 
-  if (
-    ad.end_date
-  ) {
+  if (ad.end_date) {
+    const end = new Date(ad.end_date).getTime();
 
-    const end =
-      new Date(
-        ad.end_date
-      ).getTime();
-
-    if (
-      Number.isFinite(end) &&
-      now > end
-    ) {
+    if (Number.isFinite(end) && now > end) {
       return false;
     }
-
   }
 
   return true;
-
 }
 
 
-function safeExternalUrl(
-  url
-) {
-
+function safeExternalUrl(url) {
   if (!url) {
     return "";
   }
 
   try {
+    const parsed = new URL(String(url).trim());
 
-    const parsed =
-      new URL(
-        String(url).trim()
-      );
-
-    if (
-      parsed.protocol === "http:" ||
-      parsed.protocol === "https:"
-    ) {
-
+    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
       return parsed.href;
-
     }
-
   } catch {
-
     return "";
-
   }
 
   return "";
-
 }
 
 
-/* =========================
-   RENDER ARTICLE AD
-========================= */
+function getAdPosition(ad) {
+  const placement = normalizePlacement(ad.placement);
 
-function renderArticleAdvertisement(
-  ad
-) {
+  const topPlacements = [
+    "articletop",
+    "toparticle",
+    "articleheader",
+    "abovearticle"
+  ];
 
-  const section =
-    document.getElementById(
-      "article-ad-container"
-    );
+  const bottomPlacements = [
+    "articlebottom",
+    "bottomarticle",
+    "belowarticle"
+  ];
 
-  if (
-    !section ||
-    !ad
-  ) {
+  const middlePlacements = [
+    "article",
+    "articles",
+    "articlepage",
+    "articlepages",
+    "inarticle",
+    "articlemiddle",
+    "middlearticle"
+  ];
+
+  if (topPlacements.includes(placement)) {
+    return "top";
+  }
+
+  if (bottomPlacements.includes(placement)) {
+    return "bottom";
+  }
+
+  if (middlePlacements.includes(placement)) {
+    return "middle";
+  }
+
+  return null;
+}
+
+
+function renderAdvertisement(ad, slotId) {
+  const slot = document.getElementById(slotId);
+
+  if (!slot || !ad) {
     return;
   }
 
-  const imageUrl =
-    safeExternalUrl(
-      ad.image_url
-    );
+  const imageUrl = safeExternalUrl(ad.image_url);
+  const videoUrl = safeExternalUrl(ad.video_url);
+  const destinationUrl = safeExternalUrl(ad.destination_url);
 
-  const videoUrl =
-    safeExternalUrl(
-      ad.video_url
-    );
-
-  const destinationUrl =
-    safeExternalUrl(
-      ad.destination_url
-    );
-
-  const title =
-    escapeHTML(
-      ad.title ||
-      "Advertisement"
-    );
-
-  const description =
-    escapeHTML(
-      ad.description ||
-      ""
-    );
+  const title = escapeHTML(ad.title || "Sponsored Advertisement");
+  const description = escapeHTML(ad.description || "");
 
   let mediaHTML = "";
 
-  /*
-    Video takes priority when both
-    video and image are available.
-  */
-
   if (videoUrl) {
-
-    mediaHTML =
-      `
+    mediaHTML = `
+      <div class="article-ad-media">
         <video
           class="article-ad-video"
           controls
@@ -2480,835 +928,437 @@ function renderArticleAdvertisement(
           webkit-playsinline
           preload="metadata"
         >
-          <source
-            src="${escapeHTML(videoUrl)}"
-          >
+          <source src="${escapeHTML(videoUrl)}">
           Your browser does not support video playback.
         </video>
-      `;
-
+      </div>
+    `;
   } else if (imageUrl) {
+    const imageHTML = `
+      <img
+        class="article-ad-image"
+        src="${escapeHTML(imageUrl)}"
+        alt="${title}"
+        loading="lazy"
+      >
+    `;
 
-    mediaHTML =
-      `
-        <img
-          class="article-ad-image"
-          src="${escapeHTML(imageUrl)}"
-          alt="${title}"
-          loading="lazy"
-        >
-      `;
-
-  }
-
-  let buttonHTML = "";
-
-  if (destinationUrl) {
-
-    buttonHTML =
-      `
+    mediaHTML = destinationUrl
+      ? `
         <a
-          class="article-ad-link"
           href="${escapeHTML(destinationUrl)}"
           target="_blank"
           rel="noopener noreferrer sponsored"
-        >
-          Learn More →
-        </a>
-      `;
-
+          aria-label="Visit advertiser"
+        >${imageHTML}</a>
+      `
+      : imageHTML;
   }
 
-  section.innerHTML =
+  const buttonHTML = destinationUrl
+    ? `
+      <a
+        class="article-ad-link"
+        href="${escapeHTML(destinationUrl)}"
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+      >Learn More →</a>
     `
-      <section class="article-ad-section">
+    : "";
 
-        <div class="article-ad-label">
-          Advertisement
-        </div>
-
-        <div class="article-ad">
-
-          ${
-            mediaHTML
-              ? `
-                <div class="article-ad-media">
-                  ${mediaHTML}
-                </div>
-              `
-              : ""
-          }
-
-          <div class="article-ad-content">
-
-            <h2 class="article-ad-title">
-              ${title}
-            </h2>
-
-            ${
-              description
-                ? `
-                  <p class="article-ad-description">
-                    ${description}
-                  </p>
-                `
-                : ""
-            }
-
-            ${buttonHTML}
-
-          </div>
-
-        </div>
-
-      </section>
-    `;
-
-}
-
-
-/* =========================
-   LOAD ARTICLE AD
-========================= */
-
-async function loadArticleAdvertisement() {
-
-  const section =
-    document.getElementById(
-      "article-ad-container"
-    );
-
-  if (!section) {
+  if (!mediaHTML && !description && !buttonHTML) {
+    slot.innerHTML = "";
     return;
   }
 
-  try {
+  slot.innerHTML = `
+    <section class="article-ad-section" aria-label="Sponsored advertisement">
+      <div class="article-ad-label">Advertisement</div>
 
-    const result =
-      await supabaseClient
-        .from("ads")
-        .select(
-          "id,title,description,image_url,video_url,destination_url,placement,start_date,end_date,is_active,created_at"
-        )
-        .eq(
-          "is_active",
-          true
-        )
-        .order(
-          "created_at",
-          {
-            ascending: false
+      <div class="article-ad">
+        ${mediaHTML}
+
+        <div class="article-ad-content">
+          <h2 class="article-ad-title">${title}</h2>
+
+          ${
+            description
+              ? `<p class="article-ad-description">${description}</p>`
+              : ""
           }
-        );
 
-    if (result.error) {
+          ${buttonHTML}
+        </div>
+      </div>
+    </section>
+  `;
+}
 
-      console.error(
-        "ARTICLE ADVERTISEMENT ERROR:",
-        result.error
-      );
 
-      section.innerHTML = "";
+async function loadArticleAdvertisements() {
+  const topSlot = document.getElementById("article-ad-top");
+  const middleSlot = document.getElementById("article-ad-middle");
+  const bottomSlot = document.getElementById("article-ad-bottom");
 
-      return;
-
-    }
-
-    const ads =
-      Array.isArray(result.data)
-        ? result.data
-        : [];
-
-    const activeArticleAds =
-      ads.filter(
-        ad =>
-          isArticlePlacement(
-            ad.placement
-          ) &&
-          isAdCurrentlyActive(
-            ad
-          )
-      );
-
-    if (
-      activeArticleAds.length === 0
-    ) {
-
-      section.innerHTML = "";
-
-      return;
-
-    }
-
-    const ad =
-      activeArticleAds[0];
-
-    renderArticleAdvertisement(
-      ad
-    );
-
-  } catch (error) {
-
-    console.error(
-      "UNEXPECTED ARTICLE AD ERROR:",
-      error
-    );
-
-    section.innerHTML = "";
-
+  if (!topSlot || !middleSlot || !bottomSlot) {
+    return;
   }
 
+  topSlot.innerHTML = "";
+  middleSlot.innerHTML = "";
+  bottomSlot.innerHTML = "";
+
+  try {
+    const result = await supabaseClient
+      .from("ads")
+      .select(
+        "id,title,description,image_url,video_url,destination_url,placement,start_date,end_date,is_active,created_at"
+      )
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
+
+    if (result.error) {
+      console.error("ADVERTISEMENT LOADING ERROR:", result.error);
+      return;
+    }
+
+    const activeAds = (result.data || []).filter(isAdCurrentlyActive);
+
+    const topAds = activeAds.filter(ad => getAdPosition(ad) === "top");
+    const middleAds = activeAds.filter(ad => getAdPosition(ad) === "middle");
+    const bottomAds = activeAds.filter(ad => getAdPosition(ad) === "bottom");
+
+    if (topAds.length) {
+      renderAdvertisement(topAds[0], "article-ad-top");
+    }
+
+    if (middleAds.length) {
+      renderAdvertisement(middleAds[0], "article-ad-middle");
+    }
+
+    if (bottomAds.length) {
+      renderAdvertisement(bottomAds[0], "article-ad-bottom");
+    }
+  } catch (error) {
+    console.error("UNEXPECTED ADVERTISEMENT ERROR:", error);
+  }
 }
 
 
-/* =========================
-   ARTICLE HTML
-========================= */
+function buildArticleBody(articleText) {
+  const text = String(articleText || "No article content available.").trim();
 
-function buildArticleHTML(
-  post,
-  currentViews,
-  currentLikes,
-  articleId
-) {
+  if (!text) {
+    return '<p class="article-paragraph">No article content available.</p>';
+  }
 
-  
+  const paragraphs = text
+    .split(/\n\s*\n/)
+    .map(paragraph => paragraph.trim())
+    .filter(Boolean);
+
+  if (paragraphs.length <= 1) {
+    return paragraphs
+      .map(paragraph =>
+        `<p class="article-paragraph">${escapeHTML(paragraph)}</p>`
+      )
+      .join("");
+  }
+
+  const middleIndex = Math.min(2, paragraphs.length - 1);
+  let html = "";
+
+  paragraphs.forEach((paragraph, index) => {
+    html += `<p class="article-paragraph">${escapeHTML(paragraph)}</p>`;
+
+    if (index === middleIndex) {
+      html += '<div id="article-ad-middle" class="article-ad-slot"></div>';
+    }
+  });
+
+  return html;
+}
+
+
+function buildArticleHTML(post, currentViews, currentLikes) {
   const articleImages = Array.isArray(post.images)
-  ? post.images.filter(
-      url =>
-        typeof url === "string" &&
-        /^https?:\/\//i.test(url)
-    )
-  : [];
+    ? post.images.filter(
+        url => typeof url === "string" && /^https?:\/\//i.test(url)
+      )
+    : [];
 
-if (articleImages.length === 0 && post.image) {
-  articleImages.push(post.image);
-}
+  if (articleImages.length === 0 && post.image) {
+    articleImages.push(post.image);
+  }
 
-const imageHTML = articleImages.length
-  ? `
-    <div class="article-slideshow" data-article-slideshow>
-      <div class="article-slides">
-        ${articleImages
-          .map(
-            (imageUrl, index) => `
-              <img
-                class="article-image article-slide ${index === 0 ? "is-active" : ""}"
-                src="${escapeHTML(imageUrl)}"
-                alt="${escapeHTML(
-                  (post.headline || "Palmcaseblog article") +
-                  " - Image " +
-                  (index + 1)
-                )}"
-                loading="${index === 0 ? "eager" : "lazy"}"
-              >
+  const imageHTML = articleImages.length
+    ? `
+      <div class="article-slideshow" data-article-slideshow>
+        <div class="article-slides">
+          ${articleImages.map((imageUrl, index) => `
+            <img
+              class="article-image article-slide ${index === 0 ? "is-active" : ""}"
+              src="${escapeHTML(imageUrl)}"
+              alt="${escapeHTML((post.headline || "Palmcaseblog article") + " - Image " + (index + 1))}"
+              loading="${index === 0 ? "eager" : "lazy"}"
+            >
+          `).join("")}
+        </div>
+
+        ${
+          articleImages.length > 1
+            ? `
+              <button type="button" class="article-slide-arrow article-slide-prev" data-slide-prev aria-label="Previous image">&#10094;</button>
+              <button type="button" class="article-slide-arrow article-slide-next" data-slide-next aria-label="Next image">&#10095;</button>
+              <button type="button" class="article-slide-play" data-slide-play aria-label="Pause slideshow">Pause</button>
+
+              <div class="article-slide-dots">
+                ${articleImages.map((_, index) => `
+                  <button
+                    type="button"
+                    class="article-slide-dot ${index === 0 ? "is-active" : ""}"
+                    data-slide-to="${index}"
+                    aria-label="Go to image ${index + 1}"
+                  ></button>
+                `).join("")}
+              </div>
+
+              <div class="article-slide-count">
+                <span data-slide-current>1</span> / ${articleImages.length}
+              </div>
             `
-          )
-          .join("")}
+            : ""
+        }
       </div>
+    `
+    : "";
 
-      ${
-        articleImages.length > 1
-          ? `
-            <button type="button" class="article-slide-arrow article-slide-prev" data-slide-prev aria-label="Previous image">&#10094;</button>
-            <button type="button" class="article-slide-arrow article-slide-next" data-slide-next aria-label="Next image">&#10095;</button>
-            <button type="button" class="article-slide-play" data-slide-play aria-label="Pause slideshow">Pause</button>
+  const videoUrl = safeExternalUrl(post.video_url);
 
-            <div class="article-slide-dots">
-              ${articleImages
-                .map(
-                  (_, index) => `
-                    <button
-                      type="button"
-                      class="article-slide-dot ${index === 0 ? "is-active" : ""}"
-                      data-slide-to="${index}"
-                      aria-label="Go to image ${index + 1}"
-                    ></button>
-                  `
-                )
-                .join("")}
-            </div>
+  const videoHTML = videoUrl
+    ? `
+      <video
+        class="article-video"
+        controls
+        playsinline
+        webkit-playsinline
+        preload="metadata"
+      >
+        <source src="${escapeHTML(videoUrl)}">
+        Your browser does not support video playback.
+      </video>
+    `
+    : "";
 
-            <div class="article-slide-count">
-              <span data-slide-current>1</span> / ${articleImages.length}
-            </div>
-          `
-          : ""
+  const articleDate = post.created_at
+    ? new Date(post.created_at).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      })
+    : "";
+
+  const bodyText = String(post.article || "No article content available.");
+  const paragraphs = bodyText
+    .trim()
+    .split(/\n\s*\n/)
+    .map(paragraph => paragraph.trim())
+    .filter(Boolean);
+
+  let articleBodyHTML = "";
+
+  if (paragraphs.length <= 1) {
+    articleBodyHTML = paragraphs
+      .map(paragraph =>
+        `<p class="article-paragraph">${escapeHTML(paragraph)}</p>`
+      )
+      .join("");
+  } else {
+    const middleIndex = Math.min(2, paragraphs.length - 1);
+
+    paragraphs.forEach((paragraph, index) => {
+      articleBodyHTML += `<p class="article-paragraph">${escapeHTML(paragraph)}</p>`;
+
+      if (index === middleIndex) {
+        articleBodyHTML += '<div id="article-ad-middle" class="article-ad-slot"></div>';
       }
-    </div>
-  `
-  : "";
-
-  const videoHTML =
-    post.video_url
-      ? `
-        <video
-          class="article-video"
-          controls
-          playsinline
-          webkit-playsinline
-          preload="metadata"
-        >
-          <source
-            src="${escapeHTML(post.video_url)}"
-          >
-          Your browser does not support video playback.
-        </video>
-      `
-      : "";
-
-  const articleDate =
-    post.created_at
-      ? new Date(
-          post.created_at
-        ).toLocaleDateString(
-          "en-US",
-          {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-          }
-        )
-      : "";
+    });
+  }
 
   return `
     <article class="article-box">
 
-      <div class="category">
-        ${escapeHTML(
-          post.category ||
-          "News"
-        )}
-      </div>
+      <div class="category">${escapeHTML(post.category || "News")}</div>
 
-      <h1>
-        ${escapeHTML(
-          post.headline ||
-          "Untitled Article"
-        )}
-      </h1>
+      <h1>${escapeHTML(post.headline || "Untitled Article")}</h1>
 
-      <div class="date">
-        ${escapeHTML(articleDate)}
-      </div>
+      <div class="date">${escapeHTML(articleDate)}</div>
 
       <div class="article-stats">
+        <span>👁 ${currentViews.toLocaleString()} views</span>
 
         <span>
-          👁
-          ${currentViews.toLocaleString()}
-          views
+          ❤️ <span id="top-like-count">${currentLikes.toLocaleString()}</span> likes
         </span>
-
-        <span>
-          ❤️
-          <span id="top-like-count">
-            ${currentLikes.toLocaleString()}
-          </span>
-          likes
-        </span>
-
       </div>
 
-      ${imageHTML}
+      <div id="article-ad-top" class="article-ad-slot"></div>
 
+      ${imageHTML}
       ${videoHTML}
 
       <div class="article-body">
-        ${escapeHTML(
-          post.article ||
-          "No article content available."
-        )}
+        ${articleBodyHTML}
       </div>
 
-      <div id="article-ad-container"></div>
+      <div id="article-ad-bottom" class="article-ad-slot"></div>
 
       <div class="article-actions">
-
-        <button
-          id="like-button"
-          class="action-btn like-btn"
-          type="button"
-        >
-          ❤️ Like
-          <span id="like-count">
-            ${currentLikes.toLocaleString()}
-          </span>
+        <button id="like-button" class="action-btn like-btn" type="button">
+          ❤️ Like <span id="like-count">${currentLikes.toLocaleString()}</span>
         </button>
 
-        <button
-          id="comment-button"
-          class="action-btn"
-          type="button"
-        >
-          💬 Comment
-        </button>
-
-        <button
-          id="share-button"
-          class="action-btn"
-          type="button"
-        >
+        <button id="share-button" class="action-btn" type="button">
           ↗️ Share
         </button>
-
       </div>
 
-      <div
-        id="share-box"
-        class="share-box"
-      >
-
-        <div class="share-title">
-          Share this article
-        </div>
+      <div id="share-box" class="share-box">
+        <div class="share-title">Share this article</div>
 
         <div class="share-buttons">
-
-          <button
-            class="share-btn"
-            id="whatsapp-share"
-            type="button"
-          >
-            WhatsApp
-          </button>
-
-          <button
-            class="share-btn"
-            id="facebook-share"
-            type="button"
-          >
-            Facebook
-          </button>
-
-          <button
-            class="share-btn"
-            id="x-share"
-            type="button"
-          >
-            X
-          </button>
-
-          <button
-            class="share-btn"
-            id="telegram-share"
-            type="button"
-          >
-            Telegram
-          </button>
-
-          <button
-            class="share-btn"
-            id="instagram-share"
-            type="button"
-          >
-            Instagram
-          </button>
-
-          <button
-            class="share-btn"
-            id="copy-link"
-            type="button"
-          >
-            Copy Link
-          </button>
-
+          <button class="share-btn" id="whatsapp-share" type="button">WhatsApp</button>
+          <button class="share-btn" id="facebook-share" type="button">Facebook</button>
+          <button class="share-btn" id="x-share" type="button">X</button>
+          <button class="share-btn" id="telegram-share" type="button">Telegram</button>
+          <button class="share-btn" id="instagram-share" type="button">Share</button>
+          <button class="share-btn" id="copy-link" type="button">Copy Link</button>
         </div>
-
       </div>
-
-      <section
-        id="comments-section"
-        class="comments-section"
-      >
-
-        <div class="comments-heading">
-
-          <h2>
-            💬 Comments
-            (
-            <span id="comment-count">
-              0
-            </span>
-            )
-          </h2>
-
-        </div>
-
-        <form
-          id="comment-form"
-          class="comment-form"
-        >
-
-          <input
-            id="comment-name"
-            type="text"
-            maxlength="80"
-            placeholder="Your name"
-            required
-          >
-
-          <textarea
-            id="comment-text"
-            maxlength="2000"
-            placeholder="Write your comment..."
-            required
-          ></textarea>
-
-          <button
-            class="comment-submit"
-            type="submit"
-          >
-            Post Comment
-          </button>
-
-          <div
-            id="comment-message"
-            class="comment-message"
-          ></div>
-
-        </form>
-
-        <div id="comments-list">
-
-          <p class="no-comments">
-            Loading comments...
-          </p>
-
-        </div>
-
-      </section>
 
     </article>
   `;
-
 }
 
 
-/* =========================
-   CONNECT BUTTONS
-========================= */
-
-function connectArticleButtons(
-  articleId,
-  articleTitle
-) {
-
-  const likeButton =
-    document.getElementById(
-      "like-button"
-    );
+function connectArticleButtons(articleId, articleTitle) {
+  const likeButton = document.getElementById("like-button");
 
   if (likeButton) {
-
-    if (
-      hasLiked(articleId)
-    ) {
-
-      likeButton.classList.add(
-        "liked"
-      );
-
+    if (hasLiked(articleId)) {
+      likeButton.classList.add("liked");
       likeButton.disabled = true;
 
       likeButton.innerHTML =
-        `
-          ❤️ Liked
-          <span id="like-count">
-            ${
-              document.getElementById(
-                "like-count"
-              )?.textContent || "0"
-            }
-          </span>
-        `;
-
+        '❤️ Liked <span id="like-count">' +
+        (document.getElementById("like-count")?.textContent || "0") +
+        "</span>";
     }
 
-    likeButton.addEventListener(
-      "click",
-      function(event) {
-
-        event.preventDefault();
-
-        likeArticle(
-          articleId
-        );
-
-      }
-    );
-
+    likeButton.addEventListener("click", event => {
+      event.preventDefault();
+      likeArticle(articleId);
+    });
   }
 
-
-  const commentButton =
-    document.getElementById(
-      "comment-button"
-    );
-
-  if (commentButton) {
-
-    commentButton.addEventListener(
-      "click",
-      function() {
-
-        const commentsSection =
-          document.getElementById(
-            "comments-section"
-          );
-
-        if (commentsSection) {
-
-          commentsSection.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-
-          setTimeout(
-            function() {
-
-              const nameInput =
-                document.getElementById(
-                  "comment-name"
-                );
-
-              if (nameInput) {
-                nameInput.focus();
-              }
-
-            },
-            500
-          );
-
-        }
-
-      }
-    );
-
-  }
-
-
-  const shareButton =
-    document.getElementById(
-      "share-button"
-    );
+  const shareButton = document.getElementById("share-button");
 
   if (shareButton) {
-
-    shareButton.addEventListener(
-      "click",
-      function() {
-
-        shareArticle();
-
-      }
-    );
-
+    shareButton.addEventListener("click", shareArticle);
   }
 
+  const articleUrl = window.location.href;
 
-  const articleUrl =
-    window.location.href;
-
-
-  const whatsappButton =
-    document.getElementById(
-      "whatsapp-share"
-    );
+  const whatsappButton = document.getElementById("whatsapp-share");
 
   if (whatsappButton) {
-
-    whatsappButton.addEventListener(
-      "click",
-      function() {
-
-        window.open(
-          "https://wa.me/?text=" +
-          encodeURIComponent(
-            articleTitle +
-            " " +
-            articleUrl
-          ),
-          "_blank",
-          "noopener"
-        );
-
-      }
-    );
-
+    whatsappButton.addEventListener("click", () => {
+      window.open(
+        "https://wa.me/?text=" +
+          encodeURIComponent(articleTitle + " " + articleUrl),
+        "_blank",
+        "noopener,noreferrer"
+      );
+    });
   }
 
-
-  const facebookButton =
-    document.getElementById(
-      "facebook-share"
-    );
+  const facebookButton = document.getElementById("facebook-share");
 
   if (facebookButton) {
-
-    facebookButton.addEventListener(
-      "click",
-      function() {
-
-        window.open(
-          "https://www.facebook.com/sharer/sharer.php?u=" +
-          encodeURIComponent(
-            articleUrl
-          ),
-          "_blank",
-          "noopener"
-        );
-
-      }
-    );
-
+    facebookButton.addEventListener("click", () => {
+      window.open(
+        "https://www.facebook.com/sharer/sharer.php?u=" +
+          encodeURIComponent(articleUrl),
+        "_blank",
+        "noopener,noreferrer"
+      );
+    });
   }
 
-
-  const xButton =
-    document.getElementById(
-      "x-share"
-    );
+  const xButton = document.getElementById("x-share");
 
   if (xButton) {
-
-    xButton.addEventListener(
-      "click",
-      function() {
-
-        window.open(
-          "https://twitter.com/intent/tweet?text=" +
-          encodeURIComponent(
-            articleTitle
-          ) +
+    xButton.addEventListener("click", () => {
+      window.open(
+        "https://twitter.com/intent/tweet?text=" +
+          encodeURIComponent(articleTitle) +
           "&url=" +
-          encodeURIComponent(
-            articleUrl
-          ),
-          "_blank",
-          "noopener"
-        );
-
-      }
-    );
-
+          encodeURIComponent(articleUrl),
+        "_blank",
+        "noopener,noreferrer"
+      );
+    });
   }
 
-
-  const telegramButton =
-    document.getElementById(
-      "telegram-share"
-    );
+  const telegramButton = document.getElementById("telegram-share");
 
   if (telegramButton) {
-
-    telegramButton.addEventListener(
-      "click",
-      function() {
-
-        window.open(
-          "https://t.me/share/url?url=" +
-          encodeURIComponent(
-            articleUrl
-          ) +
+    telegramButton.addEventListener("click", () => {
+      window.open(
+        "https://t.me/share/url?url=" +
+          encodeURIComponent(articleUrl) +
           "&text=" +
-          encodeURIComponent(
-            articleTitle
-          ),
-          "_blank",
-          "noopener"
-        );
-
-      }
-    );
-
+          encodeURIComponent(articleTitle),
+        "_blank",
+        "noopener,noreferrer"
+      );
+    });
   }
 
-
-  const instagramButton =
-    document.getElementById(
-      "instagram-share"
-    );
+  const instagramButton = document.getElementById("instagram-share");
 
   if (instagramButton) {
-
-    instagramButton.addEventListener(
-      "click",
-      function() {
-
-        nativeShare(
-          articleTitle
-        );
-
-      }
-    );
-
+    instagramButton.addEventListener("click", () => {
+      nativeShare(articleTitle);
+    });
   }
 
-
-  const copyButton =
-    document.getElementById(
-      "copy-link"
-    );
+  const copyButton = document.getElementById("copy-link");
 
   if (copyButton) {
-
-    copyButton.addEventListener(
-      "click",
-      function() {
-
-        copyArticleLink();
-
-      }
-    );
-
+    copyButton.addEventListener("click", copyArticleLink);
   }
-
-
-  const commentForm =
-    document.getElementById(
-      "comment-form"
-    );
-
-  if (commentForm) {
-
-    commentForm.addEventListener(
-      "submit",
-      async function(event) {
-
-        event.preventDefault();
-
-        await submitComment(
-          articleId
-        );
-
-      }
-    );
-
-  }
-
 }
 
-/* =========================
-   ARTICLE IMAGE SLIDESHOW
-========================= */
+
 function initArticleSlideshows() {
   document.querySelectorAll("[data-article-slideshow]").forEach(slideshow => {
-    if (slideshow.dataset.initialized === "true") return;
+    if (slideshow.dataset.initialized === "true") {
+      return;
+    }
+
     slideshow.dataset.initialized = "true";
 
-    const slides = Array.from(
-      slideshow.querySelectorAll(".article-slide")
-    );
-    const dots = Array.from(
-      slideshow.querySelectorAll(".article-slide-dot")
-    );
+    const slides = Array.from(slideshow.querySelectorAll(".article-slide"));
+    const dots = Array.from(slideshow.querySelectorAll(".article-slide-dot"));
     const previousButton = slideshow.querySelector("[data-slide-prev]");
     const nextButton = slideshow.querySelector("[data-slide-next]");
     const playButton = slideshow.querySelector("[data-slide-play]");
     const currentNumber = slideshow.querySelector("[data-slide-current]");
 
-    if (slides.length <= 1) return;
+    if (slides.length <= 1) {
+      return;
+    }
 
     let currentIndex = 0;
     let timer = null;
@@ -3371,8 +1421,8 @@ function initArticleSlideshows() {
     if (playButton) {
       playButton.addEventListener("click", () => {
         paused = !paused;
-
         playButton.textContent = paused ? "Play" : "Pause";
+
         playButton.setAttribute(
           "aria-label",
           paused ? "Play slideshow" : "Pause slideshow"
@@ -3392,215 +1442,107 @@ function initArticleSlideshows() {
 }
 
 
-/* =========================
-   LOAD ARTICLE
-========================= */
-
 async function loadArticle() {
-
-  const articleId =
-    getArticleId();
+  const articleId = getArticleId();
 
   if (!articleId) {
-
-    container.innerHTML =
-      `
-        <div class="message">
-          <h2>Article not found</h2>
-          <p>No article ID was provided.</p>
-        </div>
-      `;
-
+    container.innerHTML = `
+      <div class="message">
+        <h2>Article not found</h2>
+        <p>No article ID was provided.</p>
+      </div>
+    `;
     return;
-
   }
 
-  const numericArticleId =
-    Number(articleId);
+  const numericArticleId = Number(articleId);
 
-  if (
-    !Number.isFinite(
-      numericArticleId
-    )
-  ) {
-
-    container.innerHTML =
-      `
-        <div class="message">
-          <h2>Article not found</h2>
-          <p>Invalid article ID.</p>
-        </div>
-      `;
-
+  if (!Number.isFinite(numericArticleId)) {
+    container.innerHTML = `
+      <div class="message">
+        <h2>Article not found</h2>
+        <p>Invalid article ID.</p>
+      </div>
+    `;
     return;
-
   }
 
   try {
+    const result = await supabaseClient
+      .from("posts")
+      .select("*")
+      .eq("id", numericArticleId)
+      .single();
 
-    const result =
-      await supabaseClient
-        .from("posts")
-        .select("*")
-        .eq(
-          "id",
-          numericArticleId
-        )
-        .single();
+    if (result.error || !result.data) {
+      console.error("ARTICLE LOAD ERROR:", result.error);
 
-    if (
-      result.error ||
-      !result.data
-    ) {
-
-      console.error(
-        "ARTICLE LOAD ERROR:",
-        result.error
-      );
-
-      container.innerHTML =
-        `
-          <div class="message">
-            <h2>Article not found</h2>
-            <p>We couldn't find this article.</p>
-          </div>
-        `;
-
+      container.innerHTML = `
+        <div class="message">
+          <h2>Article not found</h2>
+          <p>We couldn't find this article.</p>
+        </div>
+      `;
       return;
-
     }
 
-    const post =
-      result.data;
+    const post = result.data;
 
+    let currentViews = Number(post.views || 0);
 
-    /* =========================
-       VIEW COUNTER
-    ========================= */
-
-    const viewResult =
-      await supabaseClient.rpc(
+    try {
+      const viewResult = await supabaseClient.rpc(
         "increment_post_views",
         {
-          post_id:
-            numericArticleId
+          post_id: numericArticleId
         }
       );
 
-    let currentViews =
-      Number(
-        post.views || 0
-      );
-
-    if (
-      !viewResult.error
-    ) {
-      currentViews++;
+      if (!viewResult.error) {
+        currentViews++;
+      } else {
+        console.error("VIEW COUNTER ERROR:", viewResult.error);
+      }
+    } catch (viewError) {
+      console.error("VIEW COUNTER ERROR:", viewError);
     }
 
+    const currentLikes = Number(post.likes || 0);
 
-    const currentLikes =
-      Number(
-        post.likes || 0
-      );
+    document.title = (post.headline || "Article") + " | Palmcaseblog";
 
+    container.innerHTML = buildArticleHTML(
+      post,
+      currentViews,
+      currentLikes
+    );
 
-    document.title =
-      (
-        post.headline ||
-        "Article"
-      ) +
-      " | Palmcaseblog";
-
-
-    /* =========================
-       RENDER ARTICLE
-    ========================= */
-
-    
-container.innerHTML =
-  buildArticleHTML(
-    post,
-    currentViews,
-    currentLikes,
-    articleId
-  );
-
-initArticleSlideshows();
-
-
-    /* =========================
-       CONNECT BUTTONS
-    ========================= */
+    initArticleSlideshows();
 
     connectArticleButtons(
       articleId,
-      post.headline ||
-        "Palmcaseblog"
+      post.headline || "Palmcaseblog"
     );
 
-
-    /* =========================
-       LOAD COMMENTS
-    ========================= */
-
-    await loadComments(
-      articleId
-    );
-
-
-    /* =========================
-       LOAD ARTICLE AD
-    ========================= */
-
-    await loadArticleAdvertisement();
-
+    await loadArticleAdvertisements();
   } catch (error) {
+    console.error("CRITICAL ARTICLE ERROR:", error);
 
-    console.error(
-      "CRITICAL ARTICLE ERROR:",
-      error
-    );
-
-    container.innerHTML =
-      `
-        <div class="message">
-
-          <h2>
-            Something went wrong
-          </h2>
-
-          <p>
-            Please refresh the page and try again.
-          </p>
-
-        </div>
-      `;
-
+    container.innerHTML = `
+      <div class="message">
+        <h2>Something went wrong</h2>
+        <p>Please refresh the page and try again.</p>
+      </div>
+    `;
   }
-
 }
 
 
-/* =========================
-   START
-========================= */
-
-if (
-  document.readyState === "loading"
-) {
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    loadArticle
-  );
-
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadArticle);
 } else {
-
   loadArticle();
-
 }
-
 </script>
 
 </body>
