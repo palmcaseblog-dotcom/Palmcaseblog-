@@ -1488,7 +1488,21 @@ async function loadArticle() {
 
     const post = result.data;
 
-    
+// Count this article opening in Supabase
+try {
+  const { error: viewError } = await supabaseClient.rpc(
+    "increment_post_views",
+    { post_id: numericArticleId }
+  );
+
+  if (viewError) {
+    console.error("ARTICLE VIEW COUNT ERROR:", viewError);
+  }
+} catch (viewError) {
+  console.error("ARTICLE VIEW COUNT ERROR:", viewError);
+}
+
+const currentLikes = Number(post.likes || 0);
 
     const currentLikes = Number(post.likes || 0);
 
