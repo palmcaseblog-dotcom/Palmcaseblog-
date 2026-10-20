@@ -1468,11 +1468,20 @@ async function loadArticle() {
   }
 
   try {
-    const result = await supabaseClient
-      .from("posts")
-      .select("*")
-      .eq("id", numericArticleId)
-      .single();
+    const result = await Promise.race([
+  supabaseClient
+    .from("posts")
+    .select("*")
+    .eq("id", numericArticleId)
+    .single(),
+
+  new Promise((_, reject) =>
+    setTimeout(
+      () => reject(new Error("Article request timed out after 15 seconds.")),
+      15000
+    )
+  )
+]);
 
     if (result.error || !result.data) {
       console.error("ARTICLE LOAD ERROR:", result.error);
