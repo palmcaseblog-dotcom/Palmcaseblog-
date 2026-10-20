@@ -1488,24 +1488,7 @@ async function loadArticle() {
 
     const post = result.data;
 
-    let currentViews = Number(post.views || 0);
-
-    try {
-      const viewResult = await supabaseClient.rpc(
-        "increment_post_views",
-        {
-          post_id: numericArticleId
-        }
-      );
-
-      if (!viewResult.error) {
-        currentViews++;
-      } else {
-        console.error("VIEW COUNTER ERROR:", viewResult.error);
-      }
-    } catch (viewError) {
-      console.error("VIEW COUNTER ERROR:", viewError);
-    }
+    
 
     const currentLikes = Number(post.likes || 0);
 
