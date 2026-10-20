@@ -2752,113 +2752,54 @@ function setupFollowerSystem() {
 
     }
 
-    function renderPopular() {
+    
+function renderPopular() {
+  const container = document.getElementById("popularPosts");
 
-      const container =
-        document.getElementById(
-          "popularPosts"
-        );
+  if (!allPosts.length) {
+    container.innerHTML =
+      '<div class="empty">No popular stories yet.</div>';
+    return;
+  }
 
-      if (!allPosts.length) {
+  const posts = [...allPosts]
+    .sort(
+      (a, b) =>
+        (Number(b.clicks) || 0) -
+        (Number(a.clicks) || 0)
+    )
+    .slice(0, 5);
 
-        container.innerHTML =
-          '<div class="empty">No popular stories yet.</div>';
+  container.innerHTML = posts
+    .map(post => {
+      const title = escapeHTML(
+        post.headline || "Untitled story"
+      );
 
-        return;
-      }
+      const image = post.image || "IMG_2188.jpeg";
 
-      const posts =
-        [...allPosts]
-          .sort(
-            (a, b) =>
-              (Number(b.views) || 0) -
-              (Number(a.views) || 0)
-          )
-          .slice(0, 5);
+      return `
+        <a
+          href="article.html?id=${post.id}"
+          class="popular-card"
+        >
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(title)}"
+            onerror="this.src='IMG_2188.jpeg'"
+          >
 
-      container.innerHTML =
-        posts
-          .map(
-            post => {
-
-              const title =
-                escapeHTML(
-                  post.headline ||
-                  "Untitled story"
-                );
-
-              const image =
-                post.image ||
-                "IMG_2188.jpeg";
-
-              return `
-                <a
-                  href="article.html?id=${post.id}"
-                  class="popular-card"
-                >
-
-                  <img
-                    src="${escapeAttribute(image)}"
-                    alt="${escapeAttribute(title)}"
-                    onerror="this.src='IMG_2188.jpeg'"
-                  >
-
-                  <div>
-
-                    <h4>
-                      ${title}
-                    </h4>
-
-                    <small>
-                      ${Number(
-                        post.views
-                      ) || 0} views
-                    </small>
-
-                  </div>
-
-                </a>
-              `;
-
-            }
-          )
-          .join("");
-
-    }
-
-    function renderBreaking() {
-
-      const breakingPost =
-        allPosts.find(
-          post =>
-            post.breaking === true
-        );
-
-      const element =
-        document.getElementById(
-          "breakingText"
-        );
-
-      if (breakingPost) {
-
-        element.textContent =
-          breakingPost.headline ||
-          "Latest breaking story";
-
-      } else if (allPosts.length) {
-
-        element.textContent =
-          allPosts[0].headline ||
-          "Latest stories from Palmcaseblog";
-
-      } else {
-
-        element.textContent =
-          "Stay updated with Palmcaseblog.";
-
-      }
-
-    }
+          <div>
+            <h4>${title}</h4>
+            <small>
+              ${(Number(post.clicks) || 0).toLocaleString()} clicks
+            </small>
+          </div>
+        </a>
+      `;
+    })
+    .join("");
+}
 
     /* =========================
        SEARCH
