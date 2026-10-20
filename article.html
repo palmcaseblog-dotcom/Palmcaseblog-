@@ -1495,10 +1495,9 @@ async function loadArticle() {
     document.title = (post.headline || "Article") + " | Palmcaseblog";
 
     container.innerHTML = buildArticleHTML(
-      post,
-      currentViews,
-      currentLikes
-    );
+  post,
+  currentLikes
+);
 
     initArticleSlideshows();
 
