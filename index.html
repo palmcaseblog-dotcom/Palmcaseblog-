@@ -2751,7 +2751,20 @@ function setupFollowerSystem() {
           .join("");
 
     }
+function renderBreaking() {
+  const container = document.getElementById("breakingText");
 
+  if (!container) return;
+
+  const headlines = allPosts
+    .slice(0, 5)
+    .map(post => String(post.headline || "").trim())
+    .filter(Boolean);
+
+  container.textContent = headlines.length
+    ? headlines.join(" • ")
+    : "No breaking stories available yet.";
+}
     
 function renderPopular() {
   const container = document.getElementById("popularPosts");
