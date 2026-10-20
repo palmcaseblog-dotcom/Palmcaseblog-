@@ -1197,59 +1197,7 @@ function buildArticleHTML(post, currentViews, currentLikes) {
     });
   }
 
-  return `
-    <article class="article-box">
-
-      <div class="category">${escapeHTML(post.category || "News")}</div>
-
-      <h1>${escapeHTML(post.headline || "Untitled Article")}</h1>
-
-      <div class="date">${escapeHTML(articleDate)}</div>
-
-      <div class="article-stats">
-        <span>👁 ${currentViews.toLocaleString()} views</span>
-
-        <span>
-          ❤️ <span id="top-like-count">${currentLikes.toLocaleString()}</span> likes
-        </span>
-      </div>
-
-      <div id="article-ad-top" class="article-ad-slot"></div>
-
-      ${imageHTML}
-      ${videoHTML}
-
-      <div class="article-body">
-        ${articleBodyHTML}
-      </div>
-
-      <div id="article-ad-bottom" class="article-ad-slot"></div>
-
-      <div class="article-actions">
-        <button id="like-button" class="action-btn like-btn" type="button">
-          ❤️ Like <span id="like-count">${currentLikes.toLocaleString()}</span>
-        </button>
-
-        <button id="share-button" class="action-btn" type="button">
-          ↗️ Share
-        </button>
-      </div>
-
-      <div id="share-box" class="share-box">
-        <div class="share-title">Share this article</div>
-
-        <div class="share-buttons">
-          <button class="share-btn" id="whatsapp-share" type="button">WhatsApp</button>
-          <button class="share-btn" id="facebook-share" type="button">Facebook</button>
-          <button class="share-btn" id="x-share" type="button">X</button>
-          <button class="share-btn" id="telegram-share" type="button">Telegram</button>
-          <button class="share-btn" id="instagram-share" type="button">Share</button>
-          <button class="share-btn" id="copy-link" type="button">Copy Link</button>
-        </div>
-      </div>
-
-    </article>
-  `;
+  return '<article class="article-box"><div class="category">'+escapeHTML(post.category||"News")+'</div><h1>'+escapeHTML(post.headline||"Untitled Article")+'</h1><div class="date">'+escapeHTML(date)+'</div><div class="article-stats"><span>❤️ <span id="top-like-count">'+likes.toLocaleString()+'</span> likes</span></div>'+imageHTML+video+'<div class="article-body">'+escapeHTML(post.article||"No article content available.")+'</div><div id="article-ad-container"></div><div class="article-actions"><button id="like-button" class="action-btn like-btn" type="button">❤️ Like <span id="like-count">'+likes.toLocaleString()+'</span></button><button id="share-button" class="action-btn" type="button">↗️ Share</button></div><div id="share-box" class="share-box"><div class="share-title">Share this article</div><div class="share-buttons"><button class="share-btn" id="whatsapp-share" type="button">WhatsApp</button><button class="share-btn" id="facebook-share" type="button">Facebook</button><button class="share-btn" id="x-share" type="button">X</button><button class="share-btn" id="telegram-share" type="button">Telegram</button><button class="share-btn" id="instagram-share" type="button">Instagram</button><button class="share-btn" id="copy-link" type="button">Copy Link</button></div></div></article>';
 }
 
 
