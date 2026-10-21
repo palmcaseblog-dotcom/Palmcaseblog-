@@ -2776,12 +2776,12 @@ function renderPopular() {
   }
 
   const posts = [...allPosts]
-    .sort(
-      (a, b) =>
-        (Number(b.clicks) || 0) -
-        (Number(a.clicks) || 0)
-    )
-    .slice(0, 5);
+  .sort(
+    (a, b) =>
+      (Number(b.views) || 0) -
+      (Number(a.views) || 0)
+  )
+  .slice(0, 5);
 
   container.innerHTML = posts
     .map(post => {
