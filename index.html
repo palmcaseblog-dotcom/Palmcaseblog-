@@ -2468,14 +2468,7 @@ async function loadSidebarAdvertisements() {
 }
 
 
-    renderSidebarAdvertisements(advertisements);
-
-  } catch (error) {
-    console.error("Sidebar advertisement error:", error);
-    container.innerHTML = "";
-    container.style.display = "none";
-  }
-}
+    
 
 function renderSidebarAdvertisements(advertisements) {
   const container = document.getElementById(
