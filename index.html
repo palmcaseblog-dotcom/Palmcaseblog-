@@ -2574,28 +2574,31 @@ if (video) {
     );
   });
 
+
 } else if (image) {
+  const imageElement = document.createElement("img");
 
-    } else if (image) {
-      const imageElement = document.createElement("img");
-      imageElement.src = image;
-      imageElement.alt = title;
-      imageElement.style.display = "block";
-      imageElement.style.width = "100%";
-      imageElement.style.height = "auto";
-      imageElement.style.borderRadius = "7px";
+  imageElement.src = image;
+  imageElement.alt = title;
+  imageElement.style.display = "block";
+  imageElement.style.width = "100%";
+  imageElement.style.height = "auto";
+  imageElement.style.borderRadius = "7px";
 
-      if (destination) {
-        const imageLink = document.createElement("a");
-        imageLink.href = destination;
-        imageLink.target = "_blank";
-        imageLink.rel = "noopener noreferrer sponsored";
-        imageLink.appendChild(imageElement);
-        card.appendChild(imageLink);
-      } else {
-        card.appendChild(imageElement);
-      }
-    }
+  if (destination) {
+    const imageLink = document.createElement("a");
+
+    imageLink.href = destination;
+    imageLink.target = "_blank";
+    imageLink.rel = "noopener noreferrer sponsored";
+    imageLink.appendChild(imageElement);
+
+    card.appendChild(imageLink);
+  } else {
+    card.appendChild(imageElement);
+  }
+}
+
 
     const titleElement = document.createElement("h4");
     titleElement.textContent = title;
