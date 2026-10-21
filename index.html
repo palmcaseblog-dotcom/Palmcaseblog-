@@ -2791,28 +2791,27 @@ function renderPopular() {
 
       const image = post.image || "IMG_2188.jpeg";
 
-      return `
-        <a
-          href="article.html?id=${post.id}"
-          class="popular-card"
-        >
-          <img
-            src="${escapeAttribute(image)}"
-            alt="${escapeAttribute(title)}"
-            onerror="this.src='IMG_2188.jpeg'"
-          >
+      
+return `
+  <a
+    href="article.html?id=${post.id}"
+    class="popular-card"
+  >
+    <img
+      src="${escapeAttribute(image)}"
+      alt="${escapeAttribute(title)}"
+      onerror="this.src='IMG_2188.jpeg'"
+    >
 
-          <div>
-            <h4>${title}</h4>
-            <small>
-              ${(Number(post.clicks) || 0).toLocaleString()} clicks
-            </small>
-          </div>
-        </a>
-      `;
-    })
-    .join("");
+    <div>
+      <h4>${title}</h4>
+    </div>
+  </a>
+`;
+})
+.join("");
 }
+
 
     /* =========================
        SEARCH
