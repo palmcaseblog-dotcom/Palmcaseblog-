@@ -2414,14 +2414,19 @@ function renderHomepageAdvertisements(advertisements) {
    SIDEBAR ADVERTISEMENTS
 ========================= */
 
-async function loadSidebarAdvertisements() {
-  const container = document.getElementById(
-    "sidebarAdvertisements"
-  );
 
-  if (!container || !supabaseClient) return;
+async function loadSidebarAdvertisements() {
+  const container = document.getElementById("sidebarAdvertisements");
+
+  if (!container || !supabaseClient) {
+    console.error("Sidebar ad check: container or Supabase client missing.");
+    return;
+  }
 
   try {
+    container.style.display = "block";
+    container.textContent = "Checking sidebar advertisements...";
+
     const { data, error } = await supabaseClient
       .from("ads")
       .select("*")
@@ -2431,16 +2436,12 @@ async function loadSidebarAdvertisements() {
 
     if (error) throw error;
 
+    console.log("Sidebar ads returned by Supabase:", data);
     const now = new Date();
 
     const advertisements = (data || []).filter(ad => {
-      const start = ad.start_date
-        ? new Date(ad.start_date)
-        : null;
-
-      const end = ad.end_date
-        ? new Date(ad.end_date)
-        : null;
+      const start = ad.start_date ? new Date(ad.start_date) : null;
+      const end = ad.end_date ? new Date(ad.end_date) : null;
 
       if (start && now < start) return false;
       if (end && now > end) return false;
@@ -2448,11 +2449,24 @@ async function loadSidebarAdvertisements() {
       return true;
     });
 
+    console.log("Sidebar ads after date filtering:", advertisements);
+
     if (!advertisements.length) {
-      container.innerHTML = "";
-      container.style.display = "none";
+      container.textContent =
+        `Diagnostic: Supabase returned ${(data || []).length} matching ad(s), but ${advertisements.length} passed the date filter.`;
       return;
     }
+
+    renderSidebarAdvertisements(advertisements);
+
+  } catch (error) {
+    console.error("Sidebar advertisement error:", error);
+    container.style.display = "block";
+    container.textContent =
+      "Sidebar ad diagnostic: Supabase query failed. Check the browser console.";
+  }
+}
+
 
     renderSidebarAdvertisements(advertisements);
 
