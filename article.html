@@ -1318,20 +1318,19 @@ function getRotatingAdGroup(ads, groupSize, storageKey) {
   return selectedAds;
 }
 
+
 async function loadArticleAdvertisements() {
   const topSlot = document.getElementById("article-ad-top");
   const middleSlot = document.getElementById("article-ad-middle");
   const bottomSlot = document.getElementById("article-ad-bottom");
 
-  
-if (!topSlot && !middleSlot && !bottomSlot) {
-  return;
-}
+  if (!topSlot && !middleSlot && !bottomSlot) {
+    return;
+  }
 
-if (topSlot) topSlot.innerHTML = "";
-if (middleSlot) middleSlot.innerHTML = "";
-if (bottomSlot) bottomSlot.innerHTML = "";
-
+  if (topSlot) topSlot.innerHTML = "";
+  if (middleSlot) middleSlot.innerHTML = "";
+  if (bottomSlot) bottomSlot.innerHTML = "";
 
   try {
     const result = await supabaseClient
@@ -1347,27 +1346,71 @@ if (bottomSlot) bottomSlot.innerHTML = "";
       return;
     }
 
-    const activeAds = (result.data || []).filter(isAdCurrentlyActive);
+    const activeAds = (result.data || []).filter(
+      isAdCurrentlyActive
+    );
 
-    const topAds = activeAds.filter(ad => getAdPosition(ad) === "top");
-    const middleAds = activeAds.filter(ad => getAdPosition(ad) === "middle");
-    const bottomAds = activeAds.filter(ad => getAdPosition(ad) === "bottom");
+    const topAds = activeAds.filter(
+      ad => getAdPosition(ad) === "top"
+    );
 
-    if (topAds.length) {
-      renderAdvertisement(topAds[0], "article-ad-top");
+    const middleAds = activeAds.filter(
+      ad => getAdPosition(ad) === "middle"
+    );
+
+    const bottomAds = activeAds.filter(
+      ad => getAdPosition(ad) === "bottom"
+    );
+
+    if (topSlot && topAds.length) {
+      const selectedTopAds = getRotatingAdGroup(
+        topAds,
+        1,
+        "palmcase_article_top_rotation"
+      );
+
+      if (selectedTopAds.length) {
+        renderAdvertisement(
+          selectedTopAds[0],
+          "article-ad-top"
+        );
+      }
     }
 
-    if (middleAds.length) {
-      renderAdvertisement(middleAds[0], "article-ad-middle");
+    if (middleSlot && middleAds.length) {
+      const selectedMiddleAds = getRotatingAdGroup(
+        middleAds,
+        1,
+        "palmcase_article_middle_rotation"
+      );
+
+      if (selectedMiddleAds.length) {
+        renderAdvertisement(
+          selectedMiddleAds[0],
+          "article-ad-middle"
+        );
+      }
     }
 
-    if (bottomAds.length) {
-      renderAdvertisement(bottomAds[0], "article-ad-bottom");
+    if (bottomSlot && bottomAds.length) {
+      const selectedBottomAds = getRotatingAdGroup(
+        bottomAds,
+        1,
+        "palmcase_article_bottom_rotation"
+      );
+
+      if (selectedBottomAds.length) {
+        renderAdvertisement(
+          selectedBottomAds[0],
+          "article-ad-bottom"
+        );
+      }
     }
   } catch (error) {
     console.error("UNEXPECTED ADVERTISEMENT ERROR:", error);
   }
 }
+
 
 
 function buildArticleBody(articleText) {
