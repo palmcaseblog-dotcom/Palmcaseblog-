@@ -2536,12 +2536,21 @@ function renderSidebarAdvertisements(advertisements) {
             if (match) id = match[1];
           }
 
-          if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
-            embedUrl =
-              "https://www.youtube-nocookie.com/embed/" +
-              encodeURIComponent(id);
-            platform = "YouTube";
-          }
+          
+if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
+  embedUrl =
+    "https://www.youtube-nocookie.com/embed/" +
+    encodeURIComponent(id) +
+    "?autoplay=1" +
+    "&mute=1" +
+    "&loop=1" +
+    "&playlist=" + encodeURIComponent(id) +
+    "&playsinline=1" +
+    "&controls=1";
+
+  platform = "YouTube";
+}
+
         }
 
         // TikTok videos
