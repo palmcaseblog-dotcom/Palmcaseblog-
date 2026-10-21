@@ -906,11 +906,14 @@ function getAdPosition(ad) {
     return "bottom";
   }
 
-  if (middlePlacements.includes(placement)) {
-    return "middle";
-  }
+  if (
+  middlePlacements.includes(placement) ||
+  placement === "all"
+) {
+  return "middle";
+}
 
-  return null;
+return null;
 }
 
 
