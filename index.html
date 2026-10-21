@@ -2129,7 +2129,7 @@ function setupFollowerSystem() {
             .from("ads")
             .select("*")
             .eq("is_active", true)
-            .eq("placement", "homepage")
+            .in("placement", ["homepage", "all"])
             .order(
               "created_at",
               {
