@@ -2202,7 +2202,8 @@ function getRotatingAdGroup(ads, groupSize, storageKey) {
                 ascending: false
               }
             );
-
+        console.log("Homepage ads returned:", data);
+        console.log("Homepage ads query error:", error);
         if (error) {
 
           console.error(
