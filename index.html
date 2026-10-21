@@ -2898,12 +2898,18 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
         frame.style.border = "0";
         frame.style.background = "#111827";
         card.appendChild(frame);
+      
       } else if (
         parsedUrl &&
         /\.(mp4|webm|ogg|ogv|m4v)(?:$|[?#])/i.test(video)
       ) {
-        
-      const player = document.createElement("video");
+
+        const mediaWrap = document.createElement("div");
+        mediaWrap.style.position = "relative";
+        mediaWrap.style.width = "100%";
+
+        const player = document.createElement("video");
+
       player.src = video;
       player.autoplay = true;
       player.muted = true;
