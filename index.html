@@ -2499,60 +2499,82 @@ function renderSidebarAdvertisements(advertisements) {
     label.style.marginBottom = "8px";
     card.appendChild(label);
 
-    if (video) {
-      const player = document.createElement("video");
-      player.src = video;
-      player.muted = true;
-      player.defaultMuted = true;
-      player.autoplay = true;
-      player.loop = true;
-      player.playsInline = true;
-      player.preload = "metadata";
-      player.setAttribute("playsinline", "");
-      player.style.display = "block";
-      player.style.width = "100%";
-      player.style.maxHeight = "220px";
-      player.style.objectFit = "cover";
-      player.style.background = "#111827";
+    
+if (video) {
+  const player = document.createElement("video");
 
-      card.appendChild(player);
+  player.setAttribute("src", video);
+  player.setAttribute("playsinline", "");
+  player.setAttribute("webkit-playsinline", "");
+  player.setAttribute("muted", "");
+  player.setAttribute("autoplay", "");
+  player.setAttribute("loop", "");
+  player.setAttribute("preload", "auto");
 
-      const soundButton = document.createElement("button");
-      soundButton.type = "button";
-      soundButton.textContent = "Turn sound on";
-      soundButton.style.width = "100%";
-      soundButton.style.padding = "9px";
-      soundButton.style.border = "0";
-      soundButton.style.background = "#f59e0b";
-      soundButton.style.fontWeight = "bold";
-      soundButton.style.cursor = "pointer";
+  player.muted = true;
+  player.defaultMuted = true;
+  player.autoplay = true;
+  player.loop = true;
+  player.playsInline = true;
+  player.controls = true;
 
-      soundButton.addEventListener("click", () => {
-        player.muted = !player.muted;
-        soundButton.textContent = player.muted
-          ? "Turn sound on"
-          : "Mute video";
+  player.style.display = "block";
+  player.style.width = "100%";
+  player.style.maxHeight = "300px";
+  player.style.minHeight = "180px";
+  player.style.objectFit = "contain";
+  player.style.background = "#111827";
 
-        if (!player.muted) {
-          player.play().catch(() => {});
-        }
-      });
+  player.addEventListener("error", () => {
+    console.error(
+      "Sidebar advertisement video failed:",
+      player.error,
+      video
+    );
+  });
 
-      card.appendChild(soundButton);
+  player.addEventListener("loadeddata", () => {
+    console.log("Sidebar advertisement video loaded.");
+  });
 
-      if ("IntersectionObserver" in window) {
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              player.play().catch(() => {});
-            } else {
-              player.pause();
-            }
-          });
-        }, { threshold: 0.25 });
+  card.appendChild(player);
 
-        observer.observe(player);
-      }
+  const soundButton = document.createElement("button");
+  soundButton.type = "button";
+  soundButton.textContent = "Turn sound on";
+  soundButton.style.width = "100%";
+  soundButton.style.padding = "9px";
+  soundButton.style.border = "0";
+  soundButton.style.background = "#f59e0b";
+  soundButton.style.fontWeight = "bold";
+  soundButton.style.cursor = "pointer";
+
+  soundButton.addEventListener("click", async () => {
+    player.muted = !player.muted;
+
+    soundButton.textContent = player.muted
+      ? "Turn sound on"
+      : "Mute video";
+
+    try {
+      await player.play();
+    } catch (error) {
+      console.error("Sidebar video playback failed:", error);
+    }
+  });
+
+  card.appendChild(soundButton);
+
+  player.load();
+
+  player.play().catch(error => {
+    console.log(
+      "Autoplay was blocked or playback failed:",
+      error
+    );
+  });
+
+} else if (image) {
 
     } else if (image) {
       const imageElement = document.createElement("img");
