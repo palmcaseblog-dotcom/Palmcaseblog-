@@ -2508,12 +2508,18 @@ function renderHomepageAdvertisements(advertisements) {
            
       
       
-            } else if (
+            
+      } else if (
         parsedUrl &&
         /\.(mp4|webm|ogg|ogv|m4v)(?:$|[?#])/i.test(video)
       ) {
 
-      const player = document.createElement("video");
+        const mediaWrap = document.createElement("div");
+        mediaWrap.style.position = "relative";
+        mediaWrap.style.width = "100%";
+
+        const player = document.createElement("video");
+
         mediaWrap.style.position = "relative";
         mediaWrap.style.width = "100%";
 
