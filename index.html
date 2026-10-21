@@ -2263,17 +2263,17 @@ setupNewsletter();
     }
 
     
+
 function renderHomepageAdvertisements(advertisements) {
   const container = document.getElementById("homepageAdvertisements");
-
   if (!container) return;
 
   container.innerHTML = "";
   container.style.display = "block";
 
   advertisements.forEach(ad => {
-    const title = escapeHTML(ad.title || "Advertisement");
-    const description = escapeHTML(ad.description || "");
+    const title = ad.title || "Advertisement";
+    const description = ad.description || "";
     const image = normalizeExternalUrl(ad.image_url);
     const video = normalizeExternalUrl(ad.video_url);
     const destination = normalizeExternalUrl(ad.destination_url);
@@ -2290,81 +2290,273 @@ function renderHomepageAdvertisements(advertisements) {
     body.className = "advertisement-body";
 
     if (video) {
-      const mediaWrap = document.createElement("div");
-      mediaWrap.style.position = "relative";
+      let embedUrl = null;
+      let platform = "";
+      let parsedUrl = null;
 
-      const player = document.createElement("video");
-      player.src = video;
-      player.autoplay = true;
-      player.muted = true;
-      player.loop = true;
-      player.playsInline = true;
-      player.setAttribute("playsinline", "");
-      player.setAttribute("muted", "");
-      player.preload = "metadata";
-      player.style.width = "100%";
-      player.style.height = "220px";
-      player.style.objectFit = "cover";
-      player.style.background = "#111827";
-
-      const soundButton = document.createElement("button");
-      soundButton.type = "button";
-      soundButton.textContent = "Turn sound on";
-      soundButton.style.display = "block";
-      soundButton.style.width = "100%";
-      soundButton.style.padding = "10px";
-      soundButton.style.border = "0";
-      soundButton.style.background = "#f59e0b";
-      soundButton.style.color = "#111827";
-      soundButton.style.fontWeight = "bold";
-      soundButton.style.cursor = "pointer";
-
-      soundButton.addEventListener("click", () => {
-        player.muted = !player.muted;
-        soundButton.textContent = player.muted
-          ? "Turn sound on"
-          : "Mute video";
-
-        if (!player.muted) {
-          player.play().catch(() => {});
-        }
-      });
-
-      
-      mediaWrap.appendChild(player);
-      mediaWrap.appendChild(soundButton);
-      body.appendChild(mediaWrap);
-
-      if (destination) {
-        mediaWrap.style.cursor = "pointer";
-
-        player.addEventListener("click", () => {
-          window.open(
-            destination,
-            "_blank",
-            "noopener,noreferrer"
-          );
-        });
+      try {
+        parsedUrl = new URL(video);
+      } catch (error) {
+        parsedUrl = null;
       }
 
-      if ("IntersectionObserver" in window) {
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              player.play().catch(() => {});
-            } else {
+      if (parsedUrl) {
+        const host = parsedUrl.hostname
+          .toLowerCase()
+          .replace(/^www\./, "");
+
+        const path = parsedUrl.pathname;
+
+        // YouTube videos, Shorts, and live videos
+        if (
+          host === "youtube.com" ||
+          host === "m.youtube.com" ||
+          host === "youtube-nocookie.com" ||
+          host === "youtu.be" ||
+          host === "music.youtube.com"
+        ) {
+          let id = "";
+
+          if (host === "youtu.be") {
+            id = path.split("/").filter(Boolean)[0] || "";
+          } else if (path === "/watch") {
+            id = parsedUrl.searchParams.get("v") || "";
+          } else {
+            const match = path.match(
+              /^\/(?:shorts|embed|live|v)\/([^/?]+)/
+            );
+
+            if (match) id = match[1];
+          }
+
+          if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
+            embedUrl =
+              "https://www.youtube-nocookie.com/embed/" +
+              encodeURIComponent(id) +
+              "?autoplay=1&mute=1&loop=1&playlist=" +
+              encodeURIComponent(id) +
+              "&playsinline=1&controls=1";
+
+            platform = "YouTube";
+          }
+        }
+
+        // TikTok videos
+        else if (
+          host === "tiktok.com" ||
+          host.endsWith(".tiktok.com")
+        ) {
+          const match = path.match(/\/video\/(\d+)/);
+
+          if (match) {
+            embedUrl =
+              "https://www.tiktok.com/player/v1/" +
+              match[1] +
+              "?controls=1&play_button=1&volume_control=1";
+
+            platform = "TikTok";
+          }
+        }
+
+        // Facebook videos and Reels
+        else if (
+          host === "facebook.com" ||
+          host.endsWith(".facebook.com") ||
+          host === "fb.watch"
+        ) {
+          embedUrl =
+            "https://www.facebook.com/plugins/video.php?href=" +
+            encodeURIComponent(video) +
+            "&show_text=false&width=500";
+
+          platform = "Facebook";
+        }
+
+        // Instagram Reels and video posts
+        else if (
+          host === "instagram.com" ||
+          host.endsWith(".instagram.com")
+        ) {
+          const match = path.match(
+            /^\/(?:reel|reels|p|tv)\/([^/]+)/
+          );
+
+          if (match) {
+            const type = path.split("/")[1];
+
+            embedUrl =
+              "https://www.instagram.com/" +
+              type +
+              "/" +
+              encodeURIComponent(match[1]) +
+              "/embed/";
+
+            platform = "Instagram";
+          }
+        }
+      }
+
+      if (embedUrl) {
+        const frame = document.createElement("iframe");
+
+        frame.src = embedUrl;
+        frame.title = title + " — " + platform + " video";
+        frame.loading = "lazy";
+        frame.setAttribute("allowfullscreen", "");
+        frame.setAttribute(
+          "allow",
+          "autoplay; encrypted-media; picture-in-picture; fullscreen"
+        );
+        frame.setAttribute(
+          "referrerpolicy",
+          "strict-origin-when-cross-origin"
+        );
+
+        frame.style.display = "block";
+        frame.style.width = "100%";
+        frame.style.height =
+          platform === "TikTok" || platform === "Instagram"
+            ? "520px"
+            : "280px";
+        frame.style.border = "0";
+        frame.style.background = "#111827";
+
+        body.appendChild(frame);
+
+        const watchLink = document.createElement("a");
+        watchLink.href = video;
+        watchLink.target = "_blank";
+        watchLink.rel = "noopener noreferrer sponsored";
+        watchLink.textContent =
+          "Video not playing? Open on " + platform + " ↗";
+        watchLink.style.display = "inline-block";
+        watchLink.style.marginTop = "8px";
+        watchLink.style.color = "#d97706";
+        watchLink.style.fontSize = "13px";
+        watchLink.style.fontWeight = "700";
+
+        body.appendChild(watchLink);
+
+      } else if (
+        parsedUrl &&
+        /\.(mp4|webm|ogg|ogv|m4v)$/i.test(parsedUrl.pathname)
+      ) {
+        // Direct video file
+        const mediaWrap = document.createElement("div");
+        mediaWrap.style.position = "relative";
+        mediaWrap.style.width = "100%";
+
+        const player = document.createElement("video");
+        player.src = video;
+        player.autoplay = true;
+        player.muted = true;
+        player.loop = true;
+        player.playsInline = true;
+        player.controls = true;
+        player.preload = "metadata";
+
+        player.setAttribute("playsinline", "");
+        player.setAttribute("muted", "");
+
+        player.style.display = "block";
+        player.style.width = "100%";
+        player.style.height = "220px";
+        player.style.objectFit = "cover";
+        player.style.background = "#111827";
+
+        const soundButton = document.createElement("button");
+        soundButton.type = "button";
+        soundButton.textContent = "Turn sound on";
+        soundButton.style.display = "block";
+        soundButton.style.width = "100%";
+        soundButton.style.padding = "10px";
+        soundButton.style.border = "0";
+        soundButton.style.background = "#f59e0b";
+        soundButton.style.color = "#111827";
+        soundButton.style.fontWeight = "bold";
+        soundButton.style.cursor = "pointer";
+
+        soundButton.addEventListener("click", () => {
+          player.muted = !player.muted;
+
+          soundButton.textContent = player.muted
+            ? "Turn sound on"
+            : "Mute video";
+
+          if (!player.muted) {
+            player.play().catch(() => {
+              soundButton.textContent = "Tap video to play sound";
+            });
+          }
+        });
+
+        mediaWrap.appendChild(player);
+        mediaWrap.appendChild(soundButton);
+        body.appendChild(mediaWrap);
+
+        if ("IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              const isVisible =
+                entry.isIntersecting &&
+                entry.intersectionRatio >= 0.25;
+
+              if (isVisible && !document.hidden) {
+                player.play().catch(() => {});
+              } else {
+                player.pause();
+                player.muted = true;
+                soundButton.textContent = "Turn sound on";
+              }
+            });
+          }, {
+            threshold: [0, 0.25]
+          });
+
+          observer.observe(player);
+
+          document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
               player.pause();
             }
           });
-        }, { threshold: 0.25 });
+        } else {
+          player.play().catch(() => {});
+        }
 
-        observer.observe(player);
+        const watchLink = document.createElement("a");
+        watchLink.href = video;
+        watchLink.target = "_blank";
+        watchLink.rel = "noopener noreferrer sponsored";
+        watchLink.textContent = "Open video directly ↗";
+        watchLink.style.display = "inline-block";
+        watchLink.style.marginTop = "8px";
+        watchLink.style.color = "#d97706";
+        watchLink.style.fontSize = "13px";
+        watchLink.style.fontWeight = "700";
+
+        body.appendChild(watchLink);
+
+      } else {
+        // Unsupported video URL: provide a working link instead
+        const watchLink = document.createElement("a");
+        watchLink.href = video;
+        watchLink.target = "_blank";
+        watchLink.rel = "noopener noreferrer sponsored";
+        watchLink.textContent = "Watch video ↗";
+        watchLink.style.display = "inline-block";
+        watchLink.style.margin = "10px 0";
+        watchLink.style.color = "#d97706";
+        watchLink.style.fontWeight = "700";
+
+        body.appendChild(watchLink);
       }
-    } else {
+
+    } else if (image) {
       const imageElement = document.createElement("img");
       imageElement.className = "advertisement-image";
       imageElement.alt = title;
-      imageElement.src = image || "IMG_2188.jpeg";
+      imageElement.src = image;
       imageElement.onerror = () => {
         imageElement.onerror = null;
         imageElement.src = "IMG_2188.jpeg";
@@ -2386,12 +2578,12 @@ function renderHomepageAdvertisements(advertisements) {
     content.className = "advertisement-content";
 
     const heading = document.createElement("h3");
-    heading.textContent = ad.title || "Advertisement";
+    heading.textContent = title;
     content.appendChild(heading);
 
     if (description) {
       const paragraph = document.createElement("p");
-      paragraph.textContent = ad.description;
+      paragraph.textContent = description;
       content.appendChild(paragraph);
     }
 
