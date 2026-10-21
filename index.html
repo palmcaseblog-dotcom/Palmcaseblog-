@@ -2330,9 +2330,13 @@ function renderHomepageAdvertisements(advertisements) {
         }
       });
 
-      mediaWrap.appendChild(player);
-      mediaWrap.appendChild(soundButton);
-      body.appendChild(mediaWrap);
+      const mediaWrap = document.createElement("div");
+mediaWrap.style.position = "relative";
+
+mediaWrap.appendChild(player);
+mediaWrap.appendChild(soundButton);
+
+card.appendChild(mediaWrap);
 
       if (destination) {
         mediaWrap.style.cursor = "pointer";
