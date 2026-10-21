@@ -1622,13 +1622,16 @@ function setupFollowerSystem() {
         setupFollowerSystem();
         startPalmcaseAnalytics();
 
-        await loadPosts();
+        
+await loadPosts();
 
-        await loadHomepageAdvertisements();
+await loadHomepageAdvertisements();
 
-        setupSearch();
+await loadSidebarAdvertisements();
 
-        setupNewsletter();
+setupSearch();
+
+setupNewsletter();
 
       }
     );
