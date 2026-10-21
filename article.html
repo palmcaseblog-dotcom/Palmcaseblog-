@@ -914,35 +914,49 @@ function getAdPosition(ad) {
 }
 
 
+
 function renderAdvertisement(ad, slotId) {
   const slot = document.getElementById(slotId);
 
-  if (!slot || !ad) {
-    return;
-  }
+  if (!slot || !ad) return;
 
   const imageUrl = safeExternalUrl(ad.image_url);
   const videoUrl = safeExternalUrl(ad.video_url);
   const destinationUrl = safeExternalUrl(ad.destination_url);
 
-  const title = escapeHTML(ad.title || "Sponsored Advertisement");
+  const title = escapeHTML(
+    ad.title || "Sponsored Advertisement"
+  );
+
   const description = escapeHTML(ad.description || "");
 
   let mediaHTML = "";
 
   if (videoUrl) {
+    const videoHTML = `
+      <video
+        class="article-ad-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        webkit-playsinline
+        preload="metadata"
+        aria-label="${title}"
+      >
+        <source src="${escapeHTML(videoUrl)}">
+        Your browser does not support video playback.
+      </video>
+    `;
+
     mediaHTML = `
       <div class="article-ad-media">
-        <video
-          class="article-ad-video"
-          controls
-          playsinline
-          webkit-playsinline
-          preload="metadata"
-        >
-          <source src="${escapeHTML(videoUrl)}">
-          Your browser does not support video playback.
-        </video>
+        ${videoHTML}
+        <button
+          type="button"
+          class="article-ad-sound"
+          aria-label="Turn advertisement sound on"
+        >Unmute sound</button>
       </div>
     `;
   } else if (imageUrl) {
@@ -974,7 +988,7 @@ function renderAdvertisement(ad, slotId) {
         href="${escapeHTML(destinationUrl)}"
         target="_blank"
         rel="noopener noreferrer sponsored"
-      >Learn More →</a>
+      >Visit Advertiser →</a>
     `
     : "";
 
@@ -984,7 +998,10 @@ function renderAdvertisement(ad, slotId) {
   }
 
   slot.innerHTML = `
-    <section class="article-ad-section" aria-label="Sponsored advertisement">
+    <section
+      class="article-ad-section"
+      aria-label="Sponsored advertisement"
+    >
       <div class="article-ad-label">Advertisement</div>
 
       <div class="article-ad">
@@ -1004,8 +1021,56 @@ function renderAdvertisement(ad, slotId) {
       </div>
     </section>
   `;
-}
 
+  const video = slot.querySelector(".article-ad-video");
+  const soundButton = slot.querySelector(".article-ad-sound");
+
+  if (video) {
+    video.muted = true;
+
+    const playVideo = () => {
+      video.play().catch(error => {
+        console.warn("Advertisement autoplay was blocked:", error);
+      });
+    };
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            playVideo();
+          } else {
+            video.pause();
+          }
+        });
+      }, { threshold: 0.4 });
+
+      observer.observe(video);
+    } else {
+      playVideo();
+    }
+
+    if (soundButton) {
+      soundButton.addEventListener("click", () => {
+        video.muted = !video.muted;
+        soundButton.textContent = video.muted
+          ? "Unmute sound"
+          : "Mute sound";
+
+        soundButton.setAttribute(
+          "aria-label",
+          video.muted
+            ? "Turn advertisement sound on"
+            : "Mute advertisement sound"
+        );
+
+        if (video.paused) {
+          video.play().catch(() => {});
+        }
+      });
+    }
+  }
+}
 
 async function loadArticleAdvertisements() {
   const topSlot = document.getElementById("article-ad-top");
