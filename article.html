@@ -1090,13 +1090,15 @@ async function loadArticleAdvertisements() {
   const middleSlot = document.getElementById("article-ad-middle");
   const bottomSlot = document.getElementById("article-ad-bottom");
 
-  if (!topSlot || !middleSlot || !bottomSlot) {
-    return;
-  }
+  
+if (!topSlot && !middleSlot && !bottomSlot) {
+  return;
+}
 
-  topSlot.innerHTML = "";
-  middleSlot.innerHTML = "";
-  bottomSlot.innerHTML = "";
+if (topSlot) topSlot.innerHTML = "";
+if (middleSlot) middleSlot.innerHTML = "";
+if (bottomSlot) bottomSlot.innerHTML = "";
+
 
   try {
     const result = await supabaseClient
