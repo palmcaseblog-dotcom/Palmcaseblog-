@@ -2256,167 +2256,154 @@ function setupFollowerSystem() {
 
     }
 
-    function renderHomepageAdvertisements(
-      advertisements
-    ) {
+    
+function renderHomepageAdvertisements(advertisements) {
+  const container = document.getElementById("homepageAdvertisements");
 
-      const container =
-        document.getElementById(
-          "homepageAdvertisements"
-        );
+  if (!container) return;
 
-      if (!container) {
-        return;
+  container.innerHTML = "";
+  container.style.display = "block";
+
+  advertisements.forEach(ad => {
+    const title = escapeHTML(ad.title || "Advertisement");
+    const description = escapeHTML(ad.description || "");
+    const image = normalizeExternalUrl(ad.image_url);
+    const video = normalizeExternalUrl(ad.video_url);
+    const destination = normalizeExternalUrl(ad.destination_url);
+
+    const card = document.createElement("div");
+    card.className = "advertisement-card";
+
+    const label = document.createElement("div");
+    label.className = "advertisement-label";
+    label.textContent = "Advertisement";
+    card.appendChild(label);
+
+    const body = document.createElement("div");
+    body.className = "advertisement-body";
+
+    if (video) {
+      const mediaWrap = document.createElement("div");
+      mediaWrap.style.position = "relative";
+
+      const player = document.createElement("video");
+      player.src = video;
+      player.autoplay = true;
+      player.muted = true;
+      player.loop = true;
+      player.playsInline = true;
+      player.setAttribute("playsinline", "");
+      player.setAttribute("muted", "");
+      player.preload = "metadata";
+      player.style.width = "100%";
+      player.style.height = "220px";
+      player.style.objectFit = "cover";
+      player.style.background = "#111827";
+
+      const soundButton = document.createElement("button");
+      soundButton.type = "button";
+      soundButton.textContent = "Turn sound on";
+      soundButton.style.display = "block";
+      soundButton.style.width = "100%";
+      soundButton.style.padding = "10px";
+      soundButton.style.border = "0";
+      soundButton.style.background = "#f59e0b";
+      soundButton.style.color = "#111827";
+      soundButton.style.fontWeight = "bold";
+      soundButton.style.cursor = "pointer";
+
+      soundButton.addEventListener("click", () => {
+        player.muted = !player.muted;
+        soundButton.textContent = player.muted
+          ? "Turn sound on"
+          : "Mute video";
+
+        if (!player.muted) {
+          player.play().catch(() => {});
+        }
+      });
+
+      mediaWrap.appendChild(player);
+      mediaWrap.appendChild(soundButton);
+      body.appendChild(mediaWrap);
+
+      if (destination) {
+        mediaWrap.style.cursor = "pointer";
+
+        player.addEventListener("click", () => {
+          window.open(
+            destination,
+            "_blank",
+            "noopener,noreferrer"
+          );
+        });
       }
 
-      container.style.display =
-        "block";
-
-      container.innerHTML =
-        advertisements
-          .map(
-            ad => {
-
-              const title =
-                escapeHTML(
-                  ad.title ||
-                  "Advertisement"
-                );
-
-              const description =
-                escapeHTML(
-                  ad.description ||
-                  ""
-                );
-
-              const image =
-                ad.image_url ||
-                "IMG_2188.jpeg";
-
-              const destination =
-                normalizeExternalUrl(
-                  ad.destination_url
-                );
-
-              if (destination) {
-
-                return `
-                  <div
-                    class="advertisement-card"
-                  >
-
-                    <div
-                      class="advertisement-label"
-                    >
-                      Advertisement
-                    </div>
-
-                    <a
-                      href="${escapeAttribute(destination)}"
-                      target="_blank"
-                      rel="noopener noreferrer sponsored"
-                      class="advertisement-link"
-                      aria-label="Visit advertiser: ${escapeAttribute(title)}"
-                    >
-
-                      <div
-                        class="advertisement-body"
-                      >
-
-                        <img
-                          class="advertisement-image"
-                          src="${escapeAttribute(image)}"
-                          alt="${escapeAttribute(title)}"
-                          onerror="this.src='IMG_2188.jpeg'"
-                        >
-
-                        <div
-                          class="advertisement-content"
-                        >
-
-                          <h3>
-                            ${title}
-                          </h3>
-
-                          ${
-                            description
-                              ? `
-                                <p>
-                                  ${description}
-                                </p>
-                              `
-                              : ""
-                          }
-
-                          <span
-                            class="advertisement-cta"
-                          >
-                            Visit advertiser →
-                          </span>
-
-                        </div>
-
-                      </div>
-
-                    </a>
-
-                  </div>
-                `;
-
-              }
-
-              return `
-                <div
-                  class="advertisement-card"
-                >
-
-                  <div
-                    class="advertisement-label"
-                  >
-                    Advertisement
-                  </div>
-
-                  <div
-                    class="advertisement-body"
-                  >
-
-                    <img
-                      class="advertisement-image"
-                      src="${escapeAttribute(image)}"
-                      alt="${escapeAttribute(title)}"
-                      onerror="this.src='IMG_2188.jpeg'"
-                    >
-
-                    <div
-                      class="advertisement-content"
-                    >
-
-                      <h3>
-                        ${title}
-                      </h3>
-
-                      ${
-                        description
-                          ? `
-                            <p>
-                              ${description}
-                            </p>
-                          `
-                          : ""
-                      }
-
-                    </div>
-
-                  </div>
-
-                </div>
-              `;
-
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              player.play().catch(() => {});
+            } else {
+              player.pause();
             }
-          )
-          .join("");
+          });
+        }, { threshold: 0.25 });
 
+        observer.observe(player);
+      }
+    } else {
+      const imageElement = document.createElement("img");
+      imageElement.className = "advertisement-image";
+      imageElement.alt = title;
+      imageElement.src = image || "IMG_2188.jpeg";
+      imageElement.onerror = () => {
+        imageElement.onerror = null;
+        imageElement.src = "IMG_2188.jpeg";
+      };
+
+      if (destination) {
+        const imageLink = document.createElement("a");
+        imageLink.href = destination;
+        imageLink.target = "_blank";
+        imageLink.rel = "noopener noreferrer sponsored";
+        imageLink.appendChild(imageElement);
+        body.appendChild(imageLink);
+      } else {
+        body.appendChild(imageElement);
+      }
     }
+
+    const content = document.createElement("div");
+    content.className = "advertisement-content";
+
+    const heading = document.createElement("h3");
+    heading.textContent = ad.title || "Advertisement";
+    content.appendChild(heading);
+
+    if (description) {
+      const paragraph = document.createElement("p");
+      paragraph.textContent = ad.description;
+      content.appendChild(paragraph);
+    }
+
+    if (destination) {
+      const link = document.createElement("a");
+      link.className = "advertisement-cta";
+      link.href = destination;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer sponsored";
+      link.textContent = "Visit advertiser →";
+      content.appendChild(link);
+    }
+
+    body.appendChild(content);
+    card.appendChild(body);
+    container.appendChild(card);
+  });
+}
+
 
     /* =========================
        POSTS
