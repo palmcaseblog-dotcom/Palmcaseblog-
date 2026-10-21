@@ -2117,6 +2117,66 @@ setupNewsletter();
        ADVERTISEMENTS
     ========================= */
 
+function getRotatingAdGroup(ads, groupSize, storageKey) {
+  if (!Array.isArray(ads) || ads.length === 0) {
+    return [];
+  }
+
+  const size = Math.max(1, Number(groupSize) || 1);
+  const groupCount = Math.ceil(ads.length / size);
+
+  let state = {
+    groupIndex: 0,
+    visits: 0
+  };
+
+  try {
+    const saved = localStorage.getItem(storageKey);
+
+    if (saved) {
+      const parsed = JSON.parse(saved);
+
+      if (
+        Number.isInteger(parsed.groupIndex) &&
+        Number.isInteger(parsed.visits) &&
+        parsed.visits >= 0
+      ) {
+        state = parsed;
+      }
+    }
+  } catch (error) {
+    console.warn("Ad rotation state could not be read:", error);
+  }
+
+  const currentGroupIndex =
+    ((state.groupIndex % groupCount) + groupCount) % groupCount;
+
+  const start = currentGroupIndex * size;
+  const selectedAds = ads.slice(start, start + size);
+
+  let nextVisits = state.visits + 1;
+  let nextGroupIndex = currentGroupIndex;
+
+  if (nextVisits >= 3) {
+    nextVisits = 0;
+    nextGroupIndex = (currentGroupIndex + 1) % groupCount;
+  }
+
+  try {
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify({
+        groupIndex: nextGroupIndex,
+        visits: nextVisits
+      })
+    );
+  } catch (error) {
+    console.warn("Ad rotation state could not be saved:", error);
+  }
+
+  return selectedAds;
+}
+
     async function loadHomepageAdvertisements() {
 
       const container =
