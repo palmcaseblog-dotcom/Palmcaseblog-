@@ -2671,13 +2671,10 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
         }
       });
 
-      const mediaWrap = document.createElement("div");
-mediaWrap.style.position = "relative";
-
-mediaWrap.appendChild(player);
-mediaWrap.appendChild(soundButton);
-
-card.appendChild(mediaWrap);
+      
+      mediaWrap.appendChild(player);
+      mediaWrap.appendChild(soundButton);
+      body.appendChild(mediaWrap);
 
       if (destination) {
         mediaWrap.style.cursor = "pointer";
