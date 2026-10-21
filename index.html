@@ -2684,9 +2684,14 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
       }
 
       if ("IntersectionObserver" in window) {
+        
         const observer = new IntersectionObserver(entries => {
           entries.forEach(entry => {
-            if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+            const isVisible =
+              entry.isIntersecting &&
+              entry.intersectionRatio >= 0.25;
+
+            if (isVisible && !document.hidden) {
               player.play().catch(() => {});
             } else {
               player.pause();
@@ -2694,9 +2699,18 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
               soundButton.textContent = "Turn sound on";
             }
           });
-        }, { threshold: [0, 0.25] });
+        }, {
+          threshold: [0, 0.25]
+        });
 
         observer.observe(player);
+
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) {
+            player.pause();
+          }
+        });
+
       } else {
         player.play().catch(() => {});
       }
