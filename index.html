@@ -2469,12 +2469,8 @@ async function loadSidebarAdvertisements() {
 
 
     
-
 function renderSidebarAdvertisements(advertisements) {
-  const container = document.getElementById(
-    "sidebarAdvertisements"
-  );
-
+  const container = document.getElementById("sidebarAdvertisements");
   if (!container) return;
 
   container.innerHTML = "";
@@ -2489,9 +2485,7 @@ function renderSidebarAdvertisements(advertisements) {
     const description = ad.description || "";
     const image = normalizeExternalUrl(ad.image_url);
     const video = normalizeExternalUrl(ad.video_url);
-    const destination = normalizeExternalUrl(
-      ad.destination_url
-    );
+    const destination = normalizeExternalUrl(ad.destination_url);
 
     const card = document.createElement("div");
     card.style.borderBottom = "1px solid #e5e7eb";
@@ -2506,106 +2500,171 @@ function renderSidebarAdvertisements(advertisements) {
     label.style.marginBottom = "8px";
     card.appendChild(label);
 
-    
-if (video) {
-  const player = document.createElement("video");
+    if (video) {
+      let embedUrl = null;
+      let platform = "";
+      let parsedUrl;
 
-  player.setAttribute("src", video);
-  player.setAttribute("playsinline", "");
-  player.setAttribute("webkit-playsinline", "");
-  player.setAttribute("muted", "");
-  player.setAttribute("autoplay", "");
-  player.setAttribute("loop", "");
-  player.setAttribute("preload", "auto");
+      try {
+        parsedUrl = new URL(video);
+      } catch (error) {
+        parsedUrl = null;
+      }
 
-  player.muted = true;
-  player.defaultMuted = true;
-  player.autoplay = true;
-  player.loop = true;
-  player.playsInline = true;
-  player.controls = true;
+      if (parsedUrl) {
+        const host = parsedUrl.hostname.toLowerCase().replace(/^www\./, "");
+        const path = parsedUrl.pathname;
 
-  player.style.display = "block";
-  player.style.width = "100%";
-  player.style.maxHeight = "300px";
-  player.style.minHeight = "180px";
-  player.style.objectFit = "contain";
-  player.style.background = "#111827";
+        // YouTube videos, Shorts, and live videos
+        if (
+          host === "youtube.com" ||
+          host === "m.youtube.com" ||
+          host === "youtube-nocookie.com" ||
+          host === "youtu.be" ||
+          host === "music.youtube.com"
+        ) {
+          let id = "";
 
-  player.addEventListener("error", () => {
-    console.error(
-      "Sidebar advertisement video failed:",
-      player.error,
-      video
-    );
-  });
+          if (host === "youtu.be") {
+            id = path.split("/").filter(Boolean)[0] || "";
+          } else if (path === "/watch") {
+            id = parsedUrl.searchParams.get("v") || "";
+          } else {
+            const match = path.match(
+              /^\/(?:shorts|embed|live|v)\/([^/?]+)/
+            );
+            if (match) id = match[1];
+          }
 
-  player.addEventListener("loadeddata", () => {
-    console.log("Sidebar advertisement video loaded.");
-  });
+          if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
+            embedUrl =
+              "https://www.youtube-nocookie.com/embed/" +
+              encodeURIComponent(id);
+            platform = "YouTube";
+          }
+        }
 
-  card.appendChild(player);
+        // TikTok videos
+        else if (
+          host === "tiktok.com" ||
+          host.endsWith(".tiktok.com")
+        ) {
+          const match = path.match(/\/video\/(\d+)/);
 
-  const soundButton = document.createElement("button");
-  soundButton.type = "button";
-  soundButton.textContent = "Turn sound on";
-  soundButton.style.width = "100%";
-  soundButton.style.padding = "9px";
-  soundButton.style.border = "0";
-  soundButton.style.background = "#f59e0b";
-  soundButton.style.fontWeight = "bold";
-  soundButton.style.cursor = "pointer";
+          if (match) {
+            embedUrl =
+              "https://www.tiktok.com/player/v1/" +
+              match[1] +
+              "?controls=1&play_button=1&volume_control=1";
+            platform = "TikTok";
+          }
+        }
 
-  soundButton.addEventListener("click", async () => {
-    player.muted = !player.muted;
+        // Facebook videos and Reels
+        else if (
+          host === "facebook.com" ||
+          host.endsWith(".facebook.com") ||
+          host === "fb.watch"
+        ) {
+          embedUrl =
+            "https://www.facebook.com/plugins/video.php?href=" +
+            encodeURIComponent(video) +
+            "&show_text=false&width=500";
+          platform = "Facebook";
+        }
 
-    soundButton.textContent = player.muted
-      ? "Turn sound on"
-      : "Mute video";
+        // Instagram Reels and video posts
+        else if (
+          host === "instagram.com" ||
+          host.endsWith(".instagram.com")
+        ) {
+          const match = path.match(
+            /^\/(?:reel|reels|p|tv)\/([^/]+)/
+          );
 
-    try {
-      await player.play();
-    } catch (error) {
-      console.error("Sidebar video playback failed:", error);
+          if (match) {
+            embedUrl =
+              "https://www.instagram.com/" +
+              (path.split("/")[1]) +
+              "/" +
+              encodeURIComponent(match[1]) +
+              "/embed/";
+            platform = "Instagram";
+          }
+        }
+      }
+
+      if (embedUrl) {
+        const frame = document.createElement("iframe");
+        frame.src = embedUrl;
+        frame.title = title + " — " + platform + " video";
+        frame.loading = "lazy";
+        frame.setAttribute("allowfullscreen", "");
+        frame.setAttribute(
+          "allow",
+          "autoplay; encrypted-media; picture-in-picture; fullscreen"
+        );
+        frame.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+        frame.style.display = "block";
+        frame.style.width = "100%";
+        frame.style.height =
+          platform === "TikTok" || platform === "Instagram"
+            ? "520px"
+            : "280px";
+        frame.style.border = "0";
+        frame.style.background = "#111827";
+        card.appendChild(frame);
+      } else if (
+        parsedUrl &&
+        /\.(mp4|webm|ogg|ogv|m4v)(?:$|[?#])/i.test(video)
+      ) {
+        const player = document.createElement("video");
+        player.src = video;
+        player.controls = true;
+        player.playsInline = true;
+        player.preload = "metadata";
+        player.style.display = "block";
+        player.style.width = "100%";
+        player.style.maxHeight = "300px";
+        player.style.background = "#111827";
+        card.appendChild(player);
+      }
+
+      // Always give visitors a way to open the original video.
+      const watchLink = document.createElement("a");
+      watchLink.href = video;
+      watchLink.target = "_blank";
+      watchLink.rel = "noopener noreferrer sponsored";
+      watchLink.textContent = embedUrl
+        ? "Video not playing? Open on " + platform + " ↗"
+        : "Watch video on original website ↗";
+      watchLink.style.display = "inline-block";
+      watchLink.style.marginTop = "8px";
+      watchLink.style.color = "#d97706";
+      watchLink.style.fontSize = "13px";
+      watchLink.style.fontWeight = "700";
+      card.appendChild(watchLink);
+
+    } else if (image) {
+      const imageElement = document.createElement("img");
+      imageElement.src = image;
+      imageElement.alt = title;
+      imageElement.style.display = "block";
+      imageElement.style.width = "100%";
+      imageElement.style.height = "auto";
+      imageElement.style.borderRadius = "7px";
+
+      if (destination) {
+        const imageLink = document.createElement("a");
+        imageLink.href = destination;
+        imageLink.target = "_blank";
+        imageLink.rel = "noopener noreferrer sponsored";
+        imageLink.appendChild(imageElement);
+        card.appendChild(imageLink);
+      } else {
+        card.appendChild(imageElement);
+      }
     }
-  });
-
-  card.appendChild(soundButton);
-
-  player.load();
-
-  player.play().catch(error => {
-    console.log(
-      "Autoplay was blocked or playback failed:",
-      error
-    );
-  });
-
-
-} else if (image) {
-  const imageElement = document.createElement("img");
-
-  imageElement.src = image;
-  imageElement.alt = title;
-  imageElement.style.display = "block";
-  imageElement.style.width = "100%";
-  imageElement.style.height = "auto";
-  imageElement.style.borderRadius = "7px";
-
-  if (destination) {
-    const imageLink = document.createElement("a");
-
-    imageLink.href = destination;
-    imageLink.target = "_blank";
-    imageLink.rel = "noopener noreferrer sponsored";
-    imageLink.appendChild(imageElement);
-
-    card.appendChild(imageLink);
-  } else {
-    card.appendChild(imageElement);
-  }
-}
-
 
     const titleElement = document.createElement("h4");
     titleElement.textContent = title;
