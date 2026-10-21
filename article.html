@@ -928,9 +928,9 @@ return null;
 
 
 
+
 function renderAdvertisement(ad, slotId) {
   const slot = document.getElementById(slotId);
-
   if (!slot || !ad) return;
 
   const imageUrl = safeExternalUrl(ad.image_url);
@@ -944,34 +944,196 @@ function renderAdvertisement(ad, slotId) {
   const description = escapeHTML(ad.description || "");
 
   let mediaHTML = "";
+  let platform = "";
+  let embedUrl = null;
+  let isDirectVideo = false;
+  let parsedUrl = null;
 
+  // Detect the type of video URL
   if (videoUrl) {
-    const videoHTML = `
-      <video
-        class="article-ad-video"
-        autoplay
-        muted
-        loop
-        playsinline
-        webkit-playsinline
-        preload="metadata"
-        aria-label="${title}"
-      >
-        <source src="${escapeHTML(videoUrl)}">
-        Your browser does not support video playback.
-      </video>
-    `;
+    try {
+      parsedUrl = new URL(videoUrl);
+    } catch (error) {
+      parsedUrl = null;
+    }
 
-    mediaHTML = `
-      <div class="article-ad-media">
-        ${videoHTML}
-        <button
-          type="button"
-          class="article-ad-sound"
-          aria-label="Turn advertisement sound on"
-        >Unmute sound</button>
-      </div>
-    `;
+    if (parsedUrl) {
+      const host = parsedUrl.hostname
+        .toLowerCase()
+        .replace(/^www\./, "");
+
+      const path = parsedUrl.pathname;
+
+      // YouTube videos, Shorts, and live videos
+      if (
+        host === "youtube.com" ||
+        host === "m.youtube.com" ||
+        host === "youtube-nocookie.com" ||
+        host === "youtu.be" ||
+        host === "music.youtube.com"
+      ) {
+        let id = "";
+
+        if (host === "youtu.be") {
+          id = path.split("/").filter(Boolean)[0] || "";
+        } else if (path === "/watch") {
+          id = parsedUrl.searchParams.get("v") || "";
+        } else {
+          const match = path.match(
+            /^\/(?:shorts|embed|live|v)\/([^/?]+)/
+          );
+
+          if (match) id = match[1];
+        }
+
+        if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
+          embedUrl =
+            "https://www.youtube-nocookie.com/embed/" +
+            encodeURIComponent(id) +
+            "?autoplay=1&mute=1&loop=1&playlist=" +
+            encodeURIComponent(id) +
+            "&playsinline=1&controls=1";
+
+          platform = "YouTube";
+        }
+      }
+
+      // TikTok videos
+      else if (
+        host === "tiktok.com" ||
+        host.endsWith(".tiktok.com")
+      ) {
+        const match = path.match(/\/video\/(\d+)/);
+
+        if (match) {
+          embedUrl =
+            "https://www.tiktok.com/player/v1/" +
+            match[1] +
+            "?controls=1&play_button=1&volume_control=1";
+
+          platform = "TikTok";
+        }
+      }
+
+      // Facebook videos and Reels
+      else if (
+        host === "facebook.com" ||
+        host.endsWith(".facebook.com") ||
+        host === "fb.watch"
+      ) {
+        embedUrl =
+          "https://www.facebook.com/plugins/video.php?href=" +
+          encodeURIComponent(videoUrl) +
+          "&show_text=false&width=500";
+
+        platform = "Facebook";
+      }
+
+      // Instagram Reels and video posts
+      else if (
+        host === "instagram.com" ||
+        host.endsWith(".instagram.com")
+      ) {
+        const match = path.match(
+          /^\/(?:reel|reels|p|tv)\/([^/]+)/
+        );
+
+        if (match) {
+          const type = path.split("/")[1];
+
+          embedUrl =
+            "https://www.instagram.com/" +
+            type +
+            "/" +
+            encodeURIComponent(match[1]) +
+            "/embed/";
+
+          platform = "Instagram";
+        }
+      }
+
+      // Direct MP4, WebM, OGG, OGV, and M4V files
+      if (
+        !embedUrl &&
+        /\.(mp4|webm|ogg|ogv|m4v)$/i.test(path)
+      ) {
+        isDirectVideo = true;
+      }
+    }
+
+    if (embedUrl) {
+      const frameHeight =
+        platform === "TikTok" || platform === "Instagram"
+          ? "520px"
+          : "280px";
+
+      mediaHTML = `
+        <div class="article-ad-media">
+          <iframe
+            class="article-ad-embed"
+            src="${escapeHTML(embedUrl)}"
+            title="${title} — ${platform} video"
+            loading="lazy"
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
+            style="display:block;width:100%;height:${frameHeight};border:0;background:#111827"
+          ></iframe>
+
+          <a
+            class="article-ad-link"
+            href="${escapeHTML(videoUrl)}"
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+          >Video not playing? Open on ${platform} ↗</a>
+        </div>
+      `;
+    } else if (isDirectVideo) {
+      mediaHTML = `
+        <div class="article-ad-media">
+          <video
+            class="article-ad-video"
+            autoplay
+            muted
+            loop
+            controls
+            playsinline
+            webkit-playsinline
+            preload="metadata"
+            aria-label="${title}"
+            style="display:block;width:100%;height:220px;object-fit:cover;background:#111827"
+          >
+            <source src="${escapeHTML(videoUrl)}">
+            Your browser does not support video playback.
+          </video>
+
+          <button
+            type="button"
+            class="article-ad-sound"
+            aria-label="Turn advertisement sound on"
+          >Turn sound on</button>
+
+          <a
+            class="article-ad-link"
+            href="${escapeHTML(videoUrl)}"
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+          >Open video directly ↗</a>
+        </div>
+      `;
+    } else {
+      // Provide a fallback for video URLs that cannot be embedded
+      mediaHTML = `
+        <div class="article-ad-media">
+          <a
+            class="article-ad-link"
+            href="${escapeHTML(videoUrl)}"
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+          >Watch video on original website ↗</a>
+        </div>
+      `;
+    }
   } else if (imageUrl) {
     const imageHTML = `
       <img
@@ -1035,40 +1197,20 @@ function renderAdvertisement(ad, slotId) {
     </section>
   `;
 
+  // Add sound controls and visibility-based playback to direct videos
   const video = slot.querySelector(".article-ad-video");
   const soundButton = slot.querySelector(".article-ad-sound");
 
   if (video) {
     video.muted = true;
 
-    const playVideo = () => {
-      video.play().catch(error => {
-        console.warn("Advertisement autoplay was blocked:", error);
-      });
-    };
-
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            playVideo();
-          } else {
-            video.pause();
-          }
-        });
-      }, { threshold: 0.4 });
-
-      observer.observe(video);
-    } else {
-      playVideo();
-    }
-
     if (soundButton) {
       soundButton.addEventListener("click", () => {
         video.muted = !video.muted;
+
         soundButton.textContent = video.muted
-          ? "Unmute sound"
-          : "Mute sound";
+          ? "Turn sound on"
+          : "Mute video";
 
         soundButton.setAttribute(
           "aria-label",
@@ -1077,13 +1219,49 @@ function renderAdvertisement(ad, slotId) {
             : "Mute advertisement sound"
         );
 
-        if (video.paused) {
-          video.play().catch(() => {});
+        if (!video.muted) {
+          video.play().catch(() => {
+            soundButton.textContent = "Tap video to play sound";
+          });
         }
       });
     }
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (
+            entry.isIntersecting &&
+            entry.intersectionRatio >= 0.25 &&
+            !document.hidden
+          ) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+            video.muted = true;
+
+            if (soundButton) {
+              soundButton.textContent = "Turn sound on";
+            }
+          }
+        });
+      }, {
+        threshold: [0, 0.25]
+      });
+
+      observer.observe(video);
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          video.pause();
+        }
+      });
+    } else {
+      video.play().catch(() => {});
+    }
   }
 }
+
 
 async function loadArticleAdvertisements() {
   const topSlot = document.getElementById("article-ad-top");
