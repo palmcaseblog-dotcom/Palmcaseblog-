@@ -2254,8 +2254,15 @@ function getRotatingAdGroup(ads, groupSize, storageKey) {
           return;
         }
 
+                const selectedAdvertisements =
+          getRotatingAdGroup(
+            advertisements,
+            3,
+            "palmcase_homepage_rotation"
+          );
+
         renderHomepageAdvertisements(
-          advertisements
+          selectedAdvertisements
         );
 
       } catch (error) {
