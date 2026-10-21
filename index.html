@@ -2627,16 +2627,80 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
         parsedUrl &&
         /\.(mp4|webm|ogg|ogv|m4v)(?:$|[?#])/i.test(video)
       ) {
-        const player = document.createElement("video");
-        player.src = video;
-        player.controls = true;
-        player.playsInline = true;
-        player.preload = "metadata";
-        player.style.display = "block";
-        player.style.width = "100%";
-        player.style.maxHeight = "300px";
-        player.style.background = "#111827";
-        card.appendChild(player);
+        
+      const player = document.createElement("video");
+      player.src = video;
+      player.autoplay = true;
+      player.muted = true;
+      player.loop = true;
+      player.playsInline = true;
+      player.controls = true;
+      player.setAttribute("playsinline", "");
+      player.setAttribute("muted", "");
+      player.preload = "metadata";
+      player.style.display = "block";
+      player.style.width = "100%";
+      player.style.height = "220px";
+      player.style.objectFit = "cover";
+      player.style.background = "#111827";
+
+      const soundButton = document.createElement("button");
+      soundButton.type = "button";
+      soundButton.textContent = "Turn sound on";
+      soundButton.style.display = "block";
+      soundButton.style.width = "100%";
+      soundButton.style.padding = "10px";
+      soundButton.style.border = "0";
+      soundButton.style.background = "#f59e0b";
+      soundButton.style.color = "#111827";
+      soundButton.style.fontWeight = "bold";
+      soundButton.style.cursor = "pointer";
+
+      soundButton.addEventListener("click", () => {
+        player.muted = !player.muted;
+        soundButton.textContent = player.muted
+          ? "Turn sound on"
+          : "Mute video";
+
+        if (!player.muted) {
+          player.play().catch(() => {});
+        }
+      });
+
+      mediaWrap.appendChild(player);
+      mediaWrap.appendChild(soundButton);
+      body.appendChild(mediaWrap);
+
+      if (destination) {
+        mediaWrap.style.cursor = "pointer";
+
+        player.addEventListener("click", () => {
+          window.open(
+            destination,
+            "_blank",
+            "noopener,noreferrer"
+          );
+        });
+      }
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+              player.play().catch(() => {});
+            } else {
+              player.pause();
+              player.muted = true;
+              soundButton.textContent = "Turn sound on";
+            }
+          });
+        }, { threshold: [0, 0.25] });
+
+        observer.observe(player);
+      } else {
+        player.play().catch(() => {});
+      }
+
       }
 
       // Always give visitors a way to open the original video.
