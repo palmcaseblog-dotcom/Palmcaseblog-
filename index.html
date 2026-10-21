@@ -2407,6 +2407,204 @@ function renderHomepageAdvertisements(advertisements) {
   });
 }
 
+/* =========================
+   SIDEBAR ADVERTISEMENTS
+========================= */
+
+async function loadSidebarAdvertisements() {
+  const container = document.getElementById(
+    "sidebarAdvertisements"
+  );
+
+  if (!container || !supabaseClient) return;
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("ads")
+      .select("*")
+      .eq("is_active", true)
+      .in("placement", ["sidebar", "all"])
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    const now = new Date();
+
+    const advertisements = (data || []).filter(ad => {
+      const start = ad.start_date
+        ? new Date(ad.start_date)
+        : null;
+
+      const end = ad.end_date
+        ? new Date(ad.end_date)
+        : null;
+
+      if (start && now < start) return false;
+      if (end && now > end) return false;
+
+      return true;
+    });
+
+    if (!advertisements.length) {
+      container.innerHTML = "";
+      container.style.display = "none";
+      return;
+    }
+
+    renderSidebarAdvertisements(advertisements);
+
+  } catch (error) {
+    console.error("Sidebar advertisement error:", error);
+    container.innerHTML = "";
+    container.style.display = "none";
+  }
+}
+
+function renderSidebarAdvertisements(advertisements) {
+  const container = document.getElementById(
+    "sidebarAdvertisements"
+  );
+
+  if (!container) return;
+
+  container.innerHTML = "";
+  container.style.display = "block";
+
+  const heading = document.createElement("h3");
+  heading.textContent = "Sponsored";
+  container.appendChild(heading);
+
+  advertisements.forEach(ad => {
+    const title = ad.title || "Advertisement";
+    const description = ad.description || "";
+    const image = normalizeExternalUrl(ad.image_url);
+    const video = normalizeExternalUrl(ad.video_url);
+    const destination = normalizeExternalUrl(
+      ad.destination_url
+    );
+
+    const card = document.createElement("div");
+    card.style.borderBottom = "1px solid #e5e7eb";
+    card.style.paddingBottom = "15px";
+    card.style.marginBottom = "15px";
+
+    const label = document.createElement("div");
+    label.textContent = "ADVERTISEMENT";
+    label.style.fontSize = "10px";
+    label.style.fontWeight = "800";
+    label.style.color = "#6b7280";
+    label.style.marginBottom = "8px";
+    card.appendChild(label);
+
+    if (video) {
+      const player = document.createElement("video");
+      player.src = video;
+      player.muted = true;
+      player.defaultMuted = true;
+      player.autoplay = true;
+      player.loop = true;
+      player.playsInline = true;
+      player.preload = "metadata";
+      player.setAttribute("playsinline", "");
+      player.style.display = "block";
+      player.style.width = "100%";
+      player.style.maxHeight = "220px";
+      player.style.objectFit = "cover";
+      player.style.background = "#111827";
+
+      card.appendChild(player);
+
+      const soundButton = document.createElement("button");
+      soundButton.type = "button";
+      soundButton.textContent = "Turn sound on";
+      soundButton.style.width = "100%";
+      soundButton.style.padding = "9px";
+      soundButton.style.border = "0";
+      soundButton.style.background = "#f59e0b";
+      soundButton.style.fontWeight = "bold";
+      soundButton.style.cursor = "pointer";
+
+      soundButton.addEventListener("click", () => {
+        player.muted = !player.muted;
+        soundButton.textContent = player.muted
+          ? "Turn sound on"
+          : "Mute video";
+
+        if (!player.muted) {
+          player.play().catch(() => {});
+        }
+      });
+
+      card.appendChild(soundButton);
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              player.play().catch(() => {});
+            } else {
+              player.pause();
+            }
+          });
+        }, { threshold: 0.25 });
+
+        observer.observe(player);
+      }
+
+    } else if (image) {
+      const imageElement = document.createElement("img");
+      imageElement.src = image;
+      imageElement.alt = title;
+      imageElement.style.display = "block";
+      imageElement.style.width = "100%";
+      imageElement.style.height = "auto";
+      imageElement.style.borderRadius = "7px";
+
+      if (destination) {
+        const imageLink = document.createElement("a");
+        imageLink.href = destination;
+        imageLink.target = "_blank";
+        imageLink.rel = "noopener noreferrer sponsored";
+        imageLink.appendChild(imageElement);
+        card.appendChild(imageLink);
+      } else {
+        card.appendChild(imageElement);
+      }
+    }
+
+    const titleElement = document.createElement("h4");
+    titleElement.textContent = title;
+    titleElement.style.fontSize = "15px";
+    titleElement.style.marginTop = "10px";
+    card.appendChild(titleElement);
+
+    if (description) {
+      const descriptionElement = document.createElement("p");
+      descriptionElement.textContent = description;
+      descriptionElement.style.fontSize = "13px";
+      descriptionElement.style.color = "#6b7280";
+      descriptionElement.style.marginTop = "5px";
+      card.appendChild(descriptionElement);
+    }
+
+    if (destination) {
+      const link = document.createElement("a");
+      link.href = destination;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer sponsored";
+      link.textContent = "Visit advertiser →";
+      link.style.display = "inline-block";
+      link.style.marginTop = "10px";
+      link.style.color = "#d97706";
+      link.style.fontSize = "13px";
+      link.style.fontWeight = "800";
+      card.appendChild(link);
+    }
+
+    container.appendChild(card);
+  });
+}
+
 
     /* =========================
        POSTS
