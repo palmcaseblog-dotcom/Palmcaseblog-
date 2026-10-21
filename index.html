@@ -2717,7 +2717,16 @@ async function loadSidebarAdvertisements() {
       return;
     }
 
-    renderSidebarAdvertisements(advertisements);
+        const selectedAdvertisements =
+      getRotatingAdGroup(
+        advertisements,
+        2,
+        "palmcase_sidebar_rotation"
+      );
+
+    renderSidebarAdvertisements(
+      selectedAdvertisements
+    );
 
   } catch (error) {
     console.error("Sidebar advertisement error:", error);
