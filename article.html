@@ -792,18 +792,38 @@ function getArticleId() {
   return new URLSearchParams(window.location.search).get("id");
 }
 
+
+
+function getArticleId() {
+  return new URLSearchParams(window.location.search).get("id");
+}
+
 function setCanonicalUrl() {
   const articleId = getArticleId();
-  const canonicalLink = document.getElementById("canonical-url");
 
-  if (canonicalLink && articleId && /^\d+$/.test(articleId)) {
-    canonicalLink.href =
-      "https://palmcaseblog.com.ng/article.html?id=" +
-      encodeURIComponent(articleId);
+  if (!articleId || !/^\d+$/.test(articleId)) {
+    return;
   }
+
+  let canonicalLink = document.querySelector(
+    'link[rel="canonical"]'
+  );
+
+  if (!canonicalLink) {
+    canonicalLink = document.createElement("link");
+    canonicalLink.id = "canonical-url";
+    canonicalLink.rel = "canonical";
+    document.head.appendChild(canonicalLink);
+  }
+
+  canonicalLink.href =
+    "https://palmcaseblog.com.ng/article.html?id=" +
+    articleId;
 }
 
 setCanonicalUrl();
+
+function likedStorageKey(articleId) {
 function likedStorageKey(articleId) {
   return "palmcaseblog_liked_" + articleId;
 }
