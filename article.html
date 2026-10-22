@@ -1323,7 +1323,6 @@ function getRotatingAdGroup(ads, groupSize, storageKey) {
 
 
 
-
 async function loadArticleAdvertisements() {
   const topSlot = document.getElementById("article-ad-top");
   const middleSlot = document.getElementById("article-ad-middle");
@@ -1338,7 +1337,7 @@ async function loadArticleAdvertisements() {
   if (bottomSlot) bottomSlot.innerHTML = "";
 
   try {
-    const result = await supabaseClient
+    const { data, error } = await supabaseClient
       .from("ads")
       .select(
         "id,title,description,image_url,video_url,destination_url,placement,start_date,end_date,is_active,created_at"
@@ -1346,71 +1345,71 @@ async function loadArticleAdvertisements() {
       .eq("is_active", true)
       .order("created_at", { ascending: false });
 
-    if (result.error) {
-      console.error("ADVERTISEMENT LOADING ERROR:", result.error);
+    if (error) {
+      console.error("ADVERTISEMENT LOADING ERROR:", error);
       return;
     }
 
-    const activeAds = (result.data || []).filter(
-      isAdCurrentlyActive
+    const activeAds = (data || []).filter(isAdCurrentlyActive);
+
+    // Use ads marked "all" for the shared article rotation.
+    const rotationAds = activeAds.filter(
+      ad => getAdPosition(ad) === "all"
     );
 
-    const topAds = activeAds.filter(
-      ad => getAdPosition(ad) === "top" ||
-            getAdPosition(ad) === "all"
-    );
-
-    const middleAds = activeAds.filter(
-      ad => getAdPosition(ad) === "middle" ||
-            getAdPosition(ad) === "all"
-    );
-
-    const bottomAds = activeAds.filter(
-      ad => getAdPosition(ad) === "bottom" ||
-            getAdPosition(ad) === "all"
-    );
-
-    const usedAdIds = new Set();
-
-    function renderDifferentAd(ads, slot, slotId, rotationKey) {
-      if (!slot || !ads.length) return;
-
-      const selectedAds = getRotatingAdGroup(
-        ads,
-        ads.length,
-        rotationKey
-      );
-
-      const selectedAd = selectedAds.find(
-        ad => !usedAdIds.has(String(ad.id))
-      );
-
-      if (!selectedAd) return;
-
-      usedAdIds.add(String(selectedAd.id));
-      renderAdvertisement(selectedAd, slotId);
+    if (!rotationAds.length) {
+      console.warn("No active ads are eligible for article rotation.");
+      return;
     }
 
-    renderDifferentAd(
-      topAds,
-      topSlot,
-      "article-ad-top",
-      "palmcase_article_top_rotation"
+    const groupSize = 3;
+    const groupCount = Math.ceil(rotationAds.length / groupSize);
+    const storageKey = "palmcase_article_rotation";
+
+    let groupIndex = 0;
+
+    try {
+      const savedIndex = Number(localStorage.getItem(storageKey));
+
+      if (
+        Number.isInteger(savedIndex) &&
+        savedIndex >= 0
+      ) {
+        groupIndex = savedIndex % groupCount;
+      }
+    } catch (error) {
+      console.warn("Could not read article rotation position:", error);
+    }
+
+    const startIndex = groupIndex * groupSize;
+    const selectedAds = rotationAds.slice(
+      startIndex,
+      startIndex + groupSize
     );
 
-    renderDifferentAd(
-      middleAds,
-      middleSlot,
-      "article-ad-middle",
-      "palmcase_article_middle_rotation"
-    );
+    // Advance to the next group for the next article opening.
+    try {
+      localStorage.setItem(
+        storageKey,
+        String((groupIndex + 1) % groupCount)
+      );
+    } catch (error) {
+      console.warn("Could not save article rotation position:", error);
+    }
 
-    renderDifferentAd(
-      bottomAds,
-      bottomSlot,
-      "article-ad-bottom",
-      "palmcase_article_bottom_rotation"
-    );
+    const slots = [
+      { element: topSlot, id: "article-ad-top" },
+      { element: middleSlot, id: "article-ad-middle" },
+      { element: bottomSlot, id: "article-ad-bottom" }
+    ];
+
+    selectedAds.forEach((ad, index) => {
+      const slot = slots[index];
+
+      if (slot && slot.element) {
+        renderAdvertisement(ad, slot.id);
+      }
+    });
 
   } catch (error) {
     console.error("UNEXPECTED ADVERTISEMENT ERROR:", error);
@@ -1419,39 +1418,6 @@ async function loadArticleAdvertisements() {
 
 
 
-function buildArticleBody(articleText) {
-  const text = String(articleText || "No article content available.").trim();
-
-  if (!text) {
-    return '<p class="article-paragraph">No article content available.</p>';
-  }
-
-  const paragraphs = text
-    .split(/\n\s*\n/)
-    .map(paragraph => paragraph.trim())
-    .filter(Boolean);
-
-  if (paragraphs.length <= 1) {
-    return paragraphs
-      .map(paragraph =>
-        `<p class="article-paragraph">${escapeHTML(paragraph)}</p>`
-      )
-      .join("");
-  }
-
-  const middleIndex = Math.min(2, paragraphs.length - 1);
-  let html = "";
-
-  paragraphs.forEach((paragraph, index) => {
-    html += `<p class="article-paragraph">${escapeHTML(paragraph)}</p>`;
-
-    if (index === middleIndex) {
-      html += '<div id="article-ad-middle" class="article-ad-slot"></div>';
-    }
-  });
-
-  return html;
-}
 
 
 
