@@ -807,6 +807,8 @@ if (files.length > 0) {
 }
 
 
+const image = imageUrls[0] || currentArticleImage || null;
+
 const record = {
   headline: $("headline").value.trim(),
   category: $("category").value,
