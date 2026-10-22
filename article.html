@@ -369,11 +369,36 @@
       transform: scale(0.97);
     }
 
-    .like-btn.liked {
-      color: #d40000;
-      border-color: #d40000;
-      background: #fff5f5;
-    }
+    
+.like-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #111;
+  border-radius: 8px;
+  padding: 11px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.like-btn.liked {
+  color: #111;
+  border-color: #ddd;
+  background: #fff;
+}
+
+.like-btn svg {
+  width: 19px;
+  height: 19px;
+  stroke: currentColor;
+  fill: none;
+  flex-shrink: 0;
+}
+
 
     .like-btn:disabled {
       opacity: 0.7;
