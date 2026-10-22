@@ -1545,22 +1545,21 @@ function buildArticleHTML(post, currentLikes) {
     : "";
 
   
-const videoUrl = safeExternalUrl(post.video_url);
 
+const videoUrl = safeExternalUrl(post.video_url);
 let videoHTML = "";
 
 if (videoUrl) {
   let embedUrl = "";
   let isDirectVideo = false;
+  let platformName = "original website";
 
   try {
-    const parsedVideoUrl = new URL(videoUrl);
-    const host = parsedVideoUrl.hostname
-      .toLowerCase()
-      .replace(/^www\./, "");
+    const parsed = new URL(videoUrl);
+    const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
+    const path = parsed.pathname;
 
-    const path = parsedVideoUrl.pathname;
-
+    // YouTube videos, Shorts, and live videos
     if (
       host === "youtu.be" ||
       host === "youtube.com" ||
@@ -1568,29 +1567,90 @@ if (videoUrl) {
       host === "music.youtube.com" ||
       host === "youtube-nocookie.com"
     ) {
-      let videoId = "";
+      let id = "";
 
       if (host === "youtu.be") {
-        videoId = path.split("/").filter(Boolean)[0] || "";
+        id = path.split("/").filter(Boolean)[0] || "";
       } else if (path === "/watch") {
-        videoId = parsedVideoUrl.searchParams.get("v") || "";
+        id = parsed.searchParams.get("v") || "";
       } else {
-        const match = path.match(
-          /^\/(?:shorts|embed|live|v)\/([^/?]+)/
-        );
-
-        if (match) videoId = match[1];
+        const match = path.match(/^\/(?:shorts|embed|live|v)\/([^/?]+)/);
+        if (match) id = match[1];
       }
 
-      if (/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
+      if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
         embedUrl =
           "https://www.youtube-nocookie.com/embed/" +
-          encodeURIComponent(videoId) +
+          encodeURIComponent(id) +
           "?playsinline=1&controls=1&rel=0";
+        platformName = "YouTube";
       }
     }
 
-    if (!embedUrl && /\.(mp4|webm|ogg|ogv|m4v)$/i.test(path)) {
+    // TikTok videos
+    else if (
+      host === "tiktok.com" ||
+      host === "m.tiktok.com"
+    ) {
+      const match = path.match(/\/video\/(\d+)/);
+
+      if (match) {
+        embedUrl =
+          "https://www.tiktok.com/player/v1/" +
+          encodeURIComponent(match[1]) +
+          "?description=1&music_info=1";
+        platformName = "TikTok";
+      }
+    }
+
+    // Facebook videos and Reels
+    else if (
+      host === "facebook.com" ||
+      host === "m.facebook.com" ||
+      host === "fb.watch"
+    ) {
+      embedUrl =
+        "https://www.facebook.com/plugins/video.php?href=" +
+        encodeURIComponent(videoUrl) +
+        "&show_text=false&width=560";
+      platformName = "Facebook";
+    }
+
+    // Instagram posts and Reels
+    else if (host === "instagram.com") {
+      const match = path.match(/^\/(p|reel|tv)\/([^/]+)/);
+
+      if (match) {
+        embedUrl =
+          "https://www.instagram.com/" +
+          match[1] + "/" +
+          encodeURIComponent(match[2]) +
+          "/embed/";
+        platformName = "Instagram";
+      }
+    }
+
+    // X / Twitter video posts
+    else if (
+      host === "x.com" ||
+      host === "twitter.com" ||
+      host === "mobile.twitter.com"
+    ) {
+      const match = path.match(/\/status\/(\d+)/);
+
+      if (match) {
+        embedUrl =
+          "https://platform.twitter.com/embed/Tweet.html?id=" +
+          encodeURIComponent(match[1]);
+        platformName = "X";
+      }
+    }
+
+    // Direct video file URLs
+    if (
+      !embedUrl &&
+      /\.(mp4|webm|ogg|ogv|m4v)$/i.test(path)
+    ) {
       isDirectVideo = true;
     }
   } catch (error) {
@@ -1599,15 +1659,25 @@ if (videoUrl) {
 
   if (embedUrl) {
     videoHTML = `
-      <iframe
-        class="article-video-embed"
-        src="${escapeHTML(embedUrl)}"
-        title="${escapeHTML(post.headline || "Article video")}"
-        loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-        referrerpolicy="strict-origin-when-cross-origin"
-      ></iframe>
+      <div class="article-video-container">
+        <iframe
+          class="article-video-embed"
+          src="${escapeHTML(embedUrl)}"
+          title="${escapeHTML((post.headline || "Article video") + " - " + platformName)}"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </div>
+      <p class="article-video-fallback">
+        If the video does not play,
+        <a href="${escapeHTML(videoUrl)}"
+           target="_blank"
+           rel="noopener noreferrer">
+          watch it on ${escapeHTML(platformName)} ↗
+        </a>
+      </p>
     `;
   } else if (isDirectVideo) {
     videoHTML = `
@@ -1624,7 +1694,7 @@ if (videoUrl) {
     `;
   } else {
     videoHTML = `
-      <p>
+      <p class="article-video-fallback">
         <a href="${escapeHTML(videoUrl)}"
            target="_blank"
            rel="noopener noreferrer">
