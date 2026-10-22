@@ -1544,10 +1544,73 @@ function buildArticleHTML(post, currentLikes) {
     `
     : "";
 
-  const videoUrl = safeExternalUrl(post.video_url);
+  
+const videoUrl = safeExternalUrl(post.video_url);
 
-  const videoHTML = videoUrl
-    ? `
+let videoHTML = "";
+
+if (videoUrl) {
+  let embedUrl = "";
+  let isDirectVideo = false;
+
+  try {
+    const parsedVideoUrl = new URL(videoUrl);
+    const host = parsedVideoUrl.hostname
+      .toLowerCase()
+      .replace(/^www\./, "");
+
+    const path = parsedVideoUrl.pathname;
+
+    if (
+      host === "youtu.be" ||
+      host === "youtube.com" ||
+      host === "m.youtube.com" ||
+      host === "music.youtube.com" ||
+      host === "youtube-nocookie.com"
+    ) {
+      let videoId = "";
+
+      if (host === "youtu.be") {
+        videoId = path.split("/").filter(Boolean)[0] || "";
+      } else if (path === "/watch") {
+        videoId = parsedVideoUrl.searchParams.get("v") || "";
+      } else {
+        const match = path.match(
+          /^\/(?:shorts|embed|live|v)\/([^/?]+)/
+        );
+
+        if (match) videoId = match[1];
+      }
+
+      if (/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
+        embedUrl =
+          "https://www.youtube-nocookie.com/embed/" +
+          encodeURIComponent(videoId) +
+          "?playsinline=1&controls=1&rel=0";
+      }
+    }
+
+    if (!embedUrl && /\.(mp4|webm|ogg|ogv|m4v)$/i.test(path)) {
+      isDirectVideo = true;
+    }
+  } catch (error) {
+    console.warn("Could not parse article video URL:", error);
+  }
+
+  if (embedUrl) {
+    videoHTML = `
+      <iframe
+        class="article-video-embed"
+        src="${escapeHTML(embedUrl)}"
+        title="${escapeHTML(post.headline || "Article video")}"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        referrerpolicy="strict-origin-when-cross-origin"
+      ></iframe>
+    `;
+  } else if (isDirectVideo) {
+    videoHTML = `
       <video
         class="article-video"
         controls
@@ -1558,8 +1621,19 @@ function buildArticleHTML(post, currentLikes) {
         <source src="${escapeHTML(videoUrl)}">
         Your browser does not support video playback.
       </video>
-    `
-    : "";
+    `;
+  } else {
+    videoHTML = `
+      <p>
+        <a href="${escapeHTML(videoUrl)}"
+           target="_blank"
+           rel="noopener noreferrer">
+          Watch the video on its original website ↗
+        </a>
+      </p>
+    `;
+  }
+}
 
   const articleDate = post.created_at
     ? new Date(post.created_at).toLocaleDateString("en-NG", {
