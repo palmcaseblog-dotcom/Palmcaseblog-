@@ -1643,35 +1643,68 @@ if (videoUrl) {
       })
     : "";
 
-  const paragraphs = String(
-    post.article || "No article content available."
-  )
-    .trim()
-    .split(/\n\s*\n/)
-    .map(paragraph => paragraph.trim())
-    .filter(Boolean);
+  
+const paragraphs = String(
+  post.article || "No article content available."
+)
+  .trim()
+  .split(/\n\s*\n/)
+  .map(paragraph => paragraph.trim())
+  .filter(Boolean);
 
-  let articleBodyHTML = "";
+let articleBodyHTML = "";
 
-  if (paragraphs.length <= 1) {
-    articleBodyHTML = paragraphs
-      .map(paragraph =>
-        `<p class="article-paragraph">${escapeHTML(paragraph)}</p>`
-      )
-      .join("");
+const middleIndex = Math.min(2, paragraphs.length - 1);
+
+paragraphs.forEach((paragraph, index) => {
+  const imageMarker = paragraph.match(/^\[IMAGE:(\d+)\]$/i);
+
+  if (imageMarker) {
+    const imageNumber = Number(imageMarker[1]);
+    const imageUrl = articleImages[imageNumber - 1];
+
+    if (imageUrl && imageNumber >= 2) {
+      articleBodyHTML += `
+        <img
+          class="article-inline-image"
+          src="${escapeHTML(imageUrl)}"
+          alt="${escapeHTML(
+            (post.headline || "Article") +
+            " - Image " + imageNumber
+          )}"
+          loading="lazy"
+        >
+      `;
+    }
   } else {
-    const middleIndex = Math.min(2, paragraphs.length - 1);
-
-    paragraphs.forEach((paragraph, index) => {
-      articleBodyHTML +=
-        `<p class="article-paragraph">${escapeHTML(paragraph)}</p>`;
-
-      if (index === middleIndex) {
-        articleBodyHTML +=
-          '<div id="article-ad-middle" class="article-ad-slot"></div>';
-      }
-    });
+    articleBodyHTML += `
+      <p class="article-paragraph">${escapeHTML(paragraph)}</p>
+    `;
   }
+
+  if (paragraphs.length > 1 && index === middleIndex) {
+    articleBodyHTML +=
+      '<div id="article-ad-middle" class="article-ad-slot"></div>';
+  }
+});
+
+const sourceName = String(post.credit || "").trim();
+const sourceUrl = safeExternalUrl(post.source_url);
+
+const sourceHTML = sourceName
+  ? `
+      <div class="article-source">
+        Source:
+        ${
+          sourceUrl
+            ? `<a href="${escapeHTML(sourceUrl)}"
+                 target="_blank"
+                 rel="noopener noreferrer">${escapeHTML(sourceName)}</a>`
+            : escapeHTML(sourceName)
+        }
+      </div>
+    `
+  : "";
 
   return `
     <article class="article-box">
