@@ -2148,6 +2148,25 @@ try {
 
     document.title = (post.headline || "Article") + " | Palmcaseblog";
 
+const metaDescription = document.getElementById("meta-description");
+
+if (metaDescription) {
+  const descriptionText = String(
+    post.meta_description ||
+    post.excerpt ||
+    post.headline ||
+    "Read the latest Nigerian news, entertainment, celebrity gist, sports, politics and trending stories on Palmcaseblog."
+  )
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 160);
+
+  metaDescription.setAttribute("content", descriptionText);
+}
+
+setCanonicalUrl();
+
     container.innerHTML = buildArticleHTML(
   post,
   currentLikes
