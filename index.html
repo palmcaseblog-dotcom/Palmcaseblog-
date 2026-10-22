@@ -2204,6 +2204,24 @@ function getRotatingAdGroup(ads, groupSize, storageKey) {
             );
         console.log("Homepage ads returned:", data);
         console.log("Homepage ads query error:", error);
+       const debugBox = document.createElement("pre");
+debugBox.style.cssText =
+  "padding:12px;background:#fff3cd;color:#111;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere;";
+debugBox.textContent =
+  "Homepage ads returned:\n" +
+  JSON.stringify(
+    (data || []).map(ad => ({
+      title: ad.title,
+      placement: ad.placement,
+      is_active: ad.is_active,
+      video_url: ad.video_url
+    })),
+    null,
+    2
+  ) +
+  "\nQuery error:\n" +
+  (error ? error.message : "None");
+container.parentNode.insertBefore(debugBox, container);
         if (error) {
 
           console.error(
