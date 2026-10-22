@@ -253,10 +253,48 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
   <div id="articleImagePreview"></div>
 </div>
 
-          <div class="field">
-            <label for="articleText">Full article *</label>
-            <textarea id="articleText" rows="12" required placeholder="Write the full article here"></textarea>
-          </div>
+          
+<div class="field">
+  <label for="articleText">Full article *</label>
+  <textarea id="articleText" rows="12" required placeholder="Write the full article here. Put [IMAGE:2] on a separate line where you want the second uploaded image to appear, [IMAGE:3] for the third, and so on."></textarea>
+  <div class="muted small">
+    To place an uploaded image inside the story, write [IMAGE:2], [IMAGE:3], etc. on a separate line between paragraphs. The first image remains in the slideshow at the top.
+  </div>
+</div>
+
+<div class="field">
+  <label for="videoUrl">Article video URL (optional)</label>
+  <input
+    id="videoUrl"
+    type="url"
+    placeholder="https://example.com/video.mp4"
+  >
+  <div class="muted small">
+    Use a direct MP4, WebM or other browser-playable video URL. We'll handle supported social-video links separately.
+  </div>
+</div>
+
+<div class="field">
+  <label for="credit">Source name (optional)</label>
+  <input
+    id="credit"
+    type="text"
+    placeholder="e.g. Punch Newspapers or the author's name"
+  >
+</div>
+
+<div class="field">
+  <label for="sourceUrl">Source website or social-media link (optional)</label>
+  <input
+    id="sourceUrl"
+    type="url"
+    placeholder="https://example.com or https://instagram.com/handle"
+  >
+  <div class="muted small">
+    Enter the exact website or profile URL so readers can click the source credit.
+  </div>
+</div>
+
           <div class="actions">
             <button id="saveArticleButton" class="primary" type="submit">Publish article</button>
             <button id="cancelEditButton" class="secondary hidden" type="button">Cancel edit</button>
