@@ -1322,6 +1322,7 @@ function getRotatingAdGroup(ads, groupSize, storageKey) {
 }
 
 
+
 async function loadArticleAdvertisements() {
   const topSlot = document.getElementById("article-ad-top");
   const middleSlot = document.getElementById("article-ad-middle");
@@ -1354,15 +1355,18 @@ async function loadArticleAdvertisements() {
     );
 
     const topAds = activeAds.filter(
-      ad => getAdPosition(ad) === "top"
+      ad => getAdPosition(ad) === "top" ||
+            getAdPosition(ad) === "all"
     );
 
     const middleAds = activeAds.filter(
-      ad => getAdPosition(ad) === "middle"
+      ad => getAdPosition(ad) === "middle" ||
+            getAdPosition(ad) === "all"
     );
 
     const bottomAds = activeAds.filter(
-      ad => getAdPosition(ad) === "bottom"
+      ad => getAdPosition(ad) === "bottom" ||
+            getAdPosition(ad) === "all"
     );
 
     if (topSlot && topAds.length) {
