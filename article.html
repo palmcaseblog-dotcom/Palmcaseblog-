@@ -882,6 +882,7 @@ function safeExternalUrl(url) {
 }
 
 
+
 function getAdPosition(ad) {
   const placement = normalizePlacement(ad.placement);
 
@@ -916,15 +917,17 @@ function getAdPosition(ad) {
     return "bottom";
   }
 
-  if (
-  middlePlacements.includes(placement) ||
-  placement === "all"
-) {
-  return "middle";
+  if (middlePlacements.includes(placement)) {
+    return "middle";
+  }
+
+  if (placement === "all") {
+    return "all";
+  }
+
+  return null;
 }
 
-return null;
-}
 
 
 
