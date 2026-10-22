@@ -2863,6 +2863,7 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
           }
         }
 
+        
         // Facebook videos and Reels
         else if (
           host === "facebook.com" ||
@@ -2873,8 +2874,10 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
             "https://www.facebook.com/plugins/video.php?href=" +
             encodeURIComponent(video) +
             "&show_text=false&width=500";
+
           platform = "Facebook";
         }
+
 
         // Instagram Reels and video posts
         else if (
