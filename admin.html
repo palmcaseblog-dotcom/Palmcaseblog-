@@ -740,11 +740,16 @@ function resetArticleForm() {
     if (!post) return;
 
     $("articleId").value = post.id;
-    $("headline").value = post.headline || "";
-    $("category").value = String(post.category || "news").toLowerCase();
-    $("description").value = post.description || "";
-    $("articleText").value = post.article || "";
-    $("articleImage").value = "";
+$("headline").value = post.headline || "";
+$("category").value = String(post.category || "news").toLowerCase();
+$("description").value = post.description || "";
+$("articleText").value = post.article || "";
+
+$("videoUrl").value = post.video_url || "";
+$("credit").value = post.credit || "";
+$("sourceUrl").value = post.source_url || "";
+
+$("articleImage").value = "";
 currentArticleImages = Array.isArray(post.images)
   ? post.images.filter(url => typeof url === "string")
   : [];
