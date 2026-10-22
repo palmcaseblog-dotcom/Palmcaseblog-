@@ -1566,7 +1566,17 @@ function buildArticleHTML(post, currentLikes) {
       <div class="date">${escapeHTML(articleDate)}</div>
 
       <div class="article-stats">
-        <span>❤️ <span id="top-like-count">${currentLikes.toLocaleString()}</span> likes</span>
+        <span>
+  <svg viewBox="0 0 24 24" width="16" height="16"
+       fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true"
+       style="vertical-align: middle;">
+    <path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3Z"/>
+    <path d="M7 10l4-7a3 3 0 0 1 2 3v4h5.5a2.5 2.5 0 0 1 2.45 3.01l-1.5 7A2.5 2.5 0 0 1 17 22H7"/>
+  </svg>
+  <span id="top-like-count">${currentLikes.toLocaleString()}</span> likes
+</span>
       </div>
 
       <div id="article-ad-top" class="article-ad-slot"></div>
@@ -1578,10 +1588,18 @@ function buildArticleHTML(post, currentLikes) {
 
       <div id="article-ad-bottom" class="article-ad-slot"></div>
 
-      <div class="article-actions">
-        <button id="like-button" class="action-btn like-btn" type="button">
-          ❤️ Like <span id="like-count">${currentLikes.toLocaleString()}</span>
-        </button>
+      
+<button id="like-button" class="action-btn like-btn" type="button">
+  <svg viewBox="0 0 24 24" width="20" height="20"
+       fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true">
+    <path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3Z"/>
+    <path d="M7 10l4-7a3 3 0 0 1 2 3v4h5.5a2.5 2.5 0 0 1 2.45 3.01l-1.5 7A2.5 2.5 0 0 1 17 22H7"/>
+  </svg>
+  Like <span id="like-count">${currentLikes.toLocaleString()}</span>
+</button>
+
         <button id="share-button" class="action-btn" type="button">↗️ Share</button>
       </div>
 
