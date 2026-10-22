@@ -1614,25 +1614,25 @@ function buildArticleHTML(post, currentLikes) {
 }
 
 
+
 function connectArticleButtons(articleId, articleTitle) {
   const likeButton = document.getElementById("like-button");
 
-  
-if (hasLiked(articleId)) {
-  likeButton.classList.add("liked");
-  likeButton.disabled = true;
+  if (likeButton) {
+    if (hasLiked(articleId)) {
+      likeButton.classList.add("liked");
+      likeButton.disabled = true;
 
-  likeButton.innerHTML =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3Z"/>' +
-    '<path d="M7 10l4-7a3 3 0 0 1 2 3v4h5.5a2.5 2.5 0 0 1 2.45 3.01l-1.5 7A2.5 2.5 0 0 1 17 22H7"/>' +
-    '</svg>' +
-    '<span>Liked</span>' +
-    '<span id="like-count">' +
-    (document.getElementById("like-count")?.textContent || "0") +
-    '</span>';
-}
-
+      likeButton.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3Z"/>' +
+        '<path d="M7 10l4-7a3 3 0 0 1 2 3v4h5.5a2.5 2.5 0 0 1 2.45 3.01l-1.5 7A2.5 2.5 0 0 1 17 22H7"/>' +
+        '</svg>' +
+        '<span>Liked</span>' +
+        '<span id="like-count">' +
+        (document.getElementById("like-count")?.textContent || "0") +
+        '</span>';
+    }
 
     likeButton.addEventListener("click", event => {
       event.preventDefault();
