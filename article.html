@@ -1323,6 +1323,7 @@ function getRotatingAdGroup(ads, groupSize, storageKey) {
 
 
 
+
 async function loadArticleAdvertisements() {
   const topSlot = document.getElementById("article-ad-top");
   const middleSlot = document.getElementById("article-ad-middle");
@@ -1369,50 +1370,48 @@ async function loadArticleAdvertisements() {
             getAdPosition(ad) === "all"
     );
 
-    if (topSlot && topAds.length) {
-      const selectedTopAds = getRotatingAdGroup(
-        topAds,
-        1,
-        "palmcase_article_top_rotation"
+    const usedAdIds = new Set();
+
+    function renderDifferentAd(ads, slot, slotId, rotationKey) {
+      if (!slot || !ads.length) return;
+
+      const selectedAds = getRotatingAdGroup(
+        ads,
+        ads.length,
+        rotationKey
       );
 
-      if (selectedTopAds.length) {
-        renderAdvertisement(
-          selectedTopAds[0],
-          "article-ad-top"
-        );
-      }
-    }
-
-    if (middleSlot && middleAds.length) {
-      const selectedMiddleAds = getRotatingAdGroup(
-        middleAds,
-        1,
-        "palmcase_article_middle_rotation"
+      const selectedAd = selectedAds.find(
+        ad => !usedAdIds.has(String(ad.id))
       );
 
-      if (selectedMiddleAds.length) {
-        renderAdvertisement(
-          selectedMiddleAds[0],
-          "article-ad-middle"
-        );
-      }
+      if (!selectedAd) return;
+
+      usedAdIds.add(String(selectedAd.id));
+      renderAdvertisement(selectedAd, slotId);
     }
 
-    if (bottomSlot && bottomAds.length) {
-      const selectedBottomAds = getRotatingAdGroup(
-        bottomAds,
-        1,
-        "palmcase_article_bottom_rotation"
-      );
+    renderDifferentAd(
+      topAds,
+      topSlot,
+      "article-ad-top",
+      "palmcase_article_top_rotation"
+    );
 
-      if (selectedBottomAds.length) {
-        renderAdvertisement(
-          selectedBottomAds[0],
-          "article-ad-bottom"
-        );
-      }
-    }
+    renderDifferentAd(
+      middleAds,
+      middleSlot,
+      "article-ad-middle",
+      "palmcase_article_middle_rotation"
+    );
+
+    renderDifferentAd(
+      bottomAds,
+      bottomSlot,
+      "article-ad-bottom",
+      "palmcase_article_bottom_rotation"
+    );
+
   } catch (error) {
     console.error("UNEXPECTED ADVERTISEMENT ERROR:", error);
   }
