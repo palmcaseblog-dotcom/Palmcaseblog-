@@ -806,11 +806,8 @@ likeButton.innerHTML =
   '<span id="like-count">' +
   newLikes.toLocaleString() +
   '</span>';
-```
 
-**Important:** Do not replace the whole `likeArticle()` function. Replace only the small section shown above. This keeps your existing Supabase request and local duplicate-like check in place.
-
-## Step 3: Save and test
+markAsLiked(articleId);
 
 1. Commit the changes to GitHub.
 2. Open an article on Palmcaseblog.
