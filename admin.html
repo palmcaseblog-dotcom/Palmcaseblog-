@@ -801,7 +801,6 @@ if (files.length > 0) {
   );
 }
 
-const image = imageUrls[0] || currentArticleImage || null;
 
 const record = {
   headline: $("headline").value.trim(),
@@ -809,8 +808,12 @@ const record = {
   description: $("description").value.trim(),
   image: image,
   images: imageUrls,
-  article: $("articleText").value.trim()
+  article: $("articleText").value.trim(),
+  video_url: $("videoUrl").value.trim() || null,
+  credit: $("credit").value.trim() || null,
+  source_url: $("sourceUrl").value.trim() || null
 };
+
 
 
       if (!record.headline || !record.article) {
