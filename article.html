@@ -776,9 +776,10 @@ async function likeArticle(articleId) {
   likeButton.disabled = true;
 
   try {
-    const result = await supabaseClient.rpc("increment_post_likes", {
-      post_id: numericArticleId
-    });
+    const result = await supabaseClient.rpc(
+      "increment_post_likes",
+      { post_id: numericArticleId }
+    );
 
     if (result.error) {
       console.error("ARTICLE LIKE ERROR:", result.error);
@@ -789,43 +790,32 @@ async function likeArticle(articleId) {
 
     const newLikes = (Number(likeCount.textContent) || 0) + 1;
 
-    likeCount.textContent = newLikes.toLocaleString();
-
     if (topLikeCount) {
       topLikeCount.textContent = newLikes.toLocaleString();
     }
 
-    
-likeButton.classList.add("liked");
-likeButton.innerHTML =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-  '<path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3Z"/>' +
-  '<path d="M7 10l4-7a3 3 0 0 1 2 3v4h5.5a2.5 2.5 0 0 1 2.45 3.01l-1.5 7A2.5 2.5 0 0 1 17 22H7"/>' +
-  '</svg>' +
-  '<span>Like</span>' +
-  '<span id="like-count">' +
-  newLikes.toLocaleString() +
-  '</span>';
+    likeButton.classList.add("liked");
 
-markAsLiked(articleId);
+    likeButton.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3Z"/>' +
+      '<path d="M7 10l4-7a3 3 0 0 1 2 3v4h5.5a2.5 2.5 0 0 1 2.45 3.01l-1.5 7A2.5 2.5 0 0 1 17 22H7"/>' +
+      '</svg>' +
+      '<span>Liked</span>' +
+      '<span id="like-count">' +
+      newLikes.toLocaleString() +
+      '</span>';
 
-1. Commit the changes to GitHub.
-2. Open an article on Palmcaseblog.
-3. Refresh the page.
-4. Check that the Like button displays a plain thumbs-up and a number, without a red heart.
-
-One important detail: the code you sent confirms that the article page has a like function, but I haven't yet seen the HTML that initially creates the button or the homepage's article-card code. So this will update the button's appearance after a successful like; we should inspect those other sections before claiming the entire feature is finished.
-
-**After you make these two changes, send me the HTML containing `like-button` and `like-count`.** I'll help you make the initial button match the new design and then add the same like controls to Latest Stories, Trending Now, and Most Clicked without breaking your working ads.
+    likeButton.disabled = true;
 
     markAsLiked(articleId);
+
   } catch (error) {
     console.error("ARTICLE LIKE ERROR:", error);
     alert("Something went wrong with the Like button.");
     likeButton.disabled = false;
   }
 }
-
 
 function shareArticle() {
   const shareBox = document.getElementById("share-box");
