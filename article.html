@@ -2432,7 +2432,9 @@ setCanonicalUrl();
       post.headline || "Palmcaseblog"
     );
 
-    await loadArticleAdvertisements();
+    
+  await loadArticleAdvertisements();
+  await connectArticleFollowForm();
   } catch (error) {
     console.error("CRITICAL ARTICLE ERROR:", error);
 
