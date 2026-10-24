@@ -2050,6 +2050,74 @@ ${sourceHTML}
 }
 
 
+async function connectArticleFollowForm() {
+  const form = document.getElementById("articleFollowForm");
+  const emailInput = document.getElementById("articleFollowEmail");
+  const button = document.getElementById("articleFollowButton");
+  const message = document.getElementById("article-follow-message");
+
+  if (!form || !emailInput || !button || !message) {
+    return;
+  }
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const email = emailInput.value.trim().toLowerCase();
+
+    if (!emailInput.checkValidity() || !email) {
+      emailInput.reportValidity();
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Following...";
+    message.textContent = "Please wait while we save your subscription.";
+    message.style.color = "#444";
+
+    try {
+      const { error } = await supabaseClient.rpc(
+        "subscribe_to_newsletter",
+        {
+          subscriber_email: email
+        }
+      );
+
+      if (error) {
+        console.error("ARTICLE SUBSCRIPTION ERROR:", error);
+
+        message.textContent =
+          "We couldn't complete your subscription. Please try again.";
+
+        message.style.color = "#b00000";
+        return;
+      }
+
+      message.textContent =
+        "You're subscribed! Thank you for following Palmcaseblog.";
+
+      message.style.color = "#18753b";
+      emailInput.value = "";
+      button.textContent = "Subscribed!";
+
+    } catch (error) {
+      console.error("ARTICLE SUBSCRIPTION ERROR:", error);
+
+      message.textContent =
+        "Something went wrong. Please check your connection and try again.";
+
+      message.style.color = "#b00000";
+
+    } finally {
+      button.disabled = false;
+
+      if (button.textContent === "Following...") {
+        button.textContent = "Follow Palmcaseblog";
+      }
+    }
+  });
+}
+
 
 function connectArticleButtons(articleId, articleTitle) {
   const likeButton = document.getElementById("like-button");
