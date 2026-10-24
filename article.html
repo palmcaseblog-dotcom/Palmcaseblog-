@@ -1945,10 +1945,55 @@ const sourceHTML = sourceName
     `
   : "";
 
-  return `
+ 
+return `
     <article class="article-box">
+
+      <div class="article-branding">
+        <img
+          src="IMG_2188.jpeg"
+          alt="Palmcaseblog logo"
+        >
+        <p class="article-branding-name">PALMCASEBLOG</p>
+        <p class="article-branding-tagline">
+          NIGERIAN NEWS • ENTERTAINMENT • TRENDING STORIES
+        </p>
+      </div>
+
+      <section class="article-follow">
+        <h2>Follow Palmcaseblog</h2>
+        <p>
+          Get the latest Nigerian news, entertainment,
+          celebrity gist and trending stories delivered
+          straight to your inbox.
+        </p>
+
+        <form id="articleFollowForm" class="article-follow-form">
+          <input
+            id="articleFollowEmail"
+            type="email"
+            name="email"
+            placeholder="Enter your email address"
+            autocomplete="email"
+            aria-label="Your email address"
+            required
+          >
+          <button id="articleFollowButton" type="submit">
+            Follow Palmcaseblog
+          </button>
+        </form>
+
+        <p
+          id="article-follow-message"
+          class="article-follow-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </section>
+
       <div class="category">${escapeHTML(post.category || "News")}</div>
       <h1>${escapeHTML(post.headline || "Untitled Article")}</h1>
+ 
       <div class="date">${escapeHTML(articleDate)}</div>
 ${sourceHTML}
       <div class="article-stats">
