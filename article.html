@@ -4,7 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta id="meta-description" name="description" content="Read the latest Nigerian news, entertainment, celebrity gist, sports, politics and trending stories on Palmcaseblog.">
-  
+  <script>
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  if (id && /^\d+$/.test(id)) {
+    const canonical = document.createElement("link");
+    canonical.rel = "canonical";
+    canonical.href =
+      "https://palmcaseblog.com.ng/article.html?id=" + id;
+    document.head.appendChild(canonical);
+  }
+})();
+</script>
   <title>Palmcaseblog Article</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
