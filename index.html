@@ -2215,106 +2215,74 @@ function getRotatingAdGroup(ads, groupSize, storageKey) {
   return selectedAds;
 }
 
-    async function loadHomepageAdvertisements() {
+    
+async function loadHomepageAdvertisements() {
+  const slotIds = [
+    "homepageAdvertisements",
+    "homepageAdvertisementsMiddle",
+    "homepageAdvertisementsBottom"
+  ];
 
-      const container =
-        document.getElementById(
-          "homepageAdvertisements"
-        );
+  const slots = slotIds
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
 
-      if (!container) {
-        return;
-      }
+  if (!slots.length || !supabaseClient) return;
 
-      try {
+  // Hide and clear all three slots before loading.
+  slots.forEach(slot => {
+    slot.innerHTML = "";
+    slot.style.display = "none";
+  });
 
-        const { data, error } =
-          await supabaseClient
-            .from("ads")
-            .select("*")
-            .eq("is_active", true)
-            .in("placement", ["homepage", "all"])
-            .order(
-              "created_at",
-              {
-                ascending: false
-              }
-            );
-        
-        if (error) {
+  try {
+    const { data, error } = await supabaseClient
+      .from("ads")
+      .select("*")
+      .eq("is_active", true)
+      .in("placement", ["homepage", "all"])
+      .order("created_at", { ascending: false });
 
-          console.error(
-            "Advertisement loading error:",
-            error
-          );
-
-          container.style.display = "none";
-
-          return;
-        }
-
-        const current =
-          new Date();
-
-        const advertisements =
-          (data || []).filter(
-            ad => {
-
-              const start =
-                ad.start_date
-                  ? new Date(ad.start_date)
-                  : null;
-
-              const end =
-                ad.end_date
-                  ? new Date(ad.end_date)
-                  : null;
-
-              if (start && current < start) {
-                return false;
-              }
-
-              if (end && current > end) {
-                return false;
-              }
-
-              return true;
-
-            }
-          );
-
-        if (!advertisements.length) {
-
-          container.innerHTML = "";
-
-          container.style.display = "none";
-
-          return;
-        }
-
-                const selectedAdvertisements =
-          getRotatingAdGroup(
-            advertisements,
-            3,
-            "palmcase_homepage_rotation"
-          );
-
-        renderHomepageAdvertisements(
-          selectedAdvertisements
-        );
-
-      } catch (error) {
-
-        console.error(
-          "Advertisement error:",
-          error
-        );
-
-        container.style.display = "none";
-
-      }
-
+    if (error) {
+      console.error("Homepage advertisement loading error:", error);
+      return;
     }
+
+    const now = new Date();
+
+    const advertisements = (data || []).filter(ad => {
+      const start = ad.start_date ? new Date(ad.start_date) : null;
+      const end = ad.end_date ? new Date(ad.end_date) : null;
+
+      if (start && now < start) return false;
+      if (end && now > end) return false;
+
+      return true;
+    });
+
+    if (!advertisements.length) return;
+
+    // Select up to three ads using the existing rotation helper.
+    const selectedAdvertisements = getRotatingAdGroup(
+      advertisements,
+      3,
+      "palmcase_homepage_rotation"
+    );
+
+    // Place one selected ad in each homepage slot.
+    selectedAdvertisements.forEach((ad, index) => {
+      const slotId = slotIds[index];
+
+      if (slotId) {
+        renderHomepageAdvertisements([ad], slotId);
+      }
+    });
+
+  } catch (error) {
+    console.error("Homepage advertisement error:", error);
+  }
+}
+
 
     function normalizeExternalUrl(value) {
 
