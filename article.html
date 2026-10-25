@@ -96,65 +96,65 @@
     }
 
 
-/* OVERSIZED PALMCASEBLOG NEWSPAPER MASTHEAD */
-.article-branding {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 18px;
-  width: 100%;
-  padding: 48px 12px 42px;
-  margin-bottom: 30px;
-  background: #111827;
-  color: #fff;
-  border-radius: 0;
-  border-bottom: 8px solid #f59e0b;
-}
-
-.article-branding img {
-  width: 140px;
-  height: 140px;
-  object-fit: contain;
-  border-radius: 0;
-  flex-shrink: 0;
-}
-
-.article-branding-name {
+/* ARTICLE PAGE: CLEAN, OVERSIZED MASTHEAD */
+.article-site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   width: 100%;
   margin: 0;
-  color: #f59e0b;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(42px, 8.5vw, 100px);
-  font-weight: 900;
-  letter-spacing: -3px;
-  line-height: 0.98;
-  overflow-wrap: anywhere;
-  text-transform: uppercase;
+  padding: 8px 5px;
+  background: #111827;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
-.article-branding-tagline {
-  display: none;
+.article-site-header-inner {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.article-site-wordmark {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: #f59e0b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(40px, 9vw, 110px);
+  font-weight: 900;
+  letter-spacing: -3px;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.article-site-wordmark:hover,
+.article-site-wordmark:focus {
+  color: #f59e0b;
+  text-decoration: none;
+}
+
+/* Remove the duplicate masthead inside each article */
+.article-branding {
+  display: none !important;
 }
 
 @media (max-width: 600px) {
-  .article-branding {
-    gap: 14px;
-    padding: 35px 8px 30px;
+  .article-site-header {
+    padding: 8px 3px;
   }
 
-  .article-branding img {
-    width: 95px;
-    height: 95px;
-  }
-
-  .article-branding-name {
-    font-size: clamp(34px, 9.5vw, 62px);
-    letter-spacing: -1.8px;
-    line-height: 1;
+  .article-site-wordmark {
+    font-size: clamp(34px, 9.5vw, 64px);
+    letter-spacing: -1.5px;
   }
 }
+
 
 
 /* FOLLOW / SUBSCRIBE SECTION */
