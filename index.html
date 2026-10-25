@@ -2216,6 +2216,7 @@ function getRotatingAdGroup(ads, groupSize, storageKey) {
 }
 
     
+
 async function loadHomepageAdvertisements() {
   const slotIds = [
     "homepageAdvertisements",
@@ -2229,7 +2230,6 @@ async function loadHomepageAdvertisements() {
 
   if (!slots.length || !supabaseClient) return;
 
-  // Hide and clear all three slots before loading.
   slots.forEach(slot => {
     slot.innerHTML = "";
     slot.style.display = "none";
@@ -2262,26 +2262,46 @@ async function loadHomepageAdvertisements() {
 
     if (!advertisements.length) return;
 
-    // Select up to three ads using the existing rotation helper.
-    const selectedAdvertisements = getRotatingAdGroup(
-      advertisements,
-      3,
-      "palmcase_homepage_rotation"
-    );
+    // Rotate the starting position on each homepage load.
+    const storageKey = "palmcase_homepage_start";
+    let startIndex = 0;
 
-    // Place one selected ad in each homepage slot.
-    selectedAdvertisements.forEach((ad, index) => {
-      const slotId = slotIds[index];
+    try {
+      const savedIndex = Number(localStorage.getItem(storageKey));
 
-      if (slotId) {
-        renderHomepageAdvertisements([ad], slotId);
+      if (
+        localStorage.getItem(storageKey) !== null &&
+        Number.isInteger(savedIndex) &&
+        savedIndex >= 0
+      ) {
+        startIndex = savedIndex % advertisements.length;
       }
-    });
+
+      localStorage.setItem(
+        storageKey,
+        String((startIndex + 1) % advertisements.length)
+      );
+    } catch (error) {
+      console.warn("Homepage rotation state unavailable:", error);
+    }
+
+    // Fill each position with a different ad when possible.
+    const slotCount = Math.min(slots.length, advertisements.length);
+
+    for (let index = 0; index < slotCount; index++) {
+      const adIndex = (startIndex + index) % advertisements.length;
+
+      renderHomepageAdvertisements(
+        [advertisements[adIndex]],
+        slotIds[index]
+      );
+    }
 
   } catch (error) {
     console.error("Homepage advertisement error:", error);
   }
 }
+
 
 
     function normalizeExternalUrl(value) {
