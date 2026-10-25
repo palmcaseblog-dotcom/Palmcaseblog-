@@ -113,28 +113,54 @@
       padding: 10px 20px;
     }
 
+    
+    /* PALMCASEBLOG NEWSPAPER MASTHEAD */
+
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-shrink: 0;
+      min-width: 0;
     }
 
     .brand img {
-      width: 47px;
-      height: 47px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid var(--orange);
+      border: 0;
+      flex-shrink: 0;
     }
 
     .brand-text {
-      font-size: 23px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(34px, 4vw, 54px);
       font-weight: 900;
+      line-height: 1;
+      letter-spacing: -2px;
+      white-space: nowrap;
+      color: var(--dark);
     }
 
     .brand-text span {
       color: var(--orange-dark);
+    }
+
+    @media (max-width: 600px) {
+      .brand {
+        gap: 7px;
+      }
+
+      .brand img {
+        width: 43px;
+        height: 43px;
+      }
+
+      .brand-text {
+        font-size: clamp(27px, 7.2vw, 39px);
+        letter-spacing: -1.5px;
+      }
     }
 
 /* PALMCASEBLOG FOLLOWERS */
