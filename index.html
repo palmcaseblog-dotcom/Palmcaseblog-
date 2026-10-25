@@ -1424,6 +1424,22 @@ main {
   }
 }
 
+/* Keep the Palmcaseblog header in normal scrolling flow */
+header {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 10;
+}
+
+.header-inner,
+.brand,
+.follow-widget {
+  position: static !important;
+  transform: none !important;
+}
+
   </style>
 </head>
 
