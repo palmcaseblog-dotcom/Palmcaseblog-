@@ -2337,8 +2337,12 @@ async function loadHomepageAdvertisements() {
 
     
 
-function renderHomepageAdvertisements(advertisements) {
-  const container = document.getElementById("homepageAdvertisements");
+
+    function renderHomepageAdvertisements(
+  advertisements,
+  containerId = "homepageAdvertisements"
+) {
+  const container = document.getElementById(containerId);
   if (!container) return;
 
   container.innerHTML = "";
