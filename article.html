@@ -814,6 +814,221 @@
         grid-template-columns: 1fr;
       }
     }
+ 
+/* PALMCASEBLOG — NEWSPAPER ARTICLE DESIGN */
+
+body {
+  background: #fff;
+  color: #171717;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.article-site-header {
+  position: relative;
+  background: #fff;
+  padding: 14px 12px 12px;
+  border-bottom: 3px double #171717;
+}
+
+.article-site-wordmark,
+.article-site-wordmark:hover,
+.article-site-wordmark:focus {
+  color: #111;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 7vw, 76px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1.05;
+}
+
+nav {
+  background: #fff;
+  border-bottom: 1px solid #171717;
+}
+
+nav .nav-inner {
+  max-width: 1200px;
+  gap: 20px;
+}
+
+nav a {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+nav a:hover {
+  color: #555;
+}
+
+main {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 0 20px;
+}
+
+.back-link {
+  color: #444;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+}
+
+.article-box {
+  padding: 24px 0;
+  background: #fff;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.category {
+  color: #555;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  border-bottom: 1px solid #222;
+  display: inline-block;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
+
+.article-box h1 {
+  margin: 0 0 16px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 5.5vw, 52px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1.08;
+}
+
+.date,
+.article-stats {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+.date {
+  color: #666;
+}
+
+.article-stats {
+  padding: 12px 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.article-body {
+  color: #222;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+
+.article-paragraph {
+  margin: 0 0 24px;
+  white-space: pre-line;
+}
+
+.article-featured-image {
+  margin: 22px 0;
+}
+
+.article-featured-image img,
+.article-inline-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  margin: 24px auto;
+  border-radius: 0;
+  background: #fff;
+}
+
+.article-source {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  color: #555;
+}
+
+.article-source a {
+  color: #222;
+  text-decoration: underline;
+}
+
+.article-video,
+.article-video-embed,
+.article-video-container {
+  border-radius: 0;
+}
+
+.article-ad-section {
+  margin: 28px 0;
+}
+
+.article-ad {
+  border: 1px solid #ddd;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.article-ad-content {
+  padding: 16px;
+}
+
+.article-ad-label {
+  font-family: Arial, sans-serif;
+}
+
+.article-actions {
+  border-top: 1px solid #222;
+  padding-top: 18px;
+}
+
+.action-btn,
+.like-btn,
+.share-btn {
+  border-radius: 2px;
+  font-family: Arial, sans-serif;
+}
+
+.share-box {
+  border-radius: 0;
+}
+
+footer {
+  background: #111;
+  font-family: Arial, sans-serif;
+}
+
+@media (max-width: 700px) {
+  main {
+    margin: 14px auto;
+    padding: 0 16px;
+  }
+
+  .article-box {
+    padding: 18px 0;
+  }
+
+  .article-box h1 {
+    font-size: 34px;
+    letter-spacing: -0.6px;
+    line-height: 1.12;
+  }
+
+  .article-body {
+    font-size: 18px;
+    line-height: 1.8;
+  }
+
+  .article-inline-image,
+  .article-featured-image img {
+    margin: 20px auto;
+  }
+}
+
   </style>
 </head>
 
