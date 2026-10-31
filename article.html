@@ -2223,32 +2223,52 @@ return `
 
       
 
-      <div class="category">${escapeHTML(post.category || "News")}</div>
-      <h1>${escapeHTML(post.headline || "Untitled Article")}</h1>
- 
-      <div class="date">${escapeHTML(articleDate)}</div>
+      <div class="category">
+  ${escapeHTML(post.category || "News")}
+</div>
+
+<h1>
+  ${escapeHTML(post.headline || "Untitled Article")}
+</h1>
+
+<!-- MAIN ARTICLE IMAGE DIRECTLY BELOW HEADLINE -->
+${imageHTML}
+
+<!-- ARTICLE DATE -->
+<div class="date">
+  ${escapeHTML(articleDate)}
+</div>
+
 ${sourceHTML}
-      <div class="article-stats">
-        <span>
-  <svg viewBox="0 0 24 24" width="16" height="16"
-       fill="none" stroke="currentColor" stroke-width="1.8"
-       stroke-linecap="round" stroke-linejoin="round"
-       aria-hidden="true"
-       style="vertical-align: middle;">
-    <path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3Z"/>
-    <path d="M7 10l4-7a3 3 0 0 1 2 3v4h5.5a2.5 2.5 0 0 1 2.45 3.01l-1.5 7A2.5 2.5 0 0 1 17 22H7"/>
-  </svg>
-  <span id="top-like-count">${currentLikes.toLocaleString()}</span> likes
-</span>
-      </div>
 
-      <div id="article-ad-top" class="article-ad-slot"></div>
+<!-- ARTICLE LIKES -->
+<div class="article-stats">
+  <span>
+    <svg viewBox="0 0 24 24" width="16" height="16"
+         fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true"
+         style="vertical-align: middle;">
+      <path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3Z"/>
+      <path d="M7 10l4-7a3 3 0 0 1 2 3v4h5.5a2.5 2.5 0 0 1 2.45 3.01l-1.5 7A2.5 2.5 0 0 1 17 22H7"/>
+    </svg>
 
-      ${imageHTML}
-      ${videoHTML}
+    <span id="top-like-count">
+      ${currentLikes.toLocaleString()}
+    </span> likes
+  </span>
+</div>
 
-      <div class="article-body">${articleBodyHTML}</div>
+<!-- FIRST ADVERTISEMENT: NOW BELOW THE MAIN IMAGE -->
+<div id="article-ad-top" class="article-ad-slot"></div>
 
+<!-- ARTICLE VIDEO -->
+${videoHTML}
+
+<!-- ARTICLE WRITE-UP -->
+<div class="article-body">
+  ${articleBodyHTML}
+</div>
       <div id="article-ad-bottom" class="article-ad-slot"></div>
 <div class="article-actions">
       
