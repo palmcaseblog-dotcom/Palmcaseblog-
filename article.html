@@ -1962,13 +1962,8 @@ function buildArticleHTML(post, currentLikes) {
     articleImages.push(post.image);
   }
 
-  const hasImageOneMarker = /\[IMAGE:1\]/i.test(
-  String(post.article || "")
-);
-
-const imageHTML =
-  articleImages.length && !hasImageOneMarker
-    ? `
+  const imageHTML = articleImages.length
+  ? `
       <figure class="article-featured-image">
         <img
           src="${escapeHTML(articleImages[0])}"
@@ -1977,7 +1972,7 @@ const imageHTML =
         >
       </figure>
     `
-    : "";
+  : "";
 
   
 
