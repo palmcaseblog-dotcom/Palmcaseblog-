@@ -1427,113 +1427,84 @@ main {
   }
 }
 
-/* Keep the Palmcaseblog header in normal scrolling flow */
+
+/* =========================================
+   PALMCASEBLOG — CLEAN COMPACT MASTHEAD
+========================================= */
+
 header {
   position: relative !important;
   top: auto !important;
   left: auto !important;
   right: auto !important;
-  z-index: 10;
-}
-
-.header-inner,
-.brand,
-.follow-widget {
-  position: static !important;
-  transform: none !important;
-}
-
-/* =========================================
-   PALMCASEBLOG — FIXED HOMEPAGE MASTHEAD
-========================================= */
-
-header {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  z-index: 99999 !important;
-  background: #ffffff !important;
+  width: 100%;
+  z-index: 1000;
+  background: #fff !important;
   border-bottom: 2px solid #242424 !important;
 }
 
-/* Keep homepage content below the fixed header */
-body {
-  padding-top: 0;
-}
-
-/* Keep the newspaper masthead layout */
 .header-inner {
   width: 100%;
-}
-
-/* Prevent the fixed header from covering page content */
-@media (min-width: 901px) {
-  body {
-    padding-top: 190px;
-  }
-}
-
-@media (min-width: 601px) and (max-width: 900px) {
-  body {
-    padding-top: 175px;
-  }
-}
-
-@media (max-width: 600px) {
-  body {
-    padding-top: 0;
-  }
-}
-
-/* =========================================
-   PALMCASEBLOG — COMPACT HEADER REFINEMENT
-   Preserve brand styling and sticky header
-========================================= */
-
-/* Reduce the header's overall spacing */
-
-
-.header-inner {
+  max-width: 1360px;
   min-height: 0;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 18px;
+  padding: 10px 18px 0;
 }
 
-/* Keep the Palmcaseblog brand bold and prominent */
 .brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto;
   gap: 9px;
+  padding: 0 0 5px;
 }
 
 .brand img {
-  width: 48px;
-  height: 48px;
+  width: 43px;
+  height: 43px;
+  border-radius: 0;
+  object-fit: cover;
 }
 
 .brand-text {
-  font-size: clamp(36px, 3.5vw, 48px);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 4vw, 48px);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -1.8px;
+  white-space: nowrap;
 }
 
-/* Compact follower information */
 .follow-widget {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
   gap: 8px;
+  margin: 0;
+  padding: 0 0 5px;
 }
 
 .follow-info {
+  display: flex;
+  flex-direction: column;
   gap: 0;
 }
 
 .follow-count {
   font-size: 12px;
+  white-space: nowrap;
 }
 
 .follow-goal {
   font-size: 10px;
+  white-space: nowrap;
 }
 
 .follow-button {
@@ -1541,57 +1512,103 @@ body {
   font-size: 12px;
 }
 
-/* Reduce navigation height */
+.follow-status {
+  display: none;
+}
+
 nav {
-  gap: 2px;
+  order: 3;
+  flex: 0 0 100%;
+  width: 100%;
+  justify-content: center;
+  gap: 0;
+  border-top: 1px solid #242424;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
 nav a {
-  padding: 7px 9px;
-  font-size: 13px;
+  flex-shrink: 0;
+  padding: 9px 11px;
+  font-size: 12px;
 }
 
-/* Mobile adjustments */
-@media (max-width: 600px) {
+/* TABLETS */
+@media (min-width: 601px) and (max-width: 900px) {
   .header-inner {
-    padding: 7px 12px;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .brand {
-    gap: 7px;
+    gap: 8px 12px;
+    padding: 9px 12px 0;
   }
 
   .brand img {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
   }
 
-  /* Keep the name large and bold on phones */
   .brand-text {
-    font-size: clamp(29px, 7.4vw, 38px);
+    font-size: clamp(30px, 4.5vw, 40px);
+  }
+
+  .follow-widget {
+    gap: 6px;
+  }
+
+  nav {
+    justify-content: flex-start;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .header-inner {
+    padding: 9px 8px 0;
+    gap: 7px 9px;
+  }
+
+  .brand {
+    gap: 6px;
+    padding-bottom: 5px;
+  }
+
+  .brand img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .brand-text {
+    font-size: clamp(25px, 7vw, 34px);
     letter-spacing: -1.3px;
   }
 
   .follow-widget {
-    margin-left: auto;
-    gap: 7px;
+    gap: 5px;
+    padding-bottom: 5px;
+  }
+
+  .follow-count {
+    font-size: 10px;
+  }
+
+  .follow-goal {
+    font-size: 9px;
   }
 
   .follow-button {
-    padding: 6px 9px;
+    padding: 6px 8px;
+    font-size: 11px;
   }
 
   nav {
-    width: 100%;
-    flex: 0 0 100%;
-    gap: 2px;
+    justify-content: flex-start;
   }
 
   nav a {
-    padding: 6px 9px;
-    font-size: 12px;
+    padding: 8px 9px;
+    font-size: 10px;
+  }
+
+  .search-section {
+    padding: 12px 15px;
   }
 }
 
