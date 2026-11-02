@@ -1487,6 +1487,114 @@ body {
   }
 }
 
+/* =========================================
+   PALMCASEBLOG — COMPACT HEADER REFINEMENT
+   Preserve brand styling and sticky header
+========================================= */
+
+/* Reduce the header's overall spacing */
+
+
+.header-inner {
+  min-height: 0;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  gap: 16px;
+}
+
+/* Keep the Palmcaseblog brand bold and prominent */
+.brand {
+  gap: 9px;
+}
+
+.brand img {
+  width: 48px;
+  height: 48px;
+}
+
+.brand-text {
+  font-size: clamp(36px, 3.5vw, 48px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1.8px;
+}
+
+/* Compact follower information */
+.follow-widget {
+  gap: 8px;
+}
+
+.follow-info {
+  gap: 0;
+}
+
+.follow-count {
+  font-size: 12px;
+}
+
+.follow-goal {
+  font-size: 10px;
+}
+
+.follow-button {
+  padding: 7px 10px;
+  font-size: 12px;
+}
+
+/* Reduce navigation height */
+nav {
+  gap: 2px;
+}
+
+nav a {
+  padding: 7px 9px;
+  font-size: 13px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .header-inner {
+    padding: 7px 12px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    gap: 7px;
+  }
+
+  .brand img {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Keep the name large and bold on phones */
+  .brand-text {
+    font-size: clamp(29px, 7.4vw, 38px);
+    letter-spacing: -1.3px;
+  }
+
+  .follow-widget {
+    margin-left: auto;
+    gap: 7px;
+  }
+
+  .follow-button {
+    padding: 6px 9px;
+  }
+
+  nav {
+    width: 100%;
+    flex: 0 0 100%;
+    gap: 2px;
+  }
+
+  nav a {
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+}
+
   </style>
 </head>
 
