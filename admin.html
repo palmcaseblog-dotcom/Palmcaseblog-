@@ -863,61 +863,240 @@ const record = {
     await refreshHome();
   }
 
+
   // BUSINESS DIRECTORY
 
   async function loadBusinesses() {
-  $("businessList").innerHTML =
-    '<div class="loading">Loading business listings…</div>';
+    $("businessList").innerHTML =
+      '<div class="loading">Loading business listings…</div>';
 
-  try {
-    const { data, error } = await db
+    try {
+      const { data, error } = await db
+        .from("businesses")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      businessesCache = data || [];
+      renderBusinesses();
+
+      $("homeBusinessCount").textContent = businessesCache.length;
+
+      $("homePendingCount").textContent =
+        businessesCache.filter(
+          b => (b.status || "pending") === "pending"
+        ).length;
+
+    } catch (error) {
+      console.error("Business directory loading failed:", error);
+
+      $("businessList").innerHTML = "";
+
+      const details = [
+        error?.name,
+        error?.message,
+        error?.details,
+        error?.hint,
+        error?.code
+      ].filter(Boolean).join(" | ");
+
+      showMessage(
+        "globalMessage",
+        "Could not load businesses: " +
+          (details || "Unknown fetch error. Check your network and Supabase connection."),
+        "error-msg"
+      );
+    }
+  }
+
+  function renderBusinesses() {
+    const filter = $("businessFilter").value;
+
+    const filtered = businessesCache.filter(business => {
+      const status = (business.status || "pending").toLowerCase();
+      return filter === "all" || status === filter;
+    });
+
+    if (!filtered.length) {
+      $("businessList").innerHTML =
+        '<div class="empty">No business listings found for this filter.</div>';
+      return;
+    }
+
+    $("businessList").innerHTML = filtered.map(business => {
+      const id = escapeHTML(business.id);
+      const name = escapeHTML(business.business || "Unnamed business");
+      const status = (business.status || "pending").toLowerCase();
+      const statusClass = ["pending", "approved", "rejected"].includes(status)
+        ? status
+        : "";
+
+      const website = safeURL(business.website);
+      const image = safeURL(business.image_url);
+
+      const date = business.created_at
+        ? new Date(business.created_at).toLocaleString()
+        : "Date unavailable";
+
+      return `
+        <article class="item">
+
+          <div class="row-between">
+            <div class="item-title">${name}</div>
+            <span class="badge ${statusClass}">
+              ${escapeHTML(status)}
+            </span>
+          </div>
+
+          <div class="item-meta">
+            Category: ${escapeHTML(business.category || "Not specified")}<br>
+            Location: ${escapeHTML(business.location || "Not specified")}<br>
+            Owner: ${escapeHTML(business.owner_name || "Not specified")}<br>
+            Phone: ${escapeHTML(business.phone || "Not provided")}<br>
+            WhatsApp: ${escapeHTML(business.whatsapp || "Not provided")}<br>
+            Email: ${escapeHTML(business.email || "Not provided")}<br>
+            Submitted: ${escapeHTML(date)}
+          </div>
+
+          ${image ? `
+            <img
+              class="preview"
+              src="${escapeHTML(image)}"
+              alt="${name}"
+              loading="lazy"
+            >
+          ` : ""}
+
+          ${business.description
+            ? `<p>${escapeHTML(business.description)}</p>`
+            : ""}
+
+          <div class="actions">
+
+            ${website ? `
+              <a
+                class="secondary"
+                style="display:inline-block;padding:10px 13px;border-radius:7px;text-decoration:none"
+                href="${escapeHTML(website)}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Visit Website</a>
+            ` : ""}
+
+            <button
+              class="success"
+              data-business-status="${id}"
+              data-status="approved"
+              ${status === "approved" ? "disabled" : ""}
+            >Approve</button>
+
+            <button
+              class="secondary"
+              data-business-status="${id}"
+              data-status="pending"
+              ${status === "pending" ? "disabled" : ""}
+            >Set Pending</button>
+
+            <button
+              class="danger"
+              data-delete-business="${id}"
+            >Delete</button>
+
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    $("businessList")
+      .querySelectorAll("[data-business-status]")
+      .forEach(button => {
+        button.addEventListener("click", () => {
+          updateBusinessStatus(
+            button.dataset.businessStatus,
+            button.dataset.status
+          );
+        });
+      });
+
+    $("businessList")
+      .querySelectorAll("[data-delete-business]")
+      .forEach(button => {
+        button.addEventListener("click", () => {
+          deleteBusiness(button.dataset.deleteBusiness);
+        });
+      });
+  }
+
+  async function updateBusinessStatus(id, status) {
+    if (!confirm(`Change this business listing status to "${status}"?`)) {
+      return;
+    }
+
+    const { error } = await db
       .from("businesses")
-      .select("*")
-      .order("created_at", { ascending: false });
+      .update({ status })
+      .eq("id", id);
 
-    if (error) throw error;
-
-    businessesCache = data || [];
-    renderBusinesses();
-
-    $("homeBusinessCount").textContent = businessesCache.length;
-
-    $("homePendingCount").textContent =
-      businessesCache.filter(
-        b => (b.status || "pending") === "pending"
-      ).length;
-
-  } catch (error) {
-    console.error("Business directory loading failed:", error);
-
-    $("businessList").innerHTML = "";
-
-    const details = [
-      error?.name,
-      error?.message,
-      error?.details,
-      error?.hint,
-      error?.code
-    ].filter(Boolean).join(" | ");
+    if (error) {
+      showMessage(
+        "globalMessage",
+        "Could not update business status: " +
+          friendlyError(error) +
+          ". Check your admin-only UPDATE policy.",
+        "error-msg"
+      );
+      return;
+    }
 
     showMessage(
       "globalMessage",
-      "Could not load businesses: " +
-        (details || "Unknown fetch error. Check your network and Supabase connection."),
-      "error-msg"
+      "Business status updated successfully.",
+      "success-msg"
     );
-  }
-}
 
-  async function updateBusinessStatus(id, status) {
-    if (!confirm(`Change this business listing status to "${status}"?`)) return;
-    const { error } = await db.from("businesses").update({status}).eq("id", id);
-    if (error) {
-      showMessage("globalMessage", "Could not update business status: " + friendlyError(error) + ". The admin-only UPDATE policy may not be set up yet.", "error-msg");
+    await loadBusinesses();
+  }
+
+  async function deleteBusiness(id) {
+    const business = businessesCache.find(
+      item => String(item.id) === String(id)
+    );
+
+    if (!business) return;
+
+    const name = business.business || "this business listing";
+
+    if (!confirm(
+      `Permanently delete "${name}" from the Business Directory?\n\nThis action cannot be undone.`
+    )) {
       return;
     }
-    showMessage("globalMessage", "Business status updated.", "success-msg");
-    await loadBusinesses();
+
+    try {
+      const { error } = await db
+        .from("businesses")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
+
+      showMessage(
+        "globalMessage",
+        `"${name}" has been deleted successfully.`,
+        "success-msg"
+      );
+
+      await loadBusinesses();
+
+    } catch (error) {
+      showMessage(
+        "globalMessage",
+        "Could not delete business listing: " +
+          friendlyError(error),
+        "error-msg"
+      );
+    }
   }
 
   $("businessFilter").addEventListener("change", renderBusinesses);
