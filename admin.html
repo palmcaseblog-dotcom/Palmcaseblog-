@@ -1223,30 +1223,47 @@ async function callAnalyticsRPC(name, start, end) {
     }
   }
 
-  $("excludeDeviceButton").addEventListener("click", async () => {
-    const device = $("excludedDevice").value.trim();
-    if (!device) {
-      showMessage("excludeDeviceMessage","Enter a device identifier first.","error-msg");
-      return;
-    }
-    const button = $("excludeDeviceButton");
-    setBusy(button,true,"Submitting…");
-    try {
-      const {error} = await db.rpc("add_analytics_excluded_device", {
-        device_name: device
-      });
-      if (error) throw error;
-      showMessage("excludeDeviceMessage","Device exclusion request submitted.","success-msg");
-      $("excludedDevice").value = "";
-    } catch (error) {
-      showMessage("excludeDeviceMessage",
-        "Could not exclude device: " + friendlyError(error) +
-        ". Your existing RPC may use a different parameter name.",
-        "error-msg");
-    } finally {
-      setBusy(button,false);
-    }
-  });
+ $("excludeDeviceButton").addEventListener("click", async () => {
+  const device = $("excludedDevice").value.trim();
+
+  if (!device) {
+    showMessage(
+      "excludeDeviceMessage",
+      "Enter a device identifier first.",
+      "error-msg"
+    );
+    return;
+  }
+
+  const button = $("excludeDeviceButton");
+  setBusy(button, true, "Submitting…");
+
+  try {
+    const { error } = await db.rpc("add_analytics_excluded_device", {
+      p_device_id: device,
+      p_device_name: "Palmcaseblog Owner Device"
+    });
+
+    if (error) throw error;
+
+    showMessage(
+      "excludeDeviceMessage",
+      "Device exclusion submitted successfully.",
+      "success-msg"
+    );
+
+    $("excludedDevice").value = "";
+
+  } catch (error) {
+    showMessage(
+      "excludeDeviceMessage",
+      "Could not exclude device: " + friendlyError(error),
+      "error-msg"
+    );
+  } finally {
+    setBusy(button, false);
+  }
+});
 
   // HOME
 
