@@ -866,69 +866,48 @@ const record = {
   // BUSINESS DIRECTORY
 
   async function loadBusinesses() {
-    $("businessList").innerHTML = '<div class="loading">Loading business listings…</div>';
-    const { data, error } = await db.from("businesses")
-      .select("*")
-      .order("created_at", {ascending:false});
+  $("businessList").innerHTML =
+    '<div class="loading">Loading business listings…</div>';
 
-    if (error) {
-      $("businessList").innerHTML = "";
-      showMessage("globalMessage", "Could not load businesses: " + friendlyError(error) + ". Check your Supabase SELECT policy.", "error-msg");
-      return;
-    }
+  try {
+    const { data, error } = await db
+      .from("businesses")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
 
     businessesCache = data || [];
     renderBusinesses();
+
     $("homeBusinessCount").textContent = businessesCache.length;
-    $("homePendingCount").textContent = businessesCache.filter(b => (b.status || "pending") === "pending").length;
+
+    $("homePendingCount").textContent =
+      businessesCache.filter(
+        b => (b.status || "pending") === "pending"
+      ).length;
+
+  } catch (error) {
+    console.error("Business directory loading failed:", error);
+
+    $("businessList").innerHTML = "";
+
+    const details = [
+      error?.name,
+      error?.message,
+      error?.details,
+      error?.hint,
+      error?.code
+    ].filter(Boolean).join(" | ");
+
+    showMessage(
+      "globalMessage",
+      "Could not load businesses: " +
+        (details || "Unknown fetch error. Check your network and Supabase connection."),
+      "error-msg"
+    );
   }
-
-  function renderBusinesses() {
-    const filter = $("businessFilter").value;
-    const rows = businessesCache.filter(b => filter === "all" || (b.status || "pending") === filter);
-
-    if (!rows.length) {
-      $("businessList").innerHTML = '<div class="empty">No listings match this filter.</div>';
-      return;
-    }
-
-    $("businessList").innerHTML = rows.map(b => {
-      const status = String(b.status || "pending").toLowerCase();
-      const photo = safeURL(b.image_url);
-      const phone = escapeHTML(b.phone || "");
-      const whatsapp = escapeHTML(b.whatsapp || "");
-      const email = escapeHTML(b.email || "");
-      const website = safeURL(b.website);
-      return `
-        <article class="item">
-          <div class="row-between">
-            <div class="item-title">${escapeHTML(b.business || "Unnamed business")}</div>
-            <span class="badge ${escapeHTML(status)}">${escapeHTML(status)}</span>
-          </div>
-          <div class="item-meta">
-            Category: ${escapeHTML(b.category || "Other")}<br>
-            Location: ${escapeHTML(b.location || "Not supplied")}<br>
-            Owner: ${escapeHTML(b.owner_name || "Not supplied")}<br>
-            Submitted: ${escapeHTML(b.created_at ? new Date(b.created_at).toLocaleString() : "Unknown")}
-          </div>
-          ${photo ? `<img class="preview" src="${escapeHTML(photo)}" alt="Business photo" loading="lazy">` : ""}
-          <p>${escapeHTML(b.description || "")}</p>
-          ${phone ? `<div class="item-meta">Phone: ${phone}</div>` : ""}
-          ${whatsapp ? `<div class="item-meta">WhatsApp: ${whatsapp}</div>` : ""}
-          ${email ? `<div class="item-meta">Email: ${email}</div>` : ""}
-          ${website ? `<p><a href="${escapeHTML(website)}" target="_blank" rel="noopener noreferrer">Visit website</a></p>` : ""}
-          <div class="actions">
-            ${status !== "approved" ? `<button class="success" data-business-status="${escapeHTML(b.id)}" data-status="approved">Approve</button>` : ""}
-            ${status !== "rejected" ? `<button class="secondary" data-business-status="${escapeHTML(b.id)}" data-status="rejected">Reject</button>` : ""}
-            ${status !== "pending" ? `<button class="secondary" data-business-status="${escapeHTML(b.id)}" data-status="pending">Set pending</button>` : ""}
-          </div>
-        </article>`;
-    }).join("");
-
-    $("businessList").querySelectorAll("[data-business-status]").forEach(button => {
-      button.addEventListener("click", () => updateBusinessStatus(button.dataset.businessStatus, button.dataset.status));
-    });
-  }
+}
 
   async function updateBusinessStatus(id, status) {
     if (!confirm(`Change this business listing status to "${status}"?`)) return;
