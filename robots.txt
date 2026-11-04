@@ -1,5 +1,5 @@
-
 User-agent: *
 Allow: /
 
 Sitemap: https://palmcaseblog.com.ng/sitemap.xml
+Sitemap: https://kcxlwhojwdvbfjjnartw.supabase.co/functions/v1/google-news-sitemap
