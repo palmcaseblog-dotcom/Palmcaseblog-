@@ -708,48 +708,51 @@
           "no stories" because of URL/category timing.
         */
 
-        const {
-          data,
-          error
-        } = await supabaseClient
-          .from("posts")
-          .select("*")
-          .order("created_at", {
-            ascending: false
-          });
+        
+const {
+  data,
+  error
+} = await supabaseClient
+  .from("posts")
+  .select("*")
+  .eq("status", "published")
+  .order("created_at", {
+    ascending: false
+  });
 
-        if (error) {
-          throw error;
-        }
+if (error) {
+  throw error;
+}
 
-        const posts =
-          Array.isArray(data)
-            ? data
-            : [];
+const posts =
+  Array.isArray(data)
+    ? data
+    : [];
 
-        /*
-          Category matching is case-insensitive.
-          So "News", "news", or "NEWS"
-          will all match correctly.
-        */
+/*
+  Category matching is case-insensitive.
+  So "News", "news", or "NEWS"
+  will all match correctly.
+*/
 
-        const filteredPosts =
-          posts.filter(post => {
+const filteredPosts =
+  posts.filter(post => {
 
-            const postCategory =
-              String(
-                post.category || ""
-              )
-              .trim()
-              .toLowerCase();
+    const postCategory =
+      String(
+        post.category || ""
+      )
+      .trim()
+      .toLowerCase();
 
-            return postCategory === category;
-          });
+    return postCategory === category;
+  });
 
-        renderPosts(
-          filteredPosts,
-          displayName
-        );
+renderPosts(
+  filteredPosts,
+  displayName
+);
+
 
       } catch (error) {
 
