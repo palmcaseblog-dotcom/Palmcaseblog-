@@ -1026,7 +1026,12 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
     $("headline").value = post.headline || "";
     $("category").value = String(post.category || "news").toLowerCase();
     $("description").value = post.description || "";
-    $("articleText").value = post.article || "";
+$("publisherName").value =
+  post.publisher_name || "Egwu John Uchenna";
+
+$("imageCaption").value = post.image_caption || "";
+
+$("articleText").value = post.article || "";
 
     $("videoUrl").value = post.video_url || "";
     $("credit").value = post.credit || "";
