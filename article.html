@@ -2951,14 +2951,23 @@ setCanonicalUrl();
 
     
 
-    connectArticleButtons(
-      articleId,
-      post.headline || "Palmcaseblog"
-    );
+    
 
     
       
-    await loadArticleAdvertisements();
+    connectArticleButtons(
+  articleId,
+  post.headline || "Palmcaseblog"
+);
+
+// Load other published articles.
+await loadRelatedStories(numericArticleId);
+
+// Show recommendations after three minutes.
+scheduleArticleRecommendation(numericArticleId);
+
+// Load existing article advertisements.
+await loadArticleAdvertisements();
   } catch (error) {
     console.error("CRITICAL ARTICLE ERROR:", error);
 
