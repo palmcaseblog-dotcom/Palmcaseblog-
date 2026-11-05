@@ -2432,6 +2432,24 @@ ${imageHTML}
   ${escapeHTML(articleDate)}
 </div>
 
+<!-- PUBLISHER BYLINE -->
+<div class="article-publisher">
+  Posted by
+  <strong>${escapeHTML(
+    String(post.publisher_name || "").trim() || "Egwu John Uchenna"
+  )}</strong>
+  on Palmcaseblog
+</div>
+
+<!-- FEATURED IMAGE CAPTION -->
+${
+  articleImages.length && String(post.image_caption || "").trim()
+    ? `<div class="article-image-caption">
+         ${escapeHTML(post.image_caption)}
+       </div>`
+    : ""
+}
+
 ${sourceHTML}
 
 <!-- ARTICLE LIKES -->
