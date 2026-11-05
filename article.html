@@ -2447,10 +2447,11 @@ container.innerHTML = '<div class="message">Loading article data...</div>';
   try {
     const result = await Promise.race([
   supabaseClient
-    .from("posts")
-    .select("*")
-    .eq("id", numericArticleId)
-    .single(),
+  .from("posts")
+  .select("*")
+  .eq("id", numericArticleId)
+  .eq("status", "published")
+  .single(),
 
   new Promise((_, reject) =>
     setTimeout(
