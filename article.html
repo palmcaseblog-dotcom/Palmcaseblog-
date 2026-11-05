@@ -2632,7 +2632,221 @@ function connectArticleButtons(articleId, articleTitle) {
 
 
 
+/* =================================
+   RELATED STORIES AND RECOMMENDATIONS
+================================= */
 
+let articleRecommendations = [];
+let recommendationTimer = null;
+
+
+function getPostImage(post) {
+  if (
+    Array.isArray(post.images) &&
+    post.images.length &&
+    typeof post.images[0] === "string"
+  ) {
+    const firstImage = safeExternalUrl(post.images[0]);
+
+    if (firstImage) return firstImage;
+  }
+
+  return safeExternalUrl(post.image);
+}
+
+
+function formatPostDate(dateValue) {
+  if (!dateValue) return "";
+
+  const date = new Date(dateValue);
+
+  if (Number.isNaN(date.getTime())) return "";
+
+  return date.toLocaleDateString("en-NG", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
+}
+
+
+async function loadRelatedStories(currentArticleId) {
+  const grid = document.getElementById("related-stories-grid");
+
+  if (!grid) return;
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("posts")
+      .select("id,headline,category,image,images,created_at")
+      .eq("status", "published")
+      .neq("id", Number(currentArticleId))
+      .order("created_at", { ascending: false })
+      .limit(4);
+
+    if (error) {
+      console.error("RELATED STORIES ERROR:", error);
+      grid.innerHTML = "";
+      return;
+    }
+
+    articleRecommendations = Array.isArray(data) ? data : [];
+
+    if (!articleRecommendations.length) {
+      grid.innerHTML =
+        '<p class="related-stories-empty">No related stories available yet.</p>';
+      return;
+    }
+
+    grid.innerHTML = articleRecommendations.map(post => {
+      const title = escapeHTML(post.headline || "Read this story");
+      const category = escapeHTML(post.category || "News");
+      const date = escapeHTML(formatPostDate(post.created_at));
+      const image = getPostImage(post);
+      const articleUrl = "article.html?id=" + encodeURIComponent(post.id);
+
+      return `
+        <a class="related-story" href="${articleUrl}">
+          ${
+            image
+              ? `<img src="${escapeHTML(image)}"
+                     alt="${title}"
+                     loading="lazy">`
+              : `<div style="width:110px;height:85px;flex-shrink:0;background:#eee"></div>`
+          }
+
+          <div>
+            <span>${category}${date ? " · " + date : ""}</span>
+            <h3>${title}</h3>
+          </div>
+        </a>
+      `;
+    }).join("");
+
+  } catch (error) {
+    console.error("RELATED STORIES ERROR:", error);
+    grid.innerHTML = "";
+  }
+}
+
+
+function closeArticleRecommendation() {
+  const popup = document.getElementById(
+    "article-recommendation-overlay"
+  );
+
+  if (popup) {
+    popup.classList.remove("show");
+    popup.setAttribute("aria-hidden", "true");
+  }
+}
+
+
+function showArticleRecommendation(currentArticleId) {
+  if (!articleRecommendations.length) return;
+
+  const storageKey =
+    "palmcase_recommendation_shown_" + currentArticleId;
+
+  try {
+    if (sessionStorage.getItem(storageKey) === "true") {
+      return;
+    }
+  } catch (error) {
+    console.warn("Recommendation session storage unavailable.", error);
+  }
+
+  // Mark it as shown so it does not interrupt repeatedly in this tab.
+  try {
+    sessionStorage.setItem(storageKey, "true");
+  } catch (error) {
+    console.warn("Could not save recommendation popup state.", error);
+  }
+
+  const overlay = document.createElement("div");
+
+  overlay.id = "article-recommendation-overlay";
+  overlay.className = "article-recommendation-overlay";
+  overlay.setAttribute("aria-hidden", "false");
+
+  const recommendationsHTML = articleRecommendations
+    .slice(0, 4)
+    .map(post => {
+      const title = escapeHTML(post.headline || "Read this story");
+      const image = getPostImage(post);
+      const articleUrl =
+        "article.html?id=" + encodeURIComponent(post.id);
+
+      return `
+        <a class="article-recommendation-item" href="${articleUrl}">
+          ${
+            image
+              ? `<img src="${escapeHTML(image)}"
+                     alt="${title}"
+                     loading="lazy">`
+              : `<div style="width:105px;height:78px;flex-shrink:0;background:#eee"></div>`
+          }
+
+          <div>
+            <h3>${title}</h3>
+            <span style="display:block;margin-top:7px;color:#777;font:11px Arial,sans-serif">
+              ${escapeHTML(post.category || "News")}
+            </span>
+          </div>
+        </a>
+      `;
+    })
+    .join("");
+
+  overlay.innerHTML = `
+    <div
+      class="article-recommendation-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="article-recommendation-title"
+    >
+      <button
+        type="button"
+        class="article-recommendation-close"
+        aria-label="Close recommendations"
+      >&times;</button>
+
+      <h2 id="article-recommendation-title">
+        Enjoying Palmcaseblog?
+      </h2>
+
+      <p class="article-recommendation-intro">
+        Here are more stories you may enjoy reading.
+      </p>
+
+      <div class="article-recommendation-list">
+        ${recommendationsHTML}
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  overlay.querySelector(".article-recommendation-close")
+    .addEventListener("click", closeArticleRecommendation);
+
+  overlay.addEventListener("click", event => {
+    if (event.target === overlay) {
+      closeArticleRecommendation();
+    }
+  });
+}
+
+
+function scheduleArticleRecommendation(articleId) {
+  if (recommendationTimer) {
+    clearTimeout(recommendationTimer);
+  }
+
+  recommendationTimer = setTimeout(() => {
+    showArticleRecommendation(articleId);
+  }, 180000);
+}
 
 async function loadArticle() {
 console.log("PALMCASE: loadArticle started");
