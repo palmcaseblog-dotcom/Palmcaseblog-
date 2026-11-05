@@ -3777,59 +3777,62 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
 }
 
 
-    /* =========================
-       POSTS
-    ========================= */
+    
+/* =========================
+   POSTS
+========================= */
 
-    async function loadPosts() {
+async function loadPosts() {
 
-      try {
+  try {
 
-        const { data, error } =
-          await supabaseClient
-            .from("posts")
-            .select("*")
-            .order(
-              "created_at",
-              {
-                ascending: false
-              }
-            );
-
-        if (error) {
-
-          console.error(
-            "Posts error:",
-            error
-          );
-
-          showDatabaseError(
-            "Unable to load stories right now."
-          );
-
-          return;
-        }
-
-        allPosts =
-          data || [];
-
-        renderFeatured();
-        renderLatest();
-        renderTrending();
-        renderPopular();
-        renderBreaking();
-
-      } catch (error) {
-
-        console.error(error);
-
-        showDatabaseError(
-          "Something went wrong while loading Palmcaseblog."
+    const { data, error } =
+      await supabaseClient
+        .from("posts")
+        .select("*")
+        .eq("status", "published")
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
         );
 
-      }
+    if (error) {
 
+      console.error(
+        "Posts error:",
+        error
+      );
+
+      showDatabaseError(
+        "Unable to load stories right now."
+      );
+
+      return;
     }
+
+    allPosts =
+      data || [];
+
+    renderFeatured();
+    renderLatest();
+    renderTrending();
+    renderPopular();
+    renderBreaking();
+
+  } catch (error) {
+
+    console.error(error);
+
+    showDatabaseError(
+      "Something went wrong while loading Palmcaseblog."
+    );
+
+  }
+
+}
+
 
     function renderFeatured() {
 
