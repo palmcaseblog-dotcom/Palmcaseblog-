@@ -9,138 +9,88 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
-  --bg:#0b1120;
-  --panel:#111827;
-  --panel2:#182235;
-  --line:#29364b;
-  --text:#f8fafc;
-  --muted:#9ca3af;
-  --orange:#f59e0b;
-  --green:#22c55e;
-  --red:#ef4444;
+  --bg:#0b1120;--panel:#111827;--panel2:#182235;--line:#29364b;
+  --text:#f8fafc;--muted:#9ca3af;--orange:#f59e0b;
+  --green:#22c55e;--red:#ef4444;
 }
-* {box-sizing:border-box}
-body {
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:var(--orange)}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.topbar{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.brand{font-size:20px;font-weight:800}
+.brand span{color:var(--orange)}
+.top-actions{display:flex;gap:8px;align-items:center}
+.layout{display:flex;min-height:calc(100vh - 64px)}
+.sidebar{width:240px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--line);padding:18px 12px}
+.side-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:8px 12px 12px}
+.nav-btn{width:100%;text-align:left;background:transparent;color:#dbe4f0;border:0;padding:13px 12px;border-radius:8px;margin-bottom:5px}
+.nav-btn:hover,.nav-btn.active{background:#283448;color:var(--orange)}
+.main{flex:1;min-width:0;padding:24px;max-width:1500px}
+.page{display:none}
+.page.active{display:block}
+h1{font-size:26px;margin:0 0 8px}
+h2{font-size:19px;margin-top:0}
+h3{font-size:15px}
+.page-intro{color:var(--muted);margin-bottom:24px;line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:20px 0}
+.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;min-width:0}
+.stat-label{font-size:13px;color:var(--muted)}
+.stat-number{font-size:27px;font-weight:800;margin-top:9px;overflow-wrap:anywhere}
+.field{margin-bottom:15px}
+label{display:block;font-size:13px;margin-bottom:7px;color:#dbe4f0}
+input,select,textarea{width:100%;padding:12px;border-radius:7px;border:1px solid #37445a;background:#0b1120;color:var(--text);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--orange)}
+textarea{min-height:120px;resize:vertical}
+button.primary,.primary{background:var(--orange);color:#111827;border:0;border-radius:7px;padding:11px 15px;font-weight:700}
+button.secondary{background:#29364b;color:white;border:1px solid #40506a;border-radius:7px;padding:10px 13px}
+button.danger{background:#7f1d1d;color:white;border:0;border-radius:7px;padding:9px 11px}
+button.success{background:#166534;color:white;border:0;border-radius:7px;padding:9px 11px}
+button:disabled{opacity:.55;cursor:not-allowed}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.message{padding:12px;border-radius:8px;margin:12px 0;line-height:1.5;overflow-wrap:anywhere}
+.message.success-msg{background:#12351f;color:#bbf7d0}
+.message.error-msg{background:#451a1a;color:#fecaca}
+.message.info-msg{background:#172554;color:#bfdbfe}
+.item{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:15px;margin-top:12px;overflow-wrap:anywhere}
+.item-title{font-weight:700;margin-bottom:7px;line-height:1.4}
+.item-meta{font-size:12px;color:var(--muted);line-height:1.7}
+.item p{line-height:1.5}
+.badge{display:inline-block;font-size:11px;padding:5px 8px;border-radius:20px;background:#29364b;color:#e5e7eb;margin:4px 4px 4px 0}
+.badge.pending{background:#713f12;color:#fde68a}
+.badge.approved,.badge.active,.badge.published{background:#14532d;color:#bbf7d0}
+.badge.rejected,.badge.inactive{background:#7f1d1d;color:#fecaca}
+.badge.draft{background:#713f12;color:#fde68a}
+.row-between{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+hr{border:0;border-top:1px solid var(--line);margin:20px 0}
+.preview{max-width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-top:10px}
+#loginPanel{max-width:440px;margin:65px auto;padding:25px}
+#loginPanel .brand{margin-bottom:18px}
+#globalMessage{margin-bottom:16px}
+.loading{color:var(--muted);padding:14px 0}
+.empty{color:var(--muted);padding:16px 0}
+@media(max-width:900px){
+.layout{display:block}
+.sidebar{width:100%;border-right:0;border-bottom:1px solid var(--line);padding:10px;position:static}
+.side-label{margin:5px 8px}
+.nav-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.nav-btn{margin:0;padding:11px 9px;font-size:13px}
+.main{padding:17px}
 }
-button,input,select,textarea {font:inherit}
-button {cursor:pointer}
-a {color:var(--orange)}
-.hidden {display:none!important}
-.muted {color:var(--muted)}
-.small {font-size:12px}
-.topbar {
-  height:64px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 20px;background:var(--panel);border-bottom:1px solid var(--line);
-  position:sticky;top:0;z-index:10;
-}
-.brand {font-size:20px;font-weight:800}
-.brand span {color:var(--orange)}
-.top-actions {display:flex;gap:8px;align-items:center}
-.layout {display:flex;min-height:calc(100vh - 64px)}
-.sidebar {
-  width:240px;flex-shrink:0;background:var(--panel);
-  border-right:1px solid var(--line);padding:18px 12px;
-}
-.side-label {
-  font-size:11px;color:var(--muted);text-transform:uppercase;
-  letter-spacing:1px;margin:8px 12px 12px;
-}
-.nav-btn {
-  width:100%;text-align:left;background:transparent;color:#dbe4f0;
-  border:0;padding:13px 12px;border-radius:8px;margin-bottom:5px;
-}
-.nav-btn:hover,.nav-btn.active {background:#283448;color:var(--orange)}
-.main {flex:1;min-width:0;padding:24px;max-width:1500px}
-.page {display:none}
-.page.active {display:block}
-h1 {font-size:26px;margin:0 0 8px}
-h2 {font-size:19px;margin-top:0}
-h3 {font-size:15px}
-.page-intro {color:var(--muted);margin-bottom:24px;line-height:1.5}
-.grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.stats {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0}
-.stat,.panel {
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:12px;padding:18px;min-width:0;
-}
-.stat-label {font-size:13px;color:var(--muted)}
-.stat-number {font-size:27px;font-weight:800;margin-top:9px;overflow-wrap:anywhere}
-.field {margin-bottom:15px}
-label {display:block;font-size:13px;margin-bottom:7px;color:#dbe4f0}
-input,select,textarea {
-  width:100%;padding:12px;border-radius:7px;border:1px solid #37445a;
-  background:#0b1120;color:var(--text);outline:none;
-}
-input:focus,select:focus,textarea:focus {border-color:var(--orange)}
-textarea {min-height:120px;resize:vertical}
-button.primary,.primary {
-  background:var(--orange);color:#111827;border:0;border-radius:7px;
-  padding:11px 15px;font-weight:700;
-}
-button.secondary {
-  background:#29364b;color:white;border:1px solid #40506a;
-  border-radius:7px;padding:10px 13px;
-}
-button.danger {
-  background:#7f1d1d;color:white;border:0;border-radius:7px;padding:9px 11px;
-}
-button.success {
-  background:#166534;color:white;border:0;border-radius:7px;padding:9px 11px;
-}
-button:disabled {opacity:.55;cursor:not-allowed}
-.actions {display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.message {
-  padding:12px;border-radius:8px;margin:12px 0;line-height:1.5;
-  overflow-wrap:anywhere;
-}
-.message.success-msg {background:#12351f;color:#bbf7d0}
-.message.error-msg {background:#451a1a;color:#fecaca}
-.message.info-msg {background:#172554;color:#bfdbfe}
-.item {
-  background:var(--panel2);border:1px solid var(--line);
-  border-radius:9px;padding:15px;margin-top:12px;overflow-wrap:anywhere;
-}
-.item-title {font-weight:700;margin-bottom:7px;line-height:1.4}
-.item-meta {font-size:12px;color:var(--muted);line-height:1.7}
-.item p {line-height:1.5}
-.badge {
-  display:inline-block;font-size:11px;padding:5px 8px;border-radius:20px;
-  background:#29364b;color:#e5e7eb;margin:4px 4px 4px 0;
-}
-.badge.pending {background:#713f12;color:#fde68a}
-.badge.approved,.badge.active {background:#14532d;color:#bbf7d0}
-.badge.rejected,.badge.inactive {background:#7f1d1d;color:#fecaca}
-.row-between {display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
-hr {border:0;border-top:1px solid var(--line);margin:20px 0}
-.preview {max-width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-top:10px}
-#loginPanel {max-width:440px;margin:65px auto;padding:25px}
-#loginPanel .brand {margin-bottom:18px}
-#globalMessage {margin-bottom:16px}
-.loading {color:var(--muted);padding:14px 0}
-.empty {color:var(--muted);padding:16px 0}
-@media(max-width:900px) {
-  .layout {display:block}
-  .sidebar {
-    width:100%;border-right:0;border-bottom:1px solid var(--line);
-    padding:10px;position:static;
-  }
-  .side-label {margin:5px 8px}
-  .nav-list {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
-  .nav-btn {margin:0;padding:11px 9px;font-size:13px}
-  .main {padding:17px}
-  .stats {grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:560px) {
-  .grid {grid-template-columns:1fr}
-  .topbar {padding:0 12px}
-  .brand {font-size:17px}
-  .stats {gap:9px}
-  .stat {padding:13px}
-  .stat-number {font-size:22px}
-  .main {padding:13px}
-  h1 {font-size:23px}
+@media(max-width:560px){
+.grid{grid-template-columns:1fr}
+.topbar{padding:0 12px}
+.brand{font-size:17px}
+.stats{gap:9px}
+.stat{padding:13px}
+.stat-number{font-size:22px}
+.main{padding:13px}
+h1{font-size:23px}
 }
 </style>
 </head>
@@ -177,8 +127,8 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
     <nav class="nav-list">
       <button class="nav-btn active" data-page="home">🏠 Dashboard Home</button>
       <button class="nav-btn" data-page="publish">✍️ Publish Article</button>
-     <button class="nav-btn" data-page="articles">📰 Manage Articles</button>
-     <button class="nav-btn" data-page="drafts">📝 Draft Articles</button>
+      <button class="nav-btn" data-page="articles">📰 Manage Articles</button>
+      <button class="nav-btn" data-page="drafts">📝 Draft Articles</button>
       <button class="nav-btn" data-page="businesses">🏪 Business Directory</button>
       <button class="nav-btn" data-page="analytics">📊 Analytics</button>
       <button class="nav-btn" data-page="ads">📢 Advertisements</button>
@@ -194,7 +144,8 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
       <h1>Dashboard Home</h1>
       <p class="page-intro">Welcome to your Palmcaseblog control panel. Select a section from the menu to manage it.</p>
       <div class="stats">
-        <div class="stat"><div class="stat-label">Total articles</div><div class="stat-number" id="homeArticleCount">—</div></div>
+        <div class="stat"><div class="stat-label">Published articles</div><div class="stat-number" id="homeArticleCount">—</div></div>
+        <div class="stat"><div class="stat-label">Saved drafts</div><div class="stat-number" id="homeDraftCount">—</div></div>
         <div class="stat"><div class="stat-label">Business listings</div><div class="stat-number" id="homeBusinessCount">—</div></div>
         <div class="stat"><div class="stat-label">Pending businesses</div><div class="stat-number" id="homePendingCount">—</div></div>
         <div class="stat"><div class="stat-label">Advertisements</div><div class="stat-number" id="homeAdCount">—</div></div>
@@ -202,16 +153,17 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
       <div class="grid">
         <div class="panel">
           <h2>Quick actions</h2>
-          <p class="muted">Publish new stories, review businesses, and manage ads.</p>
+          <p class="muted">Publish new stories, review drafts, businesses, and ads.</p>
           <div class="actions">
             <button class="primary" data-go="publish">Publish an article</button>
             <button class="secondary" data-go="articles">Manage articles</button>
+            <button class="secondary" data-go="drafts">View drafts</button>
             <button class="secondary" data-go="businesses">Review businesses</button>
             <button class="secondary" data-go="ads">Manage ads</button>
           </div>
         </div>
         <div class="panel">
-          <h2>Latest articles</h2>
+          <h2>Latest published articles</h2>
           <div id="homeLatestArticles" class="loading">Loading articles…</div>
         </div>
       </div>
@@ -219,7 +171,7 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
 
     <section id="page-publish" class="page">
       <h1 id="editorHeading">Publish Article</h1>
-      <p class="page-intro">Create a story for Palmcaseblog. Required fields are marked below.</p>
+      <p class="page-intro">Create a story for Palmcaseblog. You can publish it immediately or save it as a draft.</p>
       <div class="panel">
         <form id="articleForm">
           <input type="hidden" id="articleId">
@@ -246,58 +198,34 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
             <label for="description">Short description / excerpt</label>
             <textarea id="description" rows="3" placeholder="A short introduction to the story"></textarea>
           </div>
-          
-<div class="field">
-  <label for="articleImage">Article images</label>
-  <input id="articleImage" type="file" accept="image/jpeg,image/png,image/webp" multiple>
-  <div class="muted small">Choose one or more images from your device. If you edit an article without choosing new images, its existing images are kept.</div>
-  <div id="articleImagePreview"></div>
-</div>
-
-          
-<div class="field">
-  <label for="articleText">Full article *</label>
-  <textarea id="articleText" rows="12" required placeholder="Write the full article here. Put [IMAGE:2] on a separate line where you want the second uploaded image to appear, [IMAGE:3] for the third, and so on."></textarea>
-  <div class="muted small">
-    To place an uploaded image inside the story, write [IMAGE:2], [IMAGE:3], etc. on a separate line between paragraphs. The first image remains in the slideshow at the top.
-  </div>
-</div>
-
-<div class="field">
-  <label for="videoUrl">Article video URL (optional)</label>
-  <input
-    id="videoUrl"
-    type="url"
-    placeholder="https://example.com/video.mp4"
-  >
-  <div class="muted small">
-    Use a direct MP4, WebM or other browser-playable video URL. We'll handle supported social-video links separately.
-  </div>
-</div>
-
-<div class="field">
-  <label for="credit">Source name (optional)</label>
-  <input
-    id="credit"
-    type="text"
-    placeholder="e.g. Punch Newspapers or the author's name"
-  >
-</div>
-
-<div class="field">
-  <label for="sourceUrl">Source website or social-media link (optional)</label>
-  <input
-    id="sourceUrl"
-    type="url"
-    placeholder="https://example.com or https://instagram.com/handle"
-  >
-  <div class="muted small">
-    Enter the exact website or profile URL so readers can click the source credit.
-  </div>
-</div>
-
+          <div class="field">
+            <label for="articleImage">Article images</label>
+            <input id="articleImage" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+            <div class="muted small">Choose one or more images. If you edit an article without choosing new images, its existing images are kept.</div>
+            <div id="articleImagePreview"></div>
+          </div>
+          <div class="field">
+            <label for="articleText">Full article *</label>
+            <textarea id="articleText" rows="12" required placeholder="Write the full article here. Put [IMAGE:2] on a separate line where you want the second uploaded image to appear, [IMAGE:3] for the third, and so on."></textarea>
+            <div class="muted small">To place an uploaded image inside the story, write [IMAGE:2], [IMAGE:3], etc. on a separate line between paragraphs. The first image remains in the slideshow at the top.</div>
+          </div>
+          <div class="field">
+            <label for="videoUrl">Article video URL (optional)</label>
+            <input id="videoUrl" type="url" placeholder="https://example.com/video.mp4">
+            <div class="muted small">Use a direct MP4, WebM or other browser-playable video URL.</div>
+          </div>
+          <div class="field">
+            <label for="credit">Source name (optional)</label>
+            <input id="credit" type="text" placeholder="e.g. Punch Newspapers or the author's name">
+          </div>
+          <div class="field">
+            <label for="sourceUrl">Source website or social-media link (optional)</label>
+            <input id="sourceUrl" type="url" placeholder="https://example.com or https://instagram.com/handle">
+            <div class="muted small">Enter the exact website or profile URL so readers can click the source credit.</div>
+          </div>
           <div class="actions">
             <button id="saveArticleButton" class="primary" type="submit">Publish article</button>
+            <button id="saveDraftButton" class="secondary" type="button">Save as draft</button>
             <button id="cancelEditButton" class="secondary hidden" type="button">Cancel edit</button>
           </div>
           <div id="articleMessage" aria-live="polite"></div>
@@ -319,6 +247,19 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
           <input id="articleSearch" placeholder="Search by headline or category">
         </div>
         <div id="articleList" class="loading">Loading articles…</div>
+      </div>
+    </section>
+
+    <section id="page-drafts" class="page">
+      <div class="row-between">
+        <div>
+          <h1>Draft Articles</h1>
+          <p class="page-intro">Continue writing saved stories or publish them when ready.</p>
+        </div>
+        <button class="primary" data-go="publish">+ New article</button>
+      </div>
+      <div class="panel">
+        <div id="draftList" class="loading">Loading drafts…</div>
       </div>
     </section>
 
@@ -427,1024 +368,911 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
 
 <script>
 (() => {
-  "use strict";
+"use strict";
 
-  const SUPABASE_URL = "https://kcxlwhojwdvbfjjnartw.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+const SUPABASE_URL = "https://kcxlwhojwdvbfjjnartw.supabase.co";
+const SUPABASE_KEY = "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
 
-  const ARTICLE_IMAGE_BUCKET = "article-images";
-  const AD_IMAGE_BUCKET = "ad_images";
-  const AD_VIDEO_BUCKET = "ad_videos";
+const ARTICLE_IMAGE_BUCKET = "article-images";
+const AD_IMAGE_BUCKET = "ad_images";
+const AD_VIDEO_BUCKET = "ad_videos";
 
-  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  let postsCache = [];
-  let businessesCache = [];
-  let adsCache = [];
-  let currentArticleImage = "";
-  let currentArticleImages = [];
-  let currentAdImage = "";
-  let currentAdVideo = "";
-  let activePage = "home";
+let postsCache = [];
+let businessesCache = [];
+let adsCache = [];
+let currentArticleImage = "";
+let currentArticleImages = [];
+let currentAdImage = "";
+let currentAdVideo = "";
 
-  const $ = id => document.getElementById(id);
+const $ = id => document.getElementById(id);
 
-  function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, ch => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-    }[ch]));
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[ch]));
+}
+
+function safeURL(value) {
+  try {
+    const u = new URL(String(value || ""), window.location.href);
+    return ["http:","https:"].includes(u.protocol) ? u.href : "";
+  } catch {
+    return "";
   }
+}
 
-  function safeURL(value) {
-    try {
-      const u = new URL(String(value || ""), window.location.href);
-      return ["http:","https:"].includes(u.protocol) ? u.href : "";
-    } catch {
-      return "";
-    }
+function showMessage(id,message,type="info-msg") {
+  const el=$(id);
+  if(!el)return;
+  el.className="message "+type;
+  el.textContent=message;
+}
+
+function clearMessage(id) {
+  const el=$(id);
+  if(el){el.textContent="";el.className="";}
+}
+
+function setBusy(button,busy,busyText="Please wait…") {
+  if(!button)return;
+  if(busy){
+    button.dataset.originalText=button.textContent;
+    button.textContent=busyText;
+    button.disabled=true;
+  }else{
+    button.textContent=button.dataset.originalText||button.textContent;
+    button.disabled=false;
+    delete button.dataset.originalText;
   }
+}
 
-  function showMessage(id, message, type = "info-msg") {
-    const el = $(id);
-    if (!el) return;
-    el.className = "message " + type;
-    el.textContent = message;
-  }
+function friendlyError(error) {
+  return error?.message||String(error||"An unexpected error occurred.");
+}
 
-  function clearMessage(id) {
-    const el = $(id);
-    if (el) {
-      el.textContent = "";
-      el.className = "";
-    }
-  }
+function isPublished(post) {
+  return (post.status||"published")==="published";
+}
 
-  function setBusy(button, busy, busyText = "Please wait…") {
-    if (!button) return;
-    if (busy) {
-      button.dataset.originalText = button.textContent;
-      button.textContent = busyText;
-      button.disabled = true;
-    } else {
-      button.textContent = button.dataset.originalText || button.textContent;
-      button.disabled = false;
-    }
-  }
+function switchPage(page) {
+  document.querySelectorAll(".page").forEach(el=>el.classList.remove("active"));
+  document.querySelectorAll(".nav-btn").forEach(el=>{
+    el.classList.toggle("active",el.dataset.page===page);
+  });
+  const selected=$("page-"+page);
+  if(selected)selected.classList.add("active");
+  clearMessage("globalMessage");
 
-  function friendlyError(error) {
-    return error?.message || String(error || "An unexpected error occurred.");
-  }
+  if(page==="articles"||page==="drafts")loadPosts();
+  if(page==="businesses")loadBusinesses();
+  if(page==="ads")loadAds();
+  if(page==="home")refreshHome();
+}
 
-  function switchPage(page) {
-    activePage = page;
-    document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
-    document.querySelectorAll(".nav-btn").forEach(el => {
-      el.classList.toggle("active", el.dataset.page === page);
+document.querySelectorAll("[data-page]").forEach(button=>{
+  button.addEventListener("click",()=>switchPage(button.dataset.page));
+});
+document.querySelectorAll("[data-go]").forEach(button=>{
+  button.addEventListener("click",()=>switchPage(button.dataset.go));
+});
+
+async function uploadFile(bucket,file,folder) {
+  if(!file)return "";
+  const allowed=["image/jpeg","image/png","image/webp","video/mp4","video/webm"];
+  if(!allowed.includes(file.type))throw new Error("Choose a supported JPG, PNG, WebP, MP4, or WebM file.");
+  const maxSize=file.type.startsWith("video/")?50*1024*1024:5*1024*1024;
+  if(file.size>maxSize)throw new Error(file.type.startsWith("video/")?"Video must be 50 MB or smaller.":"Image must be 5 MB or smaller.");
+  const extension=(file.name.split(".").pop()||"file").toLowerCase().replace(/[^a-z0-9]/g,"");
+  const path=`${folder}/${Date.now()}-${Math.random().toString(36).slice(2,9)}.${extension}`;
+  const {data,error}=await db.storage.from(bucket).upload(path,file,{
+    cacheControl:"3600",upsert:false,contentType:file.type
+  });
+  if(error)throw error;
+  const {data:publicData}=db.storage.from(bucket).getPublicUrl(data.path);
+  if(!publicData?.publicUrl)throw new Error("Upload completed but no public URL was returned.");
+  return publicData.publicUrl;
+}
+
+function showLoggedIn() {
+  $("loginPanel").classList.add("hidden");
+  $("dashboard").classList.remove("hidden");
+  $("logoutButton").classList.remove("hidden");
+}
+
+function showLoggedOut() {
+  $("loginPanel").classList.remove("hidden");
+  $("dashboard").classList.add("hidden");
+  $("logoutButton").classList.add("hidden");
+}
+
+$("loginForm").addEventListener("submit",async event=>{
+  event.preventDefault();
+  const button=$("loginButton");
+  setBusy(button,true,"Signing in…");
+  clearMessage("loginMessage");
+  try{
+    const {error}=await db.auth.signInWithPassword({
+      email:$("loginEmail").value.trim(),
+      password:$("loginPassword").value
     });
-    const selected = $("page-" + page);
-    if (selected) selected.classList.add("active");
-    clearMessage("globalMessage");
-
-    if (page === "articles") loadPosts();
-    if (page === "businesses") loadBusinesses();
-    if (page === "ads") loadAds();
-    if (page === "home") refreshHome();
+    if(error)throw error;
+    showLoggedIn();
+    await refreshHome();
+  }catch(error){
+    showMessage("loginMessage",friendlyError(error),"error-msg");
+  }finally{
+    setBusy(button,false);
   }
+});
 
-  document.querySelectorAll("[data-page]").forEach(button => {
-    button.addEventListener("click", () => switchPage(button.dataset.page));
-  });
-
-  document.querySelectorAll("[data-go]").forEach(button => {
-    button.addEventListener("click", () => switchPage(button.dataset.go));
-  });
-
-  async function uploadFile(bucket, file, folder) {
-    if (!file) return "";
-    const allowed = ["image/jpeg","image/png","image/webp","video/mp4","video/webm"];
-    if (!allowed.includes(file.type)) {
-      throw new Error("Choose a supported JPG, PNG, WebP, MP4, or WebM file.");
-    }
-    const maxSize = file.type.startsWith("video/") ? 50 * 1024 * 1024 : 5 * 1024 * 1024;
-    if (file.size > maxSize) {
-      throw new Error(file.type.startsWith("video/")
-        ? "Video must be 50 MB or smaller."
-        : "Image must be 5 MB or smaller.");
-    }
-
-    const extension = (file.name.split(".").pop() || "file").toLowerCase().replace(/[^a-z0-9]/g,"");
-    const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2,9)}.${extension}`;
-
-    const { data, error } = await db.storage.from(bucket).upload(path, file, {
-      cacheControl: "3600",
-      upsert: false,
-      contentType: file.type
-    });
-
-    if (error) throw error;
-
-    const { data: publicData } = db.storage.from(bucket).getPublicUrl(data.path);
-    if (!publicData?.publicUrl) throw new Error("Upload completed but no public URL was returned.");
-    return publicData.publicUrl;
+$("logoutButton").addEventListener("click",async()=>{
+  const {error}=await db.auth.signOut();
+  if(error){
+    showMessage("globalMessage",friendlyError(error),"error-msg");
+    return;
   }
+  showLoggedOut();
+});
 
-  function showLoggedIn() {
-    $("loginPanel").classList.add("hidden");
-    $("dashboard").classList.remove("hidden");
-    $("logoutButton").classList.remove("hidden");
-  }
-
-  function showLoggedOut() {
-    $("loginPanel").classList.remove("hidden");
-    $("dashboard").classList.add("hidden");
-    $("logoutButton").classList.add("hidden");
-  }
-
-  $("loginForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    const button = $("loginButton");
-    setBusy(button, true, "Signing in…");
-    clearMessage("loginMessage");
-
-    try {
-      const { error } = await db.auth.signInWithPassword({
-        email: $("loginEmail").value.trim(),
-        password: $("loginPassword").value
-      });
-      if (error) throw error;
-      showLoggedIn();
-      await refreshHome();
-    } catch (error) {
-      showMessage("loginMessage", friendlyError(error), "error-msg");
-    } finally {
-      setBusy(button, false);
-    }
-  });
-
-  $("logoutButton").addEventListener("click", async () => {
-    const { error } = await db.auth.signOut();
-    if (error) {
-      showMessage("globalMessage", friendlyError(error), "error-msg");
-      return;
-    }
+db.auth.onAuthStateChange((event,session)=>{
+  if(session){
+    showLoggedIn();
+    setTimeout(()=>refreshHome(),0);
+  }else{
     showLoggedOut();
-  });
+  }
+});
 
-  db.auth.onAuthStateChange((event, session) => {
-    if (session) {
-      showLoggedIn();
-      setTimeout(() => refreshHome(), 0);
-    } else {
-      showLoggedOut();
-    }
-  });
+async function checkSession() {
+  const {data,error}=await db.auth.getSession();
+  if(error){
+    showMessage("loginMessage",friendlyError(error),"error-msg");
+    return;
+  }
+  if(data.session){
+    showLoggedIn();
+    await refreshHome();
+  }else{
+    showLoggedOut();
+  }
+}
 
-  async function checkSession() {
-    const { data, error } = await db.auth.getSession();
-    if (error) {
-      showMessage("loginMessage", friendlyError(error), "error-msg");
-      return;
-    }
-    if (data.session) {
-      showLoggedIn();
-      await refreshHome();
-    } else {
-      showLoggedOut();
-    }
+// ARTICLES AND DRAFTS
+
+async function loadPosts() {
+  $("articleList").innerHTML='<div class="loading">Loading articles…</div>';
+  $("draftList").innerHTML='<div class="loading">Loading drafts…</div>';
+
+  const {data,error}=await db.from("posts").select("*").order("created_at",{ascending:false});
+
+  if(error){
+    $("articleList").innerHTML="";
+    $("draftList").innerHTML="";
+    showMessage("globalMessage","Could not load articles: "+friendlyError(error),"error-msg");
+    return;
   }
 
-  // ARTICLES
+  postsCache=data||[];
+  renderPosts();
+  renderDrafts();
+  renderHomeLatest();
 
-  async function loadPosts() {
-    $("articleList").innerHTML = '<div class="loading">Loading articles…</div>';
-    const { data, error } = await db.from("posts").select("*").order("created_at", {ascending:false});
+  $("homeArticleCount").textContent=postsCache.filter(isPublished).length;
+  $("homeDraftCount").textContent=postsCache.filter(post=>post.status==="draft").length;
+}
 
-    if (error) {
-      $("articleList").innerHTML = "";
-      showMessage("globalMessage", "Could not load articles: " + friendlyError(error), "error-msg");
-      return;
-    }
+function renderPosts() {
+  const term=$("articleSearch").value.trim().toLowerCase();
+  const filtered=postsCache.filter(post=>
+    isPublished(post)&&(
+      String(post.headline||"").toLowerCase().includes(term)||
+      String(post.category||"").toLowerCase().includes(term)
+    )
+  );
 
-    postsCache = data || [];
-    renderPosts();
-    renderHomeLatest();
-    $("homeArticleCount").textContent = postsCache.length;
+  if(!filtered.length){
+    $("articleList").innerHTML='<div class="empty">No published articles found.</div>';
+    return;
   }
 
-  function renderPosts() {
-    const term = $("articleSearch").value.trim().toLowerCase();
-    const filtered = postsCache.filter(post =>
-      String(post.headline || "").toLowerCase().includes(term) ||
-      String(post.category || "").toLowerCase().includes(term)
-    );
+  $("articleList").innerHTML=filtered.map(post=>{
+    const id=escapeHTML(post.id);
+    const title=escapeHTML(post.headline||"Untitled");
+    const category=escapeHTML(post.category||"Uncategorised");
+    const date=post.created_at?new Date(post.created_at).toLocaleString():"Date unavailable";
+    const description=escapeHTML(post.description||"");
+    const image=safeURL(post.image);
+    return `
+      <article class="item">
+        <div class="item-title">${title}</div>
+        <div class="item-meta">${category} · ${escapeHTML(date)} <span class="badge published">Published</span></div>
+        ${image?`<img class="preview" src="${escapeHTML(image)}" alt="" loading="lazy">`:""}
+        ${description?`<p>${description}</p>`:""}
+        <div class="actions">
+          <button class="secondary" data-edit-post="${id}">Edit</button>
+          <a class="secondary" style="display:inline-block;padding:10px 13px;border-radius:7px;text-decoration:none" href="article.html?id=${encodeURIComponent(post.id)}" target="_blank" rel="noopener">View</a>
+          <button class="danger" data-delete-post="${id}">Delete</button>
+        </div>
+      </article>`;
+  }).join("");
 
-    if (!filtered.length) {
-      $("articleList").innerHTML = '<div class="empty">No articles found.</div>';
-      return;
-    }
+  $("articleList").querySelectorAll("[data-edit-post]").forEach(button=>{
+    button.addEventListener("click",()=>editPost(button.dataset.editPost));
+  });
+  $("articleList").querySelectorAll("[data-delete-post]").forEach(button=>{
+    button.addEventListener("click",()=>deletePost(button.dataset.deletePost));
+  });
+}
 
-    $("articleList").innerHTML = filtered.map(post => {
-      const id = escapeHTML(post.id);
-      const title = escapeHTML(post.headline || "Untitled");
-      const category = escapeHTML(post.category || "Uncategorised");
-      const date = post.created_at ? new Date(post.created_at).toLocaleString() : "Date unavailable";
-      const description = escapeHTML(post.description || "");
-      const image = safeURL(post.image);
-      return `
-        <article class="item">
+function renderDrafts() {
+  const drafts=postsCache.filter(post=>post.status==="draft");
+
+  if(!drafts.length){
+    $("draftList").innerHTML='<div class="empty">You have no saved drafts yet. Use the Publish Article page and choose “Save as draft” to save a story here.</div>';
+    return;
+  }
+
+  $("draftList").innerHTML=drafts.map(post=>{
+    const id=escapeHTML(post.id);
+    const title=escapeHTML(post.headline||"Untitled draft");
+    const category=escapeHTML(post.category||"Uncategorised");
+    const date=post.created_at?new Date(post.created_at).toLocaleString():"Date unavailable";
+    const description=escapeHTML(post.description||"");
+    const image=safeURL(post.image);
+    return `
+      <article class="item">
+        <div class="row-between">
           <div class="item-title">${title}</div>
-          <div class="item-meta">${category} · ${escapeHTML(date)}</div>
-          ${image ? `<img class="preview" src="${escapeHTML(image)}" alt="" loading="lazy">` : ""}
-          ${description ? `<p>${description}</p>` : ""}
-          <div class="actions">
-            <button class="secondary" data-edit-post="${id}">Edit</button>
-            <a class="secondary" style="display:inline-block;padding:10px 13px;border-radius:7px;text-decoration:none" href="article.html?id=${encodeURIComponent(post.id)}" target="_blank" rel="noopener">View</a>
-            <button class="danger" data-delete-post="${id}">Delete</button>
-          </div>
-        </article>`;
-    }).join("");
+          <span class="badge draft">Draft</span>
+        </div>
+        <div class="item-meta">${category} · Last saved: ${escapeHTML(date)}</div>
+        ${image?`<img class="preview" src="${escapeHTML(image)}" alt="" loading="lazy">`:""}
+        ${description?`<p>${description}</p>`:""}
+        <div class="actions">
+          <button class="secondary" data-edit-draft="${id}">Continue editing</button>
+          <button class="success" data-publish-draft="${id}">Publish now</button>
+          <button class="danger" data-delete-draft="${id}">Delete draft</button>
+        </div>
+      </article>`;
+  }).join("");
 
-    $("articleList").querySelectorAll("[data-edit-post]").forEach(button => {
-      button.addEventListener("click", () => editPost(button.dataset.editPost));
-    });
-    $("articleList").querySelectorAll("[data-delete-post]").forEach(button => {
-      button.addEventListener("click", () => deletePost(button.dataset.deletePost));
-    });
-  }
+  $("draftList").querySelectorAll("[data-edit-draft]").forEach(button=>{
+    button.addEventListener("click",()=>editPost(button.dataset.editDraft));
+  });
+  $("draftList").querySelectorAll("[data-publish-draft]").forEach(button=>{
+    button.addEventListener("click",()=>publishDraft(button.dataset.publishDraft));
+  });
+  $("draftList").querySelectorAll("[data-delete-draft]").forEach(button=>{
+    button.addEventListener("click",()=>deletePost(button.dataset.deleteDraft));
+  });
+}
 
-  function renderHomeLatest() {
-    const latest = postsCache.slice(0,5);
-    $("homeLatestArticles").innerHTML = latest.length
-      ? latest.map(post => `
-        <div class="item">
-          <div class="item-title">${escapeHTML(post.headline || "Untitled")}</div>
-          <div class="item-meta">${escapeHTML(post.category || "")} · ${escapeHTML(post.created_at ? new Date(post.created_at).toLocaleDateString() : "")}</div>
-        </div>`).join("")
-      : '<div class="empty">No articles have been published yet.</div>';
-  }
+function renderHomeLatest() {
+  const latest=postsCache.filter(isPublished).slice(0,5);
+  $("homeLatestArticles").innerHTML=latest.length
+    ?latest.map(post=>`
+      <div class="item">
+        <div class="item-title">${escapeHTML(post.headline||"Untitled")}</div>
+        <div class="item-meta">${escapeHTML(post.category||"")} · ${escapeHTML(post.created_at?new Date(post.created_at).toLocaleDateString():"")}</div>
+      </div>`).join("")
+    :'<div class="empty">No articles have been published yet.</div>';
+}
 
-  $("articleSearch").addEventListener("input", renderPosts);
+$("articleSearch").addEventListener("input",renderPosts);
 
-$("articleImage").addEventListener("change", () => {
-  const files = Array.from($("articleImage").files);
-  const preview = $("articleImagePreview");
-
-  preview.innerHTML = "";
+$("articleImage").addEventListener("change",()=>{
+  const files=Array.from($("articleImage").files);
+  const preview=$("articleImagePreview");
+  preview.innerHTML="";
   clearMessage("articleMessage");
+  if(!files.length)return;
 
-  if (!files.length) return;
-
-  for (const file of files) {
-    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-      showMessage("articleMessage", "Choose only JPG, PNG, or WebP images.", "error-msg");
-      $("articleImage").value = "";
-      preview.innerHTML = "";
+  for(const file of files){
+    if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
+      showMessage("articleMessage","Choose only JPG, PNG, or WebP images.","error-msg");
+      $("articleImage").value="";
+      preview.innerHTML="";
       return;
     }
-
-    if (file.size > 5 * 1024 * 1024) {
-      showMessage("articleMessage", "Each image must be 5 MB or smaller.", "error-msg");
-      $("articleImage").value = "";
-      preview.innerHTML = "";
+    if(file.size>5*1024*1024){
+      showMessage("articleMessage","Each image must be 5 MB or smaller.","error-msg");
+      $("articleImage").value="";
+      preview.innerHTML="";
       return;
     }
   }
 
-  files.forEach(file => {
-    const img = document.createElement("img");
-    img.className = "preview";
-    img.alt = "Article image preview";
-    img.src = URL.createObjectURL(file);
+  files.forEach(file=>{
+    const img=document.createElement("img");
+    img.className="preview";
+    img.alt="Article image preview";
+    img.src=URL.createObjectURL(file);
     preview.appendChild(img);
   });
 });
 
-
-  
 function resetArticleForm() {
-    $("articleForm").reset();
-    $("articleId").value = "";
-    currentArticleImage = "";
-    currentArticleImages = [];
-    $("editorHeading").textContent = "Publish Article";
-    $("saveArticleButton").textContent = "Publish article";
-    $("cancelEditButton").classList.add("hidden");
-    $("articleImagePreview").classList.add("hidden");
-    clearMessage("articleMessage");
-  }
-
-
-  $("cancelEditButton").addEventListener("click", resetArticleForm);
-
-  function editPost(id) {
-    const post = postsCache.find(item => String(item.id) === String(id));
-    if (!post) return;
-
-    $("articleId").value = post.id;
-$("headline").value = post.headline || "";
-$("category").value = String(post.category || "news").toLowerCase();
-$("description").value = post.description || "";
-$("articleText").value = post.article || "";
-
-$("videoUrl").value = post.video_url || "";
-$("credit").value = post.credit || "";
-$("sourceUrl").value = post.source_url || "";
-
-$("articleImage").value = "";
-currentArticleImages = Array.isArray(post.images)
-  ? post.images.filter(url => typeof url === "string")
-  : [];
-
-if (currentArticleImages.length === 0 && post.image) {
-  currentArticleImages = [post.image];
+  $("articleForm").reset();
+  $("articleId").value="";
+  currentArticleImage="";
+  currentArticleImages=[];
+  $("editorHeading").textContent="Publish Article";
+  $("saveArticleButton").textContent="Publish article";
+  $("saveDraftButton").textContent="Save as draft";
+  $("cancelEditButton").classList.add("hidden");
+  $("articleImagePreview").innerHTML="";
+  $("articleImagePreview").classList.add("hidden");
+  clearMessage("articleMessage");
 }
 
-currentArticleImage = currentArticleImages[0] || post.image || "";
-    
-const preview = $("articleImagePreview");
-preview.innerHTML = "";
+$("cancelEditButton").addEventListener("click",resetArticleForm);
 
-currentArticleImages.forEach((imageUrl, index) => {
-  const img = document.createElement("img");
-  img.className = "preview";
-  img.src = imageUrl;
-  img.alt = `Existing article image ${index + 1}`;
-  img.loading = "lazy";
-  preview.appendChild(img);
-});
+function editPost(id) {
+  const post=postsCache.find(item=>String(item.id)===String(id));
+  if(!post)return;
 
-preview.classList.toggle(
-  "hidden",
-  currentArticleImages.length === 0
-);
+  $("articleId").value=post.id;
+  $("headline").value=post.headline||"";
+  $("category").value=String(post.category||"news").toLowerCase();
+  $("description").value=post.description||"";
+  $("articleText").value=post.article||"";
+  $("videoUrl").value=post.video_url||"";
+  $("credit").value=post.credit||"";
+  $("sourceUrl").value=post.source_url||"";
+  $("articleImage").value="";
 
+  currentArticleImages=Array.isArray(post.images)
+    ?post.images.filter(url=>typeof url==="string")
+    :[];
 
-    $("editorHeading").textContent = "Edit Article";
-    $("saveArticleButton").textContent = "Save article changes";
-    $("cancelEditButton").classList.remove("hidden");
-    switchPage("publish");
-    window.scrollTo({top:0,behavior:"smooth"});
+  if(currentArticleImages.length===0&&post.image){
+    currentArticleImages=[post.image];
   }
 
-  $("articleForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    const button = $("saveArticleButton");
-    setBusy(button, true, "Saving article…");
-    clearMessage("articleMessage");
+  currentArticleImage=currentArticleImages[0]||post.image||"";
 
-    try {
-      
-const id = $("articleId").value;
-const files = Array.from($("articleImage").files || []);
-
-let imageUrls = [...currentArticleImages];
-
-if (files.length > 0) {
-  imageUrls = await Promise.all(
-    files.map(file =>
-      uploadFile(ARTICLE_IMAGE_BUCKET, file, "articles")
-    )
-  );
-}
-
-
-const image = imageUrls[0] || currentArticleImage || null;
-
-const record = {
-  headline: $("headline").value.trim(),
-  category: $("category").value,
-  description: $("description").value.trim(),
-  image: image,
-  images: imageUrls,
-  article: $("articleText").value.trim(),
-  video_url: $("videoUrl").value.trim() || null,
-  credit: $("credit").value.trim() || null,
-  source_url: $("sourceUrl").value.trim() || null
-};
-
-
-
-      if (!record.headline || !record.article) {
-        throw new Error("Headline and full article are required.");
-      }
-
-      let result;
-      if (id) {
-        result = await db.from("posts").update(record).eq("id", id);
-      } else {
-        result = await db.from("posts").insert(record);
-      }
-
-      if (result.error) throw result.error;
-
-      showMessage("articleMessage", id ? "Article updated successfully." : "Article published successfully.", "success-msg");
-      resetArticleForm();
-      await loadPosts();
-      await refreshHome();
-      switchPage("articles");
-    } catch (error) {
-      showMessage("articleMessage", friendlyError(error), "error-msg");
-    } finally {
-      setBusy(button, false);
-    }
+  const preview=$("articleImagePreview");
+  preview.innerHTML="";
+  currentArticleImages.forEach((imageUrl,index)=>{
+    const img=document.createElement("img");
+    img.className="preview";
+    img.src=imageUrl;
+    img.alt=`Existing article image ${index+1}`;
+    img.loading="lazy";
+    preview.appendChild(img);
   });
+  preview.classList.toggle("hidden",currentArticleImages.length===0);
 
-  async function deletePost(id) {
-    const post = postsCache.find(item => String(item.id) === String(id));
-    if (!post) return;
-    if (!confirm(`Delete this article?\n\n${post.headline || "Untitled"}\n\nThis cannot be undone.`)) return;
+  const isDraft=post.status==="draft";
+  $("editorHeading").textContent=isDraft?"Edit Draft":"Edit Article";
+  $("saveArticleButton").textContent=isDraft?"Publish article":"Save article changes";
+  $("saveDraftButton").textContent="Save as draft";
+  $("cancelEditButton").classList.remove("hidden");
 
-    const { error } = await db.from("posts").delete().eq("id", id);
-    if (error) {
-      showMessage("globalMessage", "Could not delete article: " + friendlyError(error), "error-msg");
-      return;
-    }
-    showMessage("globalMessage", "Article deleted.", "success-msg");
-    await loadPosts();
-    await refreshHome();
-  }
+  switchPage("publish");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
 
+async function saveArticle(status) {
+  const button=status==="draft"?$("saveDraftButton"):$("saveArticleButton");
+  const originalText=button.textContent;
+  setBusy(button,true,status==="draft"?"Saving draft…":"Publishing…");
+  clearMessage("articleMessage");
 
-  // BUSINESS DIRECTORY
+  try {
+    const id=$("articleId").value;
+    const files=Array.from($("articleImage").files||[]);
 
-  async function loadBusinesses() {
-    $("businessList").innerHTML =
-      '<div class="loading">Loading business listings…</div>';
+    let imageUrls=[...currentArticleImages];
 
-    try {
-      const { data, error } = await db
-        .from("businesses")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-
-      businessesCache = data || [];
-      renderBusinesses();
-
-      $("homeBusinessCount").textContent = businessesCache.length;
-
-      $("homePendingCount").textContent =
-        businessesCache.filter(
-          b => (b.status || "pending") === "pending"
-        ).length;
-
-    } catch (error) {
-      console.error("Business directory loading failed:", error);
-
-      $("businessList").innerHTML = "";
-
-      const details = [
-        error?.name,
-        error?.message,
-        error?.details,
-        error?.hint,
-        error?.code
-      ].filter(Boolean).join(" | ");
-
-      showMessage(
-        "globalMessage",
-        "Could not load businesses: " +
-          (details || "Unknown fetch error. Check your network and Supabase connection."),
-        "error-msg"
+    if(files.length>0){
+      imageUrls=await Promise.all(
+        files.map(file=>uploadFile(ARTICLE_IMAGE_BUCKET,file,"articles"))
       );
     }
-  }
 
-  function renderBusinesses() {
-    const filter = $("businessFilter").value;
+    const image=imageUrls[0]||currentArticleImage||null;
 
-    const filtered = businessesCache.filter(business => {
-      const status = (business.status || "pending").toLowerCase();
-      return filter === "all" || status === filter;
-    });
+    const record={
+      headline:$("headline").value.trim(),
+      category:$("category").value,
+      description:$("description").value.trim(),
+      image:image,
+      images:imageUrls,
+      article:$("articleText").value.trim(),
+      video_url:$("videoUrl").value.trim()||null,
+      credit:$("credit").value.trim()||null,
+      source_url:$("sourceUrl").value.trim()||null,
+      status:status
+    };
 
-    if (!filtered.length) {
-      $("businessList").innerHTML =
-        '<div class="empty">No business listings found for this filter.</div>';
-      return;
+    if(!record.headline||!record.article){
+      throw new Error("Please enter a headline and full article before saving.");
     }
 
-    $("businessList").innerHTML = filtered.map(business => {
-      const id = escapeHTML(business.id);
-      const name = escapeHTML(business.business || "Unnamed business");
-      const status = (business.status || "pending").toLowerCase();
-      const statusClass = ["pending", "approved", "rejected"].includes(status)
-        ? status
-        : "";
-
-      const website = safeURL(business.website);
-      const image = safeURL(business.image_url);
-
-      const date = business.created_at
-        ? new Date(business.created_at).toLocaleString()
-        : "Date unavailable";
-
-      return `
-        <article class="item">
-
-          <div class="row-between">
-            <div class="item-title">${name}</div>
-            <span class="badge ${statusClass}">
-              ${escapeHTML(status)}
-            </span>
-          </div>
-
-          <div class="item-meta">
-            Category: ${escapeHTML(business.category || "Not specified")}<br>
-            Location: ${escapeHTML(business.location || "Not specified")}<br>
-            Owner: ${escapeHTML(business.owner_name || "Not specified")}<br>
-            Phone: ${escapeHTML(business.phone || "Not provided")}<br>
-            WhatsApp: ${escapeHTML(business.whatsapp || "Not provided")}<br>
-            Email: ${escapeHTML(business.email || "Not provided")}<br>
-            Submitted: ${escapeHTML(date)}
-          </div>
-
-          ${image ? `
-            <img
-              class="preview"
-              src="${escapeHTML(image)}"
-              alt="${name}"
-              loading="lazy"
-            >
-          ` : ""}
-
-          ${business.description
-            ? `<p>${escapeHTML(business.description)}</p>`
-            : ""}
-
-          <div class="actions">
-
-            ${website ? `
-              <a
-                class="secondary"
-                style="display:inline-block;padding:10px 13px;border-radius:7px;text-decoration:none"
-                href="${escapeHTML(website)}"
-                target="_blank"
-                rel="noopener noreferrer"
-              >Visit Website</a>
-            ` : ""}
-
-            <button
-              class="success"
-              data-business-status="${id}"
-              data-status="approved"
-              ${status === "approved" ? "disabled" : ""}
-            >Approve</button>
-
-            <button
-              class="secondary"
-              data-business-status="${id}"
-              data-status="pending"
-              ${status === "pending" ? "disabled" : ""}
-            >Set Pending</button>
-
-            <button
-              class="danger"
-              data-delete-business="${id}"
-            >Delete</button>
-
-          </div>
-        </article>
-      `;
-    }).join("");
-
-    $("businessList")
-      .querySelectorAll("[data-business-status]")
-      .forEach(button => {
-        button.addEventListener("click", () => {
-          updateBusinessStatus(
-            button.dataset.businessStatus,
-            button.dataset.status
-          );
-        });
-      });
-
-    $("businessList")
-      .querySelectorAll("[data-delete-business]")
-      .forEach(button => {
-        button.addEventListener("click", () => {
-          deleteBusiness(button.dataset.deleteBusiness);
-        });
-      });
-  }
-
-  async function updateBusinessStatus(id, status) {
-    if (!confirm(`Change this business listing status to "${status}"?`)) {
-      return;
+    let result;
+    if(id){
+      result=await db.from("posts").update(record).eq("id",id);
+    }else{
+      result=await db.from("posts").insert(record);
     }
 
-    const { error } = await db
-      .from("businesses")
-      .update({ status })
-      .eq("id", id);
-
-    if (error) {
-      showMessage(
-        "globalMessage",
-        "Could not update business status: " +
-          friendlyError(error) +
-          ". Check your admin-only UPDATE policy.",
-        "error-msg"
-      );
-      return;
-    }
+    if(result.error)throw result.error;
 
     showMessage(
-      "globalMessage",
-      "Business status updated successfully.",
+      "articleMessage",
+      status==="draft"
+        ?"Your article has been saved as a draft."
+        :"Your article has been published successfully.",
       "success-msg"
     );
 
-    await loadBusinesses();
-  }
-
-  async function deleteBusiness(id) {
-    const business = businessesCache.find(
-      item => String(item.id) === String(id)
-    );
-
-    if (!business) return;
-
-    const name = business.business || "this business listing";
-
-    if (!confirm(
-      `Permanently delete "${name}" from the Business Directory?\n\nThis action cannot be undone.`
-    )) {
-      return;
-    }
-
-    try {
-      const { error } = await db
-        .from("businesses")
-        .delete()
-        .eq("id", id);
-
-      if (error) throw error;
-
-      showMessage(
-        "globalMessage",
-        `"${name}" has been deleted successfully.`,
-        "success-msg"
-      );
-
-      await loadBusinesses();
-
-    } catch (error) {
-      showMessage(
-        "globalMessage",
-        "Could not delete business listing: " +
-          friendlyError(error),
-        "error-msg"
-      );
-    }
-  }
-
-  $("businessFilter").addEventListener("change", renderBusinesses);
-  $("reloadBusinessesButton").addEventListener("click", loadBusinesses);
-
-  // ADVERTISEMENTS
-
-  async function loadAds() {
-    $("adList").innerHTML = '<div class="loading">Loading advertisements…</div>';
-    const { data, error } = await db.from("ads").select("*").order("created_at", {ascending:false});
-
-    if (error) {
-      $("adList").innerHTML = "";
-      showMessage("globalMessage", "Could not load advertisements: " + friendlyError(error), "error-msg");
-      return;
-    }
-
-    adsCache = data || [];
-    renderAds();
-    $("homeAdCount").textContent = adsCache.length;
-  }
-
-  function renderAds() {
-    if (!adsCache.length) {
-      $("adList").innerHTML = '<div class="empty">No advertisements have been created yet.</div>';
-      return;
-    }
-
-    $("adList").innerHTML = adsCache.map(ad => {
-      const active = Boolean(ad.is_active);
-      const image = safeURL(ad.image_url);
-      const video = safeURL(ad.video_url);
-      const destination = safeURL(ad.destination_url);
-      return `
-        <article class="item">
-          <div class="row-between">
-            <div class="item-title">${escapeHTML(ad.title || "Untitled ad")}</div>
-            <span class="badge ${active ? "active" : "inactive"}">${active ? "Active" : "Inactive"}</span>
-          </div>
-          <div class="item-meta">
-            Placement: ${escapeHTML(ad.placement || "Not set")}<br>
-            Start: ${escapeHTML(ad.start_date || "Not set")} · End: ${escapeHTML(ad.end_date || "Not set")}
-          </div>
-          ${image ? `<img class="preview" src="${escapeHTML(image)}" alt="Advertisement image" loading="lazy">` : ""}
-          ${ad.description ? `<p>${escapeHTML(ad.description)}</p>` : ""}
-          ${video ? `<p><a href="${escapeHTML(video)}" target="_blank" rel="noopener">Open video</a></p>` : ""}
-          ${destination ? `<p><a href="${escapeHTML(destination)}" target="_blank" rel="noopener">Open destination</a></p>` : ""}
-          <div class="actions">
-            <button class="secondary" data-edit-ad="${escapeHTML(ad.id)}">Edit</button>
-            <button class="secondary" data-toggle-ad="${escapeHTML(ad.id)}" data-active="${active ? "true" : "false"}">${active ? "Deactivate" : "Activate"}</button>
-            <button class="danger" data-delete-ad="${escapeHTML(ad.id)}">Delete</button>
-          </div>
-        </article>`;
-    }).join("");
-
-    $("adList").querySelectorAll("[data-edit-ad]").forEach(button => button.addEventListener("click", () => editAd(button.dataset.editAd)));
-    $("adList").querySelectorAll("[data-toggle-ad]").forEach(button => button.addEventListener("click", () => toggleAd(button.dataset.toggleAd, button.dataset.active === "true")));
-    $("adList").querySelectorAll("[data-delete-ad]").forEach(button => button.addEventListener("click", () => deleteAd(button.dataset.deleteAd)));
-  }
-
-  function resetAdForm() {
-    $("adForm").reset();
-    $("adId").value = "";
-    currentAdImage = "";
-    currentAdVideo = "";
-    $("adFormHeading").textContent = "Create advertisement";
-    $("saveAdButton").textContent = "Save advertisement";
-    $("cancelAdEditButton").classList.add("hidden");
-    clearMessage("adMessage");
-  }
-
-  $("cancelAdEditButton").addEventListener("click", resetAdForm);
-
-  function editAd(id) {
-    const ad = adsCache.find(item => String(item.id) === String(id));
-    if (!ad) return;
-    $("adId").value = ad.id;
-    $("adTitle").value = ad.title || "";
-    $("adDescription").value = ad.description || "";
-    $("adImageUrl").value = ad.image_url || "";
-    $("adVideoUrl").value = ad.video_url || "";
-    $("adDestinationUrl").value = ad.destination_url || "";
-    $("adPlacement").value = ad.placement || "homepage";
-    $("adStartDate").value = ad.start_date || "";
-    $("adEndDate").value = ad.end_date || "";
-    $("adActive").checked = Boolean(ad.is_active);
-    $("adImageFile").value = "";
-    currentAdImage = ad.image_url || "";
-    currentAdVideo = ad.video_url || "";
-    $("adFormHeading").textContent = "Edit advertisement";
-    $("saveAdButton").textContent = "Save changes";
-    $("cancelAdEditButton").classList.remove("hidden");
-    switchPage("ads");
-    $("adForm").scrollIntoView({behavior:"smooth",block:"start"});
-  }
-
-  $("adForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    const button = $("saveAdButton");
-    setBusy(button, true, "Saving ad…");
-    clearMessage("adMessage");
-
-    try {
-      const id = $("adId").value;
-      const imageFile = $("adImageFile").files[0];
-      let imageUrl = $("adImageUrl").value.trim() || currentAdImage;
-      if (imageFile) imageUrl = await uploadFile(AD_IMAGE_BUCKET, imageFile, "advertisements");
-
-      const record = {
-        title: $("adTitle").value.trim(),
-        description: $("adDescription").value.trim(),
-        image_url: imageUrl || null,
-        video_url: $("adVideoUrl").value.trim() || currentAdVideo || null,
-        destination_url: $("adDestinationUrl").value.trim() || null,
-        placement: $("adPlacement").value,
-        start_date: $("adStartDate").value || null,
-        end_date: $("adEndDate").value || null,
-        is_active: $("adActive").checked
-      };
-
-      if (!record.title) throw new Error("Advertisement title is required.");
-      if (record.start_date && record.end_date && record.end_date < record.start_date) {
-        throw new Error("End date cannot be earlier than start date.");
-      }
-
-      const result = id
-        ? await db.from("ads").update(record).eq("id", id)
-        : await db.from("ads").insert(record);
-
-      if (result.error) throw result.error;
-
-      showMessage("adMessage", id ? "Advertisement updated." : "Advertisement created.", "success-msg");
-      resetAdForm();
-      await loadAds();
-      await refreshHome();
-    } catch (error) {
-      showMessage("adMessage", friendlyError(error), "error-msg");
-    } finally {
-      setBusy(button, false);
-    }
-  });
-
-  async function toggleAd(id, currentlyActive) {
-    const { error } = await db.from("ads").update({is_active:!currentlyActive}).eq("id",id);
-    if (error) {
-      showMessage("globalMessage", "Could not update ad: " + friendlyError(error), "error-msg");
-      return;
-    }
-    await loadAds();
+    resetArticleForm();
+    await loadPosts();
     await refreshHome();
+    switchPage(status==="draft"?"drafts":"articles");
+
+  }catch(error){
+    showMessage("articleMessage",friendlyError(error),"error-msg");
+  }finally{
+    button.disabled=false;
+    button.textContent=originalText;
   }
-
-  async function deleteAd(id) {
-    const ad = adsCache.find(item => String(item.id) === String(id));
-    if (!confirm(`Delete advertisement "${ad?.title || "Untitled"}"? This cannot be undone.`)) return;
-    const { error } = await db.from("ads").delete().eq("id",id);
-    if (error) {
-      showMessage("globalMessage", "Could not delete ad: " + friendlyError(error), "error-msg");
-      return;
-    }
-    showMessage("globalMessage", "Advertisement deleted.", "success-msg");
-    await loadAds();
-    await refreshHome();
-  }
-
-  $("reloadAdsButton").addEventListener("click", loadAds);
-
-  // ANALYTICS
-  // These calls use the existing Supabase RPC function names.
-  // If your database uses different parameter names, the error will be displayed.
-
-  function todayISO() {
-    return new Date().toISOString().slice(0,10);
-  }
-
-  function daysAgoISO(days) {
-    const date = new Date();
-    date.setDate(date.getDate() - days);
-    return date.toISOString().slice(0,10);
-  }
-
-  $("analyticsStart").value = daysAgoISO(6);
-  $("analyticsEnd").value = todayISO();
-
-  function renderDataList(id, data) {
-    const el = $(id);
-    if (!Array.isArray(data) || !data.length) {
-      el.innerHTML = '<div class="empty">No data returned for this period.</div>';
-      return;
-    }
-    el.innerHTML = data.slice(0,30).map(row => {
-      if (row === null || typeof row !== "object") {
-        return `<div class="item">${escapeHTML(row)}</div>`;
-      }
-      const entries = Object.entries(row);
-      const label = entries.slice(0,2).map(([key,value]) =>
-        `<strong>${escapeHTML(key.replaceAll("_"," "))}:</strong> ${escapeHTML(value ?? "—")}`
-      ).join("<br>");
-      return `<div class="item item-meta">${label}</div>`;
-    }).join("");
-  }
-
-  
-async function callAnalyticsRPC(name, start, end) {
-  const { data, error } = await db.rpc(name, {
-    p_start_date: start,
-    p_end_date: end
-  });
-
-  if (error) throw new Error(`${name}: ${error.message}`);
-  return data;
 }
 
+$("articleForm").addEventListener("submit",async event=>{
+  event.preventDefault();
+  await saveArticle("published");
+});
 
-  $("loadAnalyticsButton").addEventListener("click", loadAnalytics);
+$("saveDraftButton").addEventListener("click",async()=>{
+  await saveArticle("draft");
+});
 
-  async function loadAnalytics() {
-    const button = $("loadAnalyticsButton");
-    const start = $("analyticsStart").value;
-    const end = $("analyticsEnd").value;
+async function publishDraft(id) {
+  const post=postsCache.find(item=>String(item.id)===String(id));
+  if(!post||post.status!=="draft")return;
 
-    if (!start || !end || start > end) {
-      showMessage("analyticsMessage","Choose a valid start and end date.","error-msg");
-      return;
-    }
+  if(!confirm(`Publish this article now?\n\n${post.headline||"Untitled draft"}`))return;
 
-    setBusy(button,true,"Loading analytics…");
-    clearMessage("analyticsMessage");
+  const {error}=await db.from("posts").update({status:"published"}).eq("id",id);
 
-    try {
-      const names = [
-        ["summary","get_analytics_summary"],
-        ["countries","get_analytics_countries"],
-        ["devices","get_analytics_devices"],
-        ["browsers","get_analytics_browsers"],
-        ["referrers","get_analytics_referrers"],
-        ["top_pages","get_analytics_top_pages"],
-        ["daily","get_analytics_daily_visitors"]
-      ];
-
-      const results = await Promise.all(names.map(async ([key,name]) => {
-        try {
-          return [key, await callAnalyticsRPC(name,start,end), null];
-        } catch (error) {
-          return [key, null, error];
-        }
-      }));
-
-      const resultMap = Object.fromEntries(results.map(([key,data,error]) => [key,{data,error}]));
-      const summary = resultMap.summary.data;
-      const firstSummary = Array.isArray(summary) ? (summary[0] || {}) : (summary || {});
-
-      $("analyticsVisitors").textContent =
-        firstSummary.visitors ?? firstSummary.total_visitors ?? firstSummary.total_visits ?? "—";
-      $("analyticsViews").textContent =
-        firstSummary.page_views ?? firstSummary.total_page_views ?? firstSummary.views ?? "—";
-
-      const countries = resultMap.countries.data;
-      const devices = resultMap.devices.data;
-      $("analyticsCountryCount").textContent = Array.isArray(countries) ? countries.length : "—";
-      $("analyticsDeviceCount").textContent = Array.isArray(devices) ? devices.length : "—";
-
-      renderDataList("analyticsCountries",countries);
-      renderDataList("analyticsDevices",devices);
-      renderDataList("analyticsBrowsers",resultMap.browsers.data);
-      renderDataList("analyticsReferrers",resultMap.referrers.data);
-      renderDataList("analyticsTopPages",resultMap.top_pages.data);
-      renderDataList("analyticsDaily",resultMap.daily.data);
-
-      const errors = results.filter(row => row[2]).map(row => row[2].message);
-      if (errors.length) {
-        showMessage("analyticsMessage",
-          "Some analytics calls failed. Check the function parameter names and permissions in Supabase. " + errors.join(" | "),
-          "error-msg");
-      } else {
-        showMessage("analyticsMessage","Analytics loaded successfully.","success-msg");
-      }
-    } catch (error) {
-      showMessage("analyticsMessage",friendlyError(error),"error-msg");
-    } finally {
-      setBusy(button,false);
-    }
-  }
-
- $("excludeDeviceButton").addEventListener("click", async () => {
-  const device = $("excludedDevice").value.trim();
-
-  if (!device) {
-    showMessage(
-      "excludeDeviceMessage",
-      "Enter a device identifier first.",
-      "error-msg"
-    );
+  if(error){
+    showMessage("globalMessage","Could not publish draft: "+friendlyError(error),"error-msg");
     return;
   }
 
-  const button = $("excludeDeviceButton");
-  setBusy(button, true, "Submitting…");
+  showMessage("globalMessage","Draft published successfully.","success-msg");
+  await loadPosts();
+  await refreshHome();
+  switchPage("articles");
+}
 
-  try {
-    const { error } = await db.rpc("add_analytics_excluded_device", {
-      p_device_id: device,
-      p_device_name: "Palmcaseblog Owner Device"
-    });
+async function deletePost(id) {
+  const post=postsCache.find(item=>String(item.id)===String(id));
+  if(!post)return;
 
-    if (error) throw error;
+  const isDraft=post.status==="draft";
+  if(!confirm(`Delete this ${isDraft?"draft":"article"}?\n\n${post.headline||"Untitled"}\n\nThis cannot be undone.`))return;
 
-    showMessage(
-      "excludeDeviceMessage",
-      "Device exclusion submitted successfully.",
-      "success-msg"
-    );
+  const {error}=await db.from("posts").delete().eq("id",id);
 
-    $("excludedDevice").value = "";
+  if(error){
+    showMessage("globalMessage","Could not delete article: "+friendlyError(error),"error-msg");
+    return;
+  }
 
-  } catch (error) {
-    showMessage(
-      "excludeDeviceMessage",
-      "Could not exclude device: " + friendlyError(error),
-      "error-msg"
-    );
-  } finally {
-    setBusy(button, false);
+  showMessage("globalMessage",isDraft?"Draft deleted.":"Article deleted.","success-msg");
+  await loadPosts();
+  await refreshHome();
+}
+
+// BUSINESS DIRECTORY
+
+async function loadBusinesses() {
+  $("businessList").innerHTML='<div class="loading">Loading business listings…</div>';
+
+  try{
+    const {data,error}=await db.from("businesses").select("*").order("created_at",{ascending:false});
+    if(error)throw error;
+
+    businessesCache=data||[];
+    renderBusinesses();
+    $("homeBusinessCount").textContent=businessesCache.length;
+    $("homePendingCount").textContent=businessesCache.filter(b=>(b.status||"pending")==="pending").length;
+
+  }catch(error){
+    console.error("Business directory loading failed:",error);
+    $("businessList").innerHTML="";
+    const details=[error?.name,error?.message,error?.details,error?.hint,error?.code].filter(Boolean).join(" | ");
+    showMessage("globalMessage","Could not load businesses: "+(details||"Unknown fetch error. Check your network and Supabase connection."),"error-msg");
+  }
+}
+
+function renderBusinesses() {
+  const filter=$("businessFilter").value;
+  const filtered=businessesCache.filter(business=>{
+    const status=(business.status||"pending").toLowerCase();
+    return filter==="all"||status===filter;
+  });
+
+  if(!filtered.length){
+    $("businessList").innerHTML='<div class="empty">No business listings found for this filter.</div>';
+    return;
+  }
+
+  $("businessList").innerHTML=filtered.map(business=>{
+    const id=escapeHTML(business.id);
+    const name=escapeHTML(business.business||"Unnamed business");
+    const status=(business.status||"pending").toLowerCase();
+    const statusClass=["pending","approved","rejected"].includes(status)?status:"";
+    const website=safeURL(business.website);
+    const image=safeURL(business.image_url);
+    const date=business.created_at?new Date(business.created_at).toLocaleString():"Date unavailable";
+
+    return `
+      <article class="item">
+        <div class="row-between">
+          <div class="item-title">${name}</div>
+          <span class="badge ${statusClass}">${escapeHTML(status)}</span>
+        </div>
+        <div class="item-meta">
+          Category: ${escapeHTML(business.category||"Not specified")}<br>
+          Location: ${escapeHTML(business.location||"Not specified")}<br>
+          Owner: ${escapeHTML(business.owner_name||"Not specified")}<br>
+          Phone: ${escapeHTML(business.phone||"Not provided")}<br>
+          WhatsApp: ${escapeHTML(business.whatsapp||"Not provided")}<br>
+          Email: ${escapeHTML(business.email||"Not provided")}<br>
+          Submitted: ${escapeHTML(date)}
+        </div>
+        ${image?`<img class="preview" src="${escapeHTML(image)}" alt="${name}" loading="lazy">`:""}
+        ${business.description?`<p>${escapeHTML(business.description)}</p>`:""}
+        <div class="actions">
+          ${website?`<a class="secondary" style="display:inline-block;padding:10px 13px;border-radius:7px;text-decoration:none" href="${escapeHTML(website)}" target="_blank" rel="noopener noreferrer">Visit Website</a>`:""}
+          <button class="success" data-business-status="${id}" data-status="approved" ${status==="approved"?"disabled":""}>Approve</button>
+          <button class="secondary" data-business-status="${id}" data-status="pending" ${status==="pending"?"disabled":""}>Set Pending</button>
+          <button class="danger" data-delete-business="${id}">Delete</button>
+        </div>
+      </article>`;
+  }).join("");
+
+  $("businessList").querySelectorAll("[data-business-status]").forEach(button=>{
+    button.addEventListener("click",()=>updateBusinessStatus(button.dataset.businessStatus,button.dataset.status));
+  });
+  $("businessList").querySelectorAll("[data-delete-business]").forEach(button=>{
+    button.addEventListener("click",()=>deleteBusiness(button.dataset.deleteBusiness));
+  });
+}
+
+async function updateBusinessStatus(id,status) {
+  if(!confirm(`Change this business listing status to "${status}"?`))return;
+  const {error}=await db.from("businesses").update({status}).eq("id",id);
+  if(error){
+    showMessage("globalMessage","Could not update business status: "+friendlyError(error)+". Check your admin-only UPDATE policy.","error-msg");
+    return;
+  }
+  showMessage("globalMessage","Business status updated successfully.","success-msg");
+  await loadBusinesses();
+}
+
+async function deleteBusiness(id) {
+  const business=businessesCache.find(item=>String(item.id)===String(id));
+  if(!business)return;
+  const name=business.business||"this business listing";
+  if(!confirm(`Permanently delete "${name}" from the Business Directory?\n\nThis action cannot be undone.`))return;
+
+  try{
+    const {error}=await db.from("businesses").delete().eq("id",id);
+    if(error)throw error;
+    showMessage("globalMessage",`"${name}" has been deleted successfully.`,"success-msg");
+    await loadBusinesses();
+  }catch(error){
+    showMessage("globalMessage","Could not delete business listing: "+friendlyError(error),"error-msg");
+  }
+}
+
+$("businessFilter").addEventListener("change",renderBusinesses);
+$("reloadBusinessesButton").addEventListener("click",loadBusinesses);
+
+// ADVERTISEMENTS
+
+async function loadAds() {
+  $("adList").innerHTML='<div class="loading">Loading advertisements…</div>';
+  const {data,error}=await db.from("ads").select("*").order("created_at",{ascending:false});
+  if(error){
+    $("adList").innerHTML="";
+    showMessage("globalMessage","Could not load advertisements: "+friendlyError(error),"error-msg");
+    return;
+  }
+  adsCache=data||[];
+  renderAds();
+  $("homeAdCount").textContent=adsCache.length;
+}
+
+function renderAds() {
+  if(!adsCache.length){
+    $("adList").innerHTML='<div class="empty">No advertisements have been created yet.</div>';
+    return;
+  }
+
+  $("adList").innerHTML=adsCache.map(ad=>{
+    const active=Boolean(ad.is_active);
+    const image=safeURL(ad.image_url);
+    const video=safeURL(ad.video_url);
+    const destination=safeURL(ad.destination_url);
+
+    return `
+      <article class="item">
+        <div class="row-between">
+          <div class="item-title">${escapeHTML(ad.title||"Untitled ad")}</div>
+          <span class="badge ${active?"active":"inactive"}">${active?"Active":"Inactive"}</span>
+        </div>
+        <div class="item-meta">
+          Placement: ${escapeHTML(ad.placement||"Not set")}<br>
+          Start: ${escapeHTML(ad.start_date||"Not set")} · End: ${escapeHTML(ad.end_date||"Not set")}
+        </div>
+        ${image?`<img class="preview" src="${escapeHTML(image)}" alt="Advertisement image" loading="lazy">`:""}
+        ${ad.description?`<p>${escapeHTML(ad.description)}</p>`:""}
+        ${video?`<p><a href="${escapeHTML(video)}" target="_blank" rel="noopener">Open video</a></p>`:""}
+        ${destination?`<p><a href="${escapeHTML(destination)}" target="_blank" rel="noopener">Open destination</a></p>`:""}
+        <div class="actions">
+          <button class="secondary" data-edit-ad="${escapeHTML(ad.id)}">Edit</button>
+          <button class="secondary" data-toggle-ad="${escapeHTML(ad.id)}" data-active="${active?"true":"false"}">${active?"Deactivate":"Activate"}</button>
+          <button class="danger" data-delete-ad="${escapeHTML(ad.id)}">Delete</button>
+        </div>
+      </article>`;
+  }).join("");
+
+  $("adList").querySelectorAll("[data-edit-ad]").forEach(button=>button.addEventListener("click",()=>editAd(button.dataset.editAd)));
+  $("adList").querySelectorAll("[data-toggle-ad]").forEach(button=>button.addEventListener("click",()=>toggleAd(button.dataset.toggleAd,button.dataset.active==="true")));
+  $("adList").querySelectorAll("[data-delete-ad]").forEach(button=>button.addEventListener("click",()=>deleteAd(button.dataset.deleteAd)));
+}
+
+function resetAdForm() {
+  $("adForm").reset();
+  $("adId").value="";
+  currentAdImage="";
+  currentAdVideo="";
+  $("adFormHeading").textContent="Create advertisement";
+  $("saveAdButton").textContent="Save advertisement";
+  $("cancelAdEditButton").classList.add("hidden");
+  clearMessage("adMessage");
+}
+
+$("cancelAdEditButton").addEventListener("click",resetAdForm);
+
+function editAd(id) {
+  const ad=adsCache.find(item=>String(item.id)===String(id));
+  if(!ad)return;
+  $("adId").value=ad.id;
+  $("adTitle").value=ad.title||"";
+  $("adDescription").value=ad.description||"";
+  $("adImageUrl").value=ad.image_url||"";
+  $("adVideoUrl").value=ad.video_url||"";
+  $("adDestinationUrl").value=ad.destination_url||"";
+  $("adPlacement").value=ad.placement||"homepage";
+  $("adStartDate").value=ad.start_date||"";
+  $("adEndDate").value=ad.end_date||"";
+  $("adActive").checked=Boolean(ad.is_active);
+  $("adImageFile").value="";
+  currentAdImage=ad.image_url||"";
+  currentAdVideo=ad.video_url||"";
+  $("adFormHeading").textContent="Edit advertisement";
+  $("saveAdButton").textContent="Save changes";
+  $("cancelAdEditButton").classList.remove("hidden");
+  switchPage("ads");
+  $("adForm").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+$("adForm").addEventListener("submit",async event=>{
+  event.preventDefault();
+  const button=$("saveAdButton");
+  setBusy(button,true,"Saving ad…");
+  clearMessage("adMessage");
+
+  try{
+    const id=$("adId").value;
+    const imageFile=$("adImageFile").files[0];
+    let imageUrl=$("adImageUrl").value.trim()||currentAdImage;
+    if(imageFile)imageUrl=await uploadFile(AD_IMAGE_BUCKET,imageFile,"advertisements");
+
+    const record={
+      title:$("adTitle").value.trim(),
+      description:$("adDescription").value.trim(),
+      image_url:imageUrl||null,
+      video_url:$("adVideoUrl").value.trim()||currentAdVideo||null,
+      destination_url:$("adDestinationUrl").value.trim()||null,
+      placement:$("adPlacement").value,
+      start_date:$("adStartDate").value||null,
+      end_date:$("adEndDate").value||null,
+      is_active:$("adActive").checked
+    };
+
+    if(!record.title)throw new Error("Advertisement title is required.");
+    if(record.start_date&&record.end_date&&record.end_date<record.start_date)throw new Error("End date cannot be earlier than start date.");
+
+    const result=id
+      ?await db.from("ads").update(record).eq("id",id)
+      :await db.from("ads").insert(record);
+
+    if(result.error)throw result.error;
+
+    showMessage("adMessage",id?"Advertisement updated.":"Advertisement created.","success-msg");
+    resetAdForm();
+    await loadAds();
+    await refreshHome();
+
+  }catch(error){
+    showMessage("adMessage",friendlyError(error),"error-msg");
+  }finally{
+    setBusy(button,false);
   }
 });
 
-  // HOME
+async function toggleAd(id,currentlyActive) {
+  const {error}=await db.from("ads").update({is_active:!currentlyActive}).eq("id",id);
+  if(error){
+    showMessage("globalMessage","Could not update ad: "+friendlyError(error),"error-msg");
+    return;
+  }
+  await loadAds();
+  await refreshHome();
+}
 
-  async function refreshHome() {
-    try {
-      await loadPosts();
-    } catch (error) {
-      console.error(error);
-    }
-    try {
-      await loadBusinesses();
-    } catch (error) {
-      console.error(error);
-    }
-    try {
-      await loadAds();
-    } catch (error) {
-      console.error(error);
-    }
+async function deleteAd(id) {
+  const ad=adsCache.find(item=>String(item.id)===String(id));
+  if(!confirm(`Delete advertisement "${ad?.title||"Untitled"}"? This cannot be undone.`))return;
+  const {error}=await db.from("ads").delete().eq("id",id);
+  if(error){
+    showMessage("globalMessage","Could not delete ad: "+friendlyError(error),"error-msg");
+    return;
+  }
+  showMessage("globalMessage","Advertisement deleted.","success-msg");
+  await loadAds();
+  await refreshHome();
+}
+
+$("reloadAdsButton").addEventListener("click",loadAds);
+
+// ANALYTICS
+
+function todayISO(){return new Date().toISOString().slice(0,10)}
+function daysAgoISO(days){
+  const date=new Date();
+  date.setDate(date.getDate()-days);
+  return date.toISOString().slice(0,10);
+}
+
+$("analyticsStart").value=daysAgoISO(6);
+$("analyticsEnd").value=todayISO();
+
+function renderDataList(id,data) {
+  const el=$(id);
+  if(!Array.isArray(data)||!data.length){
+    el.innerHTML='<div class="empty">No data returned for this period.</div>';
+    return;
+  }
+  el.innerHTML=data.slice(0,30).map(row=>{
+    if(row===null||typeof row!=="object")return `<div class="item">${escapeHTML(row)}</div>`;
+    const entries=Object.entries(row);
+    const label=entries.slice(0,2).map(([key,value])=>
+      `<strong>${escapeHTML(key.replaceAll("_"," "))}:</strong> ${escapeHTML(value??"—")}`
+    ).join("<br>");
+    return `<div class="item item-meta">${label}</div>`;
+  }).join("");
+}
+
+async function callAnalyticsRPC(name,start,end) {
+  const {data,error}=await db.rpc(name,{p_start_date:start,p_end_date:end});
+  if(error)throw new Error(`${name}: ${error.message}`);
+  return data;
+}
+
+$("loadAnalyticsButton").addEventListener("click",loadAnalytics);
+
+async function loadAnalytics() {
+  const button=$("loadAnalyticsButton");
+  const start=$("analyticsStart").value;
+  const end=$("analyticsEnd").value;
+
+  if(!start||!end||start>end){
+    showMessage("analyticsMessage","Choose a valid start and end date.","error-msg");
+    return;
   }
 
-  checkSession();
+  setBusy(button,true,"Loading analytics…");
+  clearMessage("analyticsMessage");
+
+  try{
+    const names=[
+      ["summary","get_analytics_summary"],
+      ["countries","get_analytics_countries"],
+      ["devices","get_analytics_devices"],
+      ["browsers","get_analytics_browsers"],
+      ["referrers","get_analytics_referrers"],
+      ["top_pages","get_analytics_top_pages"],
+      ["daily","get_analytics_daily_visitors"]
+    ];
+
+    const results=await Promise.all(names.map(async([key,name])=>{
+      try{return[key,await callAnalyticsRPC(name,start,end),null]}
+      catch(error){return[key,null,error]}
+    }));
+
+    const resultMap=Object.fromEntries(results.map(([key,data,error])=>[key,{data,error}]));
+    const summary=resultMap.summary.data;
+    const firstSummary=Array.isArray(summary)?(summary[0]||{}):(summary||{});
+
+    $("analyticsVisitors").textContent=firstSummary.visitors??firstSummary.total_visitors??firstSummary.total_visits??"—";
+    $("analyticsViews").textContent=firstSummary.page_views??firstSummary.total_page_views??firstSummary.views??"—";
+
+    const countries=resultMap.countries.data;
+    const devices=resultMap.devices.data;
+    $("analyticsCountryCount").textContent=Array.isArray(countries)?countries.length:"—";
+    $("analyticsDeviceCount").textContent=Array.isArray(devices)?devices.length:"—";
+
+    renderDataList("analyticsCountries",countries);
+    renderDataList("analyticsDevices",devices);
+    renderDataList("analyticsBrowsers",resultMap.browsers.data);
+    renderDataList("analyticsReferrers",resultMap.referrers.data);
+    renderDataList("analyticsTopPages",resultMap.top_pages.data);
+    renderDataList("analyticsDaily",resultMap.daily.data);
+
+    const errors=results.filter(row=>row[2]).map(row=>row[2].message);
+    if(errors.length){
+      showMessage("analyticsMessage","Some analytics calls failed. Check the function parameter names and permissions in Supabase. "+errors.join(" | "),"error-msg");
+    }else{
+      showMessage("analyticsMessage","Analytics loaded successfully.","success-msg");
+    }
+
+  }catch(error){
+    showMessage("analyticsMessage",friendlyError(error),"error-msg");
+  }finally{
+    setBusy(button,false);
+  }
+}
+
+$("excludeDeviceButton").addEventListener("click",async()=>{
+  const device=$("excludedDevice").value.trim();
+
+  if(!device){
+    showMessage("excludeDeviceMessage","Enter a device identifier first.","error-msg");
+    return;
+  }
+
+  const button=$("excludeDeviceButton");
+  setBusy(button,true,"Submitting…");
+
+  try{
+    const {error}=await db.rpc("add_analytics_excluded_device",{
+      p_device_id:device,
+      p_device_name:"Palmcaseblog Owner Device"
+    });
+    if(error)throw error;
+
+    showMessage("excludeDeviceMessage","Device exclusion submitted successfully.","success-msg");
+    $("excludedDevice").value="";
+
+  }catch(error){
+    showMessage("excludeDeviceMessage","Could not exclude device: "+friendlyError(error),"error-msg");
+  }finally{
+    setBusy(button,false);
+  }
+});
+
+// HOME
+
+async function refreshHome() {
+  try{await loadPosts()}catch(error){console.error(error)}
+  try{await loadBusinesses()}catch(error){console.error(error)}
+  try{await loadAds()}catch(error){console.error(error)}
+}
+
+checkSession();
+
 })();
 </script>
 </body>
