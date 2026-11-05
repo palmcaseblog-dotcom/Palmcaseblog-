@@ -1111,9 +1111,15 @@ $("articleText").value = post.article || "";
       const image = imageUrls[0] || currentArticleImage || null;
 
       const record = {
-        headline: $("headline").value.trim(),
-        category: $("category").value,
-        description: $("description").value.trim(),
+  headline: $("headline").value.trim(),
+  category: $("category").value,
+  description: $("description").value.trim(),
+
+  publisher_name:
+    $("publisherName").value.trim() || "Egwu John Uchenna",
+
+  image_caption:
+    $("imageCaption").value.trim() || null,
         image: image,
         images: imageUrls,
         article: $("articleText").value.trim(),
