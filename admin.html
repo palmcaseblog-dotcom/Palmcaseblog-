@@ -283,7 +283,31 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
             <label for="description">Short description / excerpt</label>
             <textarea id="description" rows="3" placeholder="A short introduction to the story"></textarea>
           </div>
+<div class="field">
+  <label for="publisherName">Publisher's name</label>
+  <input
+    id="publisherName"
+    type="text"
+    maxlength="120"
+    placeholder="e.g. Egwu John Uchenna"
+  >
+  <div class="muted small">
+    Enter the name of the person publishing this article.
+  </div>
+</div>
 
+<div class="field">
+  <label for="imageCaption">Featured image caption</label>
+  <textarea
+    id="imageCaption"
+    rows="2"
+    maxlength="500"
+    placeholder="Write a short description of the main featured image"
+  ></textarea>
+  <div class="muted small">
+    This caption will appear beneath the main article image.
+  </div>
+</div>
           <div class="field">
             <label for="articleImage">Article images</label>
             <input id="articleImage" type="file" accept="image/jpeg,image/png,image/webp" multiple>
