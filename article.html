@@ -2427,6 +2427,15 @@ return `
 <!-- MAIN ARTICLE IMAGE DIRECTLY BELOW HEADLINE -->
 ${imageHTML}
 
+<!-- FEATURED IMAGE CAPTION -->
+${
+  articleImages.length && String(post.image_caption || "").trim()
+    ? `<div class="article-image-caption">
+         ${escapeHTML(post.image_caption)}
+       </div>`
+    : ""
+}
+
 <!-- ARTICLE DATE -->
 <div class="date">
   ${escapeHTML(articleDate)}
@@ -2440,15 +2449,6 @@ ${imageHTML}
   )}</strong>
   on Palmcaseblog
 </div>
-
-<!-- FEATURED IMAGE CAPTION -->
-${
-  articleImages.length && String(post.image_caption || "").trim()
-    ? `<div class="article-image-caption">
-         ${escapeHTML(post.image_caption)}
-       </div>`
-    : ""
-}
 
 ${sourceHTML}
 
