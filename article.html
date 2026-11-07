@@ -2748,7 +2748,7 @@ async function loadRelatedStories(currentArticleId) {
       .eq("status", "published")
       .neq("id", Number(currentArticleId))
       .order("created_at", { ascending: false })
-      .limit(8);
+      .limit(9);
 
     if (error) {
       console.error("RELATED STORIES ERROR:", error);
