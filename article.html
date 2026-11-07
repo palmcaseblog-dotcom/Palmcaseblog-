@@ -1227,7 +1227,89 @@ body {
   font-family: Arial, sans-serif;
   font-size: 14px;
 }
+/* =================================
+   LATEST ARTICLES
+================================= */
 
+.latest-articles {
+  margin: 35px 0 10px;
+  padding-top: 22px;
+  border-top: 3px double #171717;
+}
+
+.latest-articles h2 {
+  margin: 0 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  color: #171717;
+}
+
+.latest-articles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.latest-article-card {
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+  color: #171717;
+  text-decoration: none;
+}
+
+.latest-article-card img,
+.latest-article-placeholder {
+  width: 110px;
+  height: 85px;
+  flex-shrink: 0;
+  object-fit: cover;
+  background: #eee;
+}
+
+.latest-article-content {
+  min-width: 0;
+}
+
+.latest-article-content span {
+  display: block;
+  color: #777;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  margin-bottom: 7px;
+}
+
+.latest-article-content h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.latest-article-card:hover h3 {
+  color: #b00000;
+}
+
+.latest-articles-empty {
+  color: #777;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* MOBILE */
+@media (max-width: 550px) {
+  .latest-articles-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .latest-article-card img,
+  .latest-article-placeholder {
+    width: 105px;
+    height: 78px;
+  }
+}
 /* THREE-MINUTE ARTICLE RECOMMENDATION POPUP */
 .article-recommendation-overlay {
   position: fixed;
