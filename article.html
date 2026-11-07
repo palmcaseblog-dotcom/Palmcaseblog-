@@ -2886,108 +2886,71 @@ async function loadRelatedStories(currentArticleId) {
   }
 }
 
+
 /* =================================
    LATEST ARTICLES
 ================================= */
 
-.latest-articles {
-  width: 100%;
-  margin: 35px 0;
-}
+async function loadLatestArticles(currentArticleId) {
+  const grid = document.getElementById("latest-articles-grid");
 
-.latest-articles h2 {
-  font-size: 22px;
-  font-weight: 800;
-  color: #111827;
-  border-bottom: 3px solid #f59e0b;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
+  if (!grid) return;
 
-.latest-articles-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  width: 100%;
-}
+  try {
+    const { data, error } = await supabaseClient
+      .from("posts")
+      .select("id,headline,category,image,images,created_at")
+      .eq("status", "published")
+      .neq("id", Number(currentArticleId))
+      .order("created_at", { ascending: false })
+      .limit(11);
 
-.latest-article-card {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  text-decoration: none;
-  color: #111827;
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 7px;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+    if (error) {
+      console.error("LATEST ARTICLES ERROR:", error);
+      grid.innerHTML = "";
+      return;
+    }
 
-.latest-article-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-}
+    const latestArticles = Array.isArray(data) ? data : [];
 
-.latest-article-card img,
-.latest-article-placeholder {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  background: #eee;
-}
+    if (!latestArticles.length) {
+      grid.innerHTML =
+        '<p class="latest-articles-empty">No latest articles available yet.</p>';
+      return;
+    }
 
-.latest-article-content {
-  padding: 12px;
-}
+    grid.innerHTML = latestArticles.map(post => {
+      const title = escapeHTML(post.headline || "Read this story");
+      const category = escapeHTML(post.category || "News");
+      const date = escapeHTML(formatPostDate(post.created_at));
+      const image = getPostImage(post);
+      const articleUrl =
+        "article.html?id=" + encodeURIComponent(post.id);
 
-.latest-article-content span {
-  display: block;
-  color: #777;
-  font-size: 11px;
-  margin-bottom: 7px;
-}
+      return `
+        <a class="latest-article-card" href="${articleUrl}">
+          ${
+            image
+              ? `<img src="${escapeHTML(image)}"
+                     alt="${title}"
+                     loading="lazy">`
+              : `<div class="latest-article-placeholder"></div>`
+          }
 
-.latest-article-content h3 {
-  font-size: 15px;
-  line-height: 1.45;
-  font-weight: 700;
-  margin: 0;
-}
+          <div class="latest-article-content">
+            <span>${category}${date ? " · " + date : ""}</span>
+            <h3>${title}</h3>
+          </div>
+        </a>
+      `;
+    }).join("");
 
-.latest-articles-empty {
-  color: #777;
-  font-size: 14px;
-}
-
-/* Mobile layout */
-@media (max-width: 480px) {
-  .latest-articles-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
-  .latest-article-card {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-
-  .latest-article-card img,
-  .latest-article-placeholder {
-    width: 115px;
-    min-width: 115px;
-    aspect-ratio: 4 / 3;
-  }
-
-  .latest-article-content {
-    padding: 10px;
-  }
-
-  .latest-article-content h3 {
-    font-size: 14px;
+  } catch (error) {
+    console.error("LATEST ARTICLES ERROR:", error);
+    grid.innerHTML = "";
   }
 }
+
 function closeArticleRecommendation() {
   const popup = document.getElementById(
     "article-recommendation-overlay"
