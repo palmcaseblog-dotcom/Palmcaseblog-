@@ -1412,6 +1412,94 @@ body {
     padding: 20px 15px;
   }
 }
+ 
+/* =================================
+   YOU MAY ALSO LIKE
+================================= */
+
+.you-may-also-like {
+  width: 100%;
+  margin: 35px 0 15px;
+  padding-top: 22px;
+  border-top: 3px double #171717;
+}
+
+.you-may-also-like h2 {
+  margin: 0 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  color: #171717;
+}
+
+.you-may-also-like-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+}
+
+.you-may-also-like-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+  color: #171717;
+  text-decoration: none;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #ddd;
+}
+
+.you-may-also-like-card img,
+.you-may-also-like-placeholder {
+  width: 110px;
+  height: 85px;
+  flex-shrink: 0;
+  object-fit: cover;
+  background: #eee;
+}
+
+.you-may-also-like-content {
+  min-width: 0;
+}
+
+.you-may-also-like-content span {
+  display: block;
+  color: #777;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  margin-bottom: 7px;
+}
+
+.you-may-also-like-content h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.you-may-also-like-card:hover h3 {
+  color: #b00000;
+}
+
+.you-may-also-like-empty {
+  color: #777;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+@media (max-width: 550px) {
+  .you-may-also-like-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .you-may-also-like-card img,
+  .you-may-also-like-placeholder {
+    width: 105px;
+    height: 78px;
+  }
+}
+
   </style>
 </head>
 
