@@ -3139,9 +3139,11 @@ setCanonicalUrl();
 // Load other published articles.
 await loadRelatedStories(numericArticleId);
 
+// Load the 11 latest published articles.
+await loadLatestArticles(numericArticleId);
+
 // Show recommendations after three minutes.
 scheduleArticleRecommendation(numericArticleId);
-
 // Load existing article advertisements.
 await loadArticleAdvertisements();
   } catch (error) {
