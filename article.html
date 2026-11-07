@@ -2795,14 +2795,108 @@ async function loadRelatedStories(currentArticleId) {
   }
 }
 
-<!-- LATEST ARTICLES -->
-<section id="latest-articles" class="latest-articles">
-  <h2>Latest Articles</h2>
+/* =================================
+   LATEST ARTICLES
+================================= */
 
-  <div id="latest-articles-grid" class="latest-articles-grid">
-    <p>Loading latest articles...</p>
-  </div>
-</section>
+.latest-articles {
+  width: 100%;
+  margin: 35px 0;
+}
+
+.latest-articles h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111827;
+  border-bottom: 3px solid #f59e0b;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.latest-articles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.latest-article-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-decoration: none;
+  color: #111827;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 7px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.latest-article-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.latest-article-card img,
+.latest-article-placeholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #eee;
+}
+
+.latest-article-content {
+  padding: 12px;
+}
+
+.latest-article-content span {
+  display: block;
+  color: #777;
+  font-size: 11px;
+  margin-bottom: 7px;
+}
+
+.latest-article-content h3 {
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 700;
+  margin: 0;
+}
+
+.latest-articles-empty {
+  color: #777;
+  font-size: 14px;
+}
+
+/* Mobile layout */
+@media (max-width: 480px) {
+  .latest-articles-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .latest-article-card {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .latest-article-card img,
+  .latest-article-placeholder {
+    width: 115px;
+    min-width: 115px;
+    aspect-ratio: 4 / 3;
+  }
+
+  .latest-article-content {
+    padding: 10px;
+  }
+
+  .latest-article-content h3 {
+    font-size: 14px;
+  }
+}
 function closeArticleRecommendation() {
   const popup = document.getElementById(
     "article-recommendation-overlay"
