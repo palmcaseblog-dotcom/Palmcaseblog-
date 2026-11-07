@@ -2887,6 +2887,7 @@ async function loadRelatedStories(currentArticleId) {
 }
 
 
+
 /* =================================
    LATEST ARTICLES
 ================================= */
@@ -2897,13 +2898,29 @@ async function loadLatestArticles(currentArticleId) {
   if (!grid) return;
 
   try {
+    // Collect article IDs already displayed in Related Stories
+    const relatedArticleIds = new Set();
+
+    document.querySelectorAll(
+      '#related-stories-grid a[href*="article.html?id="]'
+    ).forEach(link => {
+      const match = link.href.match(/[?&]id=(\d+)/);
+
+      if (match) {
+        relatedArticleIds.add(Number(match[1]));
+      }
+    });
+
+    // Also exclude the article currently being viewed
+    relatedArticleIds.add(Number(currentArticleId));
+
+    // Fetch a larger selection so we can exclude duplicates
     const { data, error } = await supabaseClient
       .from("posts")
       .select("id,headline,category,image,images,created_at")
       .eq("status", "published")
-      .neq("id", Number(currentArticleId))
       .order("created_at", { ascending: false })
-      .limit(11);
+      .limit(50);
 
     if (error) {
       console.error("LATEST ARTICLES ERROR:", error);
@@ -2911,11 +2928,14 @@ async function loadLatestArticles(currentArticleId) {
       return;
     }
 
-    const latestArticles = Array.isArray(data) ? data : [];
+    // Remove articles already displayed in Related Stories
+    const latestArticles = (data || [])
+      .filter(post => !relatedArticleIds.has(Number(post.id)))
+      .slice(0, 11);
 
     if (!latestArticles.length) {
       grid.innerHTML =
-        '<p class="latest-articles-empty">No latest articles available yet.</p>';
+        '<p class="latest-articles-empty">No additional articles available yet.</p>';
       return;
     }
 
@@ -2924,6 +2944,7 @@ async function loadLatestArticles(currentArticleId) {
       const category = escapeHTML(post.category || "News");
       const date = escapeHTML(formatPostDate(post.created_at));
       const image = getPostImage(post);
+
       const articleUrl =
         "article.html?id=" + encodeURIComponent(post.id);
 
@@ -2950,6 +2971,7 @@ async function loadLatestArticles(currentArticleId) {
     grid.innerHTML = "";
   }
 }
+
 
 function closeArticleRecommendation() {
   const popup = document.getElementById(
