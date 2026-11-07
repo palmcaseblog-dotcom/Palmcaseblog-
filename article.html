@@ -2981,6 +2981,94 @@ async function loadLatestArticles(currentArticleId) {
 }
 
 
+/* =================================
+   YOU MAY ALSO LIKE
+================================= */
+
+async function loadYouMayAlsoLike(currentArticleId) {
+  const grid = document.getElementById("you-may-also-like-grid");
+
+  if (!grid) return;
+
+  try {
+    // Collect IDs from Related Stories and Latest Articles
+    const excludedArticleIds = new Set();
+
+    excludedArticleIds.add(Number(currentArticleId));
+
+    const sectionSelectors = [
+      "#related-stories-grid a[href*='article.html?id=']",
+      "#latest-articles-grid a[href*='article.html?id=']"
+    ];
+
+    sectionSelectors.forEach(selector => {
+      document.querySelectorAll(selector).forEach(link => {
+        const match = link.href.match(/[?&]id=(\d+)/);
+
+        if (match) {
+          excludedArticleIds.add(Number(match[1]));
+        }
+      });
+    });
+
+    // Fetch published articles
+    const { data, error } = await supabaseClient
+      .from("posts")
+      .select("id,headline,category,image,images,created_at")
+      .eq("status", "published")
+      .order("created_at", { ascending: false })
+      .limit(200);
+
+    if (error) {
+      console.error("YOU MAY ALSO LIKE ERROR:", error);
+      grid.innerHTML = "";
+      return;
+    }
+
+    // Exclude articles already displayed in the other sections
+    const suggestedArticles = (data || [])
+      .filter(post => !excludedArticleIds.has(Number(post.id)))
+      .slice(0, 10);
+
+    if (!suggestedArticles.length) {
+      grid.innerHTML =
+        '<p class="you-may-also-like-empty">No additional stories available yet.</p>';
+      return;
+    }
+
+    grid.innerHTML = suggestedArticles.map(post => {
+      const title = escapeHTML(post.headline || "Read this story");
+      const category = escapeHTML(post.category || "News");
+      const date = escapeHTML(formatPostDate(post.created_at));
+      const image = getPostImage(post);
+
+      const articleUrl =
+        "article.html?id=" + encodeURIComponent(post.id);
+
+      return `
+        <a class="you-may-also-like-card" href="${articleUrl}">
+          ${
+            image
+              ? `<img src="${escapeHTML(image)}"
+                     alt="${title}"
+                     loading="lazy">`
+              : `<div class="you-may-also-like-placeholder"></div>`
+          }
+
+          <div class="you-may-also-like-content">
+            <span>${category}${date ? " · " + date : ""}</span>
+            <h3>${title}</h3>
+          </div>
+        </a>
+      `;
+    }).join("");
+
+  } catch (error) {
+    console.error("YOU MAY ALSO LIKE ERROR:", error);
+    grid.innerHTML = "";
+  }
+}
+
 function closeArticleRecommendation() {
   const popup = document.getElementById(
     "article-recommendation-overlay"
