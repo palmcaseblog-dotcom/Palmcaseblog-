@@ -3393,6 +3393,9 @@ await loadRelatedStories(numericArticleId);
 // Load the 11 latest published articles.
 await loadLatestArticles(numericArticleId);
 
+// Load 10 additional articles without repeating either section.
+await loadYouMayAlsoLike(numericArticleId);
+
 // Show recommendations after three minutes.
 scheduleArticleRecommendation(numericArticleId);
 // Load existing article advertisements.
