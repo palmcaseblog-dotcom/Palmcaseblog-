@@ -3967,8 +3967,10 @@ async function loadPosts() {
           <h4>${title}</h4>
 
           <small class="card-byline">
-            By ${publisher}
-          </small>
+  By <a href="author.html"
+       class="author-link"
+       onclick="event.stopPropagation()">${publisher}</a>
+</small>
 
           <small class="card-date">
             ${formatDate(post.created_at)}
