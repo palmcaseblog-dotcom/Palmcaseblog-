@@ -3885,94 +3885,67 @@ async function loadPosts() {
 
 
     function renderFeatured() {
+  const container = document.getElementById("featuredStories");
 
-      const container =
-        document.getElementById(
-          "featuredStories"
-        );
+  if (!container) return;
 
-      if (!allPosts.length) {
+  const posts = getHomepagePostGroups().featured;
 
-        container.innerHTML =
-          '<div class="empty">No stories have been published yet.</div>';
+  if (!posts.length) {
+    container.innerHTML =
+      '<div class="empty">No stories have been published yet.</div>';
+    return;
+  }
 
-        return;
-      }
+  container.innerHTML = posts.map((post, index) => {
+    const image = post.image || "IMG_2188.jpeg";
 
-      const posts =
-        allPosts.slice(0, 3);
+    const title = escapeHTML(
+      post.headline || "Untitled story"
+    );
 
-      container.innerHTML =
-        posts
-          .map(
-            (post, index) => {
+    const category = escapeHTML(
+      post.category || "News"
+    );
 
-              const image =
-                post.image ||
-                "IMG_2188.jpeg";
+    const publisher = escapeHTML(
+      post.publisher_name || "Egwu John Uchenna"
+    );
 
-              const title =
-                escapeHTML(
-                  post.headline ||
-                  "Untitled story"
-                );
+    return `
+      <a
+        href="article.html?id=${encodeURIComponent(post.id)}"
+        class="featured-card ${index === 0 ? "featured-main" : ""}"
+      >
+        <img
+          src="${escapeAttribute(image)}"
+          alt="${escapeAttribute(title)}"
+          onerror="this.src='IMG_2188.jpeg'"
+        >
 
-              const category =
-                escapeHTML(
-                  post.category ||
-                  "News"
-                );
+        <div class="card-content">
 
-              return `
-                <a
-                  href="article.html?id=${post.id}"
-                  class="featured-card ${
-                    index === 0
-                      ? "featured-main"
-                      : ""
-                  }"
-                >
+          <span class="category-tag">
+            ${category}
+          </span>
 
-                  <img
-                    src="${escapeAttribute(image)}"
-                    alt="${escapeAttribute(title)}"
-                    onerror="this.src='IMG_2188.jpeg'"
-                  >
+          <div class="card-title">
+            ${title}
+          </div>
 
-                  <div
-                    class="card-content"
-                  >
+          <span class="card-byline">
+            By ${publisher}
+          </span>
 
-                    <span
-                      class="category-tag"
-                    >
-                      ${category}
-                    </span>
+          <div class="card-date">
+            ${formatDate(post.created_at)}
+          </div>
 
-                    <div
-                      class="card-title"
-                    >
-                      ${title}
-                    </div>
-
-                    <div
-                      class="card-date"
-                    >
-                      ${formatDate(
-                        post.created_at
-                      )}
-                    </div>
-
-                  </div>
-
-                </a>
-              `;
-
-            }
-          )
-          .join("");
-
-    }
+        </div>
+      </a>
+    `;
+  }).join("");
+}
 
     function renderLatest() {
 
