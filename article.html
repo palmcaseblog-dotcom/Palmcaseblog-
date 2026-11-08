@@ -1499,7 +1499,204 @@ body {
     height: 78px;
   }
 }
+/* =========================================
+   ARTICLE PAGE: TWO-COLUMN LAYOUT
+========================================= */
 
+.article-page-main {
+  width: calc(100% - 32px);
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.article-page-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 900px) minmax(260px, 320px);
+  gap: 28px;
+  align-items: start;
+}
+
+.article-main-column {
+  min-width: 0;
+  width: 100%;
+}
+
+.article-sidebar {
+  min-width: 0;
+  width: 100%;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #dedede;
+}
+
+.article-sidebar-heading {
+  margin: 0 0 16px;
+  padding-bottom: 11px;
+  border-bottom: 3px solid #f59e0b;
+  color: #111827;
+  font: 800 20px/1.3 Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+.article-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.article-sidebar-story {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 13px 0;
+  border-bottom: 1px solid #e5e5e5;
+  color: inherit;
+  text-decoration: none;
+}
+
+.article-sidebar-story:hover h3 {
+  color: #b77905;
+}
+
+.article-sidebar-story img,
+.article-sidebar-placeholder {
+  display: block;
+  width: 105px;
+  height: 82px;
+  flex: 0 0 105px;
+  object-fit: cover;
+  background: #eee;
+}
+
+.article-sidebar-story-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.article-sidebar-story-meta {
+  display: block;
+  margin-bottom: 5px;
+  color: #777;
+  font: 11px/1.4 Arial, sans-serif;
+}
+
+.article-sidebar-story h3 {
+  margin: 0;
+  color: #171717;
+  font: 700 14px/1.45 Arial, sans-serif;
+  overflow-wrap: anywhere;
+}
+
+.article-sidebar-ad {
+  margin: 16px 0;
+  padding: 10px;
+  border: 1px solid #e2e2e2;
+  background: #fafafa;
+}
+
+.article-sidebar-ad .article-ad-section {
+  margin: 0;
+}
+
+.article-sidebar-ad .article-ad {
+  box-shadow: none;
+}
+
+.article-sidebar-ad .article-ad-image {
+  display: block;
+  width: 100%;
+  max-height: 190px;
+  object-fit: cover;
+}
+
+.article-sidebar-ad .article-ad-embed {
+  height: 190px !important;
+}
+
+.article-sidebar-ad .article-ad-video {
+  height: 190px !important;
+}
+
+.article-sidebar-ad .article-ad-content {
+  padding: 10px;
+}
+
+.article-sidebar-ad .article-ad-title {
+  font-size: 15px;
+}
+
+.article-sidebar-ad .article-ad-description {
+  font-size: 13px;
+}
+
+/* =========================================
+   WHATSAPP CHANNEL BAR
+========================================= */
+
+.article-whatsapp-channel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 46px;
+  margin: 18px 0 24px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  background: #168b45;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  font: 800 14px/1.35 Arial, sans-serif;
+  letter-spacing: .35px;
+}
+
+.article-whatsapp-channel:hover {
+  background: #116f37;
+  color: #fff;
+}
+
+.article-whatsapp-channel:focus-visible {
+  outline: 3px solid #111827;
+  outline-offset: 3px;
+}
+
+/* Mobile and tablet layout */
+@media (max-width: 900px) {
+  .article-page-main {
+    width: calc(100% - 24px);
+  }
+
+  .article-page-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 25px;
+  }
+
+  .article-sidebar {
+    margin-top: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .article-sidebar {
+    padding: 12px;
+  }
+
+  .article-sidebar-story img,
+  .article-sidebar-placeholder {
+    width: 92px;
+    height: 75px;
+    flex-basis: 92px;
+  }
+
+  .article-sidebar-story h3 {
+    font-size: 13px;
+  }
+
+  .article-whatsapp-channel {
+    font-size: 13px;
+  }
+}
   </style>
 </head>
 
