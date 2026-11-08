@@ -11,6 +11,10 @@
 
   <link rel="canonical" href="https://palmcaseblog.com.ng/author.html">
 
+  <meta name="theme-color" content="#ffffff">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -18,76 +22,139 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      background: #fff;
       color: #111827;
+      font-family: Georgia, "Times New Roman", serif;
     }
 
-    header {
-      background: #111827;
-      color: #fff;
-      padding: 15px 20px;
-      border-bottom: 4px solid #f59e0b;
+    a {
+      color: inherit;
     }
 
-    .header-inner {
-      max-width: 1100px;
+    /* MASTHEAD */
+
+    .article-site-header {
+      position: relative;
+      background: #fff;
+      color: #111827;
+      border-top: 5px solid #111827;
+      border-bottom: 4px double #111827;
+    }
+
+    .article-site-header-inner {
+      max-width: 1320px;
       margin: auto;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      padding: 16px 20px 12px;
+      text-align: center;
     }
 
-    .header-inner img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      object-fit: cover;
+    .article-site-wordmark {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: clamp(30px, 5vw, 48px);
+      font-weight: 900;
+      letter-spacing: 2px;
+      line-height: 1.1;
     }
 
-    .brand-name {
-      font-size: 23px;
-      font-weight: bold;
+    .article-site-tagline {
+      margin: 7px 0 0;
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #555;
     }
 
-    nav {
+    /* NAVIGATION */
+
+    .article-site-nav {
       background: #fff;
       border-bottom: 1px solid #ddd;
     }
 
-    .nav-inner {
-      max-width: 1100px;
+    .article-site-nav-inner {
+      max-width: 1320px;
       margin: auto;
-      padding: 13px 20px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      font-family: Arial, sans-serif;
     }
 
-    nav a {
+    .article-site-nav a {
       color: #111827;
       text-decoration: none;
-      font-weight: bold;
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    main {
-      max-width: 850px;
-      margin: 35px auto;
-      padding: 0 18px;
+    .article-site-nav a:hover {
+      color: #b45309;
     }
+
+    /* PAGE LAYOUT */
+
+    .article-page-main {
+      width: calc(100% - 32px);
+      max-width: 1320px;
+      margin: 28px auto;
+    }
+
+    .article-page-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 900px) minmax(260px, 320px);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .article-main-column {
+      min-width: 0;
+    }
+
+    .article-sidebar {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #92400e;
+      font: 700 13px Arial, sans-serif;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    /* AUTHOR PROFILE */
 
     .author-card {
+      padding: 24px;
+      border: 1px solid #e5e7eb;
       background: #fff;
-      padding: 35px;
-      border-radius: 10px;
-      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      margin-bottom: 32px;
+    }
+
+    .author-profile-top {
       text-align: center;
+      padding-bottom: 22px;
+      border-bottom: 1px solid #e5e7eb;
     }
 
     .author-photo {
-      width: 165px;
-      height: 165px;
-      margin: 0 auto 22px;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 16px;
       border-radius: 50%;
       overflow: hidden;
-      border: 5px solid #f59e0b;
+      border: 4px solid #f59e0b;
       background: #111827;
     }
 
@@ -97,62 +164,343 @@
       object-fit: cover;
     }
 
-    h1 {
-      margin: 0 0 8px;
-      font-size: 32px;
+    .author-name {
+      margin: 0;
+      font-size: clamp(25px, 4vw, 34px);
+      line-height: 1.2;
+      font-weight: 900;
     }
 
     .author-title {
-      color: #b45309;
-      font-weight: bold;
-      margin-bottom: 25px;
+      margin: 10px 0 0;
+      color: #92400e;
+      font: 700 13px Arial, sans-serif;
     }
 
-    .section-heading {
-      text-align: left;
-      border-bottom: 2px solid #f59e0b;
+    .author-section-heading {
+      margin: 24px 0 14px;
       padding-bottom: 10px;
+      border-bottom: 2px solid #111827;
+      font-size: 21px;
+    }
+
+    .author-biography {
+      color: #374151;
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    .author-biography p {
+      margin: 0 0 15px;
+    }
+
+    /* AUTHOR ARTICLE LIST */
+
+    .author-articles-section {
       margin-top: 30px;
     }
 
-    .biography {
-      text-align: left;
-      font-size: 16px;
-      line-height: 1.9;
-      color: #374151;
+    .author-articles-heading {
+      margin: 0 0 18px;
+      padding: 0 0 11px;
+      border-bottom: 3px double #111827;
+      font-size: 25px;
     }
 
-    .author-footer {
-      margin-top: 35px;
+    .author-article-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .author-article-card {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 17px;
+      padding: 18px 0;
+      border-bottom: 1px solid #e5e7eb;
+      text-decoration: none;
+    }
+
+    .author-article-card img,
+    .author-article-placeholder {
+      display: block;
+      width: 100%;
+      height: 125px;
+      object-fit: cover;
+      background: #eee;
+    }
+
+    .author-article-category {
+      color: #92400e;
+      font: 700 11px Arial, sans-serif;
+      text-transform: uppercase;
+    }
+
+    .author-article-title {
+      margin: 7px 0;
+      color: #111827;
+      font-size: 19px;
+      line-height: 1.35;
+    }
+
+    .author-article-card:hover .author-article-title {
+      color: #92400e;
+    }
+
+    .author-article-date {
+      color: #777;
+      font: 12px Arial, sans-serif;
+    }
+
+    .author-article-byline {
+      display: block;
+      margin-top: 8px;
+      color: #6b7280;
+      font: 12px Arial, sans-serif;
+    }
+
+    .author-article-byline strong {
+      color: #92400e;
+    }
+
+    .author-loading,
+    .author-empty {
+      padding: 20px 0;
+      color: #666;
+      font: 14px Arial, sans-serif;
+    }
+
+    /* SIDEBAR */
+
+    .article-sidebar-heading {
+      margin: 0 0 15px;
+      padding-bottom: 10px;
+      border-bottom: 3px double #111827;
+      font-size: 22px;
+    }
+
+    .article-sidebar-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .article-sidebar-story {
+      display: grid;
+      grid-template-columns: 105px minmax(0, 1fr);
+      gap: 11px;
+      padding: 13px 0;
+      border-bottom: 1px solid #e5e7eb;
+      text-decoration: none;
+    }
+
+    .article-sidebar-story img,
+    .article-sidebar-placeholder {
+      width: 105px;
+      height: 82px;
+      object-fit: cover;
+      background: #eee;
+    }
+
+    .article-sidebar-story-meta {
+      display: block;
+      color: #92400e;
+      font: 700 10px Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    .article-sidebar-story h3 {
+      margin: 5px 0 0;
+      color: #111827;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .article-sidebar-story:hover h3 {
+      color: #92400e;
+    }
+
+    /* SIDEBAR ADVERTISEMENTS */
+
+    .article-sidebar-ad {
+      margin: 15px 0;
+      padding: 12px;
+      background: #fafafa;
+      border: 1px solid #e5e7eb;
+    }
+
+    .sidebar-ad-label {
+      margin-bottom: 8px;
+      color: #777;
+      font: 700 10px Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .sidebar-ad-image {
+      display: block;
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+    }
+
+    .sidebar-ad-video {
+      display: block;
+      width: 100%;
+      max-height: 230px;
+      background: #111827;
+    }
+
+    .sidebar-ad-title {
+      margin: 10px 0 5px;
+      font: 700 15px Arial, sans-serif;
+      color: #111827;
+    }
+
+    .sidebar-ad-description {
+      margin: 5px 0 10px;
+      font: 13px/1.6 Arial, sans-serif;
+      color: #555;
+    }
+
+    .sidebar-ad-link {
+      display: inline-block;
+      color: #92400e;
+      font: 700 12px Arial, sans-serif;
+      text-decoration: none;
+    }
+
+    .sidebar-ad-link:hover {
+      text-decoration: underline;
+    }
+
+    /* FOOTER */
+
+    .article-footer {
+      margin-top: 45px;
+      padding: 35px 18px;
       background: #111827;
       color: #fff;
-      padding: 28px 18px;
-      text-align: center;
       border-top: 4px solid #f59e0b;
+      font-family: Arial, sans-serif;
     }
 
-    .author-footer a {
+    .article-footer-inner {
+      max-width: 1320px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 25px;
+    }
+
+    .article-footer h3 {
+      margin: 0 0 12px;
       color: #f59e0b;
+      font-size: 15px;
+    }
+
+    .article-footer p,
+    .article-footer a {
+      color: #e5e7eb;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .article-footer a {
+      display: block;
       text-decoration: none;
-      font-weight: bold;
+    }
+
+    .article-footer a:hover {
+      color: #f59e0b;
+    }
+
+    .article-footer-bottom {
+      max-width: 1320px;
+      margin: 25px auto 0;
+      padding-top: 17px;
+      border-top: 1px solid #374151;
+      text-align: center;
+      color: #d1d5db;
+      font-size: 12px;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 900px) {
+      .article-page-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .article-sidebar {
+        margin-top: 25px;
+      }
     }
 
     @media (max-width: 600px) {
-      main {
-        margin: 20px auto;
+      .article-page-main {
+        width: calc(100% - 22px);
+        margin: 18px auto;
+      }
+
+      .article-site-header-inner {
+        padding: 13px 10px 10px;
+      }
+
+      .article-site-nav-inner {
+        gap: 13px;
+        padding: 11px 8px;
+      }
+
+      .article-site-nav a {
+        font-size: 11px;
       }
 
       .author-card {
-        padding: 23px 18px;
-      }
-
-      h1 {
-        font-size: 26px;
+        padding: 19px 15px;
       }
 
       .author-photo {
-        width: 140px;
-        height: 140px;
+        width: 125px;
+        height: 125px;
+      }
+
+      .author-biography {
+        font-size: 15px;
+      }
+
+      .author-article-card {
+        grid-template-columns: 115px minmax(0, 1fr);
+        gap: 11px;
+      }
+
+      .author-article-card img,
+      .author-article-placeholder {
+        height: 92px;
+      }
+
+      .author-article-title {
+        font-size: 15px;
+      }
+
+      .article-sidebar {
+        padding: 12px;
+      }
+
+      .article-sidebar-story {
+        grid-template-columns: 95px minmax(0, 1fr);
+      }
+
+      .article-sidebar-story img,
+      .article-sidebar-placeholder {
+        width: 95px;
+        height: 76px;
+      }
+
+      .article-footer-inner {
+        grid-template-columns: 1fr;
+        gap: 18px;
       }
     }
   </style>
@@ -160,57 +508,584 @@
 
 <body>
 
-<header>
-  <div class="header-inner">
-    <img src="IMG_2188.jpeg" alt="Palmcaseblog Logo">
-    <span class="brand-name">Palmcaseblog</span>
+<header class="article-site-header">
+  <div class="article-site-header-inner">
+    <h1 class="article-site-wordmark">PALMCASEBLOG</h1>
+    <p class="article-site-tagline">
+      NIGERIAN NEWS • ENTERTAINMENT • TRENDING STORIES
+    </p>
   </div>
 </header>
 
-<nav>
-  <div class="nav-inner">
-    <a href="index.html">← Back to Homepage</a>
+<nav class="article-site-nav">
+  <div class="article-site-nav-inner">
+    <a href="index.html">Home</a>
+    <a href="category.html?name=News">News</a>
+    <a href="category.html?name=Entertainment">Entertainment</a>
+    <a href="category.html?name=Politics">Politics</a>
+    <a href="category.html?name=Sports">Sports</a>
+    <a href="category.html?name=Technology">Technology</a>
+    <a href="category.html?name=Lifestyle">Lifestyle</a>
+    <a href="category.html?name=World">World</a>
   </div>
 </nav>
 
-<main>
-  <section class="author-card">
+<main class="article-page-main">
+  <div class="article-page-layout">
 
-    <div class="author-photo">
-      <img
-        src="IMG_2188.jpeg"
-        alt="Palmcaseblog brand image"
-        id="authorProfileImage"
-      >
+    <div class="article-main-column">
+
+      <a href="index.html" class="back-link">
+        ← Back to Palmcaseblog
+      </a>
+
+      <section class="author-card">
+
+        <div class="author-profile-top">
+          <div class="author-photo">
+            <img
+              src="IMG_2188.jpeg"
+              alt="Egwu John Uchenna"
+              id="authorProfileImage"
+            >
+          </div>
+
+          <h2 class="author-name">Egwu John Uchenna</h2>
+
+          <div class="author-title">
+            Founder, Digital Publisher &amp; Media Entrepreneur
+          </div>
+        </div>
+
+        <h2 class="author-section-heading">About the Publisher</h2>
+
+        <div class="author-biography">
+          <p>
+            Egwu John Uchenna is a Nigerian digital publisher, media
+            entrepreneur and the founder of Palmcaseblog. With over
+            three years of experience in digital content creation and
+            online publishing, he has built a growing presence across
+            digital platforms, covering Nigerian news, politics,
+            entertainment, celebrity stories, sports, lifestyle,
+            technology and trending developments.
+          </p>
+
+          <p>
+            Through Palmcaseblog, he is committed to keeping readers
+            informed with engaging stories, timely updates and relevant
+            information from Nigeria and beyond.
+          </p>
+        </div>
+
+      </section>
+
+      <section class="author-articles-section">
+        <h2 class="author-articles-heading">
+          Articles by Egwu John Uchenna
+        </h2>
+
+        <div id="authorArticles" class="author-article-list">
+          <p class="author-loading">Loading published articles...</p>
+        </div>
+      </section>
+
     </div>
 
-    <h1>Egwu John Uchenna</h1>
+    <aside id="article-sidebar" class="article-sidebar">
+      <h2 class="article-sidebar-heading">More Stories</h2>
 
-    <div class="author-title">
-      Founder, Digital Publisher & Media Entrepreneur
-    </div>
+      <div class="article-sidebar-list">
+        <p class="author-loading">Loading more stories...</p>
+      </div>
+    </aside>
 
-    <h2 class="section-heading">About the Publisher</h2>
-
-    <div class="biography">
-      <p>
-        Egwu John Uchenna is a Nigerian digital publisher, media entrepreneur and the founder of Palmcaseblog. With over three years of experience in digital content creation and online publishing, he has built a growing presence across digital platforms, covering Nigerian news, politics, entertainment, celebrity stories, sports, lifestyle, technology and trending developments.
-      </p>
-
-      <p>
-        Through Palmcaseblog, he is committed to keeping readers informed with engaging stories, timely updates and relevant information from Nigeria and beyond.
-      </p>
-    </div>
-
-  </section>
+  </div>
 </main>
 
-<footer class="author-footer">
-  <p><strong>Palmcaseblog</strong></p>
-  <p>Nigerian News, Entertainment, Celebrity Gist and Lifestyle since 2022.</p>
-  <p><a href="index.html">Visit Palmcaseblog Homepage</a></p>
-  <p>© 2026 Palmcaseblog. All rights reserved.</p>
+<footer class="article-footer">
+  <div class="article-footer-inner">
+
+    <div>
+      <h3>PALMCASEBLOG</h3>
+      <p>
+        Nigerian News, Entertainment, Celebrity Gist and Lifestyle
+        since 2022.
+      </p>
+    </div>
+
+    <div>
+      <h3>Categories</h3>
+      <a href="category.html?name=News">News</a>
+      <a href="category.html?name=Entertainment">Entertainment</a>
+      <a href="category.html?name=Politics">Politics</a>
+      <a href="category.html?name=Sports">Sports</a>
+      <a href="category.html?name=Technology">Technology</a>
+      <a href="category.html?name=Lifestyle">Lifestyle</a>
+    </div>
+
+    <div>
+      <h3>Quick Links</h3>
+      <a href="index.html">Homepage</a>
+      <a href="contact.html">Contact</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="advertise.html">Advertise</a>
+      <a href="editorial-policy.html">Editorial Policy</a>
+    </div>
+
+  </div>
+
+  <div class="article-footer-bottom">
+    © 2026 Palmcaseblog. All rights reserved.
+  </div>
 </footer>
+
+<script>
+const SUPABASE_URL =
+  "https://kcxlwhojwdvbfjjnartw.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_dfUPxIaPdguf8MlaZ8ZOpg_QHK4p0aP";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+const AUTHOR_NAME = "Egwu John Uchenna";
+
+const MAX_ARTICLES = 500;
+const MAX_ADVERTISEMENTS = 500;
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character]);
+}
+
+function safeExternalUrl(value) {
+  try {
+    const url = new URL(String(value || "").trim());
+
+    if (url.protocol === "https:" || url.protocol === "http:") {
+      return url.href;
+    }
+  } catch (error) {}
+
+  return "";
+}
+
+function getPostImage(post) {
+  if (
+    Array.isArray(post.images) &&
+    post.images.length
+  ) {
+    for (const image of post.images) {
+      const safeImage = safeExternalUrl(image);
+      if (safeImage) return safeImage;
+    }
+  }
+
+  return safeExternalUrl(post.image);
+}
+
+function formatPostDate(value) {
+  if (!value) return "";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) return "";
+
+  return date.toLocaleDateString("en-NG", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+}
+
+function normalizePlacement(value) {
+  return String(value || "")
+    .toLowerCase()
+    .trim()
+    .replace(/[\s_-]+/g, "");
+}
+
+function isAdCurrentlyActive(ad) {
+  if (!ad || ad.is_active !== true) return false;
+
+  const now = new Date();
+
+  if (ad.start_date) {
+    const start = new Date(ad.start_date);
+    if (!Number.isNaN(start.getTime()) && now < start) {
+      return false;
+    }
+  }
+
+  if (ad.end_date) {
+    const end = new Date(ad.end_date);
+    if (!Number.isNaN(end.getTime())) {
+      end.setHours(23, 59, 59, 999);
+      if (now > end) return false;
+    }
+  }
+
+  return true;
+}
+
+/* ===================================
+   AUTHOR'S PUBLISHED ARTICLES
+=================================== */
+
+async function loadAuthorArticles() {
+  const container = document.getElementById("authorArticles");
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("posts")
+      .select("id,headline,category,image,images,created_at,publisher_name")
+      .eq("status", "published")
+      .or(
+        "publisher_name.eq.Egwu John Uchenna,publisher_name.is.null"
+      )
+      .order("created_at", { ascending: false })
+      .limit(MAX_ARTICLES);
+
+    if (error) throw error;
+
+    const posts = data || [];
+
+    if (!posts.length) {
+      container.innerHTML =
+        '<p class="author-empty">No published articles are available yet.</p>';
+      return;
+    }
+
+    container.innerHTML = posts.map(post => {
+      const title = escapeHTML(post.headline || "Read this story");
+      const category = escapeHTML(post.category || "News");
+      const date = escapeHTML(formatPostDate(post.created_at));
+      const image = getPostImage(post);
+      const url = "article.html?id=" +
+        encodeURIComponent(post.id);
+
+      return `
+        <a class="author-article-card" href="${url}">
+
+          ${
+            image
+              ? `<img
+                   src="${escapeHTML(image)}"
+                   alt="${title}"
+                   loading="lazy"
+                 >`
+              : `<div class="author-article-placeholder"></div>`
+          }
+
+          <div>
+            <span class="author-article-category">${category}</span>
+
+            <h3 class="author-article-title">${title}</h3>
+
+            <span class="author-article-date">${date}</span>
+
+            <span class="author-article-byline">
+              By <strong>${escapeHTML(
+                String(post.publisher_name || "").trim() || AUTHOR_NAME
+              )}</strong>
+            </span>
+          </div>
+
+        </a>
+      `;
+    }).join("");
+
+  } catch (error) {
+    console.error("AUTHOR ARTICLES ERROR:", error);
+
+    container.innerHTML =
+      '<p class="author-empty">Articles could not be loaded. Please refresh the page.</p>';
+  }
+}
+
+/* ===================================
+   SIDEBAR ADVERTISEMENT RENDERER
+=================================== */
+
+function renderSidebarAdvertisement(ad, slotId) {
+  const slot = document.getElementById(slotId);
+
+  if (!slot) return;
+
+  const title = escapeHTML(ad.title || "Sponsored");
+  const description = escapeHTML(ad.description || "");
+  const imageUrl = safeExternalUrl(ad.image_url);
+  const videoUrl = safeExternalUrl(ad.video_url);
+  const destinationUrl = safeExternalUrl(ad.destination_url);
+
+  let mediaHTML = "";
+
+  if (videoUrl && /\.(mp4|webm|ogg|ogv|m4v)(?:[?#]|$)/i.test(videoUrl)) {
+    mediaHTML = `
+      <video
+        class="sidebar-ad-video"
+        muted
+        loop
+        controls
+        playsinline
+        preload="none"
+      >
+        <source src="${escapeHTML(videoUrl)}">
+      </video>
+    `;
+  } else if (imageUrl) {
+    const imageHTML = `
+      <img
+        class="sidebar-ad-image"
+        src="${escapeHTML(imageUrl)}"
+        alt="${title}"
+        loading="lazy"
+      >
+    `;
+
+    mediaHTML = destinationUrl
+      ? `<a href="${escapeHTML(destinationUrl)}"
+            target="_blank"
+            rel="noopener noreferrer sponsored">${imageHTML}</a>`
+      : imageHTML;
+  } else if (videoUrl) {
+    mediaHTML = `
+      <a class="sidebar-ad-link"
+         href="${escapeHTML(videoUrl)}"
+         target="_blank"
+         rel="noopener noreferrer sponsored">
+        Watch sponsored video ↗
+      </a>
+    `;
+  }
+
+  const buttonHTML = destinationUrl
+    ? `<a class="sidebar-ad-link"
+          href="${escapeHTML(destinationUrl)}"
+          target="_blank"
+          rel="noopener noreferrer sponsored">
+         Visit Advertiser →
+       </a>`
+    : "";
+
+  if (!mediaHTML && !description && !buttonHTML) {
+    slot.remove();
+    return;
+  }
+
+  slot.innerHTML = `
+    <div class="sidebar-ad-label">Advertisement</div>
+    ${mediaHTML}
+
+    <div class="sidebar-ad-title">${title}</div>
+
+    ${
+      description
+        ? `<p class="sidebar-ad-description">${description}</p>`
+        : ""
+    }
+
+    ${buttonHTML}
+  `;
+}
+
+/* ===================================
+   SIDEBAR STORIES + UP TO 500 ADS
+=================================== */
+
+async function loadArticleSidebar() {
+  const sidebar = document.getElementById("article-sidebar");
+  const list = sidebar?.querySelector(".article-sidebar-list");
+
+  if (!list) return;
+
+  try {
+    const [postsResult, adsResult] = await Promise.all([
+      supabaseClient
+        .from("posts")
+        .select("id,headline,category,image,images,created_at")
+        .eq("status", "published")
+        .order("created_at", { ascending: false })
+        .limit(MAX_ARTICLES),
+
+      supabaseClient
+        .from("ads")
+        .select("id,title,description,image_url,video_url,destination_url,placement,start_date,end_date,is_active,created_at")
+        .eq("is_active", true)
+        .order("created_at", { ascending: false })
+        .limit(MAX_ADVERTISEMENTS)
+    ]);
+
+    if (postsResult.error) {
+      throw postsResult.error;
+    }
+
+    if (adsResult.error) {
+      console.error("SIDEBAR ADS ERROR:", adsResult.error);
+    }
+
+    const posts = postsResult.data || [];
+
+    const ads = (adsResult.data || [])
+      .filter(ad => {
+        if (!isAdCurrentlyActive(ad)) return false;
+
+        const placement = normalizePlacement(ad.placement);
+
+        return placement === "sidebar" || placement === "all";
+      })
+      .slice(0, MAX_ADVERTISEMENTS);
+
+    if (!posts.length && !ads.length) {
+      list.innerHTML =
+        "<p>No additional stories available yet.</p>";
+      return;
+    }
+
+    /*
+      Spread advertisements throughout the story list.
+
+      When there are 500 stories and 500 ads,
+      the sidebar can display 1,000 entries.
+    */
+
+    const adPositions = new Map();
+
+    if (posts.length && ads.length) {
+      ads.forEach((ad, index) => {
+        const position = ads.length === 1
+          ? posts.length - 1
+          : Math.round(
+              index * (posts.length - 1) / (ads.length - 1)
+            );
+
+        if (!adPositions.has(position)) {
+          adPositions.set(position, []);
+        }
+
+        adPositions.get(position).push(ad);
+      });
+    }
+
+    let sidebarHTML = "";
+    const adSlots = [];
+
+    posts.forEach((post, index) => {
+      const title = escapeHTML(post.headline || "Read this story");
+      const category = escapeHTML(post.category || "News");
+      const date = escapeHTML(formatPostDate(post.created_at));
+      const image = getPostImage(post);
+
+      const articleUrl =
+        "article.html?id=" + encodeURIComponent(post.id);
+
+      sidebarHTML += `
+        <a class="article-sidebar-story" href="${articleUrl}">
+
+          ${
+            image
+              ? `<img
+                   src="${escapeHTML(image)}"
+                   alt="${title}"
+                   loading="lazy"
+                 >`
+              : `<div class="article-sidebar-placeholder"></div>`
+          }
+
+          <div class="article-sidebar-story-content">
+            <span class="article-sidebar-story-meta">
+              ${category}${date ? " · " + date : ""}
+            </span>
+
+            <h3>${title}</h3>
+          </div>
+
+        </a>
+      `;
+
+      const adsAtPosition = adPositions.get(index) || [];
+
+      adsAtPosition.forEach(ad => {
+        const slotId =
+          "author-sidebar-ad-" + adSlots.length;
+
+        sidebarHTML += `
+          <div
+            id="${slotId}"
+            class="article-sidebar-ad"
+          ></div>
+        `;
+
+        adSlots.push({
+          id: slotId,
+          ad: ad
+        });
+      });
+    });
+
+    /*
+      If there are advertisements but no stories,
+      display the advertisements on their own.
+    */
+
+    if (!posts.length) {
+      ads.forEach(ad => {
+        const slotId =
+          "author-sidebar-ad-" + adSlots.length;
+
+        sidebarHTML += `
+          <div
+            id="${slotId}"
+            class="article-sidebar-ad"
+          ></div>
+        `;
+
+        adSlots.push({
+          id: slotId,
+          ad: ad
+        });
+      });
+    }
+
+    list.innerHTML = sidebarHTML;
+
+    adSlots.forEach(slot => {
+      renderSidebarAdvertisement(slot.ad, slot.id);
+    });
+
+  } catch (error) {
+    console.error("AUTHOR SIDEBAR ERROR:", error);
+
+    list.innerHTML =
+      "<p>More stories are temporarily unavailable.</p>";
+  }
+}
+
+/* ===================================
+   START PAGE
+=================================== */
+
+async function loadAuthorPage() {
+  await Promise.all([
+    loadAuthorArticles(),
+    loadArticleSidebar()
+  ]);
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadAuthorPage);
+} else {
+  loadAuthorPage();
+}
+</script>
 
 </body>
 </html>
