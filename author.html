@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +6,15 @@
 
   <title>Egwu John Uchenna - Founder of Palmcaseblog</title>
 
-  <meta name="description" content="Learn about Egwu John Uchenna, Nigerian digital publisher, media entrepreneur and founder of Palmcaseblog.">
+  <meta
+    name="description"
+    content="Learn about Egwu John Uchenna, Nigerian digital publisher, media entrepreneur and founder of Palmcaseblog."
+  >
 
-  <link rel="canonical" href="https://palmcaseblog.com.ng/author.html">
+  <link
+    rel="canonical"
+    href="https://palmcaseblog.com.ng/author.html"
+  >
 
   <meta name="theme-color" content="#ffffff">
 
@@ -31,71 +36,74 @@
       color: inherit;
     }
 
-    /* MASTHEAD */
+    /* ===================================
+       PALMCASEBLOG — PERMANENT FIXED MASTHEAD
+    =================================== */
 
     .article-site-header {
-      position: relative;
-      background: #fff;
-      color: #111827;
-      border-top: 5px solid #111827;
-      border-bottom: 4px double #111827;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      z-index: 99999 !important;
+      background: #fff !important;
+      padding: 8px 5px !important;
+      margin: 0 !important;
+      border-bottom: 3px double #171717 !important;
+      box-shadow: none !important;
     }
 
     .article-site-header-inner {
-      max-width: 1320px;
-      margin: auto;
-      padding: 16px 20px 12px;
+      width: 100%;
+      margin: 0 auto;
       text-align: center;
     }
 
     .article-site-wordmark {
+      display: block;
+      width: 100%;
       margin: 0;
-      font-family: Georgia, serif;
-      font-size: clamp(30px, 5vw, 48px);
+      color: #111 !important;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(30px, 7vw, 76px);
       font-weight: 900;
-      letter-spacing: 2px;
-      line-height: 1.1;
-    }
-
-    .article-site-tagline {
-      margin: 7px 0 0;
-      font-family: Arial, sans-serif;
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: #555;
-    }
-
-    /* NAVIGATION */
-
-    .article-site-nav {
-      background: #fff;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .article-site-nav-inner {
-      max-width: 1320px;
-      margin: auto;
-      padding: 12px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 22px;
-      flex-wrap: wrap;
-      font-family: Arial, sans-serif;
-    }
-
-    .article-site-nav a {
-      color: #111827;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      text-align: center;
       text-decoration: none;
-      font-size: 12px;
-      font-weight: 700;
+      white-space: nowrap;
     }
 
-    .article-site-nav a:hover {
-      color: #b45309;
+    .article-site-wordmark:hover,
+    .article-site-wordmark:focus {
+      color: #111 !important;
     }
 
-    /* PAGE LAYOUT */
+    /* MAKE ROOM FOR THE FIXED MASTHEAD */
+
+    body {
+      padding-top: clamp(90px, calc(7vw + 29px), 105px) !important;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding-top: clamp(60px, calc(7vw + 29px), 78px) !important;
+      }
+
+      .article-site-header {
+        padding: 8px 3px !important;
+      }
+
+      .article-site-wordmark {
+        font-size: clamp(30px, 7vw, 49px);
+        letter-spacing: -1.5px;
+      }
+    }
+
+    /* ===================================
+       PAGE LAYOUT
+    =================================== */
 
     .article-page-main {
       width: calc(100% - 32px);
@@ -133,7 +141,9 @@
       text-decoration: underline;
     }
 
-    /* AUTHOR PROFILE */
+    /* ===================================
+       AUTHOR PROFILE
+    =================================== */
 
     .author-card {
       padding: 24px;
@@ -194,7 +204,9 @@
       margin: 0 0 15px;
     }
 
-    /* AUTHOR ARTICLE LIST */
+    /* ===================================
+       AUTHOR ARTICLE LIST
+    =================================== */
 
     .author-articles-section {
       margin-top: 30px;
@@ -271,7 +283,9 @@
       font: 14px Arial, sans-serif;
     }
 
-    /* SIDEBAR */
+    /* ===================================
+       SIDEBAR
+    =================================== */
 
     .article-sidebar-heading {
       margin: 0 0 15px;
@@ -321,7 +335,9 @@
       color: #92400e;
     }
 
-    /* SIDEBAR ADVERTISEMENTS */
+    /* ===================================
+       SIDEBAR ADVERTISEMENTS
+    =================================== */
 
     .article-sidebar-ad {
       margin: 15px 0;
@@ -375,7 +391,9 @@
       text-decoration: underline;
     }
 
-    /* FOOTER */
+    /* ===================================
+       FOOTER
+    =================================== */
 
     .article-footer {
       margin-top: 45px;
@@ -426,7 +444,9 @@
       font-size: 12px;
     }
 
-    /* RESPONSIVE */
+    /* ===================================
+       RESPONSIVE PAGE LAYOUT
+    =================================== */
 
     @media (max-width: 900px) {
       .article-page-layout {
@@ -442,19 +462,6 @@
       .article-page-main {
         width: calc(100% - 22px);
         margin: 18px auto;
-      }
-
-      .article-site-header-inner {
-        padding: 13px 10px 10px;
-      }
-
-      .article-site-nav-inner {
-        gap: 13px;
-        padding: 11px 8px;
-      }
-
-      .article-site-nav a {
-        font-size: 11px;
       }
 
       .author-card {
@@ -508,30 +515,18 @@
 
 <body>
 
+<!-- PERMANENT FIXED PALMCASEBLOG MASTHEAD -->
+
 <header class="article-site-header">
   <div class="article-site-header-inner">
     <h1 class="article-site-wordmark">PALMCASEBLOG</h1>
-    <p class="article-site-tagline">
-      NIGERIAN NEWS • ENTERTAINMENT • TRENDING STORIES
-    </p>
   </div>
 </header>
 
-<nav class="article-site-nav">
-  <div class="article-site-nav-inner">
-    <a href="index.html">Home</a>
-    <a href="category.html?name=News">News</a>
-    <a href="category.html?name=Entertainment">Entertainment</a>
-    <a href="category.html?name=Politics">Politics</a>
-    <a href="category.html?name=Sports">Sports</a>
-    <a href="category.html?name=Technology">Technology</a>
-    <a href="category.html?name=Lifestyle">Lifestyle</a>
-    <a href="category.html?name=World">World</a>
-  </div>
-</nav>
-
 <main class="article-page-main">
   <div class="article-page-layout">
+
+    <!-- MAIN AUTHOR CONTENT -->
 
     <div class="article-main-column">
 
@@ -542,6 +537,7 @@
       <section class="author-card">
 
         <div class="author-profile-top">
+
           <div class="author-photo">
             <img
               src="IMG_2188.jpeg"
@@ -555,11 +551,15 @@
           <div class="author-title">
             Founder, Digital Publisher &amp; Media Entrepreneur
           </div>
+
         </div>
 
-        <h2 class="author-section-heading">About the Publisher</h2>
+        <h2 class="author-section-heading">
+          About the Publisher
+        </h2>
 
         <div class="author-biography">
+
           <p>
             Egwu John Uchenna is a Nigerian digital publisher, media
             entrepreneur and the founder of Palmcaseblog. With over
@@ -575,38 +575,57 @@
             informed with engaging stories, timely updates and relevant
             information from Nigeria and beyond.
           </p>
+
         </div>
 
       </section>
 
+      <!-- AUTHOR'S PUBLISHED ARTICLES -->
+
       <section class="author-articles-section">
+
         <h2 class="author-articles-heading">
           Articles by Egwu John Uchenna
         </h2>
 
         <div id="authorArticles" class="author-article-list">
-          <p class="author-loading">Loading published articles...</p>
+          <p class="author-loading">
+            Loading published articles...
+          </p>
         </div>
+
       </section>
 
     </div>
 
+    <!-- LONG SIDEBAR -->
+
     <aside id="article-sidebar" class="article-sidebar">
-      <h2 class="article-sidebar-heading">More Stories</h2>
+
+      <h2 class="article-sidebar-heading">
+        More Stories
+      </h2>
 
       <div class="article-sidebar-list">
-        <p class="author-loading">Loading more stories...</p>
+        <p class="author-loading">
+          Loading more stories...
+        </p>
       </div>
+
     </aside>
 
   </div>
 </main>
 
+<!-- FOOTER -->
+
 <footer class="article-footer">
+
   <div class="article-footer-inner">
 
     <div>
       <h3>PALMCASEBLOG</h3>
+
       <p>
         Nigerian News, Entertainment, Celebrity Gist and Lifestyle
         since 2022.
@@ -615,6 +634,7 @@
 
     <div>
       <h3>Categories</h3>
+
       <a href="category.html?name=News">News</a>
       <a href="category.html?name=Entertainment">Entertainment</a>
       <a href="category.html?name=Politics">Politics</a>
@@ -625,6 +645,7 @@
 
     <div>
       <h3>Quick Links</h3>
+
       <a href="index.html">Homepage</a>
       <a href="contact.html">Contact</a>
       <a href="feedback.html">Feedback</a>
@@ -637,6 +658,7 @@
   <div class="article-footer-bottom">
     © 2026 Palmcaseblog. All rights reserved.
   </div>
+
 </footer>
 
 <script>
@@ -656,6 +678,10 @@ const AUTHOR_NAME = "Egwu John Uchenna";
 const MAX_ARTICLES = 500;
 const MAX_ADVERTISEMENTS = 500;
 
+/* ===================================
+   HTML ESCAPING
+=================================== */
+
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, character => ({
     "&": "&amp;",
@@ -666,17 +692,29 @@ function escapeHTML(value) {
   })[character]);
 }
 
+/* ===================================
+   SAFE URL VALIDATION
+=================================== */
+
 function safeExternalUrl(value) {
   try {
     const url = new URL(String(value || "").trim());
 
-    if (url.protocol === "https:" || url.protocol === "http:") {
+    if (
+      url.protocol === "https:" ||
+      url.protocol === "http:"
+    ) {
       return url.href;
     }
+
   } catch (error) {}
 
   return "";
 }
+
+/* ===================================
+   GET POST IMAGE
+=================================== */
 
 function getPostImage(post) {
   if (
@@ -685,12 +723,17 @@ function getPostImage(post) {
   ) {
     for (const image of post.images) {
       const safeImage = safeExternalUrl(image);
+
       if (safeImage) return safeImage;
     }
   }
 
   return safeExternalUrl(post.image);
 }
+
+/* ===================================
+   FORMAT PUBLICATION DATE
+=================================== */
 
 function formatPostDate(value) {
   if (!value) return "";
@@ -706,12 +749,20 @@ function formatPostDate(value) {
   });
 }
 
+/* ===================================
+   AD PLACEMENT
+=================================== */
+
 function normalizePlacement(value) {
   return String(value || "")
     .toLowerCase()
     .trim()
     .replace(/[\s_-]+/g, "");
 }
+
+/* ===================================
+   CHECK ADVERTISEMENT DATES
+=================================== */
 
 function isAdCurrentlyActive(ad) {
   if (!ad || ad.is_active !== true) return false;
@@ -720,15 +771,21 @@ function isAdCurrentlyActive(ad) {
 
   if (ad.start_date) {
     const start = new Date(ad.start_date);
-    if (!Number.isNaN(start.getTime()) && now < start) {
+
+    if (
+      !Number.isNaN(start.getTime()) &&
+      now < start
+    ) {
       return false;
     }
   }
 
   if (ad.end_date) {
     const end = new Date(ad.end_date);
+
     if (!Number.isNaN(end.getTime())) {
       end.setHours(23, 59, 59, 999);
+
       if (now > end) return false;
     }
   }
@@ -744,9 +801,12 @@ async function loadAuthorArticles() {
   const container = document.getElementById("authorArticles");
 
   try {
+
     const { data, error } = await supabaseClient
       .from("posts")
-      .select("id,headline,category,image,images,created_at,publisher_name")
+      .select(
+        "id,headline,category,image,images,created_at,publisher_name"
+      )
       .eq("status", "published")
       .or(
         "publisher_name.eq.Egwu John Uchenna,publisher_name.is.null"
@@ -761,16 +821,28 @@ async function loadAuthorArticles() {
     if (!posts.length) {
       container.innerHTML =
         '<p class="author-empty">No published articles are available yet.</p>';
+
       return;
     }
 
     container.innerHTML = posts.map(post => {
-      const title = escapeHTML(post.headline || "Read this story");
-      const category = escapeHTML(post.category || "News");
-      const date = escapeHTML(formatPostDate(post.created_at));
+
+      const title = escapeHTML(
+        post.headline || "Read this story"
+      );
+
+      const category = escapeHTML(
+        post.category || "News"
+      );
+
+      const date = escapeHTML(
+        formatPostDate(post.created_at)
+      );
+
       const image = getPostImage(post);
-      const url = "article.html?id=" +
-        encodeURIComponent(post.id);
+
+      const url =
+        "article.html?id=" + encodeURIComponent(post.id);
 
       return `
         <a class="author-article-card" href="${url}">
@@ -786,24 +858,34 @@ async function loadAuthorArticles() {
           }
 
           <div>
-            <span class="author-article-category">${category}</span>
 
-            <h3 class="author-article-title">${title}</h3>
+            <span class="author-article-category">
+              ${category}
+            </span>
 
-            <span class="author-article-date">${date}</span>
+            <h3 class="author-article-title">
+              ${title}
+            </h3>
+
+            <span class="author-article-date">
+              ${date}
+            </span>
 
             <span class="author-article-byline">
               By <strong>${escapeHTML(
                 String(post.publisher_name || "").trim() || AUTHOR_NAME
               )}</strong>
             </span>
+
           </div>
 
         </a>
       `;
+
     }).join("");
 
   } catch (error) {
+
     console.error("AUTHOR ARTICLES ERROR:", error);
 
     container.innerHTML =
@@ -816,19 +898,34 @@ async function loadAuthorArticles() {
 =================================== */
 
 function renderSidebarAdvertisement(ad, slotId) {
+
   const slot = document.getElementById(slotId);
 
   if (!slot) return;
 
-  const title = escapeHTML(ad.title || "Sponsored");
-  const description = escapeHTML(ad.description || "");
+  const title = escapeHTML(
+    ad.title || "Sponsored"
+  );
+
+  const description = escapeHTML(
+    ad.description || ""
+  );
+
   const imageUrl = safeExternalUrl(ad.image_url);
+
   const videoUrl = safeExternalUrl(ad.video_url);
-  const destinationUrl = safeExternalUrl(ad.destination_url);
+
+  const destinationUrl = safeExternalUrl(
+    ad.destination_url
+  );
 
   let mediaHTML = "";
 
-  if (videoUrl && /\.(mp4|webm|ogg|ogv|m4v)(?:[?#]|$)/i.test(videoUrl)) {
+  if (
+    videoUrl &&
+    /\.(mp4|webm|ogg|ogv|m4v)(?:[?#]|$)/i.test(videoUrl)
+  ) {
+
     mediaHTML = `
       <video
         class="sidebar-ad-video"
@@ -841,7 +938,9 @@ function renderSidebarAdvertisement(ad, slotId) {
         <source src="${escapeHTML(videoUrl)}">
       </video>
     `;
+
   } else if (imageUrl) {
+
     const imageHTML = `
       <img
         class="sidebar-ad-image"
@@ -852,26 +951,34 @@ function renderSidebarAdvertisement(ad, slotId) {
     `;
 
     mediaHTML = destinationUrl
-      ? `<a href="${escapeHTML(destinationUrl)}"
-            target="_blank"
-            rel="noopener noreferrer sponsored">${imageHTML}</a>`
+      ? `<a
+           href="${escapeHTML(destinationUrl)}"
+           target="_blank"
+           rel="noopener noreferrer sponsored"
+         >${imageHTML}</a>`
       : imageHTML;
+
   } else if (videoUrl) {
+
     mediaHTML = `
-      <a class="sidebar-ad-link"
-         href="${escapeHTML(videoUrl)}"
-         target="_blank"
-         rel="noopener noreferrer sponsored">
+      <a
+        class="sidebar-ad-link"
+        href="${escapeHTML(videoUrl)}"
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+      >
         Watch sponsored video ↗
       </a>
     `;
   }
 
   const buttonHTML = destinationUrl
-    ? `<a class="sidebar-ad-link"
-          href="${escapeHTML(destinationUrl)}"
-          target="_blank"
-          rel="noopener noreferrer sponsored">
+    ? `<a
+         class="sidebar-ad-link"
+         href="${escapeHTML(destinationUrl)}"
+         target="_blank"
+         rel="noopener noreferrer sponsored"
+       >
          Visit Advertiser →
        </a>`
     : "";
@@ -882,10 +989,15 @@ function renderSidebarAdvertisement(ad, slotId) {
   }
 
   slot.innerHTML = `
-    <div class="sidebar-ad-label">Advertisement</div>
+    <div class="sidebar-ad-label">
+      Advertisement
+    </div>
+
     ${mediaHTML}
 
-    <div class="sidebar-ad-title">${title}</div>
+    <div class="sidebar-ad-title">
+      ${title}
+    </div>
 
     ${
       description
@@ -902,26 +1014,35 @@ function renderSidebarAdvertisement(ad, slotId) {
 =================================== */
 
 async function loadArticleSidebar() {
+
   const sidebar = document.getElementById("article-sidebar");
+
   const list = sidebar?.querySelector(".article-sidebar-list");
 
   if (!list) return;
 
   try {
+
     const [postsResult, adsResult] = await Promise.all([
+
       supabaseClient
         .from("posts")
-        .select("id,headline,category,image,images,created_at")
+        .select(
+          "id,headline,category,image,images,created_at"
+        )
         .eq("status", "published")
         .order("created_at", { ascending: false })
         .limit(MAX_ARTICLES),
 
       supabaseClient
         .from("ads")
-        .select("id,title,description,image_url,video_url,destination_url,placement,start_date,end_date,is_active,created_at")
+        .select(
+          "id,title,description,image_url,video_url,destination_url,placement,start_date,end_date,is_active,created_at"
+        )
         .eq("is_active", true)
         .order("created_at", { ascending: false })
         .limit(MAX_ADVERTISEMENTS)
+
     ]);
 
     if (postsResult.error) {
@@ -929,38 +1050,54 @@ async function loadArticleSidebar() {
     }
 
     if (adsResult.error) {
-      console.error("SIDEBAR ADS ERROR:", adsResult.error);
+      console.error(
+        "SIDEBAR ADS ERROR:",
+        adsResult.error
+      );
     }
 
     const posts = postsResult.data || [];
 
     const ads = (adsResult.data || [])
       .filter(ad => {
-        if (!isAdCurrentlyActive(ad)) return false;
 
-        const placement = normalizePlacement(ad.placement);
+        if (!isAdCurrentlyActive(ad)) {
+          return false;
+        }
 
-        return placement === "sidebar" || placement === "all";
+        const placement = normalizePlacement(
+          ad.placement
+        );
+
+        return (
+          placement === "sidebar" ||
+          placement === "all"
+        );
+
       })
       .slice(0, MAX_ADVERTISEMENTS);
 
     if (!posts.length && !ads.length) {
+
       list.innerHTML =
         "<p>No additional stories available yet.</p>";
+
       return;
     }
 
     /*
       Spread advertisements throughout the story list.
 
-      When there are 500 stories and 500 ads,
-      the sidebar can display 1,000 entries.
+      With 500 stories and 500 advertisements,
+      the sidebar can display up to 1,000 entries.
     */
 
     const adPositions = new Map();
 
     if (posts.length && ads.length) {
+
       ads.forEach((ad, index) => {
+
         const position = ads.length === 1
           ? posts.length - 1
           : Math.round(
@@ -972,23 +1109,38 @@ async function loadArticleSidebar() {
         }
 
         adPositions.get(position).push(ad);
+
       });
     }
 
     let sidebarHTML = "";
+
     const adSlots = [];
 
     posts.forEach((post, index) => {
-      const title = escapeHTML(post.headline || "Read this story");
-      const category = escapeHTML(post.category || "News");
-      const date = escapeHTML(formatPostDate(post.created_at));
+
+      const title = escapeHTML(
+        post.headline || "Read this story"
+      );
+
+      const category = escapeHTML(
+        post.category || "News"
+      );
+
+      const date = escapeHTML(
+        formatPostDate(post.created_at)
+      );
+
       const image = getPostImage(post);
 
       const articleUrl =
         "article.html?id=" + encodeURIComponent(post.id);
 
       sidebarHTML += `
-        <a class="article-sidebar-story" href="${articleUrl}">
+        <a
+          class="article-sidebar-story"
+          href="${articleUrl}"
+        >
 
           ${
             image
@@ -1001,19 +1153,23 @@ async function loadArticleSidebar() {
           }
 
           <div class="article-sidebar-story-content">
+
             <span class="article-sidebar-story-meta">
               ${category}${date ? " · " + date : ""}
             </span>
 
             <h3>${title}</h3>
+
           </div>
 
         </a>
       `;
 
-      const adsAtPosition = adPositions.get(index) || [];
+      const adsAtPosition =
+        adPositions.get(index) || [];
 
       adsAtPosition.forEach(ad => {
+
         const slotId =
           "author-sidebar-ad-" + adSlots.length;
 
@@ -1028,7 +1184,9 @@ async function loadArticleSidebar() {
           id: slotId,
           ad: ad
         });
+
       });
+
     });
 
     /*
@@ -1037,7 +1195,9 @@ async function loadArticleSidebar() {
     */
 
     if (!posts.length) {
+
       ads.forEach(ad => {
+
         const slotId =
           "author-sidebar-ad-" + adSlots.length;
 
@@ -1052,16 +1212,23 @@ async function loadArticleSidebar() {
           id: slotId,
           ad: ad
         });
+
       });
     }
 
     list.innerHTML = sidebarHTML;
 
     adSlots.forEach(slot => {
-      renderSidebarAdvertisement(slot.ad, slot.id);
+
+      renderSidebarAdvertisement(
+        slot.ad,
+        slot.id
+      );
+
     });
 
   } catch (error) {
+
     console.error("AUTHOR SIDEBAR ERROR:", error);
 
     list.innerHTML =
@@ -1070,20 +1237,29 @@ async function loadArticleSidebar() {
 }
 
 /* ===================================
-   START PAGE
+   START AUTHOR PAGE
 =================================== */
 
 async function loadAuthorPage() {
+
   await Promise.all([
     loadAuthorArticles(),
     loadArticleSidebar()
   ]);
+
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", loadAuthorPage);
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    loadAuthorPage
+  );
+
 } else {
+
   loadAuthorPage();
+
 }
 </script>
 
