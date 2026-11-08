@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,39 +7,27 @@
 
   <title>Egwu John Uchenna - Founder of Palmcaseblog</title>
 
-  <meta
-    name="description"
-    content="Learn about Egwu John Uchenna, Nigerian digital publisher, media entrepreneur and founder of Palmcaseblog."
-  >
+  <meta name="description" content="Learn about Egwu John Uchenna, Nigerian digital publisher, media entrepreneur and founder of Palmcaseblog.">
 
-  <link
-    rel="canonical"
-    href="https://palmcaseblog.com.ng/author.html"
-  >
-
+  <link rel="canonical" href="https://palmcaseblog.com.ng/author.html">
   <meta name="theme-color" content="#ffffff">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       background: #fff;
       color: #111827;
       font-family: Georgia, "Times New Roman", serif;
+      padding-top: clamp(90px, calc(7vw + 29px), 105px) !important;
     }
 
-    a {
-      color: inherit;
-    }
+    a { color: inherit; }
 
-    /* ===================================
-       PALMCASEBLOG — PERMANENT FIXED MASTHEAD
-    =================================== */
+    /* FIXED MASTHEAD */
 
     .article-site-header {
       position: fixed !important;
@@ -76,34 +65,9 @@
     }
 
     .article-site-wordmark:hover,
-    .article-site-wordmark:focus {
-      color: #111 !important;
-    }
+    .article-site-wordmark:focus { color: #111 !important; }
 
-    /* MAKE ROOM FOR THE FIXED MASTHEAD */
-
-    body {
-      padding-top: clamp(90px, calc(7vw + 29px), 105px) !important;
-    }
-
-    @media (max-width: 700px) {
-      body {
-        padding-top: clamp(60px, calc(7vw + 29px), 78px) !important;
-      }
-
-      .article-site-header {
-        padding: 8px 3px !important;
-      }
-
-      .article-site-wordmark {
-        font-size: clamp(30px, 7vw, 49px);
-        letter-spacing: -1.5px;
-      }
-    }
-
-    /* ===================================
-       PAGE LAYOUT
-    =================================== */
+    /* PAGE LAYOUT */
 
     .article-page-main {
       width: calc(100% - 32px);
@@ -118,9 +82,7 @@
       align-items: start;
     }
 
-    .article-main-column {
-      min-width: 0;
-    }
+    .article-main-column { min-width: 0; }
 
     .article-sidebar {
       min-width: 0;
@@ -137,13 +99,9 @@
       text-decoration: none;
     }
 
-    .back-link:hover {
-      text-decoration: underline;
-    }
+    .back-link:hover { text-decoration: underline; }
 
-    /* ===================================
-       AUTHOR PROFILE
-    =================================== */
+    /* AUTHOR PROFILE */
 
     .author-card {
       padding: 24px;
@@ -200,17 +158,11 @@
       line-height: 1.9;
     }
 
-    .author-biography p {
-      margin: 0 0 15px;
-    }
+    .author-biography p { margin: 0 0 15px; }
 
-    /* ===================================
-       AUTHOR ARTICLE LIST
-    =================================== */
+    /* AUTHOR ARTICLES */
 
-    .author-articles-section {
-      margin-top: 30px;
-    }
+    .author-articles-section { margin-top: 30px; }
 
     .author-articles-heading {
       margin: 0 0 18px;
@@ -272,9 +224,7 @@
       font: 12px Arial, sans-serif;
     }
 
-    .author-article-byline strong {
-      color: #92400e;
-    }
+    .author-article-byline strong { color: #92400e; }
 
     .author-loading,
     .author-empty {
@@ -283,9 +233,7 @@
       font: 14px Arial, sans-serif;
     }
 
-    /* ===================================
-       SIDEBAR
-    =================================== */
+    /* SIDEBAR */
 
     .article-sidebar-heading {
       margin: 0 0 15px;
@@ -331,19 +279,16 @@
       line-height: 1.35;
     }
 
-    .article-sidebar-story:hover h3 {
-      color: #92400e;
-    }
+    .article-sidebar-story:hover h3 { color: #92400e; }
 
-    /* ===================================
-       SIDEBAR ADVERTISEMENTS
-    =================================== */
+    /* SIDEBAR ADVERTISEMENT DESIGN */
 
     .article-sidebar-ad {
       margin: 15px 0;
       padding: 12px;
       background: #fafafa;
       border: 1px solid #e5e7eb;
+      overflow: hidden;
     }
 
     .sidebar-ad-label {
@@ -354,18 +299,49 @@
       letter-spacing: 1px;
     }
 
+    .sidebar-ad-media {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      background: #111827;
+      line-height: 0;
+    }
+
     .sidebar-ad-image {
       display: block;
       width: 100%;
-      max-height: 220px;
+      height: auto;
+      max-height: 260px;
       object-fit: cover;
     }
 
-    .sidebar-ad-video {
+    .sidebar-ad-video,
+    .sidebar-ad-media iframe {
       display: block;
       width: 100%;
-      max-height: 230px;
+      aspect-ratio: 16 / 9;
+      max-height: 260px;
+      border: 0;
       background: #111827;
+      object-fit: contain;
+    }
+
+    .sidebar-ad-sound-button {
+      position: absolute;
+      right: 9px;
+      bottom: 9px;
+      z-index: 3;
+      border: 0;
+      border-radius: 20px;
+      padding: 8px 11px;
+      background: rgba(0, 0, 0, .78);
+      color: #fff;
+      font: 700 11px Arial, sans-serif;
+      cursor: pointer;
+    }
+
+    .sidebar-ad-sound-button:hover {
+      background: #92400e;
     }
 
     .sidebar-ad-title {
@@ -382,18 +358,15 @@
 
     .sidebar-ad-link {
       display: inline-block;
+      margin-top: 4px;
       color: #92400e;
       font: 700 12px Arial, sans-serif;
       text-decoration: none;
     }
 
-    .sidebar-ad-link:hover {
-      text-decoration: underline;
-    }
+    .sidebar-ad-link:hover { text-decoration: underline; }
 
-    /* ===================================
-       FOOTER
-    =================================== */
+    /* FOOTER */
 
     .article-footer {
       margin-top: 45px;
@@ -430,9 +403,7 @@
       text-decoration: none;
     }
 
-    .article-footer a:hover {
-      color: #f59e0b;
-    }
+    .article-footer a:hover { color: #f59e0b; }
 
     .article-footer-bottom {
       max-width: 1320px;
@@ -444,17 +415,23 @@
       font-size: 12px;
     }
 
-    /* ===================================
-       RESPONSIVE PAGE LAYOUT
-    =================================== */
+    /* RESPONSIVE */
 
     @media (max-width: 900px) {
-      .article-page-layout {
-        grid-template-columns: 1fr;
+      .article-page-layout { grid-template-columns: 1fr; }
+      .article-sidebar { margin-top: 25px; }
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding-top: clamp(60px, calc(7vw + 29px), 78px) !important;
       }
 
-      .article-sidebar {
-        margin-top: 25px;
+      .article-site-header { padding: 8px 3px !important; }
+
+      .article-site-wordmark {
+        font-size: clamp(30px, 7vw, 49px);
+        letter-spacing: -1.5px;
       }
     }
 
@@ -464,18 +441,14 @@
         margin: 18px auto;
       }
 
-      .author-card {
-        padding: 19px 15px;
-      }
+      .author-card { padding: 19px 15px; }
 
       .author-photo {
         width: 125px;
         height: 125px;
       }
 
-      .author-biography {
-        font-size: 15px;
-      }
+      .author-biography { font-size: 15px; }
 
       .author-article-card {
         grid-template-columns: 115px minmax(0, 1fr);
@@ -483,17 +456,11 @@
       }
 
       .author-article-card img,
-      .author-article-placeholder {
-        height: 92px;
-      }
+      .author-article-placeholder { height: 92px; }
 
-      .author-article-title {
-        font-size: 15px;
-      }
+      .author-article-title { font-size: 15px; }
 
-      .article-sidebar {
-        padding: 12px;
-      }
+      .article-sidebar { padding: 12px; }
 
       .article-sidebar-story {
         grid-template-columns: 95px minmax(0, 1fr);
@@ -515,8 +482,6 @@
 
 <body>
 
-<!-- PERMANENT FIXED PALMCASEBLOG MASTHEAD -->
-
 <header class="article-site-header">
   <div class="article-site-header-inner">
     <h1 class="article-site-wordmark">PALMCASEBLOG</h1>
@@ -525,8 +490,6 @@
 
 <main class="article-page-main">
   <div class="article-page-layout">
-
-    <!-- MAIN AUTHOR CONTENT -->
 
     <div class="article-main-column">
 
@@ -559,7 +522,6 @@
         </h2>
 
         <div class="author-biography">
-
           <p>
             Egwu John Uchenna is a Nigerian digital publisher, media
             entrepreneur and the founder of Palmcaseblog. With over
@@ -575,12 +537,9 @@
             informed with engaging stories, timely updates and relevant
             information from Nigeria and beyond.
           </p>
-
         </div>
 
       </section>
-
-      <!-- AUTHOR'S PUBLISHED ARTICLES -->
 
       <section class="author-articles-section">
 
@@ -597,8 +556,6 @@
       </section>
 
     </div>
-
-    <!-- LONG SIDEBAR -->
 
     <aside id="article-sidebar" class="article-sidebar">
 
@@ -617,15 +574,12 @@
   </div>
 </main>
 
-<!-- FOOTER -->
-
 <footer class="article-footer">
 
   <div class="article-footer-inner">
 
     <div>
       <h3>PALMCASEBLOG</h3>
-
       <p>
         Nigerian News, Entertainment, Celebrity Gist and Lifestyle
         since 2022.
@@ -634,7 +588,6 @@
 
     <div>
       <h3>Categories</h3>
-
       <a href="category.html?name=News">News</a>
       <a href="category.html?name=Entertainment">Entertainment</a>
       <a href="category.html?name=Politics">Politics</a>
@@ -645,7 +598,6 @@
 
     <div>
       <h3>Quick Links</h3>
-
       <a href="index.html">Homepage</a>
       <a href="contact.html">Contact</a>
       <a href="feedback.html">Feedback</a>
@@ -678,9 +630,7 @@ const AUTHOR_NAME = "Egwu John Uchenna";
 const MAX_ARTICLES = 500;
 const MAX_ADVERTISEMENTS = 500;
 
-/* ===================================
-   HTML ESCAPING
-=================================== */
+/* HTML ESCAPING */
 
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, character => ({
@@ -692,9 +642,7 @@ function escapeHTML(value) {
   })[character]);
 }
 
-/* ===================================
-   SAFE URL VALIDATION
-=================================== */
+/* SAFE URL VALIDATION */
 
 function safeExternalUrl(value) {
   try {
@@ -706,24 +654,17 @@ function safeExternalUrl(value) {
     ) {
       return url.href;
     }
-
   } catch (error) {}
 
   return "";
 }
 
-/* ===================================
-   GET POST IMAGE
-=================================== */
+/* POST IMAGE */
 
 function getPostImage(post) {
-  if (
-    Array.isArray(post.images) &&
-    post.images.length
-  ) {
+  if (Array.isArray(post.images) && post.images.length) {
     for (const image of post.images) {
       const safeImage = safeExternalUrl(image);
-
       if (safeImage) return safeImage;
     }
   }
@@ -731,9 +672,7 @@ function getPostImage(post) {
   return safeExternalUrl(post.image);
 }
 
-/* ===================================
-   FORMAT PUBLICATION DATE
-=================================== */
+/* DATE */
 
 function formatPostDate(value) {
   if (!value) return "";
@@ -749,9 +688,7 @@ function formatPostDate(value) {
   });
 }
 
-/* ===================================
-   AD PLACEMENT
-=================================== */
+/* AD PLACEMENT */
 
 function normalizePlacement(value) {
   return String(value || "")
@@ -760,9 +697,7 @@ function normalizePlacement(value) {
     .replace(/[\s_-]+/g, "");
 }
 
-/* ===================================
-   CHECK ADVERTISEMENT DATES
-=================================== */
+/* AD ACTIVE DATES */
 
 function isAdCurrentlyActive(ad) {
   if (!ad || ad.is_active !== true) return false;
@@ -772,10 +707,7 @@ function isAdCurrentlyActive(ad) {
   if (ad.start_date) {
     const start = new Date(ad.start_date);
 
-    if (
-      !Number.isNaN(start.getTime()) &&
-      now < start
-    ) {
+    if (!Number.isNaN(start.getTime()) && now < start) {
       return false;
     }
   }
@@ -793,15 +725,12 @@ function isAdCurrentlyActive(ad) {
   return true;
 }
 
-/* ===================================
-   AUTHOR'S PUBLISHED ARTICLES
-=================================== */
+/* AUTHOR ARTICLES */
 
 async function loadAuthorArticles() {
   const container = document.getElementById("authorArticles");
 
   try {
-
     const { data, error } = await supabaseClient
       .from("posts")
       .select(
@@ -821,71 +750,39 @@ async function loadAuthorArticles() {
     if (!posts.length) {
       container.innerHTML =
         '<p class="author-empty">No published articles are available yet.</p>';
-
       return;
     }
 
     container.innerHTML = posts.map(post => {
-
-      const title = escapeHTML(
-        post.headline || "Read this story"
-      );
-
-      const category = escapeHTML(
-        post.category || "News"
-      );
-
-      const date = escapeHTML(
-        formatPostDate(post.created_at)
-      );
-
+      const title = escapeHTML(post.headline || "Read this story");
+      const category = escapeHTML(post.category || "News");
+      const date = escapeHTML(formatPostDate(post.created_at));
       const image = getPostImage(post);
-
-      const url =
-        "article.html?id=" + encodeURIComponent(post.id);
+      const url = "article.html?id=" + encodeURIComponent(post.id);
 
       return `
         <a class="author-article-card" href="${url}">
-
           ${
             image
-              ? `<img
-                   src="${escapeHTML(image)}"
-                   alt="${title}"
-                   loading="lazy"
-                 >`
+              ? `<img src="${escapeHTML(image)}" alt="${title}" loading="lazy">`
               : `<div class="author-article-placeholder"></div>`
           }
 
           <div>
-
-            <span class="author-article-category">
-              ${category}
-            </span>
-
-            <h3 class="author-article-title">
-              ${title}
-            </h3>
-
-            <span class="author-article-date">
-              ${date}
-            </span>
-
+            <span class="author-article-category">${category}</span>
+            <h3 class="author-article-title">${title}</h3>
+            <span class="author-article-date">${date}</span>
             <span class="author-article-byline">
               By <strong>${escapeHTML(
                 String(post.publisher_name || "").trim() || AUTHOR_NAME
               )}</strong>
             </span>
-
           </div>
-
         </a>
       `;
-
     }).join("");
 
   } catch (error) {
-
     console.error("AUTHOR ARTICLES ERROR:", error);
 
     container.innerHTML =
@@ -893,54 +790,158 @@ async function loadAuthorArticles() {
   }
 }
 
-/* ===================================
-   SIDEBAR ADVERTISEMENT RENDERER
-=================================== */
+/* VIDEO URL HELPERS */
 
-function renderSidebarAdvertisement(ad, slotId) {
+function getVideoSource(url) {
+  if (!url) return null;
 
-  const slot = document.getElementById(slotId);
+  let parsed;
 
-  if (!slot) return;
+  try {
+    parsed = new URL(url);
+  } catch (error) {
+    return null;
+  }
 
-  const title = escapeHTML(
-    ad.title || "Sponsored"
-  );
+  const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
 
-  const description = escapeHTML(
-    ad.description || ""
-  );
+  /* YouTube */
 
-  const imageUrl = safeExternalUrl(ad.image_url);
+  if (host === "youtu.be" || host.endsWith("youtube.com")) {
+    let id = "";
 
-  const videoUrl = safeExternalUrl(ad.video_url);
+    if (host === "youtu.be") {
+      id = parsed.pathname.split("/").filter(Boolean)[0] || "";
+    } else if (parsed.pathname === "/watch") {
+      id = parsed.searchParams.get("v") || "";
+    } else {
+      const parts = parsed.pathname.split("/").filter(Boolean);
+      const marker = parts.findIndex(part =>
+        ["embed", "shorts", "live"].includes(part)
+      );
 
-  const destinationUrl = safeExternalUrl(
-    ad.destination_url
-  );
+      if (marker !== -1) id = parts[marker + 1] || "";
+    }
 
-  let mediaHTML = "";
+    if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
+      return {
+        type: "youtube",
+        id,
+        embed:
+          "https://www.youtube-nocookie.com/embed/" +
+          encodeURIComponent(id) +
+          "?autoplay=1&mute=1&loop=1&playlist=" +
+          encodeURIComponent(id) +
+          "&playsinline=1&controls=1&rel=0"
+      };
+    }
+  }
 
-  if (
-    videoUrl &&
-    /\.(mp4|webm|ogg|ogv|m4v)(?:[?#]|$)/i.test(videoUrl)
-  ) {
+  /* TikTok */
 
-    mediaHTML = `
-      <video
-        class="sidebar-ad-video"
-        muted
-        loop
-        controls
-        playsinline
-        preload="none"
-      >
-        <source src="${escapeHTML(videoUrl)}">
-      </video>
+  if (host === "tiktok.com" || host.endsWith(".tiktok.com")) {
+    const match = parsed.pathname.match(/\/video\/(\d+)/);
+
+    if (match) {
+      return {
+        type: "tiktok",
+        id: match[1],
+        embed:
+          "https://www.tiktok.com/player/v1/" +
+          encodeURIComponent(match[1]) +
+          "?autoplay=1&loop=1&controls=1"
+      };
+    }
+  }
+
+  /* Facebook video or reel */
+
+  if (host === "facebook.com" || host.endsWith(".facebook.com") ||
+      host === "fb.watch") {
+    return {
+      type: "facebook",
+      embed:
+        "https://www.facebook.com/plugins/video.php?href=" +
+        encodeURIComponent(url) +
+        "&show_text=0&autoplay=true"
+    };
+  }
+
+  /* Instagram Reel or video */
+
+  if (host === "instagram.com" || host.endsWith(".instagram.com")) {
+    const match = parsed.pathname.match(
+      /\/(?:reel|p|tv)\/([a-zA-Z0-9_-]+)/
+    );
+
+    if (match) {
+      return {
+        type: "instagram",
+        embed:
+          "https://www.instagram.com/" +
+          (parsed.pathname.includes("/reel/") ? "reel/" : "p/") +
+          encodeURIComponent(match[1]) +
+          "/embed"
+      };
+    }
+  }
+
+  return null;
+}
+
+/* BUILD AD MEDIA */
+
+function buildAdvertisementMedia(ad, videoUrl, imageUrl, title) {
+  const directVideoPattern =
+    /\.(mp4|webm|ogg|ogv|m4v)(?:[?#]|$)/i;
+
+  if (videoUrl && directVideoPattern.test(videoUrl)) {
+    return `
+      <div class="sidebar-ad-media">
+        <video
+          class="sidebar-ad-video"
+          muted
+          loop
+          playsinline
+          autoplay
+          controls
+          preload="metadata"
+          data-sidebar-ad-video
+        >
+          <source src="${escapeHTML(videoUrl)}">
+          Your browser does not support HTML video.
+        </video>
+
+        <button
+          class="sidebar-ad-sound-button"
+          type="button"
+          data-sound-toggle
+          aria-label="Turn video sound on"
+        >Unmute</button>
+      </div>
     `;
+  }
 
-  } else if (imageUrl) {
+  if (videoUrl) {
+    const provider = getVideoSource(videoUrl);
 
+    if (provider) {
+      return `
+        <div class="sidebar-ad-media sidebar-ad-embed">
+          <iframe
+            src="${escapeHTML(provider.embed)}"
+            title="${title}"
+            loading="lazy"
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
+          ></iframe>
+        </div>
+      `;
+    }
+  }
+
+  if (imageUrl) {
     const imageHTML = `
       <img
         class="sidebar-ad-image"
@@ -950,37 +951,47 @@ function renderSidebarAdvertisement(ad, slotId) {
       >
     `;
 
-    mediaHTML = destinationUrl
-      ? `<a
-           href="${escapeHTML(destinationUrl)}"
-           target="_blank"
-           rel="noopener noreferrer sponsored"
-         >${imageHTML}</a>`
+    return ad.destination_url
+      ? `<a href="${escapeHTML(ad.destination_url)}" target="_blank" rel="noopener noreferrer sponsored">${imageHTML}</a>`
       : imageHTML;
+  }
 
-  } else if (videoUrl) {
-
-    mediaHTML = `
+  if (videoUrl) {
+    return `
       <a
         class="sidebar-ad-link"
         href="${escapeHTML(videoUrl)}"
         target="_blank"
         rel="noopener noreferrer sponsored"
-      >
-        Watch sponsored video ↗
-      </a>
+      >Watch sponsored video ↗</a>
     `;
   }
 
+  return "";
+}
+
+/* SIDEBAR ADVERTISEMENT RENDERER */
+
+function renderSidebarAdvertisement(ad, slotId) {
+  const slot = document.getElementById(slotId);
+
+  if (!slot) return;
+
+  const title = escapeHTML(ad.title || "Sponsored");
+  const description = escapeHTML(ad.description || "");
+  const imageUrl = safeExternalUrl(ad.image_url);
+  const videoUrl = safeExternalUrl(ad.video_url);
+  const destinationUrl = safeExternalUrl(ad.destination_url);
+
+  const mediaHTML = buildAdvertisementMedia(
+    ad,
+    videoUrl,
+    imageUrl,
+    title
+  );
+
   const buttonHTML = destinationUrl
-    ? `<a
-         class="sidebar-ad-link"
-         href="${escapeHTML(destinationUrl)}"
-         target="_blank"
-         rel="noopener noreferrer sponsored"
-       >
-         Visit Advertiser →
-       </a>`
+    ? `<a class="sidebar-ad-link" href="${escapeHTML(destinationUrl)}" target="_blank" rel="noopener noreferrer sponsored">Visit Advertiser →</a>`
     : "";
 
   if (!mediaHTML && !description && !buttonHTML) {
@@ -989,47 +1000,103 @@ function renderSidebarAdvertisement(ad, slotId) {
   }
 
   slot.innerHTML = `
-    <div class="sidebar-ad-label">
-      Advertisement
-    </div>
-
+    <div class="sidebar-ad-label">Advertisement</div>
     ${mediaHTML}
-
-    <div class="sidebar-ad-title">
-      ${title}
-    </div>
-
-    ${
-      description
-        ? `<p class="sidebar-ad-description">${description}</p>`
-        : ""
-    }
-
+    <div class="sidebar-ad-title">${title}</div>
+    ${description ? `<p class="sidebar-ad-description">${description}</p>` : ""}
     ${buttonHTML}
   `;
 }
 
-/* ===================================
-   SIDEBAR STORIES + UP TO 500 ADS
-=================================== */
+/* DIRECT VIDEO AUTOPLAY AND SOUND CONTROLS */
+
+function setupSidebarAdVideos(root = document) {
+  const videos = root.querySelectorAll(
+    "video[data-sidebar-ad-video]"
+  );
+
+  videos.forEach(video => {
+    if (video.dataset.adSetup === "true") return;
+
+    video.dataset.adSetup = "true";
+    video.muted = true;
+    video.playsInline = true;
+    video.loop = true;
+
+    const soundButton = video
+      .closest(".sidebar-ad-media")
+      ?.querySelector("[data-sound-toggle]");
+
+    if (soundButton) {
+      soundButton.addEventListener("click", () => {
+        video.muted = !video.muted;
+
+        soundButton.textContent = video.muted
+          ? "Unmute"
+          : "Mute";
+
+        soundButton.setAttribute(
+          "aria-label",
+          video.muted ? "Turn video sound on" : "Mute video"
+        );
+
+        if (!video.paused) return;
+
+        video.play().catch(() => {});
+      });
+    }
+
+    video.play().catch(() => {
+      /* Some mobile browsers require a user gesture. */
+    });
+  });
+
+  if (!("IntersectionObserver" in window)) return;
+
+  if (!window.sidebarAdVideoObserver) {
+    window.sidebarAdVideoObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          const video = entry.target;
+
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+            video.muted = true;
+
+            const button = video
+              .closest(".sidebar-ad-media")
+              ?.querySelector("[data-sound-toggle]");
+
+            if (button) button.textContent = "Unmute";
+          }
+        });
+      },
+      {
+        threshold: 0.35
+      }
+    );
+  }
+
+  videos.forEach(video => {
+    window.sidebarAdVideoObserver.observe(video);
+  });
+}
+
+/* SIDEBAR STORIES AND ADVERTISEMENTS */
 
 async function loadArticleSidebar() {
-
   const sidebar = document.getElementById("article-sidebar");
-
   const list = sidebar?.querySelector(".article-sidebar-list");
 
   if (!list) return;
 
   try {
-
     const [postsResult, adsResult] = await Promise.all([
-
       supabaseClient
         .from("posts")
-        .select(
-          "id,headline,category,image,images,created_at"
-        )
+        .select("id,headline,category,image,images,created_at")
         .eq("status", "published")
         .order("created_at", { ascending: false })
         .limit(MAX_ARTICLES),
@@ -1042,62 +1109,35 @@ async function loadArticleSidebar() {
         .eq("is_active", true)
         .order("created_at", { ascending: false })
         .limit(MAX_ADVERTISEMENTS)
-
     ]);
 
-    if (postsResult.error) {
-      throw postsResult.error;
-    }
+    if (postsResult.error) throw postsResult.error;
 
     if (adsResult.error) {
-      console.error(
-        "SIDEBAR ADS ERROR:",
-        adsResult.error
-      );
+      console.error("SIDEBAR ADS ERROR:", adsResult.error);
     }
 
     const posts = postsResult.data || [];
 
     const ads = (adsResult.data || [])
       .filter(ad => {
+        if (!isAdCurrentlyActive(ad)) return false;
 
-        if (!isAdCurrentlyActive(ad)) {
-          return false;
-        }
+        const placement = normalizePlacement(ad.placement);
 
-        const placement = normalizePlacement(
-          ad.placement
-        );
-
-        return (
-          placement === "sidebar" ||
-          placement === "all"
-        );
-
+        return placement === "sidebar" || placement === "all";
       })
       .slice(0, MAX_ADVERTISEMENTS);
 
     if (!posts.length && !ads.length) {
-
-      list.innerHTML =
-        "<p>No additional stories available yet.</p>";
-
+      list.innerHTML = "<p>No additional stories available yet.</p>";
       return;
     }
-
-    /*
-      Spread advertisements throughout the story list.
-
-      With 500 stories and 500 advertisements,
-      the sidebar can display up to 1,000 entries.
-    */
 
     const adPositions = new Map();
 
     if (posts.length && ads.length) {
-
       ads.forEach((ad, index) => {
-
         const position = ads.length === 1
           ? posts.length - 1
           : Math.round(
@@ -1109,126 +1149,72 @@ async function loadArticleSidebar() {
         }
 
         adPositions.get(position).push(ad);
-
       });
     }
 
     let sidebarHTML = "";
-
     const adSlots = [];
 
     posts.forEach((post, index) => {
-
-      const title = escapeHTML(
-        post.headline || "Read this story"
-      );
-
-      const category = escapeHTML(
-        post.category || "News"
-      );
-
-      const date = escapeHTML(
-        formatPostDate(post.created_at)
-      );
-
+      const title = escapeHTML(post.headline || "Read this story");
+      const category = escapeHTML(post.category || "News");
+      const date = escapeHTML(formatPostDate(post.created_at));
       const image = getPostImage(post);
 
       const articleUrl =
         "article.html?id=" + encodeURIComponent(post.id);
 
       sidebarHTML += `
-        <a
-          class="article-sidebar-story"
-          href="${articleUrl}"
-        >
-
+        <a class="article-sidebar-story" href="${articleUrl}">
           ${
             image
-              ? `<img
-                   src="${escapeHTML(image)}"
-                   alt="${title}"
-                   loading="lazy"
-                 >`
+              ? `<img src="${escapeHTML(image)}" alt="${title}" loading="lazy">`
               : `<div class="article-sidebar-placeholder"></div>`
           }
 
           <div class="article-sidebar-story-content">
-
             <span class="article-sidebar-story-meta">
               ${category}${date ? " · " + date : ""}
             </span>
-
             <h3>${title}</h3>
-
           </div>
-
         </a>
       `;
 
-      const adsAtPosition =
-        adPositions.get(index) || [];
+      const adsAtPosition = adPositions.get(index) || [];
 
       adsAtPosition.forEach(ad => {
-
-        const slotId =
-          "author-sidebar-ad-" + adSlots.length;
+        const slotId = "author-sidebar-ad-" + adSlots.length;
 
         sidebarHTML += `
-          <div
-            id="${slotId}"
-            class="article-sidebar-ad"
-          ></div>
+          <div id="${slotId}" class="article-sidebar-ad"></div>
         `;
 
-        adSlots.push({
-          id: slotId,
-          ad: ad
-        });
-
+        adSlots.push({ id: slotId, ad });
       });
-
     });
 
-    /*
-      If there are advertisements but no stories,
-      display the advertisements on their own.
-    */
-
     if (!posts.length) {
-
       ads.forEach(ad => {
-
-        const slotId =
-          "author-sidebar-ad-" + adSlots.length;
+        const slotId = "author-sidebar-ad-" + adSlots.length;
 
         sidebarHTML += `
-          <div
-            id="${slotId}"
-            class="article-sidebar-ad"
-          ></div>
+          <div id="${slotId}" class="article-sidebar-ad"></div>
         `;
 
-        adSlots.push({
-          id: slotId,
-          ad: ad
-        });
-
+        adSlots.push({ id: slotId, ad });
       });
     }
 
     list.innerHTML = sidebarHTML;
 
     adSlots.forEach(slot => {
-
-      renderSidebarAdvertisement(
-        slot.ad,
-        slot.id
-      );
-
+      renderSidebarAdvertisement(slot.ad, slot.id);
     });
 
-  } catch (error) {
+    setupSidebarAdVideos(list);
 
+  } catch (error) {
     console.error("AUTHOR SIDEBAR ERROR:", error);
 
     list.innerHTML =
@@ -1236,30 +1222,19 @@ async function loadArticleSidebar() {
   }
 }
 
-/* ===================================
-   START AUTHOR PAGE
-=================================== */
+/* START AUTHOR PAGE */
 
 async function loadAuthorPage() {
-
   await Promise.all([
     loadAuthorArticles(),
     loadArticleSidebar()
   ]);
-
 }
 
 if (document.readyState === "loading") {
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    loadAuthorPage
-  );
-
+  document.addEventListener("DOMContentLoaded", loadAuthorPage);
 } else {
-
   loadAuthorPage();
-
 }
 </script>
 
