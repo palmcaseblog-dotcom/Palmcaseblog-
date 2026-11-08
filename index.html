@@ -3839,7 +3839,8 @@ function renderFeatured() {
 }
 
 
-    function renderLatest() {
+    
+function renderLatest() {
   const container = document.getElementById("latestPosts");
 
   if (!container) return;
@@ -3848,84 +3849,58 @@ function renderFeatured() {
 
   if (!posts.length) {
     container.innerHTML =
-      '<div class="empty">No additional latest stories available.</div>';
+      '<div class="empty">No more stories available.</div>';
     return;
   }
 
   container.innerHTML = posts.map(post => {
     const image = post.image || "IMG_2188.jpeg";
-
-    const title = escapeHTML(
-      post.headline || "Untitled story"
+    const title = escapeHTML(post.headline || "Untitled story");
+    const category = escapeHTML(post.category || "News");
+    const excerpt = escapeHTML(
+      (post.article || "").replace(/<[^>]*>/g, "").slice(0, 140)
     );
-
-    const category = escapeHTML(
-      post.category || "News"
-    );
-
     const publisher = escapeHTML(
       post.publisher_name || "Egwu John Uchenna"
     );
 
-    const article = stripHTML(post.article || "");
-
-    const excerpt = escapeHTML(
-      article.length > 130
-        ? article.substring(0, 130) + "..."
-        : article
-    );
+    const articleUrl =
+      `article.html?id=${encodeURIComponent(post.id)}`;
 
     return `
       <article class="post-card">
 
-        <a href="article.html?id=${encodeURIComponent(post.id)}">
-
+        <a href="${articleUrl}">
           <img
             src="${escapeAttribute(image)}"
             alt="${escapeAttribute(title)}"
             onerror="this.src='IMG_2188.jpeg'"
           >
-
-          <div class="card-content">
-
-            <span class="category-tag">
-              ${category}
-            </span>
-
-            <div class="card-title">
-              ${title}
-            </div>
-
-            ${
-              excerpt
-                ? `
-                  <p class="post-excerpt">
-                    ${excerpt}
-                  </p>
-                `
-                : ""
-            }
-
-            <span class="card-byline">
-              By ${publisher}
-            </span>
-
-            <div class="card-date">
-              ${formatDate(post.created_at)}
-            </div>
-
-            <span class="read-more">
-              Read story →
-            </span>
-
-          </div>
-
         </a>
 
+        <div class="card-content">
+
+          <a href="${articleUrl}" class="post-card-article-link">
+            <span class="category-tag">${category}</span>
+            <div class="card-title">${title}</div>
+            <p class="post-excerpt">${excerpt}...</p>
+            <span class="read-more">Read story →</span>
+          </a>
+
+          <span class="card-byline">
+            By <a href="author.html" class="author-link">${publisher}</a>
+          </span>
+
+          <div class="card-date">
+            ${formatDate(post.created_at)}
+          </div>
+
+        </div>
       </article>
     `;
   }).join("");
 }
+
 
     function renderTrending() {
   const container = document.getElementById("trendingPosts");
