@@ -2881,11 +2881,16 @@ ${
 <!-- PUBLISHER BYLINE -->
 <div class="article-publisher">
   Posted by
-  <strong>${escapeHTML(
-    String(post.publisher_name || "").trim() || "Egwu John Uchenna"
-  )}</strong>
+  <strong>
+    <a href="author.html" class="author-link">
+      ${escapeHTML(
+        String(post.publisher_name || "").trim() || "Egwu John Uchenna"
+      )}
+    </a>
+  </strong>
   on Palmcaseblog
 </div>
+
 
 ${sourceHTML}
 
