@@ -3902,7 +3902,8 @@ function renderLatest() {
 }
 
 
-    function renderTrending() {
+    
+function renderTrending() {
   const container = document.getElementById("trendingPosts");
 
   if (!container) return;
@@ -3911,53 +3912,52 @@ function renderLatest() {
 
   if (!posts.length) {
     container.innerHTML =
-      '<div class="empty">No trending stories.</div>';
+      '<div class="empty">No trending stories yet.</div>';
     return;
   }
 
   container.innerHTML = posts.map(post => {
-    const title = escapeHTML(
-      post.headline || "Untitled story"
-    );
-
     const image = post.image || "IMG_2188.jpeg";
-
+    const title = escapeHTML(post.headline || "Untitled story");
     const publisher = escapeHTML(
       post.publisher_name || "Egwu John Uchenna"
     );
 
-    return `
-      <a
-        href="article.html?id=${encodeURIComponent(post.id)}"
-        class="popular-card"
-      >
+    const articleUrl =
+      `article.html?id=${encodeURIComponent(post.id)}`;
 
-        <img
-          src="${escapeAttribute(image)}"
-          alt="${escapeAttribute(title)}"
-          onerror="this.src='IMG_2188.jpeg'"
-        >
+    return `
+      <article class="popular-card">
+
+        <a href="${articleUrl}" class="popular-card-image-link">
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(title)}"
+            onerror="this.src='IMG_2188.jpeg'"
+          >
+        </a>
 
         <div>
-
-          <h4>${title}</h4>
+          <h4>
+            <a href="${articleUrl}" class="popular-card-title-link">
+              ${title}
+            </a>
+          </h4>
 
           <small class="card-byline">
-  By <a href="author.html"
-       class="author-link"
-       onclick="event.stopPropagation()">${publisher}</a>
-</small>
+            By <a href="author.html" class="author-link">${publisher}</a>
+          </small>
 
           <small class="card-date">
             ${formatDate(post.created_at)}
           </small>
-
         </div>
 
-      </a>
+      </article>
     `;
   }).join("");
 }
+
 function renderBreaking() {
   const container = document.getElementById("breakingText");
 
@@ -3973,6 +3973,7 @@ function renderBreaking() {
     : "No breaking stories available yet.";
 }
     
+
 function renderPopular() {
   const container = document.getElementById("popularPosts");
 
@@ -3987,224 +3988,184 @@ function renderPopular() {
   }
 
   container.innerHTML = posts.map(post => {
-    const title = escapeHTML(
-      post.headline || "Untitled story"
-    );
-
     const image = post.image || "IMG_2188.jpeg";
-
+    const title = escapeHTML(post.headline || "Untitled story");
     const publisher = escapeHTML(
       post.publisher_name || "Egwu John Uchenna"
     );
 
-    return `
-      <a
-        href="article.html?id=${encodeURIComponent(post.id)}"
-        class="popular-card"
-      >
+    const articleUrl =
+      `article.html?id=${encodeURIComponent(post.id)}`;
 
-        <img
-          src="${escapeAttribute(image)}"
-          alt="${escapeAttribute(title)}"
-          onerror="this.src='IMG_2188.jpeg'"
-        >
+    return `
+      <article class="popular-card">
+
+        <a href="${articleUrl}" class="popular-card-image-link">
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(title)}"
+            onerror="this.src='IMG_2188.jpeg'"
+          >
+        </a>
 
         <div>
-
-          <h4>${title}</h4>
+          <h4>
+            <a href="${articleUrl}" class="popular-card-title-link">
+              ${title}
+            </a>
+          </h4>
 
           <small class="card-byline">
-  By <a href="author.html"
-       class="author-link"
-       onclick="event.stopPropagation()">${publisher}</a>
-</small>
+            By <a href="author.html" class="author-link">${publisher}</a>
+          </small>
 
           <small class="card-date">
             ${formatDate(post.created_at)}
           </small>
-
         </div>
 
-      </a>
+      </article>
     `;
   }).join("");
 }
+
 
 
     /* =========================
        SEARCH
     ========================= */
 
-    function setupSearch() {
+    
+function setupSearch() {
 
-      const form =
-        document.getElementById(
-          "searchForm"
-        );
+  const form =
+    document.getElementById("searchForm");
 
-      const input =
-        document.getElementById(
-          "searchInput"
-        );
+  const input =
+    document.getElementById("searchInput");
 
-      form.addEventListener(
-        "submit",
-        event => {
+  if (!form || !input) return;
 
-          event.preventDefault();
+  form.addEventListener("submit", event => {
 
-          const query =
-            input.value
-              .trim()
-              .toLowerCase();
+    event.preventDefault();
 
-          if (!query) {
-            return;
-          }
+    const query =
+      input.value.trim().toLowerCase();
 
-          const results =
-            allPosts.filter(
-              post => {
+    if (!query) return;
 
-                const headline =
-                  String(
-                    post.headline || ""
-                  ).toLowerCase();
+    const results = allPosts.filter(post => {
 
-                const article =
-                  String(
-                    post.article || ""
-                  ).toLowerCase();
+      const headline =
+        String(post.headline || "").toLowerCase();
 
-                const category =
-                  String(
-                    post.category || ""
-                  ).toLowerCase();
+      const article =
+        String(post.article || "").toLowerCase();
 
-                return (
-                  headline.includes(query) ||
-                  article.includes(query) ||
-                  category.includes(query)
-                );
+      const category =
+        String(post.category || "").toLowerCase();
 
-              }
-            );
-
-          if (!results.length) {
-
-            document.getElementById(
-              "latestPosts"
-            ).innerHTML = `
-              <div class="empty">
-                No stories found for
-                "<strong>${escapeHTML(
-                  query
-                )}</strong>".
-              </div>
-            `;
-
-            document.getElementById(
-              "latest"
-            ).scrollIntoView({
-              behavior: "smooth"
-            });
-
-            return;
-          }
-
-          document.getElementById(
-            "latestPosts"
-          ).innerHTML =
-            results
-              .map(
-                post => {
-
-                  const image =
-                    post.image ||
-                    "IMG_2188.jpeg";
-
-                  const title =
-                    escapeHTML(
-                      post.headline ||
-                      "Untitled story"
-                    );
-
-                  const category =
-                    escapeHTML(
-                      post.category ||
-                      "News"
-                    );
-const publisher = escapeHTML(
-  post.publisher_name || "Egwu John Uchenna"
-);
-                  return `
-                    <article
-                      class="post-card"
-                    >
-
-                      <a
-                        href="article.html?id=${post.id}"
-                      >
-
-                        <img
-                          src="${escapeAttribute(image)}"
-                          alt="${escapeAttribute(title)}"
-                          onerror="this.src='IMG_2188.jpeg'"
-                        >
-
-                        <div
-                          class="card-content"
-                        >
-
-                          <span
-                            class="category-tag"
-                          >
-                            ${category}
-                          </span>
-
-                          <div
-                            class="card-title"
-                          >
-                            ${title}
-                          </div>
-
-                          <span class="card-byline">
-  By <a href="author.html"
-       class="author-link"
-       onclick="event.stopPropagation()">${publisher}</a>
-</span>
-
-<div class="card-date">
-  ${formatDate(post.created_at)}
-</div>
-
-                          <span
-                            class="read-more"
-                          >
-                            Read story →
-                          </span>
-
-                        </div>
-
-                      </a>
-
-                    </article>
-                  `;
-
-                }
-              )
-              .join("");
-
-          document.getElementById(
-            "latest"
-          ).scrollIntoView({
-            behavior: "smooth"
-          });
-
-        }
+      return (
+        headline.includes(query) ||
+        article.includes(query) ||
+        category.includes(query)
       );
 
+    });
+
+    if (!results.length) {
+
+      document.getElementById("latestPosts").innerHTML = `
+        <div class="empty">
+          No stories found for
+          "<strong>${escapeHTML(query)}</strong>".
+        </div>
+      `;
+
+      document.getElementById("latest").scrollIntoView({
+        behavior: "smooth"
+      });
+
+      return;
     }
+
+    document.getElementById("latestPosts").innerHTML =
+      results.map(post => {
+
+        const image =
+          post.image || "IMG_2188.jpeg";
+
+        const title =
+          escapeHTML(post.headline || "Untitled story");
+
+        const category =
+          escapeHTML(post.category || "News");
+
+        const publisher =
+          escapeHTML(
+            post.publisher_name || "Egwu John Uchenna"
+          );
+
+        const articleUrl =
+          `article.html?id=${encodeURIComponent(post.id)}`;
+
+        return `
+          <article class="post-card">
+
+            <a href="${articleUrl}">
+              <img
+                src="${escapeAttribute(image)}"
+                alt="${escapeAttribute(title)}"
+                onerror="this.src='IMG_2188.jpeg'"
+              >
+            </a>
+
+            <div class="card-content">
+
+              <a
+                href="${articleUrl}"
+                class="post-card-article-link"
+              >
+                <span class="category-tag">
+                  ${category}
+                </span>
+
+                <div class="card-title">
+                  ${title}
+                </div>
+
+                <span class="read-more">
+                  Read story →
+                </span>
+              </a>
+
+              <span class="card-byline">
+                By <a
+                  href="author.html"
+                  class="author-link"
+                >${publisher}</a>
+              </span>
+
+              <div class="card-date">
+                ${formatDate(post.created_at)}
+              </div>
+
+            </div>
+
+          </article>
+        `;
+
+      }).join("");
+
+    document.getElementById("latest").scrollIntoView({
+      behavior: "smooth"
+    });
+
+  });
+
+}
+
 
     /* =========================
        NEWSLETTER
