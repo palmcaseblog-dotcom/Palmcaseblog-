@@ -3782,7 +3782,8 @@ async function loadPosts() {
 }
 
 
-    function renderFeatured() {
+   
+function renderFeatured() {
   const container = document.getElementById("featuredStories");
 
   if (!container) return;
@@ -3797,55 +3798,46 @@ async function loadPosts() {
 
   container.innerHTML = posts.map((post, index) => {
     const image = post.image || "IMG_2188.jpeg";
-
-    const title = escapeHTML(
-      post.headline || "Untitled story"
-    );
-
-    const category = escapeHTML(
-      post.category || "News"
-    );
-
+    const title = escapeHTML(post.headline || "Untitled story");
+    const category = escapeHTML(post.category || "News");
     const publisher = escapeHTML(
       post.publisher_name || "Egwu John Uchenna"
     );
 
+    const articleUrl =
+      `article.html?id=${encodeURIComponent(post.id)}`;
+
     return `
-      <a
-        href="article.html?id=${encodeURIComponent(post.id)}"
-        class="featured-card ${index === 0 ? "featured-main" : ""}"
-      >
-        <img
-          src="${escapeAttribute(image)}"
-          alt="${escapeAttribute(title)}"
-          onerror="this.src='IMG_2188.jpeg'"
-        >
+      <article class="featured-card ${index === 0 ? "featured-main" : ""}">
+
+        <a href="${articleUrl}" class="featured-article-link">
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(title)}"
+            onerror="this.src='IMG_2188.jpeg'"
+          >
+
+          <div class="card-content">
+            <span class="category-tag">${category}</span>
+            <div class="card-title">${title}</div>
+          </div>
+        </a>
 
         <div class="card-content">
-
-          <span class="category-tag">
-            ${category}
-          </span>
-
-          <div class="card-title">
-            ${title}
-          </div>
-
           <span class="card-byline">
-  By <a href="author.html"
-       class="author-link"
-       onclick="event.stopPropagation()">${publisher}</a>
-</span>
+            By <a href="author.html" class="author-link">${publisher}</a>
+          </span>
 
           <div class="card-date">
             ${formatDate(post.created_at)}
           </div>
-
         </div>
-      </a>
+
+      </article>
     `;
   }).join("");
 }
+
 
     function renderLatest() {
   const container = document.getElementById("latestPosts");
