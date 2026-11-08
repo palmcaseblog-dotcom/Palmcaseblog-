@@ -3948,194 +3948,147 @@ async function loadPosts() {
 }
 
     function renderLatest() {
+  const container = document.getElementById("latestPosts");
 
-      const container =
-        document.getElementById(
-          "latestPosts"
-        );
+  if (!container) return;
 
-      if (!allPosts.length) {
+  const posts = getHomepagePostGroups().latest;
 
-        container.innerHTML =
-          '<div class="empty">No latest stories available.</div>';
+  if (!posts.length) {
+    container.innerHTML =
+      '<div class="empty">No additional latest stories available.</div>';
+    return;
+  }
 
-        return;
-      }
+  container.innerHTML = posts.map(post => {
+    const image = post.image || "IMG_2188.jpeg";
 
-      const posts =
-        allPosts.slice(0, 10);
+    const title = escapeHTML(
+      post.headline || "Untitled story"
+    );
 
-      container.innerHTML =
-        posts
-          .map(
-            post => {
+    const category = escapeHTML(
+      post.category || "News"
+    );
 
-              const image =
-                post.image ||
-                "IMG_2188.jpeg";
+    const publisher = escapeHTML(
+      post.publisher_name || "Egwu John Uchenna"
+    );
 
-              const title =
-                escapeHTML(
-                  post.headline ||
-                  "Untitled story"
-                );
+    const article = stripHTML(post.article || "");
 
-              const category =
-                escapeHTML(
-                  post.category ||
-                  "News"
-                );
+    const excerpt = escapeHTML(
+      article.length > 130
+        ? article.substring(0, 130) + "..."
+        : article
+    );
 
-              const article =
-                stripHTML(
-                  post.article ||
-                  ""
-                );
+    return `
+      <article class="post-card">
 
-              const excerpt =
-                escapeHTML(
-                  article.length > 130
-                    ? article.substring(0, 130) + "..."
-                    : article
-                );
+        <a href="article.html?id=${encodeURIComponent(post.id)}">
 
-              return `
-                <article
-                  class="post-card"
-                >
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(title)}"
+            onerror="this.src='IMG_2188.jpeg'"
+          >
 
-                  <a
-                    href="article.html?id=${post.id}"
-                  >
+          <div class="card-content">
 
-                    <img
-                      src="${escapeAttribute(image)}"
-                      alt="${escapeAttribute(title)}"
-                      onerror="this.src='IMG_2188.jpeg'"
-                    >
+            <span class="category-tag">
+              ${category}
+            </span>
 
-                    <div
-                      class="card-content"
-                    >
+            <div class="card-title">
+              ${title}
+            </div>
 
-                      <span
-                        class="category-tag"
-                      >
-                        ${category}
-                      </span>
-
-                      <div
-                        class="card-title"
-                      >
-                        ${title}
-                      </div>
-
-                      ${
-                        excerpt
-                          ? `
-                            <p
-                              class="post-excerpt"
-                            >
-                              ${excerpt}
-                            </p>
-                          `
-                          : ""
-                      }
-
-                      <div
-                        class="card-date"
-                      >
-                        ${formatDate(
-                          post.created_at
-                        )}
-                      </div>
-
-                      <span
-                        class="read-more"
-                      >
-                        Read story →
-                      </span>
-
-                    </div>
-
-                  </a>
-
-                </article>
-              `;
-
+            ${
+              excerpt
+                ? `
+                  <p class="post-excerpt">
+                    ${excerpt}
+                  </p>
+                `
+                : ""
             }
-          )
-          .join("");
 
-    }
+            <span class="card-byline">
+              By ${publisher}
+            </span>
+
+            <div class="card-date">
+              ${formatDate(post.created_at)}
+            </div>
+
+            <span class="read-more">
+              Read story →
+            </span>
+
+          </div>
+
+        </a>
+
+      </article>
+    `;
+  }).join("");
+}
 
     function renderTrending() {
+  const container = document.getElementById("trendingPosts");
 
-      const container =
-        document.getElementById(
-          "trendingPosts"
-        );
+  if (!container) return;
 
-      if (!allPosts.length) {
+  const posts = getHomepagePostGroups().trending;
 
-        container.innerHTML =
-          '<div class="empty">No trending stories.</div>';
+  if (!posts.length) {
+    container.innerHTML =
+      '<div class="empty">No trending stories.</div>';
+    return;
+  }
 
-        return;
-      }
+  container.innerHTML = posts.map(post => {
+    const title = escapeHTML(
+      post.headline || "Untitled story"
+    );
 
-      const posts =
-        allPosts.slice(0, 5);
+    const image = post.image || "IMG_2188.jpeg";
 
-      container.innerHTML =
-        posts
-          .map(
-            post => {
+    const publisher = escapeHTML(
+      post.publisher_name || "Egwu John Uchenna"
+    );
 
-              const title =
-                escapeHTML(
-                  post.headline ||
-                  "Untitled story"
-                );
+    return `
+      <a
+        href="article.html?id=${encodeURIComponent(post.id)}"
+        class="popular-card"
+      >
 
-              const image =
-                post.image ||
-                "IMG_2188.jpeg";
+        <img
+          src="${escapeAttribute(image)}"
+          alt="${escapeAttribute(title)}"
+          onerror="this.src='IMG_2188.jpeg'"
+        >
 
-              return `
-                <a
-                  href="article.html?id=${post.id}"
-                  class="popular-card"
-                >
+        <div>
 
-                  <img
-                    src="${escapeAttribute(image)}"
-                    alt="${escapeAttribute(title)}"
-                    onerror="this.src='IMG_2188.jpeg'"
-                  >
+          <h4>${title}</h4>
 
-                  <div>
+          <small class="card-byline">
+            By ${publisher}
+          </small>
 
-                    <h4>
-                      ${title}
-                    </h4>
+          <small class="card-date">
+            ${formatDate(post.created_at)}
+          </small>
 
-                    <small>
-                      ${formatDate(
-                        post.created_at
-                      )}
-                    </small>
+        </div>
 
-                  </div>
-
-                </a>
-              `;
-
-            }
-          )
-          .join("");
-
-    }
+      </a>
+    `;
+  }).join("");
+}
 function renderBreaking() {
   const container = document.getElementById("breakingText");
 
@@ -4154,47 +4107,56 @@ function renderBreaking() {
 function renderPopular() {
   const container = document.getElementById("popularPosts");
 
-  if (!allPosts.length) {
+  if (!container) return;
+
+  const posts = getHomepagePostGroups().popular;
+
+  if (!posts.length) {
     container.innerHTML =
       '<div class="empty">No popular stories yet.</div>';
     return;
   }
 
-  const posts = [...allPosts]
-  .sort(
-    (a, b) =>
-      (Number(b.views) || 0) -
-      (Number(a.views) || 0)
-  )
-  .slice(0, 5);
+  container.innerHTML = posts.map(post => {
+    const title = escapeHTML(
+      post.headline || "Untitled story"
+    );
 
-  container.innerHTML = posts
-    .map(post => {
-      const title = escapeHTML(
-        post.headline || "Untitled story"
-      );
+    const image = post.image || "IMG_2188.jpeg";
 
-      const image = post.image || "IMG_2188.jpeg";
+    const publisher = escapeHTML(
+      post.publisher_name || "Egwu John Uchenna"
+    );
 
-      
-return `
-  <a
-    href="article.html?id=${post.id}"
-    class="popular-card"
-  >
-    <img
-      src="${escapeAttribute(image)}"
-      alt="${escapeAttribute(title)}"
-      onerror="this.src='IMG_2188.jpeg'"
-    >
+    return `
+      <a
+        href="article.html?id=${encodeURIComponent(post.id)}"
+        class="popular-card"
+      >
 
-    <div>
-      <h4>${title}</h4>
-    </div>
-  </a>
-`;
-})
-.join("");
+        <img
+          src="${escapeAttribute(image)}"
+          alt="${escapeAttribute(title)}"
+          onerror="this.src='IMG_2188.jpeg'"
+        >
+
+        <div>
+
+          <h4>${title}</h4>
+
+          <small class="card-byline">
+            By ${publisher}
+          </small>
+
+          <small class="card-date">
+            ${formatDate(post.created_at)}
+          </small>
+
+        </div>
+
+      </a>
+    `;
+  }).join("");
 }
 
 
@@ -4301,7 +4263,9 @@ return `
                       post.category ||
                       "News"
                     );
-
+const publisher = escapeHTML(
+  post.publisher_name || "Egwu John Uchenna"
+);
                   return `
                     <article
                       class="post-card"
@@ -4333,13 +4297,13 @@ return `
                             ${title}
                           </div>
 
-                          <div
-                            class="card-date"
-                          >
-                            ${formatDate(
-                              post.created_at
-                            )}
-                          </div>
+                          <span class="card-byline">
+  By ${publisher}
+</span>
+
+<div class="card-date">
+  ${formatDate(post.created_at)}
+</div>
 
                           <span
                             class="read-more"
