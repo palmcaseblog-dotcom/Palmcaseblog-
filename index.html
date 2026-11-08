@@ -3796,7 +3796,42 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
 /* =========================
    POSTS
 ========================= */
+function getHomepagePostGroups() {
+  // The three newest published articles.
+  const featured = allPosts.slice(0, 3);
 
+  // Five different articles for Trending Now.
+  const trending = allPosts.slice(3, 8);
+
+  // Select Most Clicked from articles not already used.
+  const remaining = allPosts.slice(8);
+
+  const popular = [...remaining]
+    .sort(
+      (a, b) =>
+        (Number(b.views) || 0) -
+        (Number(a.views) || 0)
+    )
+    .slice(0, 5);
+
+  // Reserve articles already displayed in other sections.
+  const reservedIds = new Set(
+    [...featured, ...trending, ...popular]
+      .map(post => String(post.id))
+  );
+
+  // Every other published article appears in Latest Stories.
+  const latest = allPosts.filter(
+    post => !reservedIds.has(String(post.id))
+  );
+
+  return {
+    featured,
+    trending,
+    popular,
+    latest
+  };
+}
 async function loadPosts() {
 
   try {
