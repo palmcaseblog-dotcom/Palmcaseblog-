@@ -3798,6 +3798,9 @@ await loadLatestArticles(numericArticleId);
 // Load 10 additional articles without repeating either section.
 await loadYouMayAlsoLike(numericArticleId);
 
+// Load the long sidebar with older and newer published stories.
+await loadArticleSidebar(numericArticleId);
+
 // Show recommendations after three minutes.
 scheduleArticleRecommendation(numericArticleId);
 // Load existing article advertisements.
