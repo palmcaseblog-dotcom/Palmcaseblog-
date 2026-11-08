@@ -3388,7 +3388,177 @@ async function loadYouMayAlsoLike(currentArticleId) {
     grid.innerHTML = "";
   }
 }
+/* =================================
+   LONG ARTICLE SIDEBAR
+   MIX OF OLD AND NEW PUBLISHED POSTS
+================================= */
 
+async function loadArticleSidebar(currentArticleId) {
+  const sidebar = document.getElementById("article-sidebar");
+
+  if (!sidebar) return;
+
+  const list = sidebar.querySelector(".article-sidebar-list");
+
+  if (!list) return;
+
+  list.innerHTML = "<p>Loading more stories...</p>";
+
+  try {
+    // Collect IDs already displayed in the other recommendation sections.
+    const excludedIds = new Set();
+
+    excludedIds.add(Number(currentArticleId));
+
+    const recommendationSelectors = [
+      "#related-stories-grid a[href*='article.html?id=']",
+      "#latest-articles-grid a[href*='article.html?id=']",
+      "#you-may-also-like-grid a[href*='article.html?id=']"
+    ];
+
+    recommendationSelectors.forEach(selector => {
+      document.querySelectorAll(selector).forEach(link => {
+        const href = link.getAttribute("href") || "";
+        const match = href.match(/[?&]id=(\d+)/);
+
+        if (match) {
+          excludedIds.add(Number(match[1]));
+        }
+      });
+    });
+
+    // Fetch the published archive, including older articles.
+    const { data: posts, error: postsError } = await supabaseClient
+      .from("posts")
+      .select("id,headline,category,image,images,created_at")
+      .eq("status", "published")
+      .order("created_at", { ascending: false })
+      .limit(500);
+
+    if (postsError) {
+      console.error("ARTICLE SIDEBAR POSTS ERROR:", postsError);
+      list.innerHTML = "<p>More stories are temporarily unavailable.</p>";
+      return;
+    }
+
+    const availablePosts = (posts || []).filter(post =>
+      !excludedIds.has(Number(post.id))
+    );
+
+    if (!availablePosts.length) {
+      list.innerHTML = "<p>No additional stories available yet.</p>";
+      return;
+    }
+
+    // Select up to 25 posts spread across the available archive.
+    // This includes older and newer stories instead of only the newest.
+    const targetCount = Math.min(25, availablePosts.length);
+    const selectedPosts = [];
+
+    if (targetCount === 1) {
+      selectedPosts.push(availablePosts[0]);
+    } else {
+      for (let i = 0; i < targetCount; i++) {
+        const index = Math.round(
+          i * (availablePosts.length - 1) / (targetCount - 1)
+        );
+
+        selectedPosts.push(availablePosts[index]);
+      }
+    }
+
+    // Fetch active advertisements intended for the sidebar or all placements.
+    const { data: ads, error: adsError } = await supabaseClient
+      .from("ads")
+      .select(
+        "id,title,description,image_url,video_url,destination_url,placement,start_date,end_date,is_active,created_at"
+      )
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
+
+    if (adsError) {
+      console.error("ARTICLE SIDEBAR ADS ERROR:", adsError);
+    }
+
+    const sidebarAds = (ads || []).filter(ad => {
+      if (!isAdCurrentlyActive(ad)) return false;
+
+      const placement = normalizePlacement(ad.placement);
+
+      return placement === "sidebar" || placement === "all";
+    });
+
+    let sidebarHTML = "";
+    const adSlots = [];
+    let adIndex = 0;
+
+    selectedPosts.forEach((post, index) => {
+      const title = escapeHTML(post.headline || "Read this story");
+      const category = escapeHTML(post.category || "News");
+      const date = escapeHTML(formatPostDate(post.created_at));
+      const image = getPostImage(post);
+
+      const articleUrl =
+        "article.html?id=" + encodeURIComponent(post.id);
+
+      sidebarHTML += `
+        <a class="article-sidebar-story" href="${articleUrl}">
+          ${
+            image
+              ? `<img
+                   src="${escapeHTML(image)}"
+                   alt="${title}"
+                   loading="lazy"
+                 >`
+              : `<div class="article-sidebar-placeholder"></div>`
+          }
+
+          <div class="article-sidebar-story-content">
+            <span class="article-sidebar-story-meta">
+              ${category}${date ? " · " + date : ""}
+            </span>
+
+            <h3>${title}</h3>
+          </div>
+        </a>
+      `;
+
+      // Place available advertisements between groups of stories.
+      if (
+        [4, 10, 16, 22].includes(index) &&
+        sidebarAds[adIndex]
+      ) {
+        const slotId = "article-sidebar-ad-slot-" + adIndex;
+
+        sidebarHTML += `
+          <div
+            id="${slotId}"
+            class="article-sidebar-ad"
+          ></div>
+        `;
+
+        adSlots.push({
+          id: slotId,
+          ad: sidebarAds[adIndex]
+        });
+
+        adIndex++;
+      }
+    });
+
+    list.innerHTML = sidebarHTML;
+
+    // Render each advertisement using the existing ad renderer.
+    // No ad container is added when no eligible ad exists.
+    adSlots.forEach(slot => {
+      renderAdvertisement(slot.ad, slot.id);
+    });
+
+  } catch (error) {
+    console.error("ARTICLE SIDEBAR ERROR:", error);
+    list.innerHTML = "<p>More stories are temporarily unavailable.</p>";
+  }
+}
 function closeArticleRecommendation() {
   const popup = document.getElementById(
     "article-recommendation-overlay"
