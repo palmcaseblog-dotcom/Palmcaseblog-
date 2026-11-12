@@ -1654,563 +1654,6 @@ nav a {
   }
 }
 
-/* =========================================
-   PALMCASEBLOG NEWSPAPER HOMEPAGE DESIGN
-   Header and branding intentionally untouched
-========================================= */
-
-.newspaper-homepage {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px 35px;
-  color: #111827;
-}
-
-/* MAIN THREE-COLUMN NEWSPAPER LAYOUT */
-
-.newspaper-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr) 310px;
-  gap: 22px;
-  align-items: start;
-  margin: 20px 0 30px;
-}
-
-.hero-main-column,
-.hero-middle-column,
-.hero-sidebar-column {
-  min-width: 0;
-}
-
-/* LARGE LEAD STORY */
-
-.newspaper-homepage .featured-card {
-  border-radius: 0;
-  border: 0;
-  border-bottom: 1px solid #e5e7eb;
-  box-shadow: none;
-  background: #fff;
-}
-
-.newspaper-homepage .featured-card:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-.newspaper-homepage .featured-card img {
-  width: 100%;
-  height: 340px;
-  object-fit: cover;
-  display: block;
-}
-
-.newspaper-homepage .featured-main img {
-  height: 390px;
-}
-
-.newspaper-homepage .featured-main .card-content {
-  padding: 16px 2px;
-}
-
-.newspaper-homepage .featured-main .card-title {
-  font-size: clamp(25px, 2.5vw, 34px);
-  line-height: 1.16;
-  font-weight: 900;
-  letter-spacing: -0.6px;
-}
-
-.newspaper-homepage .card-content {
-  padding: 12px;
-}
-
-.newspaper-homepage .card-date {
-  font-size: 11px;
-  color: #6b7280;
-}
-
-.newspaper-homepage .category-tag {
-  background: #fff7ed;
-  color: #b45309;
-  border-radius: 2px;
-  font-size: 10px;
-}
-
-/* MIDDLE SUPPORTING STORIES */
-
-.hero-middle-column {
-  border-left: 1px solid #e5e7eb;
-  border-right: 1px solid #e5e7eb;
-  padding: 0 15px;
-}
-
-.hero-middle-column::before {
-  content: "MORE TOP STORIES";
-  display: block;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  color: #111827;
-  border-bottom: 3px solid #f59e0b;
-  padding-bottom: 9px;
-  margin-bottom: 12px;
-}
-
-#supportingStories {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-#supportingStories .supporting-card,
-#supportingStories .supporting-story {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 11px;
-  padding: 12px 0;
-  border-bottom: 1px solid #e5e7eb;
-  background: #fff;
-}
-
-#supportingStories img {
-  width: 105px;
-  height: 78px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-#supportingStories h3,
-#supportingStories h4,
-#supportingStories .card-title {
-  font-size: 14px;
-  line-height: 1.35;
-  font-weight: 800;
-  margin: 0;
-}
-
-#supportingStories a {
-  color: #111827;
-  text-decoration: none;
-}
-
-#supportingStories a:hover {
-  color: #b45309;
-}
-
-#supportingStories small,
-#supportingStories .card-date {
-  display: block;
-  margin-top: 6px;
-  font-size: 10px;
-  color: #6b7280;
-}
-
-/* RIGHT SIDEBAR */
-
-.hero-sidebar-column .sidebar-box {
-  border: 1px solid #e5e7eb;
-  border-radius: 0;
-  padding: 15px;
-  margin-bottom: 18px;
-  box-shadow: none;
-}
-
-.hero-sidebar-column .sidebar-box h3 {
-  font-size: 17px;
-  font-weight: 900;
-  border-bottom: 3px solid #f59e0b;
-  padding-bottom: 10px;
-}
-
-.hero-sidebar-column .popular-card {
-  border-radius: 0;
-  padding: 10px 0;
-  margin: 0;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.hero-sidebar-column .popular-card img {
-  width: 75px;
-  height: 65px;
-  border-radius: 0;
-}
-
-.hero-sidebar-column .popular-card h4 {
-  font-size: 12px;
-  line-height: 1.4;
-  font-weight: 800;
-}
-
-.hero-sidebar-column .popular-card small {
-  font-size: 10px;
-}
-
-/* NUMBERED TRENDING STORIES */
-
-#trendingPosts {
-  counter-reset: trending-number;
-}
-
-#trendingPosts .popular-card {
-  counter-increment: trending-number;
-  position: relative;
-}
-
-#trendingPosts .popular-card::before {
-  content: counter(trending-number);
-  font-size: 21px;
-  font-weight: 900;
-  color: #d1d5db;
-  min-width: 22px;
-  align-self: center;
-}
-
-/* SECTION HEADINGS */
-
-.newspaper-homepage .section-heading {
-  margin: 32px 0 16px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #111827;
-}
-
-.newspaper-homepage .section-heading h2 {
-  font-size: 23px;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.newspaper-homepage .section-heading h2::before {
-  height: 24px;
-  border-radius: 0;
-}
-
-.newspaper-homepage .section-heading a {
-  white-space: nowrap;
-}
-
-/* LATEST STORIES */
-
-.newspaper-homepage .content-layout {
-  display: block;
-  margin-top: 25px;
-}
-
-.newspaper-homepage .posts-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-}
-
-.newspaper-homepage .post-card {
-  border-radius: 0;
-  border: 0;
-  border-bottom: 1px solid #e5e7eb;
-  box-shadow: none;
-  background: #fff;
-}
-
-.newspaper-homepage .post-card:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-.newspaper-homepage .post-card img {
-  height: 190px;
-  width: 100%;
-  object-fit: cover;
-}
-
-.newspaper-homepage .post-card .card-content {
-  padding: 12px 2px 16px;
-}
-
-.newspaper-homepage .post-card .card-title {
-  font-size: 17px;
-  line-height: 1.35;
-  font-weight: 900;
-}
-
-.newspaper-homepage .post-excerpt {
-  font-size: 13px;
-  line-height: 1.5;
-  color: #6b7280;
-}
-
-/* CATEGORY SECTIONS */
-
-#categorySections {
-  margin-top: 35px;
-}
-
-.newspaper-category-section {
-  margin: 35px 0;
-}
-
-.newspaper-category-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border-bottom: 3px solid #111827;
-  margin-bottom: 17px;
-  padding-bottom: 9px;
-}
-
-.newspaper-category-heading h2 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.newspaper-category-heading a {
-  color: #b45309;
-  font-size: 12px;
-  font-weight: 900;
-  white-space: nowrap;
-}
-
-.newspaper-category-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-}
-
-.newspaper-category-grid .post-card {
-  border: 0;
-  border-bottom: 1px solid #e5e7eb;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.newspaper-category-grid .post-card img {
-  width: 100%;
-  height: 175px;
-  object-fit: cover;
-}
-
-.newspaper-category-grid .post-card .card-title {
-  font-size: 16px;
-  line-height: 1.35;
-}
-
-/* DISTINCTIVE CATEGORY COLOURS */
-
-.newspaper-category-section:nth-child(odd) .newspaper-category-heading {
-  border-bottom-color: #b45309;
-}
-
-.newspaper-category-section:nth-child(even) .newspaper-category-heading {
-  border-bottom-color: #1d4ed8;
-}
-
-/* NEWSLETTER */
-
-.newspaper-homepage .newsletter {
-  margin-top: 45px;
-  border-radius: 0;
-}
-
-/* TABLET */
-
-@media (max-width: 1050px) {
-  .newspaper-hero {
-    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  }
-
-  .hero-sidebar-column {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 15px;
-  }
-
-  .hero-sidebar-column .sidebar-box {
-    margin-bottom: 0;
-  }
-
-  .newspaper-homepage .posts-grid,
-  .newspaper-category-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* MOBILE */
-
-@media (max-width: 650px) {
-  .newspaper-homepage {
-    padding-left: 13px;
-    padding-right: 13px;
-  }
-
-  .newspaper-hero {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    margin-top: 15px;
-  }
-
-  .hero-main-column,
-  .hero-middle-column,
-  .hero-sidebar-column {
-    width: 100%;
-  }
-
-  .newspaper-homepage .featured-main img {
-    height: 235px;
-  }
-
-  .newspaper-homepage .featured-main .card-title {
-    font-size: 25px;
-  }
-
-  .hero-middle-column {
-    border: 0;
-    border-top: 3px solid #111827;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 12px 0;
-  }
-
-  #supportingStories .supporting-card,
-  #supportingStories .supporting-story {
-    padding: 10px 0;
-  }
-
-  #supportingStories img {
-    width: 100px;
-    height: 72px;
-  }
-
-  .hero-sidebar-column {
-    display: block;
-  }
-
-  .hero-sidebar-column .sidebar-box {
-    margin-bottom: 17px;
-  }
-
-  .newspaper-homepage .posts-grid,
-  .newspaper-category-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 13px;
-  }
-
-  .newspaper-homepage .post-card img,
-  .newspaper-category-grid .post-card img {
-    height: 125px;
-  }
-
-  .newspaper-homepage .post-card .card-title,
-  .newspaper-category-grid .post-card .card-title {
-    font-size: 14px;
-  }
-
-  .newspaper-homepage .post-excerpt {
-    display: none;
-  }
-
-  .newspaper-category-heading h2 {
-    font-size: 18px;
-  }
-
-  .newspaper-homepage .section-heading h2 {
-    font-size: 19px;
-  }
-}
-
-@media (max-width: 380px) {
-  .newspaper-homepage .posts-grid,
-  .newspaper-category-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .newspaper-homepage .post-card img,
-  .newspaper-category-grid .post-card img {
-    height: 190px;
-  }
-}
-
-/* PALMCASEBLOG HOMEPAGE SPACING AND HEADLINE FIX */
-
-/* Give the lead story more room */
-@media (min-width: 1051px) {
-  .newspaper-hero {
-    grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.15fr) 290px;
-    gap: 16px;
-    align-items: start;
-  }
-}
-
-/* Keep the main headline large and readable */
-.newspaper-homepage .featured-main .card-title {
-  font-size: clamp(27px, 2.4vw, 36px);
-  line-height: 1.18;
-  max-width: 100%;
-}
-
-/* Make the lead image fill its column */
-.newspaper-homepage .featured-main img {
-  width: 100%;
-  height: 360px;
-  object-fit: cover;
-}
-
-/* Make More Headlines larger */
-.hero-middle-column {
-  padding-left: 17px;
-  padding-right: 17px;
-}
-
-#supportingStories .supporting-card,
-#supportingStories .supporting-story {
-  gap: 13px;
-  padding: 15px 0;
-}
-
-#supportingStories img {
-  width: 125px;
-  height: 90px;
-  object-fit: cover;
-}
-
-#supportingStories h3,
-#supportingStories h4,
-#supportingStories .card-title {
-  font-size: 16px;
-  line-height: 1.4;
-  font-weight: 900;
-}
-
-/* Reduce unnecessary space before Latest Stories */
-.newspaper-homepage .content-layout {
-  margin-top: 8px;
-}
-
-.newspaper-homepage #latest {
-  margin-top: 15px;
-}
-
-/* Do not change Trending or Most Clicked */
-
-/* Mobile adjustments */
-@media (max-width: 650px) {
-  .newspaper-homepage .featured-main img {
-    height: 250px;
-  }
-
-  #supportingStories img {
-    width: 115px;
-    height: 85px;
-  }
-
-  #supportingStories h3,
-  #supportingStories h4,
-  #supportingStories .card-title {
-    font-size: 15px;
-  }
-}
-
   </style>
 <style>
   .card-byline {
@@ -2235,298 +1678,6 @@ nav a {
 .author-link:hover {
   text-decoration: underline;
 }
-
-/* MORE HEADLINES — REMOVE DUPLICATE LABEL */
-.hero-middle-column::before {
-  content: none !important;
-}
-
-/* MAKE SUPPORTING HEADLINES PROMINENT */
-#supportingStories {
-  gap: 0;
-}
-
-#supportingStories .supporting-card,
-#supportingStories .supporting-story {
-  padding: 17px 0;
-  gap: 14px;
-  align-items: flex-start;
-}
-
-#supportingStories img {
-  width: 145px;
-  height: 105px;
-  flex-shrink: 0;
-  object-fit: cover;
-}
-
-#supportingStories h3,
-#supportingStories h4,
-#supportingStories .card-title {
-  font-size: 18px !important;
-  line-height: 1.35;
-  font-weight: 900 !important;
-  color: #111827;
-}
-
-/* GIVE THE LEAD STORY MORE WIDTH */
-@media (min-width: 1051px) {
-  .newspaper-hero {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr) 280px !important;
-    gap: 18px;
-  }
-}
-
-.newspaper-homepage .featured-main .card-title {
-  font-size: 36px;
-  font-weight: 900;
-  line-height: 1.16;
-  letter-spacing: -0.7px;
-  max-width: 100%;
-}
-
-@media (max-width: 650px) {
-  #supportingStories img {
-    width: 125px;
-    height: 90px;
-  }
-
-  #supportingStories h3,
-  #supportingStories h4,
-  #supportingStories .card-title {
-    font-size: 16px !important;
-  }
-}
-
-/* FIX: MAKE THE MAIN LEAD STORY USE THE FULL COLUMN WIDTH */
-
-.newspaper-homepage #featuredStories {
-  display: block !important;
-  width: 100%;
-  grid-template-columns: minmax(0, 1fr) !important;
-}
-
-.newspaper-homepage #featuredStories > .featured-card {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-}
-
-.newspaper-homepage #featuredStories .featured-main img {
-  display: block;
-  width: 100%;
-  height: 390px;
-  object-fit: cover;
-}
-
-.newspaper-homepage #featuredStories .featured-main .card-title {
-  width: 100%;
-  max-width: 100%;
-  font-size: clamp(28px, 2.7vw, 38px);
-  line-height: 1.16;
-  font-weight: 900;
-}
-
-/* =========================================
-   PALMCASEBLOG — BIGGER SUPPORTING HEADLINES
-   AND MOST VISITED STORIES
-========================================= */
-
-/* MORE HEADLINES */
-
-#supportingStories .supporting-story {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 16px 0;
-  border-bottom: 1px solid #e5e7eb;
-  width: 100%;
-}
-
-#supportingStories .supporting-image {
-  display: block;
-  width: 125px;
-  flex: 0 0 125px;
-}
-
-#supportingStories .supporting-image img {
-  display: block;
-  width: 125px;
-  height: 95px;
-  object-fit: cover;
-}
-
-#supportingStories .supporting-content {
-  flex: 1;
-  min-width: 0;
-}
-
-#supportingStories .supporting-content .category-tag {
-  display: inline-block;
-  font-size: 10px;
-  margin-bottom: 5px;
-}
-
-#supportingStories .supporting-content h3 {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 19px !important;
-  line-height: 1.3;
-  font-weight: 900 !important;
-  margin: 0;
-}
-
-#supportingStories .supporting-content h3 a {
-  color: #111827;
-}
-
-#supportingStories .supporting-content h3 a:hover {
-  color: #b45309;
-}
-
-#supportingStories .supporting-content .card-byline {
-  font-size: 11px;
-  margin-top: 7px;
-}
-
-#supportingStories .supporting-content .card-date {
-  font-size: 11px;
-  margin-top: 4px;
-}
-
-
-/* MOST VISITED */
-
-#popularPosts .popular-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  width: 100%;
-  padding: 13px 0;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-#popularPosts .popular-card-image-link {
-  display: block;
-  flex: 0 0 95px;
-  width: 95px;
-}
-
-#popularPosts .popular-card-image-link img {
-  display: block;
-  width: 95px;
-  height: 78px;
-  object-fit: cover;
-}
-
-#popularPosts .popular-card > div {
-  flex: 1;
-  min-width: 0;
-}
-
-#popularPosts .popular-card h4 {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 17px !important;
-  line-height: 1.35;
-  font-weight: 900 !important;
-  margin: 0;
-}
-
-#popularPosts .popular-card-title-link {
-  color: #111827;
-}
-
-#popularPosts .popular-card-title-link:hover {
-  color: #b45309;
-}
-
-#popularPosts .popular-card .card-byline {
-  display: block;
-  font-size: 10px;
-  margin-top: 7px;
-}
-
-#popularPosts .popular-card .card-date {
-  display: block;
-  font-size: 10px;
-  margin-top: 4px;
-}
-
-
-/* SMALL SCREEN ADJUSTMENTS */
-
-@media (max-width: 650px) {
-
-  #supportingStories .supporting-image,
-  #supportingStories .supporting-image img {
-    width: 115px;
-    flex-basis: 115px;
-  }
-
-  #supportingStories .supporting-image img {
-    height: 85px;
-  }
-
-  #supportingStories .supporting-content h3 {
-    font-size: 17px !important;
-  }
-
-  #popularPosts .popular-card-image-link {
-    flex-basis: 90px;
-    width: 90px;
-  }
-
-  #popularPosts .popular-card-image-link img {
-    width: 90px;
-    height: 75px;
-  }
-
-  #popularPosts .popular-card h4 {
-    font-size: 16px !important;
-  }
-}
-
-
-/* HOMEPAGE HERO SPACING CORRECTION */
-
-.newspaper-homepage .newspaper-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr) 310px;
-  align-items: start;
-  height: auto !important;
-  min-height: 0 !important;
-  margin-top: 20px;
-  margin-bottom: 12px !important;
-  gap: 22px;
-}
-
-.newspaper-homepage .hero-main-column,
-.newspaper-homepage .hero-middle-column,
-.newspaper-homepage .hero-sidebar-column {
-  height: auto !important;
-  min-height: 0 !important;
-}
-
-.newspaper-homepage .newspaper-latest-section {
-  margin-top: 12px !important;
-  padding-top: 0 !important;
-}
-
-.newspaper-homepage .newspaper-latest-section .section-heading {
-  margin-top: 15px !important;
-}
-
-.newspaper-homepage #homepageAdvertisementsMiddle:empty {
-  display: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.newspaper-homepage #homepageAdvertisementsMiddle:not(:empty) {
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-
 </style>
  </head>
 
@@ -2661,164 +1812,181 @@ nav a {
 ></section>
 
 
- 
-<main class="newspaper-homepage">
+  <main>
 
-  <!-- THREE-COLUMN NEWSPAPER HERO -->
-  <section class="newspaper-hero">
+    <!-- WELCOME -->
+    <section class="welcome">
 
-    <!-- LEFT: MAIN FEATURE STORY -->
-    <div class="hero-main-column">
+      <div class="welcome-content">
 
-      <div class="section-heading">
-        <h2>Top Stories</h2>
-        <a href="category.html?category=news">View all</a>
-      </div>
+        <small>
+          Welcome to Palmcaseblog
+        </small>
 
-      <section
-        id="featuredStories"
-        class="featured-grid"
-      >
-        <div class="loading">
-          Loading featured stories...
-        </div>
-      </section>
+        <h1>
+          Your daily source for news, entertainment and trending stories.
+        </h1>
 
-    </div>
+        <p>
+          Stay informed with the latest Nigerian and global stories across
+          news, entertainment, politics, sports, technology, lifestyle and more.
+        </p>
 
-    <!-- MIDDLE: SUPPORTING STORIES -->
-    <div class="hero-middle-column">
-
-      <div class="section-heading">
-        <h2>More Headlines</h2>
-      </div>
-
-      <section id="supportingStories">
-
-        <div class="loading">
-          Loading more headlines...
-        </div>
-
-      </section>
-
-    </div>
-
-    <!-- RIGHT: TRENDING AND ADVERTISEMENTS -->
-    <aside class="hero-sidebar-column">
-
-      <!-- TRENDING -->
-      <div class="sidebar-box">
-
-        <h3>Latest / Trending</h3>
-
-        <div id="trendingPosts">
-          <div class="loading">
-            Loading trending stories...
-          </div>
-        </div>
+        <a
+          href="#latest"
+          class="welcome-btn"
+        >
+          Explore Latest Stories
+        </a>
 
       </div>
 
-      <!-- MOST CLICKED -->
-      <div class="sidebar-box">
+    </section>
 
-        <h3>Most Visited</h3>
+    <!-- FEATURED -->
+    <div class="section-heading">
 
-        <div id="popularPosts">
-          <div class="loading">
-            Loading popular stories...
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SIDEBAR ADVERTISEMENT -->
-      <div
-        id="sidebarAdvertisements"
-        class="sidebar-box"
-        style="display:none;"
-      ></div>
-
-    </aside>
-
-  </section>
-
-  <!-- MIDDLE HOMEPAGE ADVERTISEMENT -->
-  <section
-    id="homepageAdvertisementsMiddle"
-    class="advertisement-section"
-    style="display:none;"
-  ></section>
-
-  <!-- LATEST STORIES -->
-  <section class="newspaper-latest-section">
-
-    <div
-      class="section-heading"
-      id="latest"
-    >
-      <h2>Latest Stories</h2>
+      <h2>
+        Featured Stories
+      </h2>
 
       <a href="category.html?category=news">
-        View More
+        View all
       </a>
+
     </div>
 
-    <div
-      id="latestPosts"
-      class="posts-grid"
+    <section
+      id="featuredStories"
+      class="featured-grid"
     >
+
       <div class="loading">
-        Loading latest stories...
+        Loading featured stories...
       </div>
+
+    </section>
+<!-- HOMEPAGE MIDDLE ADVERTISEMENT -->
+<section
+  id="homepageAdvertisementsMiddle"
+  class="advertisement-section"
+  style="display:none;"
+></section>
+    <!-- CONTENT -->
+    <div class="content-layout">
+
+      <section>
+
+        <div
+          class="section-heading"
+          id="latest"
+        >
+
+          <h2>
+            Latest Stories
+          </h2>
+
+          <a href="category.html?category=news">
+            More stories
+          </a>
+
+        </div>
+
+        <div
+          id="latestPosts"
+          class="posts-grid"
+        >
+
+          <div class="loading">
+            Loading latest stories...
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- SIDEBAR -->
+      <aside>
+
+        <div class="sidebar-box">
+
+          <h3>
+            Trending Now
+          </h3>
+
+          <div id="trendingPosts">
+
+            <div class="loading">
+              Loading trending stories...
+            </div>
+
+          </div>
+
+        </div>
+
+        
+<div class="sidebar-box">
+  <h3>Most Clicked</h3>
+
+  <div id="popularPosts">
+    <div class="loading">
+      Loading popular stories...
     </div>
+  </div>
+</div>
 
-  </section>
+<!-- SIDEBAR ADVERTISEMENT -->
+<div
+  id="sidebarAdvertisements"
+  class="sidebar-box"
+  style="display:none;"
+></div>
 
-  <!-- DYNAMIC CATEGORY SECTIONS -->
-  <div id="categorySections"></div>
 
-  <!-- BOTTOM HOMEPAGE ADVERTISEMENT -->
-  <section
-    id="homepageAdvertisementsBottom"
-    class="advertisement-section"
-    style="display:none;"
-  ></section>
+      </aside>
 
-  <!-- NEWSLETTER -->
-  <section class="newsletter">
+    </div>
+<!-- HOMEPAGE BOTTOM ADVERTISEMENT -->
+<section
+  id="homepageAdvertisementsBottom"
+  class="advertisement-section"
+  style="display:none;"
+></section>
+    <!-- NEWSLETTER -->
+    <section class="newsletter">
 
-    <h2>Stay Connected With Palmcaseblog</h2>
+      <h2>
+        Stay Connected With Palmcaseblog
+      </h2>
 
-    <p>
-      Subscribe to receive the latest stories, breaking news and trending
-      updates directly from Palmcaseblog.
-    </p>
+      <p>
+        Subscribe to receive the latest stories, breaking news and trending
+        updates directly from Palmcaseblog.
+      </p>
 
-    <form
-      class="newsletter-form"
-      id="newsletterForm"
-    >
-
-      <input
-        type="email"
-        id="newsletterEmail"
-        placeholder="Enter your email address"
-        required
+      <form
+        class="newsletter-form"
+        id="newsletterForm"
       >
 
-      <button type="submit">
-        Subscribe
-      </button>
+        <input
+          type="email"
+          id="newsletterEmail"
+          placeholder="Enter your email address"
+          required
+        >
 
-    </form>
+        <button type="submit">
+          Subscribe
+        </button>
 
-    <div id="newsletterMessage"></div>
+      </form>
 
-  </section>
+      <div id="newsletterMessage"></div>
 
-</main>
+    </section>
 
+  </main>
 
   <!-- FOOTER -->
   <footer>
@@ -4526,20 +3694,15 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
 /* =========================
    POSTS
 ========================= */
-
 function getHomepagePostGroups() {
+  // The three newest published articles.
+  const featured = allPosts.slice(0, 3);
 
-  // One main lead story.
-  const featured = allPosts.slice(0, 1);
+  // Five different articles for Trending Now.
+  const trending = allPosts.slice(3, 8);
 
-  // Four supporting headlines.
-  const supporting = allPosts.slice(1, 5);
-
-  // Five separate stories for Latest / Trending.
-  const trending = allPosts.slice(5, 10);
-
-  // Select Most Visited from articles not already used.
-  const remaining = allPosts.slice(10);
+  // Select Most Clicked from articles not already used.
+  const remaining = allPosts.slice(8);
 
   const popular = [...remaining]
     .sort(
@@ -4549,28 +3712,24 @@ function getHomepagePostGroups() {
     )
     .slice(0, 5);
 
-  // Reserve articles already used in the top homepage areas.
+  // Reserve articles already displayed in other sections.
   const reservedIds = new Set(
-    [...featured, ...supporting, ...trending, ...popular]
+    [...featured, ...trending, ...popular]
       .map(post => String(post.id))
   );
 
-  // Remaining published articles appear in Latest Stories.
+  // Every other published article appears in Latest Stories.
   const latest = allPosts.filter(
     post => !reservedIds.has(String(post.id))
   );
 
   return {
     featured,
-    supporting,
     trending,
     popular,
     latest
   };
 }
-
-
-// LOAD PUBLISHED ARTICLES
 async function loadPosts() {
 
   try {
@@ -4589,7 +3748,10 @@ async function loadPosts() {
 
     if (error) {
 
-      console.error("Posts error:", error);
+      console.error(
+        "Posts error:",
+        error
+      );
 
       showDatabaseError(
         "Unable to load stories right now."
@@ -4598,14 +3760,13 @@ async function loadPosts() {
       return;
     }
 
-    allPosts = data || [];
+    allPosts =
+      data || [];
 
     renderFeatured();
-    renderSupporting();
     renderLatest();
     renderTrending();
     renderPopular();
-    renderCategorySections();
     renderBreaking();
 
   } catch (error) {
@@ -4621,379 +3782,24 @@ async function loadPosts() {
 }
 
 
-// MAIN FEATURE STORY
+   
 function renderFeatured() {
-
-  const container =
-    document.getElementById("featuredStories");
+  const container = document.getElementById("featuredStories");
 
   if (!container) return;
 
-  const posts =
-    getHomepagePostGroups().featured;
+  const posts = getHomepagePostGroups().featured;
 
   if (!posts.length) {
-
     container.innerHTML =
       '<div class="empty">No stories have been published yet.</div>';
-
-    return;
-  }
-
-  const post = posts[0];
-
-  const image = post.image || "IMG_2188.jpeg";
-  const title = escapeHTML(
-    post.headline || "Untitled story"
-  );
-
-  const category = escapeHTML(
-    post.category || "News"
-  );
-
-  const publisher = escapeHTML(
-    post.publisher_name || "Egwu John Uchenna"
-  );
-
-  const articleUrl =
-    `article.html?id=${encodeURIComponent(post.id)}`;
-
-  container.innerHTML = `
-
-    <article class="featured-card featured-main">
-
-      <a
-        href="${articleUrl}"
-        class="featured-article-link"
-      >
-
-        <img
-          src="${escapeAttribute(image)}"
-          alt="${escapeAttribute(title)}"
-          onerror="this.src='IMG_2188.jpeg'"
-        >
-
-      </a>
-
-      <div class="card-content">
-
-        <span class="category-tag">
-          ${category}
-        </span>
-
-        <h2 class="card-title">
-
-          <a href="${articleUrl}">
-            ${title}
-          </a>
-
-        </h2>
-
-        <div class="card-byline">
-          By
-          <a href="author.html" class="author-link">
-            ${publisher}
-          </a>
-        </div>
-
-        <div class="card-date">
-          ${formatDate(post.created_at)}
-        </div>
-
-      </div>
-
-    </article>
-
-  `;
-}
-
-
-// FOUR SUPPORTING HEADLINES
-function renderSupporting() {
-
-  const container =
-    document.getElementById("supportingStories");
-
-  if (!container) return;
-
-  const posts =
-    getHomepagePostGroups().supporting;
-
-  if (!posts.length) {
-
-    container.innerHTML =
-      '<div class="empty">More headlines will appear here.</div>';
-
-    return;
-  }
-
-  container.innerHTML = posts.map(post => {
-
-    const image = post.image || "IMG_2188.jpeg";
-
-    const title = escapeHTML(
-      post.headline || "Untitled story"
-    );
-
-    const category = escapeHTML(
-      post.category || "News"
-    );
-
-    const publisher = escapeHTML(
-      post.publisher_name || "Egwu John Uchenna"
-    );
-
-    const articleUrl =
-      `article.html?id=${encodeURIComponent(post.id)}`;
-
-    return `
-
-      <article class="supporting-story">
-
-        <a href="${articleUrl}" class="supporting-image">
-
-          <img
-            src="${escapeAttribute(image)}"
-            alt="${escapeAttribute(title)}"
-            onerror="this.src='IMG_2188.jpeg'"
-          >
-
-        </a>
-
-        <div class="supporting-content">
-
-          <span class="category-tag">
-            ${category}
-          </span>
-
-          <h3>
-            <a href="${articleUrl}">
-              ${title}
-            </a>
-          </h3>
-
-          <div class="card-byline">
-            By
-            <a href="author.html" class="author-link">
-              ${publisher}
-            </a>
-          </div>
-
-          <div class="card-date">
-            ${formatDate(post.created_at)}
-          </div>
-
-        </div>
-
-      </article>
-
-    `;
-
-  }).join("");
-
-}
-
-
-// LATEST STORIES
-function renderLatest() {
-
-  const container =
-    document.getElementById("latestPosts");
-
-  if (!container) return;
-
-  const posts =
-    getHomepagePostGroups().latest;
-
-  if (!posts.length) {
-
-    container.innerHTML =
-      '<div class="empty">No more stories available.</div>';
-
-    return;
-  }
-
-  container.innerHTML = posts.map(post => {
-
-    const image = post.image || "IMG_2188.jpeg";
-
-    const title = escapeHTML(
-      post.headline || "Untitled story"
-    );
-
-    const category = escapeHTML(
-      post.category || "News"
-    );
-
-    const excerpt = escapeHTML(
-      (post.article || "")
-        .replace(/<[^>]*>/g, "")
-        .slice(0, 140)
-    );
-
-    const publisher = escapeHTML(
-      post.publisher_name || "Egwu John Uchenna"
-    );
-
-    const articleUrl =
-      `article.html?id=${encodeURIComponent(post.id)}`;
-
-    return `
-
-      <article class="post-card">
-
-        <a href="${articleUrl}">
-
-          <img
-            src="${escapeAttribute(image)}"
-            alt="${escapeAttribute(title)}"
-            onerror="this.src='IMG_2188.jpeg'"
-          >
-
-        </a>
-
-        <div class="card-content">
-
-          <a
-            href="${articleUrl}"
-            class="post-card-article-link"
-          >
-
-            <span class="category-tag">
-              ${category}
-            </span>
-
-            <h3 class="card-title">
-              ${title}
-            </h3>
-
-            <p class="post-excerpt">
-              ${excerpt}${excerpt ? "..." : ""}
-            </p>
-
-            <span class="read-more">
-              Read story →
-            </span>
-
-          </a>
-
-          <span class="card-byline">
-            By
-            <a href="author.html" class="author-link">
-              ${publisher}
-            </a>
-          </span>
-
-          <div class="card-date">
-            ${formatDate(post.created_at)}
-          </div>
-
-        </div>
-
-      </article>
-
-    `;
-
-  }).join("");
-
-}
-
-
-// NUMBERED LATEST / TRENDING STORIES
-function renderTrending() {
-
-  const container =
-    document.getElementById("trendingPosts");
-
-  if (!container) return;
-
-  const posts =
-    getHomepagePostGroups().trending;
-
-  if (!posts.length) {
-
-    container.innerHTML =
-      '<div class="empty">No trending stories yet.</div>';
-
     return;
   }
 
   container.innerHTML = posts.map((post, index) => {
-
     const image = post.image || "IMG_2188.jpeg";
-
-    const title = escapeHTML(
-      post.headline || "Untitled story"
-    );
-
-    const articleUrl =
-      `article.html?id=${encodeURIComponent(post.id)}`;
-
-    return `
-
-      <article class="trending-item">
-
-        <span class="trending-number">
-          ${index + 1}
-        </span>
-
-        <a
-          href="${articleUrl}"
-          class="trending-image"
-        >
-
-          <img
-            src="${escapeAttribute(image)}"
-            alt="${escapeAttribute(title)}"
-            onerror="this.src='IMG_2188.jpeg'"
-          >
-
-        </a>
-
-        <h4>
-
-          <a href="${articleUrl}">
-            ${title}
-          </a>
-
-        </h4>
-
-      </article>
-
-    `;
-
-  }).join("");
-
-}
-
-
-// MOST VISITED STORIES
-function renderPopular() {
-
-  const container =
-    document.getElementById("popularPosts");
-
-  if (!container) return;
-
-  const posts =
-    getHomepagePostGroups().popular;
-
-  if (!posts.length) {
-
-    container.innerHTML =
-      '<div class="empty">No popular stories yet.</div>';
-
-    return;
-  }
-
-  container.innerHTML = posts.map(post => {
-
-    const image = post.image || "IMG_2188.jpeg";
-
-    const title = escapeHTML(
-      post.headline || "Untitled story"
-    );
-
+    const title = escapeHTML(post.headline || "Untitled story");
+    const category = escapeHTML(post.category || "News");
     const publisher = escapeHTML(
       post.publisher_name || "Egwu John Uchenna"
     );
@@ -5002,264 +3808,158 @@ function renderPopular() {
       `article.html?id=${encodeURIComponent(post.id)}`;
 
     return `
+      <article class="featured-card ${index === 0 ? "featured-main" : ""}">
 
-      <article class="popular-card">
-
-        <a
-          href="${articleUrl}"
-          class="popular-card-image-link"
-        >
-
+        <a href="${articleUrl}" class="featured-article-link">
           <img
             src="${escapeAttribute(image)}"
             alt="${escapeAttribute(title)}"
             onerror="this.src='IMG_2188.jpeg'"
           >
 
+          <div class="card-content">
+            <span class="category-tag">${category}</span>
+            <div class="card-title">${title}</div>
+          </div>
+        </a>
+
+        <div class="card-content">
+          <span class="card-byline">
+            By <a href="author.html" class="author-link">${publisher}</a>
+          </span>
+
+          <div class="card-date">
+            ${formatDate(post.created_at)}
+          </div>
+        </div>
+
+      </article>
+    `;
+  }).join("");
+}
+
+
+    
+function renderLatest() {
+  const container = document.getElementById("latestPosts");
+
+  if (!container) return;
+
+  const posts = getHomepagePostGroups().latest;
+
+  if (!posts.length) {
+    container.innerHTML =
+      '<div class="empty">No more stories available.</div>';
+    return;
+  }
+
+  container.innerHTML = posts.map(post => {
+    const image = post.image || "IMG_2188.jpeg";
+    const title = escapeHTML(post.headline || "Untitled story");
+    const category = escapeHTML(post.category || "News");
+    const excerpt = escapeHTML(
+      (post.article || "").replace(/<[^>]*>/g, "").slice(0, 140)
+    );
+    const publisher = escapeHTML(
+      post.publisher_name || "Egwu John Uchenna"
+    );
+
+    const articleUrl =
+      `article.html?id=${encodeURIComponent(post.id)}`;
+
+    return `
+      <article class="post-card">
+
+        <a href="${articleUrl}">
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(title)}"
+            onerror="this.src='IMG_2188.jpeg'"
+          >
+        </a>
+
+        <div class="card-content">
+
+          <a href="${articleUrl}" class="post-card-article-link">
+            <span class="category-tag">${category}</span>
+            <div class="card-title">${title}</div>
+            <p class="post-excerpt">${excerpt}...</p>
+            <span class="read-more">Read story →</span>
+          </a>
+
+          <span class="card-byline">
+            By <a href="author.html" class="author-link">${publisher}</a>
+          </span>
+
+          <div class="card-date">
+            ${formatDate(post.created_at)}
+          </div>
+
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+
+    
+function renderTrending() {
+  const container = document.getElementById("trendingPosts");
+
+  if (!container) return;
+
+  const posts = getHomepagePostGroups().trending;
+
+  if (!posts.length) {
+    container.innerHTML =
+      '<div class="empty">No trending stories yet.</div>';
+    return;
+  }
+
+  container.innerHTML = posts.map(post => {
+    const image = post.image || "IMG_2188.jpeg";
+    const title = escapeHTML(post.headline || "Untitled story");
+    const publisher = escapeHTML(
+      post.publisher_name || "Egwu John Uchenna"
+    );
+
+    const articleUrl =
+      `article.html?id=${encodeURIComponent(post.id)}`;
+
+    return `
+      <article class="popular-card">
+
+        <a href="${articleUrl}" class="popular-card-image-link">
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(title)}"
+            onerror="this.src='IMG_2188.jpeg'"
+          >
         </a>
 
         <div>
-
           <h4>
-
-            <a
-              href="${articleUrl}"
-              class="popular-card-title-link"
-            >
+            <a href="${articleUrl}" class="popular-card-title-link">
               ${title}
             </a>
-
           </h4>
 
           <small class="card-byline">
-            By
-            <a href="author.html" class="author-link">
-              ${publisher}
-            </a>
+            By <a href="author.html" class="author-link">${publisher}</a>
           </small>
 
           <small class="card-date">
             ${formatDate(post.created_at)}
           </small>
-
         </div>
 
       </article>
-
     `;
-
   }).join("");
-
 }
 
-
-// CATEGORY SECTIONS
-function renderCategorySections() {
-
-  const container =
-    document.getElementById("categorySections");
-
-  if (!container) return;
-
-  const categories = [
-
-    {
-      title: "Inside Nigeria",
-      slug: "news",
-      names: ["news", "nation", "nigeria"]
-    },
-
-    {
-      title: "Business",
-      slug: "business",
-      names: ["business"]
-    },
-
-    {
-      title: "Fact Check",
-      slug: "fact-check",
-      names: ["fact check", "fact-check", "factcheck"]
-    },
-
-    {
-      title: "Crime & Justice",
-      slug: "crime",
-      names: ["crime", "justice"]
-    },
-
-    {
-      title: "Politics & Policy",
-      slug: "politics",
-      names: ["politics", "policy"]
-    },
-
-    {
-      title: "Hot Celebs",
-      slug: "entertainment",
-      names: ["entertainment", "celebrity", "celebrities", "music", "movies"]
-    },
-
-    {
-      title: "Life & Living",
-      slug: "lifestyle",
-      names: ["lifestyle", "relationship"]
-    },
-
-    {
-      title: "World",
-      slug: "world",
-      names: ["world", "international"]
-    },
-
-    {
-      title: "Sports",
-      slug: "sports",
-      names: ["sports", "sport"]
-    },
-
-    {
-      title: "Technology",
-      slug: "technology",
-      names: ["technology", "tech"]
-    },
-
-    {
-      title: "Viewpoint",
-      slug: "viewpoint",
-      names: ["viewpoint", "opinion", "editorial"]
-    }
-
-  ];
-
-  container.innerHTML = categories.map(section => {
-
-    const matchingPosts = allPosts
-      .filter(post => {
-
-        const category = String(
-          post.category || ""
-        ).trim().toLowerCase();
-
-        return section.names.includes(category);
-
-      })
-      .slice(0, 3);
-
-    // Do not display empty category sections.
-    if (!matchingPosts.length) return "";
-
-    const cards = matchingPosts.map(post => {
-
-      const image = post.image || "IMG_2188.jpeg";
-
-      const title = escapeHTML(
-        post.headline || "Untitled story"
-      );
-
-      const category = escapeHTML(
-        post.category || section.title
-      );
-
-      const excerpt = escapeHTML(
-        (post.article || "")
-          .replace(/<[^>]*>/g, "")
-          .slice(0, 115)
-      );
-
-      const publisher = escapeHTML(
-        post.publisher_name || "Egwu John Uchenna"
-      );
-
-      const articleUrl =
-        `article.html?id=${encodeURIComponent(post.id)}`;
-
-      return `
-
-        <article class="post-card category-post-card">
-
-          <a href="${articleUrl}">
-
-            <img
-              src="${escapeAttribute(image)}"
-              alt="${escapeAttribute(title)}"
-              onerror="this.src='IMG_2188.jpeg'"
-            >
-
-          </a>
-
-          <div class="card-content">
-
-            <span class="category-tag">
-              ${category}
-            </span>
-
-            <h3 class="card-title">
-
-              <a href="${articleUrl}">
-                ${title}
-              </a>
-
-            </h3>
-
-            <p class="post-excerpt">
-              ${excerpt}${excerpt ? "..." : ""}
-            </p>
-
-            <div class="card-byline">
-              By
-              <a href="author.html" class="author-link">
-                ${publisher}
-              </a>
-            </div>
-
-            <div class="card-date">
-              ${formatDate(post.created_at)}
-            </div>
-
-          </div>
-
-        </article>
-
-      `;
-
-    }).join("");
-
-    return `
-
-      <section class="newspaper-category-section">
-
-        <div class="section-heading">
-
-          <h2>
-            ${section.title}
-          </h2>
-
-          <a href="category.html?category=${encodeURIComponent(section.slug)}">
-            View More
-          </a>
-
-        </div>
-
-        <div class="posts-grid category-posts-grid">
-
-          ${cards}
-
-        </div>
-
-      </section>
-
-    `;
-
-  }).join("");
-
-}
-
-
-// BREAKING NEWS HEADLINES
 function renderBreaking() {
-
-  const container =
-    document.getElementById("breakingText");
+  const container = document.getElementById("breakingText");
 
   if (!container) return;
 
@@ -5271,9 +3971,63 @@ function renderBreaking() {
   container.textContent = headlines.length
     ? headlines.join(" • ")
     : "No breaking stories available yet.";
-
 }
+    
 
+function renderPopular() {
+  const container = document.getElementById("popularPosts");
+
+  if (!container) return;
+
+  const posts = getHomepagePostGroups().popular;
+
+  if (!posts.length) {
+    container.innerHTML =
+      '<div class="empty">No popular stories yet.</div>';
+    return;
+  }
+
+  container.innerHTML = posts.map(post => {
+    const image = post.image || "IMG_2188.jpeg";
+    const title = escapeHTML(post.headline || "Untitled story");
+    const publisher = escapeHTML(
+      post.publisher_name || "Egwu John Uchenna"
+    );
+
+    const articleUrl =
+      `article.html?id=${encodeURIComponent(post.id)}`;
+
+    return `
+      <article class="popular-card">
+
+        <a href="${articleUrl}" class="popular-card-image-link">
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(title)}"
+            onerror="this.src='IMG_2188.jpeg'"
+          >
+        </a>
+
+        <div>
+          <h4>
+            <a href="${articleUrl}" class="popular-card-title-link">
+              ${title}
+            </a>
+          </h4>
+
+          <small class="card-byline">
+            By <a href="author.html" class="author-link">${publisher}</a>
+          </small>
+
+          <small class="card-date">
+            ${formatDate(post.created_at)}
+          </small>
+        </div>
+
+      </article>
+    `;
+  }).join("");
+}
 
 
 
