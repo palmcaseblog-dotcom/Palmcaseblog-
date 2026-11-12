@@ -2235,6 +2235,69 @@ nav a {
 .author-link:hover {
   text-decoration: underline;
 }
+
+/* MORE HEADLINES — REMOVE DUPLICATE LABEL */
+.hero-middle-column::before {
+  content: none !important;
+}
+
+/* MAKE SUPPORTING HEADLINES PROMINENT */
+#supportingStories {
+  gap: 0;
+}
+
+#supportingStories .supporting-card,
+#supportingStories .supporting-story {
+  padding: 17px 0;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+#supportingStories img {
+  width: 145px;
+  height: 105px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+#supportingStories h3,
+#supportingStories h4,
+#supportingStories .card-title {
+  font-size: 18px !important;
+  line-height: 1.35;
+  font-weight: 900 !important;
+  color: #111827;
+}
+
+/* GIVE THE LEAD STORY MORE WIDTH */
+@media (min-width: 1051px) {
+  .newspaper-hero {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr) 280px !important;
+    gap: 18px;
+  }
+}
+
+.newspaper-homepage .featured-main .card-title {
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1.16;
+  letter-spacing: -0.7px;
+  max-width: 100%;
+}
+
+@media (max-width: 650px) {
+  #supportingStories img {
+    width: 125px;
+    height: 90px;
+  }
+
+  #supportingStories h3,
+  #supportingStories h4,
+  #supportingStories .card-title {
+    font-size: 16px !important;
+  }
+}
+
 </style>
  </head>
 
