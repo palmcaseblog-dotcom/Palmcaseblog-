@@ -2485,13 +2485,18 @@ nav a {
   }
 }
 
-/* REDUCE EXCESS SPACE AFTER THE NEWSPAPER HERO */
+
+/* HOMEPAGE HERO SPACING CORRECTION */
 
 .newspaper-homepage .newspaper-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr) 310px;
+  align-items: start;
   height: auto !important;
   min-height: 0 !important;
-  align-items: start !important;
+  margin-top: 20px;
   margin-bottom: 12px !important;
+  gap: 22px;
 }
 
 .newspaper-homepage .hero-main-column,
@@ -2501,15 +2506,26 @@ nav a {
   min-height: 0 !important;
 }
 
-.newspaper-homepage .hero-main-column,
-.newspaper-homepage #featuredStories,
-.newspaper-homepage #featuredStories .featured-card {
-  margin-bottom: 0 !important;
+.newspaper-homepage .newspaper-latest-section {
+  margin-top: 12px !important;
+  padding-top: 0 !important;
 }
 
-.newspaper-homepage .content-layout {
-  margin-top: 12px !important;
+.newspaper-homepage .newspaper-latest-section .section-heading {
+  margin-top: 15px !important;
 }
+
+.newspaper-homepage #homepageAdvertisementsMiddle:empty {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.newspaper-homepage #homepageAdvertisementsMiddle:not(:empty) {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
 
 </style>
  </head>
