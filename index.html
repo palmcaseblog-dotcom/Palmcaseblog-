@@ -3677,15 +3677,20 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
 /* =========================
    POSTS
 ========================= */
+
 function getHomepagePostGroups() {
-  // The three newest published articles.
-  const featured = allPosts.slice(0, 3);
 
-  // Five different articles for Trending Now.
-  const trending = allPosts.slice(3, 8);
+  // One main lead story.
+  const featured = allPosts.slice(0, 1);
 
-  // Select Most Clicked from articles not already used.
-  const remaining = allPosts.slice(8);
+  // Four supporting headlines.
+  const supporting = allPosts.slice(1, 5);
+
+  // Five separate stories for Latest / Trending.
+  const trending = allPosts.slice(5, 10);
+
+  // Select Most Visited from articles not already used.
+  const remaining = allPosts.slice(10);
 
   const popular = [...remaining]
     .sort(
@@ -3695,24 +3700,28 @@ function getHomepagePostGroups() {
     )
     .slice(0, 5);
 
-  // Reserve articles already displayed in other sections.
+  // Reserve articles already used in the top homepage areas.
   const reservedIds = new Set(
-    [...featured, ...trending, ...popular]
+    [...featured, ...supporting, ...trending, ...popular]
       .map(post => String(post.id))
   );
 
-  // Every other published article appears in Latest Stories.
+  // Remaining published articles appear in Latest Stories.
   const latest = allPosts.filter(
     post => !reservedIds.has(String(post.id))
   );
 
   return {
     featured,
+    supporting,
     trending,
     popular,
     latest
   };
 }
+
+
+// LOAD PUBLISHED ARTICLES
 async function loadPosts() {
 
   try {
@@ -3731,10 +3740,7 @@ async function loadPosts() {
 
     if (error) {
 
-      console.error(
-        "Posts error:",
-        error
-      );
+      console.error("Posts error:", error);
 
       showDatabaseError(
         "Unable to load stories right now."
@@ -3743,13 +3749,14 @@ async function loadPosts() {
       return;
     }
 
-    allPosts =
-      data || [];
+    allPosts = data || [];
 
     renderFeatured();
+    renderSupporting();
     renderLatest();
     renderTrending();
     renderPopular();
+    renderCategorySections();
     renderBreaking();
 
   } catch (error) {
@@ -3765,143 +3772,379 @@ async function loadPosts() {
 }
 
 
-   
+// MAIN FEATURE STORY
 function renderFeatured() {
-  const container = document.getElementById("featuredStories");
+
+  const container =
+    document.getElementById("featuredStories");
 
   if (!container) return;
 
-  const posts = getHomepagePostGroups().featured;
+  const posts =
+    getHomepagePostGroups().featured;
 
   if (!posts.length) {
+
     container.innerHTML =
       '<div class="empty">No stories have been published yet.</div>';
+
+    return;
+  }
+
+  const post = posts[0];
+
+  const image = post.image || "IMG_2188.jpeg";
+  const title = escapeHTML(
+    post.headline || "Untitled story"
+  );
+
+  const category = escapeHTML(
+    post.category || "News"
+  );
+
+  const publisher = escapeHTML(
+    post.publisher_name || "Egwu John Uchenna"
+  );
+
+  const articleUrl =
+    `article.html?id=${encodeURIComponent(post.id)}`;
+
+  container.innerHTML = `
+
+    <article class="featured-card featured-main">
+
+      <a
+        href="${articleUrl}"
+        class="featured-article-link"
+      >
+
+        <img
+          src="${escapeAttribute(image)}"
+          alt="${escapeAttribute(title)}"
+          onerror="this.src='IMG_2188.jpeg'"
+        >
+
+      </a>
+
+      <div class="card-content">
+
+        <span class="category-tag">
+          ${category}
+        </span>
+
+        <h2 class="card-title">
+
+          <a href="${articleUrl}">
+            ${title}
+          </a>
+
+        </h2>
+
+        <div class="card-byline">
+          By
+          <a href="author.html" class="author-link">
+            ${publisher}
+          </a>
+        </div>
+
+        <div class="card-date">
+          ${formatDate(post.created_at)}
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+}
+
+
+// FOUR SUPPORTING HEADLINES
+function renderSupporting() {
+
+  const container =
+    document.getElementById("supportingStories");
+
+  if (!container) return;
+
+  const posts =
+    getHomepagePostGroups().supporting;
+
+  if (!posts.length) {
+
+    container.innerHTML =
+      '<div class="empty">More headlines will appear here.</div>';
+
+    return;
+  }
+
+  container.innerHTML = posts.map(post => {
+
+    const image = post.image || "IMG_2188.jpeg";
+
+    const title = escapeHTML(
+      post.headline || "Untitled story"
+    );
+
+    const category = escapeHTML(
+      post.category || "News"
+    );
+
+    const publisher = escapeHTML(
+      post.publisher_name || "Egwu John Uchenna"
+    );
+
+    const articleUrl =
+      `article.html?id=${encodeURIComponent(post.id)}`;
+
+    return `
+
+      <article class="supporting-story">
+
+        <a href="${articleUrl}" class="supporting-image">
+
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(title)}"
+            onerror="this.src='IMG_2188.jpeg'"
+          >
+
+        </a>
+
+        <div class="supporting-content">
+
+          <span class="category-tag">
+            ${category}
+          </span>
+
+          <h3>
+            <a href="${articleUrl}">
+              ${title}
+            </a>
+          </h3>
+
+          <div class="card-byline">
+            By
+            <a href="author.html" class="author-link">
+              ${publisher}
+            </a>
+          </div>
+
+          <div class="card-date">
+            ${formatDate(post.created_at)}
+          </div>
+
+        </div>
+
+      </article>
+
+    `;
+
+  }).join("");
+
+}
+
+
+// LATEST STORIES
+function renderLatest() {
+
+  const container =
+    document.getElementById("latestPosts");
+
+  if (!container) return;
+
+  const posts =
+    getHomepagePostGroups().latest;
+
+  if (!posts.length) {
+
+    container.innerHTML =
+      '<div class="empty">No more stories available.</div>';
+
+    return;
+  }
+
+  container.innerHTML = posts.map(post => {
+
+    const image = post.image || "IMG_2188.jpeg";
+
+    const title = escapeHTML(
+      post.headline || "Untitled story"
+    );
+
+    const category = escapeHTML(
+      post.category || "News"
+    );
+
+    const excerpt = escapeHTML(
+      (post.article || "")
+        .replace(/<[^>]*>/g, "")
+        .slice(0, 140)
+    );
+
+    const publisher = escapeHTML(
+      post.publisher_name || "Egwu John Uchenna"
+    );
+
+    const articleUrl =
+      `article.html?id=${encodeURIComponent(post.id)}`;
+
+    return `
+
+      <article class="post-card">
+
+        <a href="${articleUrl}">
+
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(title)}"
+            onerror="this.src='IMG_2188.jpeg'"
+          >
+
+        </a>
+
+        <div class="card-content">
+
+          <a
+            href="${articleUrl}"
+            class="post-card-article-link"
+          >
+
+            <span class="category-tag">
+              ${category}
+            </span>
+
+            <h3 class="card-title">
+              ${title}
+            </h3>
+
+            <p class="post-excerpt">
+              ${excerpt}${excerpt ? "..." : ""}
+            </p>
+
+            <span class="read-more">
+              Read story →
+            </span>
+
+          </a>
+
+          <span class="card-byline">
+            By
+            <a href="author.html" class="author-link">
+              ${publisher}
+            </a>
+          </span>
+
+          <div class="card-date">
+            ${formatDate(post.created_at)}
+          </div>
+
+        </div>
+
+      </article>
+
+    `;
+
+  }).join("");
+
+}
+
+
+// NUMBERED LATEST / TRENDING STORIES
+function renderTrending() {
+
+  const container =
+    document.getElementById("trendingPosts");
+
+  if (!container) return;
+
+  const posts =
+    getHomepagePostGroups().trending;
+
+  if (!posts.length) {
+
+    container.innerHTML =
+      '<div class="empty">No trending stories yet.</div>';
+
     return;
   }
 
   container.innerHTML = posts.map((post, index) => {
+
     const image = post.image || "IMG_2188.jpeg";
-    const title = escapeHTML(post.headline || "Untitled story");
-    const category = escapeHTML(post.category || "News");
-    const publisher = escapeHTML(
-      post.publisher_name || "Egwu John Uchenna"
+
+    const title = escapeHTML(
+      post.headline || "Untitled story"
     );
 
     const articleUrl =
       `article.html?id=${encodeURIComponent(post.id)}`;
 
     return `
-      <article class="featured-card ${index === 0 ? "featured-main" : ""}">
 
-        <a href="${articleUrl}" class="featured-article-link">
+      <article class="trending-item">
+
+        <span class="trending-number">
+          ${index + 1}
+        </span>
+
+        <a
+          href="${articleUrl}"
+          class="trending-image"
+        >
+
           <img
             src="${escapeAttribute(image)}"
             alt="${escapeAttribute(title)}"
             onerror="this.src='IMG_2188.jpeg'"
           >
 
-          <div class="card-content">
-            <span class="category-tag">${category}</span>
-            <div class="card-title">${title}</div>
-          </div>
         </a>
 
-        <div class="card-content">
-          <span class="card-byline">
-            By <a href="author.html" class="author-link">${publisher}</a>
-          </span>
+        <h4>
 
-          <div class="card-date">
-            ${formatDate(post.created_at)}
-          </div>
-        </div>
-
-      </article>
-    `;
-  }).join("");
-}
-
-
-    
-function renderLatest() {
-  const container = document.getElementById("latestPosts");
-
-  if (!container) return;
-
-  const posts = getHomepagePostGroups().latest;
-
-  if (!posts.length) {
-    container.innerHTML =
-      '<div class="empty">No more stories available.</div>';
-    return;
-  }
-
-  container.innerHTML = posts.map(post => {
-    const image = post.image || "IMG_2188.jpeg";
-    const title = escapeHTML(post.headline || "Untitled story");
-    const category = escapeHTML(post.category || "News");
-    const excerpt = escapeHTML(
-      (post.article || "").replace(/<[^>]*>/g, "").slice(0, 140)
-    );
-    const publisher = escapeHTML(
-      post.publisher_name || "Egwu John Uchenna"
-    );
-
-    const articleUrl =
-      `article.html?id=${encodeURIComponent(post.id)}`;
-
-    return `
-      <article class="post-card">
-
-        <a href="${articleUrl}">
-          <img
-            src="${escapeAttribute(image)}"
-            alt="${escapeAttribute(title)}"
-            onerror="this.src='IMG_2188.jpeg'"
-          >
-        </a>
-
-        <div class="card-content">
-
-          <a href="${articleUrl}" class="post-card-article-link">
-            <span class="category-tag">${category}</span>
-            <div class="card-title">${title}</div>
-            <p class="post-excerpt">${excerpt}...</p>
-            <span class="read-more">Read story →</span>
+          <a href="${articleUrl}">
+            ${title}
           </a>
 
-          <span class="card-byline">
-            By <a href="author.html" class="author-link">${publisher}</a>
-          </span>
+        </h4>
 
-          <div class="card-date">
-            ${formatDate(post.created_at)}
-          </div>
-
-        </div>
       </article>
+
     `;
+
   }).join("");
+
 }
 
 
-    
-function renderTrending() {
-  const container = document.getElementById("trendingPosts");
+// MOST VISITED STORIES
+function renderPopular() {
+
+  const container =
+    document.getElementById("popularPosts");
 
   if (!container) return;
 
-  const posts = getHomepagePostGroups().trending;
+  const posts =
+    getHomepagePostGroups().popular;
 
   if (!posts.length) {
+
     container.innerHTML =
-      '<div class="empty">No trending stories yet.</div>';
+      '<div class="empty">No popular stories yet.</div>';
+
     return;
   }
 
   container.innerHTML = posts.map(post => {
+
     const image = post.image || "IMG_2188.jpeg";
-    const title = escapeHTML(post.headline || "Untitled story");
+
+    const title = escapeHTML(
+      post.headline || "Untitled story"
+    );
+
     const publisher = escapeHTML(
       post.publisher_name || "Egwu John Uchenna"
     );
@@ -3910,39 +4153,264 @@ function renderTrending() {
       `article.html?id=${encodeURIComponent(post.id)}`;
 
     return `
+
       <article class="popular-card">
 
-        <a href="${articleUrl}" class="popular-card-image-link">
+        <a
+          href="${articleUrl}"
+          class="popular-card-image-link"
+        >
+
           <img
             src="${escapeAttribute(image)}"
             alt="${escapeAttribute(title)}"
             onerror="this.src='IMG_2188.jpeg'"
           >
+
         </a>
 
         <div>
+
           <h4>
-            <a href="${articleUrl}" class="popular-card-title-link">
+
+            <a
+              href="${articleUrl}"
+              class="popular-card-title-link"
+            >
               ${title}
             </a>
+
           </h4>
 
           <small class="card-byline">
-            By <a href="author.html" class="author-link">${publisher}</a>
+            By
+            <a href="author.html" class="author-link">
+              ${publisher}
+            </a>
           </small>
 
           <small class="card-date">
             ${formatDate(post.created_at)}
           </small>
+
         </div>
 
       </article>
+
     `;
+
   }).join("");
+
 }
 
+
+// CATEGORY SECTIONS
+function renderCategorySections() {
+
+  const container =
+    document.getElementById("categorySections");
+
+  if (!container) return;
+
+  const categories = [
+
+    {
+      title: "Inside Nigeria",
+      slug: "news",
+      names: ["news", "nation", "nigeria"]
+    },
+
+    {
+      title: "Business",
+      slug: "business",
+      names: ["business"]
+    },
+
+    {
+      title: "Fact Check",
+      slug: "fact-check",
+      names: ["fact check", "fact-check", "factcheck"]
+    },
+
+    {
+      title: "Crime & Justice",
+      slug: "crime",
+      names: ["crime", "justice"]
+    },
+
+    {
+      title: "Politics & Policy",
+      slug: "politics",
+      names: ["politics", "policy"]
+    },
+
+    {
+      title: "Hot Celebs",
+      slug: "entertainment",
+      names: ["entertainment", "celebrity", "celebrities", "music", "movies"]
+    },
+
+    {
+      title: "Life & Living",
+      slug: "lifestyle",
+      names: ["lifestyle", "relationship"]
+    },
+
+    {
+      title: "World",
+      slug: "world",
+      names: ["world", "international"]
+    },
+
+    {
+      title: "Sports",
+      slug: "sports",
+      names: ["sports", "sport"]
+    },
+
+    {
+      title: "Technology",
+      slug: "technology",
+      names: ["technology", "tech"]
+    },
+
+    {
+      title: "Viewpoint",
+      slug: "viewpoint",
+      names: ["viewpoint", "opinion", "editorial"]
+    }
+
+  ];
+
+  container.innerHTML = categories.map(section => {
+
+    const matchingPosts = allPosts
+      .filter(post => {
+
+        const category = String(
+          post.category || ""
+        ).trim().toLowerCase();
+
+        return section.names.includes(category);
+
+      })
+      .slice(0, 3);
+
+    // Do not display empty category sections.
+    if (!matchingPosts.length) return "";
+
+    const cards = matchingPosts.map(post => {
+
+      const image = post.image || "IMG_2188.jpeg";
+
+      const title = escapeHTML(
+        post.headline || "Untitled story"
+      );
+
+      const category = escapeHTML(
+        post.category || section.title
+      );
+
+      const excerpt = escapeHTML(
+        (post.article || "")
+          .replace(/<[^>]*>/g, "")
+          .slice(0, 115)
+      );
+
+      const publisher = escapeHTML(
+        post.publisher_name || "Egwu John Uchenna"
+      );
+
+      const articleUrl =
+        `article.html?id=${encodeURIComponent(post.id)}`;
+
+      return `
+
+        <article class="post-card category-post-card">
+
+          <a href="${articleUrl}">
+
+            <img
+              src="${escapeAttribute(image)}"
+              alt="${escapeAttribute(title)}"
+              onerror="this.src='IMG_2188.jpeg'"
+            >
+
+          </a>
+
+          <div class="card-content">
+
+            <span class="category-tag">
+              ${category}
+            </span>
+
+            <h3 class="card-title">
+
+              <a href="${articleUrl}">
+                ${title}
+              </a>
+
+            </h3>
+
+            <p class="post-excerpt">
+              ${excerpt}${excerpt ? "..." : ""}
+            </p>
+
+            <div class="card-byline">
+              By
+              <a href="author.html" class="author-link">
+                ${publisher}
+              </a>
+            </div>
+
+            <div class="card-date">
+              ${formatDate(post.created_at)}
+            </div>
+
+          </div>
+
+        </article>
+
+      `;
+
+    }).join("");
+
+    return `
+
+      <section class="newspaper-category-section">
+
+        <div class="section-heading">
+
+          <h2>
+            ${section.title}
+          </h2>
+
+          <a href="category.html?category=${encodeURIComponent(section.slug)}">
+            View More
+          </a>
+
+        </div>
+
+        <div class="posts-grid category-posts-grid">
+
+          ${cards}
+
+        </div>
+
+      </section>
+
+    `;
+
+  }).join("");
+
+}
+
+
+// BREAKING NEWS HEADLINES
 function renderBreaking() {
-  const container = document.getElementById("breakingText");
+
+  const container =
+    document.getElementById("breakingText");
 
   if (!container) return;
 
@@ -3954,63 +4422,9 @@ function renderBreaking() {
   container.textContent = headlines.length
     ? headlines.join(" • ")
     : "No breaking stories available yet.";
+
 }
-    
 
-function renderPopular() {
-  const container = document.getElementById("popularPosts");
-
-  if (!container) return;
-
-  const posts = getHomepagePostGroups().popular;
-
-  if (!posts.length) {
-    container.innerHTML =
-      '<div class="empty">No popular stories yet.</div>';
-    return;
-  }
-
-  container.innerHTML = posts.map(post => {
-    const image = post.image || "IMG_2188.jpeg";
-    const title = escapeHTML(post.headline || "Untitled story");
-    const publisher = escapeHTML(
-      post.publisher_name || "Egwu John Uchenna"
-    );
-
-    const articleUrl =
-      `article.html?id=${encodeURIComponent(post.id)}`;
-
-    return `
-      <article class="popular-card">
-
-        <a href="${articleUrl}" class="popular-card-image-link">
-          <img
-            src="${escapeAttribute(image)}"
-            alt="${escapeAttribute(title)}"
-            onerror="this.src='IMG_2188.jpeg'"
-          >
-        </a>
-
-        <div>
-          <h4>
-            <a href="${articleUrl}" class="popular-card-title-link">
-              ${title}
-            </a>
-          </h4>
-
-          <small class="card-byline">
-            By <a href="author.html" class="author-link">${publisher}</a>
-          </small>
-
-          <small class="card-date">
-            ${formatDate(post.created_at)}
-          </small>
-        </div>
-
-      </article>
-    `;
-  }).join("");
-}
 
 
 
