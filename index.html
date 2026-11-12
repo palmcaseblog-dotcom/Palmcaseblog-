@@ -2298,6 +2298,35 @@ nav a {
   }
 }
 
+/* FIX: MAKE THE MAIN LEAD STORY USE THE FULL COLUMN WIDTH */
+
+.newspaper-homepage #featuredStories {
+  display: block !important;
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.newspaper-homepage #featuredStories > .featured-card {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+.newspaper-homepage #featuredStories .featured-main img {
+  display: block;
+  width: 100%;
+  height: 390px;
+  object-fit: cover;
+}
+
+.newspaper-homepage #featuredStories .featured-main .card-title {
+  width: 100%;
+  max-width: 100%;
+  font-size: clamp(28px, 2.7vw, 38px);
+  line-height: 1.16;
+  font-weight: 900;
+}
+
 </style>
  </head>
 
