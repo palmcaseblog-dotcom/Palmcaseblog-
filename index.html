@@ -2327,6 +2327,164 @@ nav a {
   font-weight: 900;
 }
 
+/* =========================================
+   PALMCASEBLOG — BIGGER SUPPORTING HEADLINES
+   AND MOST VISITED STORIES
+========================================= */
+
+/* MORE HEADLINES */
+
+#supportingStories .supporting-story {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+  width: 100%;
+}
+
+#supportingStories .supporting-image {
+  display: block;
+  width: 125px;
+  flex: 0 0 125px;
+}
+
+#supportingStories .supporting-image img {
+  display: block;
+  width: 125px;
+  height: 95px;
+  object-fit: cover;
+}
+
+#supportingStories .supporting-content {
+  flex: 1;
+  min-width: 0;
+}
+
+#supportingStories .supporting-content .category-tag {
+  display: inline-block;
+  font-size: 10px;
+  margin-bottom: 5px;
+}
+
+#supportingStories .supporting-content h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 19px !important;
+  line-height: 1.3;
+  font-weight: 900 !important;
+  margin: 0;
+}
+
+#supportingStories .supporting-content h3 a {
+  color: #111827;
+}
+
+#supportingStories .supporting-content h3 a:hover {
+  color: #b45309;
+}
+
+#supportingStories .supporting-content .card-byline {
+  font-size: 11px;
+  margin-top: 7px;
+}
+
+#supportingStories .supporting-content .card-date {
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+
+/* MOST VISITED */
+
+#popularPosts .popular-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+#popularPosts .popular-card-image-link {
+  display: block;
+  flex: 0 0 95px;
+  width: 95px;
+}
+
+#popularPosts .popular-card-image-link img {
+  display: block;
+  width: 95px;
+  height: 78px;
+  object-fit: cover;
+}
+
+#popularPosts .popular-card > div {
+  flex: 1;
+  min-width: 0;
+}
+
+#popularPosts .popular-card h4 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px !important;
+  line-height: 1.35;
+  font-weight: 900 !important;
+  margin: 0;
+}
+
+#popularPosts .popular-card-title-link {
+  color: #111827;
+}
+
+#popularPosts .popular-card-title-link:hover {
+  color: #b45309;
+}
+
+#popularPosts .popular-card .card-byline {
+  display: block;
+  font-size: 10px;
+  margin-top: 7px;
+}
+
+#popularPosts .popular-card .card-date {
+  display: block;
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+
+/* SMALL SCREEN ADJUSTMENTS */
+
+@media (max-width: 650px) {
+
+  #supportingStories .supporting-image,
+  #supportingStories .supporting-image img {
+    width: 115px;
+    flex-basis: 115px;
+  }
+
+  #supportingStories .supporting-image img {
+    height: 85px;
+  }
+
+  #supportingStories .supporting-content h3 {
+    font-size: 17px !important;
+  }
+
+  #popularPosts .popular-card-image-link {
+    flex-basis: 90px;
+    width: 90px;
+  }
+
+  #popularPosts .popular-card-image-link img {
+    width: 90px;
+    height: 75px;
+  }
+
+  #popularPosts .popular-card h4 {
+    font-size: 16px !important;
+  }
+}
+
 </style>
  </head>
 
