@@ -1812,181 +1812,164 @@ nav a {
 ></section>
 
 
-  <main>
+ 
+<main class="newspaper-homepage">
 
-    <!-- WELCOME -->
-    <section class="welcome">
+  <!-- THREE-COLUMN NEWSPAPER HERO -->
+  <section class="newspaper-hero">
 
-      <div class="welcome-content">
+    <!-- LEFT: MAIN FEATURE STORY -->
+    <div class="hero-main-column">
 
-        <small>
-          Welcome to Palmcaseblog
-        </small>
-
-        <h1>
-          Your daily source for news, entertainment and trending stories.
-        </h1>
-
-        <p>
-          Stay informed with the latest Nigerian and global stories across
-          news, entertainment, politics, sports, technology, lifestyle and more.
-        </p>
-
-        <a
-          href="#latest"
-          class="welcome-btn"
-        >
-          Explore Latest Stories
-        </a>
-
+      <div class="section-heading">
+        <h2>Top Stories</h2>
+        <a href="category.html?category=news">View all</a>
       </div>
 
-    </section>
-
-    <!-- FEATURED -->
-    <div class="section-heading">
-
-      <h2>
-        Featured Stories
-      </h2>
-
-      <a href="category.html?category=news">
-        View all
-      </a>
+      <section
+        id="featuredStories"
+        class="featured-grid"
+      >
+        <div class="loading">
+          Loading featured stories...
+        </div>
+      </section>
 
     </div>
 
-    <section
-      id="featuredStories"
-      class="featured-grid"
-    >
+    <!-- MIDDLE: SUPPORTING STORIES -->
+    <div class="hero-middle-column">
 
-      <div class="loading">
-        Loading featured stories...
+      <div class="section-heading">
+        <h2>More Headlines</h2>
       </div>
 
-    </section>
-<!-- HOMEPAGE MIDDLE ADVERTISEMENT -->
-<section
-  id="homepageAdvertisementsMiddle"
-  class="advertisement-section"
-  style="display:none;"
-></section>
-    <!-- CONTENT -->
-    <div class="content-layout">
+      <section id="supportingStories">
 
-      <section>
-
-        <div
-          class="section-heading"
-          id="latest"
-        >
-
-          <h2>
-            Latest Stories
-          </h2>
-
-          <a href="category.html?category=news">
-            More stories
-          </a>
-
-        </div>
-
-        <div
-          id="latestPosts"
-          class="posts-grid"
-        >
-
-          <div class="loading">
-            Loading latest stories...
-          </div>
-
+        <div class="loading">
+          Loading more headlines...
         </div>
 
       </section>
 
-      <!-- SIDEBAR -->
-      <aside>
+    </div>
 
-        <div class="sidebar-box">
+    <!-- RIGHT: TRENDING AND ADVERTISEMENTS -->
+    <aside class="hero-sidebar-column">
 
-          <h3>
-            Trending Now
-          </h3>
+      <!-- TRENDING -->
+      <div class="sidebar-box">
 
-          <div id="trendingPosts">
+        <h3>Latest / Trending</h3>
 
-            <div class="loading">
-              Loading trending stories...
-            </div>
-
+        <div id="trendingPosts">
+          <div class="loading">
+            Loading trending stories...
           </div>
-
         </div>
 
-        
-<div class="sidebar-box">
-  <h3>Most Clicked</h3>
+      </div>
 
-  <div id="popularPosts">
-    <div class="loading">
-      Loading popular stories...
+      <!-- MOST CLICKED -->
+      <div class="sidebar-box">
+
+        <h3>Most Visited</h3>
+
+        <div id="popularPosts">
+          <div class="loading">
+            Loading popular stories...
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDEBAR ADVERTISEMENT -->
+      <div
+        id="sidebarAdvertisements"
+        class="sidebar-box"
+        style="display:none;"
+      ></div>
+
+    </aside>
+
+  </section>
+
+  <!-- MIDDLE HOMEPAGE ADVERTISEMENT -->
+  <section
+    id="homepageAdvertisementsMiddle"
+    class="advertisement-section"
+    style="display:none;"
+  ></section>
+
+  <!-- LATEST STORIES -->
+  <section class="newspaper-latest-section">
+
+    <div
+      class="section-heading"
+      id="latest"
+    >
+      <h2>Latest Stories</h2>
+
+      <a href="category.html?category=news">
+        View More
+      </a>
     </div>
-  </div>
-</div>
 
-<!-- SIDEBAR ADVERTISEMENT -->
-<div
-  id="sidebarAdvertisements"
-  class="sidebar-box"
-  style="display:none;"
-></div>
-
-
-      </aside>
-
+    <div
+      id="latestPosts"
+      class="posts-grid"
+    >
+      <div class="loading">
+        Loading latest stories...
+      </div>
     </div>
-<!-- HOMEPAGE BOTTOM ADVERTISEMENT -->
-<section
-  id="homepageAdvertisementsBottom"
-  class="advertisement-section"
-  style="display:none;"
-></section>
-    <!-- NEWSLETTER -->
-    <section class="newsletter">
 
-      <h2>
-        Stay Connected With Palmcaseblog
-      </h2>
+  </section>
 
-      <p>
-        Subscribe to receive the latest stories, breaking news and trending
-        updates directly from Palmcaseblog.
-      </p>
+  <!-- DYNAMIC CATEGORY SECTIONS -->
+  <div id="categorySections"></div>
 
-      <form
-        class="newsletter-form"
-        id="newsletterForm"
+  <!-- BOTTOM HOMEPAGE ADVERTISEMENT -->
+  <section
+    id="homepageAdvertisementsBottom"
+    class="advertisement-section"
+    style="display:none;"
+  ></section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+
+    <h2>Stay Connected With Palmcaseblog</h2>
+
+    <p>
+      Subscribe to receive the latest stories, breaking news and trending
+      updates directly from Palmcaseblog.
+    </p>
+
+    <form
+      class="newsletter-form"
+      id="newsletterForm"
+    >
+
+      <input
+        type="email"
+        id="newsletterEmail"
+        placeholder="Enter your email address"
+        required
       >
 
-        <input
-          type="email"
-          id="newsletterEmail"
-          placeholder="Enter your email address"
-          required
-        >
+      <button type="submit">
+        Subscribe
+      </button>
 
-        <button type="submit">
-          Subscribe
-        </button>
+    </form>
 
-      </form>
+    <div id="newsletterMessage"></div>
 
-      <div id="newsletterMessage"></div>
+  </section>
 
-    </section>
+</main>
 
-  </main>
 
   <!-- FOOTER -->
   <footer>
