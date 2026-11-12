@@ -2131,6 +2131,86 @@ nav a {
   }
 }
 
+/* PALMCASEBLOG HOMEPAGE SPACING AND HEADLINE FIX */
+
+/* Give the lead story more room */
+@media (min-width: 1051px) {
+  .newspaper-hero {
+    grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.15fr) 290px;
+    gap: 16px;
+    align-items: start;
+  }
+}
+
+/* Keep the main headline large and readable */
+.newspaper-homepage .featured-main .card-title {
+  font-size: clamp(27px, 2.4vw, 36px);
+  line-height: 1.18;
+  max-width: 100%;
+}
+
+/* Make the lead image fill its column */
+.newspaper-homepage .featured-main img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+}
+
+/* Make More Headlines larger */
+.hero-middle-column {
+  padding-left: 17px;
+  padding-right: 17px;
+}
+
+#supportingStories .supporting-card,
+#supportingStories .supporting-story {
+  gap: 13px;
+  padding: 15px 0;
+}
+
+#supportingStories img {
+  width: 125px;
+  height: 90px;
+  object-fit: cover;
+}
+
+#supportingStories h3,
+#supportingStories h4,
+#supportingStories .card-title {
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 900;
+}
+
+/* Reduce unnecessary space before Latest Stories */
+.newspaper-homepage .content-layout {
+  margin-top: 8px;
+}
+
+.newspaper-homepage #latest {
+  margin-top: 15px;
+}
+
+/* Do not change Trending or Most Clicked */
+
+/* Mobile adjustments */
+@media (max-width: 650px) {
+  .newspaper-homepage .featured-main img {
+    height: 250px;
+  }
+
+  #supportingStories img {
+    width: 115px;
+    height: 85px;
+  }
+
+  #supportingStories h3,
+  #supportingStories h4,
+  #supportingStories .card-title {
+    font-size: 15px;
+  }
+}
+
   </style>
 <style>
   .card-byline {
