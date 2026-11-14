@@ -4055,10 +4055,16 @@ async function loadPosts() {
       data || [];
 
     renderFeatured();
-    renderLatest();
-    renderTrending();
-    renderPopular();
-    renderBreaking();
+
+renderSponsoredArticles();
+
+renderLatest();
+
+renderTrending();
+
+renderPopular();
+
+renderBreaking();
 
   } catch (error) {
 
