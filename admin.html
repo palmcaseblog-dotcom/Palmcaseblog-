@@ -953,10 +953,12 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
       return;
     }
 
-    const { error } = await db
-      .from("posts")
-      .update({ status: "published" })
-      .eq("id", id);
+   .update({
+  status: "published",
+  is_sponsored:
+    post.category === "sponsored" ||
+    Boolean(post.is_sponsored)
+}) 
 
     if (error) {
       showMessage(
