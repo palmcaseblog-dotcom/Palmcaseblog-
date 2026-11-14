@@ -3969,15 +3969,29 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
 /* =========================
    POSTS
 ========================= */
+
 function getHomepagePostGroups() {
-  // The three newest published articles.
-  const featured = allPosts.slice(0, 3);
 
-  // Five different articles for Trending Now.
-  const trending = allPosts.slice(3, 8);
+  // Keep sponsored editorial stories separate.
+  const sponsored = allPosts.filter(post =>
+    post.is_sponsored === true ||
+    post.category === "sponsored"
+  );
 
-  // Select Most Clicked from articles not already used.
-  const remaining = allPosts.slice(8);
+  // Ordinary published articles.
+  const normalPosts = allPosts.filter(post =>
+    post.is_sponsored !== true &&
+    post.category !== "sponsored"
+  );
+
+  // Three featured articles.
+  const featured = normalPosts.slice(0, 3);
+
+  // Eight trending articles.
+  const trending = normalPosts.slice(3, 11);
+
+  // Remaining articles are candidates for Most Clicked.
+  const remaining = normalPosts.slice(11);
 
   const popular = [...remaining]
     .sort(
@@ -3985,16 +3999,15 @@ function getHomepagePostGroups() {
         (Number(b.views) || 0) -
         (Number(a.views) || 0)
     )
-    .slice(0, 5);
+    .slice(0, 8);
 
-  // Reserve articles already displayed in other sections.
+  // Prevent articles from appearing repeatedly.
   const reservedIds = new Set(
     [...featured, ...trending, ...popular]
       .map(post => String(post.id))
   );
 
-  // Every other published article appears in Latest Stories.
-  const latest = allPosts.filter(
+  const latest = normalPosts.filter(
     post => !reservedIds.has(String(post.id))
   );
 
@@ -4002,9 +4015,12 @@ function getHomepagePostGroups() {
     featured,
     trending,
     popular,
-    latest
+    latest,
+    sponsored
   };
+
 }
+
 async function loadPosts() {
 
   try {
