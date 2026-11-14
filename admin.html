@@ -641,6 +641,7 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
     clearMessage("globalMessage");
 
     if (page === "articles" || page === "drafts") loadPosts();
+   if (page === "sponsored") loadSponsoredArticles(); 
     if (page === "businesses") loadBusinesses();
     if (page === "ads") loadAds();
     if (page === "home") refreshHome();
