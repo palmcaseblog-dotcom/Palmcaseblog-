@@ -993,7 +993,195 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
         </div>`).join("")
       : '<div class="empty">No articles have been published yet.</div>';
   }
+// SPONSORED ARTICLES MANAGEMENT
 
+async function loadSponsoredArticles() {
+  $("sponsoredList").innerHTML =
+    '<div class="loading">Loading published articles…</div>';
+
+  const { data, error } = await db
+    .from("posts")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    $("sponsoredList").innerHTML = "";
+
+    showMessage(
+      "globalMessage",
+      "Could not load sponsored articles: " + friendlyError(error),
+      "error-msg"
+    );
+    return;
+  }
+
+  postsCache = data || [];
+  renderSponsoredArticles();
+}
+
+function renderSponsoredArticles() {
+  const search = $("sponsoredSearch").value.trim().toLowerCase();
+
+  const published = postsCache.filter(post =>
+    (post.status || "published") === "published"
+  );
+
+  const filtered = published.filter(post =>
+    String(post.headline || "").toLowerCase().includes(search) ||
+    String(post.category || "").toLowerCase().includes(search)
+  );
+
+  const sponsoredCount = published.filter(
+    post => Boolean(post.is_sponsored)
+  ).length;
+
+  if (!filtered.length) {
+    $("sponsoredList").innerHTML =
+      '<div class="empty">No published articles found.</div>';
+    return;
+  }
+
+  $("sponsoredList").innerHTML = `
+    <div class="message info-msg">
+      ${sponsoredCount} article(s) currently selected for sponsorship.
+    </div>
+
+    ${filtered.map(post => {
+      const id = escapeHTML(post.id);
+      const title = escapeHTML(post.headline || "Untitled");
+      const category = escapeHTML(post.category || "Uncategorised");
+      const image = safeURL(post.image);
+      const sponsored = Boolean(post.is_sponsored);
+
+      const date = post.created_at
+        ? new Date(post.created_at).toLocaleDateString()
+        : "Date unavailable";
+
+      return `
+        <article class="item">
+          <div class="row-between">
+            <div class="item-title">${title}</div>
+
+            <span class="badge ${sponsored ? "active" : ""}">
+              ${sponsored ? "Sponsored" : "Not sponsored"}
+            </span>
+          </div>
+
+          <div class="item-meta">
+            Original category: ${category}<br>
+            Published: ${escapeHTML(date)}
+          </div>
+
+          ${image ? `
+            <img
+              class="preview"
+              src="${escapeHTML(image)}"
+              alt=""
+              loading="lazy"
+            >
+          ` : ""}
+
+          <div class="actions">
+            <button
+              class="${sponsored ? "danger" : "success"}"
+              data-toggle-sponsored="${id}"
+              data-sponsored="${sponsored ? "true" : "false"}"
+            >
+              ${sponsored ? "Remove from Sponsored" : "Add to Sponsored"}
+            </button>
+
+            <a
+              class="secondary"
+              style="display:inline-block;padding:10px 13px;border-radius:7px;text-decoration:none"
+              href="article.html?id=${encodeURIComponent(post.id)}"
+              target="_blank"
+              rel="noopener"
+            >View article</a>
+
+            <button
+              class="secondary"
+              data-edit-sponsored="${id}"
+            >Edit article</button>
+          </div>
+        </article>
+      `;
+    }).join("")}
+  `;
+
+  $("sponsoredList")
+    .querySelectorAll("[data-toggle-sponsored]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        toggleSponsoredArticle(
+          button.dataset.toggleSponsored,
+          button.dataset.sponsored === "true"
+        );
+      });
+    });
+
+  $("sponsoredList")
+    .querySelectorAll("[data-edit-sponsored]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        editPost(button.dataset.editSponsored);
+      });
+    });
+}
+
+async function toggleSponsoredArticle(id, currentlySponsored) {
+  const post = postsCache.find(
+    item => String(item.id) === String(id)
+  );
+
+  if (!post) return;
+
+  const newValue = !currentlySponsored;
+
+  const action = newValue
+    ? "add this article to"
+    : "remove this article from";
+
+  if (!confirm(
+    `Are you sure you want to ${action} Sponsored Articles?\n\n${post.headline || "Untitled"}`
+  )) {
+    return;
+  }
+
+  const { error } = await db
+    .from("posts")
+    .update({ is_sponsored: newValue })
+    .eq("id", id);
+
+  if (error) {
+    showMessage(
+      "globalMessage",
+      "Could not update sponsored article: " + friendlyError(error),
+      "error-msg"
+    );
+    return;
+  }
+
+  showMessage(
+    "globalMessage",
+    newValue
+      ? "Article added to Sponsored Articles successfully."
+      : "Article removed from Sponsored Articles successfully.",
+    "success-msg"
+  );
+
+  await loadSponsoredArticles();
+  await refreshHome();
+}
+
+$("sponsoredSearch").addEventListener(
+  "input",
+  renderSponsoredArticles
+);
+
+$("reloadSponsoredButton").addEventListener(
+  "click",
+  loadSponsoredArticles
+);
   $("articleSearch").addEventListener("input", renderPosts);
 
   // ARTICLE IMAGE PREVIEW
