@@ -375,7 +375,44 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
         <div id="articleList" class="loading">Loading articles…</div>
       </div>
     </section>
+<!-- SPONSORED ARTICLES -->
+<section id="page-sponsored" class="page">
+  <div class="row-between">
+    <div>
+      <h1>Sponsored Articles</h1>
+      <p class="page-intro">
+        Select existing published articles to feature as sponsored stories.
+        You can also publish new sponsored articles from the Publish Article page.
+      </p>
+    </div>
+    <button class="primary" data-go="publish">+ New sponsored article</button>
+  </div>
 
+  <div class="panel">
+    <div class="field">
+      <label for="sponsoredSearch">Search published articles</label>
+      <input
+        id="sponsoredSearch"
+        type="search"
+        placeholder="Search by headline or category"
+      >
+    </div>
+
+    <div class="row-between">
+      <div class="muted small">
+        Add or remove articles from the Sponsored Articles section.
+        Their original categories will remain unchanged.
+      </div>
+      <button id="reloadSponsoredButton" class="secondary">
+        Refresh articles
+      </button>
+    </div>
+
+    <div id="sponsoredList" class="loading">
+      Loading sponsored articles…
+    </div>
+  </div>
+</section>
     <!-- DRAFT ARTICLES -->
     <section id="page-drafts" class="page">
       <div class="row-between">
