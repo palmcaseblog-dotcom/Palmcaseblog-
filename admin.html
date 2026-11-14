@@ -1354,8 +1354,15 @@ $("articleText").value = post.article || "";
         video_url: $("videoUrl").value.trim() || null,
         credit: $("credit").value.trim() || null,
         source_url: $("sourceUrl").value.trim() || null,
-        status: status
-      };
+        status: status,
+is_sponsored:
+  $("category").value === "sponsored" ||
+  Boolean(
+    postsCache.find(
+      post => String(post.id) === String(id)
+    )?.is_sponsored
+  )
+};
 
       if (!record.headline || !record.article) {
         throw new Error("Please enter a headline and full article before saving.");
