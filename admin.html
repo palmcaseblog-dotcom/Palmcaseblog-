@@ -942,37 +942,49 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
     });
   }
 
-  async function publishDraft(id) {
-    const post = postsCache.find(item => String(item.id) === String(id));
-    if (!post) return;
+  
+async function publishDraft(id) {
+  const post = postsCache.find(
+    item => String(item.id) === String(id)
+  );
 
-    if (!confirm(
-      `Publish this article now?\n\n${post.headline || "Untitled draft"}`
-    )) {
-      return;
-    }
+  if (!post) return;
 
-   .update({
-  status: "published",
-  is_sponsored:
-    post.category === "sponsored" ||
-    Boolean(post.is_sponsored)
-}) 
-
-    if (error) {
-      showMessage(
-        "globalMessage",
-        "Could not publish draft: " + friendlyError(error),
-        "error-msg"
-      );
-      return;
-    }
-
-    showMessage("globalMessage", "Article published successfully.", "success-msg");
-
-    await refreshHome();
-    await loadPosts();
+  if (!confirm(
+    `Publish this article now?\n\n${post.headline || "Untitled draft"}`
+  )) {
+    return;
   }
+
+  const { error } = await db
+    .from("posts")
+    .update({
+      status: "published",
+      is_sponsored:
+        post.category === "sponsored" ||
+        Boolean(post.is_sponsored)
+    })
+    .eq("id", id);
+
+  if (error) {
+    showMessage(
+      "globalMessage",
+      "Could not publish draft: " + friendlyError(error),
+      "error-msg"
+    );
+    return;
+  }
+
+  showMessage(
+    "globalMessage",
+    "Article published successfully.",
+    "success-msg"
+  );
+
+  await refreshHome();
+  await loadPosts();
+}
+
 
   // HOMEPAGE LATEST ARTICLES
 
