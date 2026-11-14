@@ -4321,6 +4321,105 @@ function renderPopular() {
 }
 
 
+/* ==========================================
+   SPONSORED EDITORIAL ARTICLES
+========================================== */
+
+function renderSponsoredArticles() {
+
+  const section =
+    document.getElementById("sponsoredArticles");
+
+  const container =
+    document.getElementById("sponsoredPosts");
+
+  if (!section || !container) return;
+
+  const posts =
+    getHomepagePostGroups().sponsored;
+
+  if (!posts.length) {
+    section.style.display = "none";
+    container.innerHTML = "";
+    return;
+  }
+
+  section.style.display = "block";
+
+  container.innerHTML = posts.map(post => {
+
+    const image =
+      post.image || "IMG_2188.jpeg";
+
+    const title =
+      escapeHTML(post.headline || "Untitled story");
+
+    const category =
+      escapeHTML(post.category || "Partner Content");
+
+    const publisher =
+      escapeHTML(
+        post.publisher_name || "Egwu John Uchenna"
+      );
+
+    const articleUrl =
+      `article.html?id=${encodeURIComponent(post.id)}`;
+
+    return `
+      <article class="post-card sponsored-article-card">
+
+        <a href="${articleUrl}">
+
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(title)}"
+            onerror="this.src='IMG_2188.jpeg'"
+          >
+
+        </a>
+
+        <span class="sponsored-article-label">
+          Sponsored Article
+        </span>
+
+        <div class="card-content">
+
+          <a href="${articleUrl}">
+
+            <span class="category-tag">
+              ${category}
+            </span>
+
+            <div class="card-title">
+              ${title}
+            </div>
+
+            <span class="read-more">
+              Read full article →
+            </span>
+
+          </a>
+
+        </div>
+
+        <span class="card-byline">
+          By <a
+            href="author.html"
+            class="author-link"
+          >${publisher}</a>
+        </span>
+
+        <div class="card-date">
+          ${formatDate(post.created_at)}
+        </div>
+
+      </article>
+    `;
+
+  }).join("");
+
+}
+
 
     /* =========================
        SEARCH
