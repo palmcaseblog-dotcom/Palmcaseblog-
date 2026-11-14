@@ -403,10 +403,14 @@
     padding-right: 28px;
   }
 
-  .advertisement-body {
-    grid-template-columns: minmax(320px, 42%) 1fr;
-  }
+.advertisement-body {
+  grid-template-columns: 1fr;
+}
 
+.advertisement-body > * {
+  width: 100%;
+  min-width: 0;
+}
   .advertisement-image {
     height: 280px;
   }
