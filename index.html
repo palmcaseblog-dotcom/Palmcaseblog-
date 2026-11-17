@@ -4008,7 +4008,21 @@ if (/^[a-zA-Z0-9_-]{11}$/.test(id)) {
 /* =========================
    POSTS
 ========================= */
+/* ==========================================
+   PALMCASEBLOG ARTICLE URL HELPER
+========================================== */
 
+function getArticleUrl(post) {
+  const id = encodeURIComponent(post.id);
+
+  // New articles use their static HTML pages.
+  if (post.static_page_generated === true) {
+    return `articles/${id}.html`;
+  }
+
+  // Older articles keep their existing working URLs.
+  return `article.html?id=${id}`;
+}
 function getHomepagePostGroups() {
 
   // Keep sponsored editorial stories separate.
