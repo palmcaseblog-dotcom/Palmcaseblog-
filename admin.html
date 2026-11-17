@@ -943,6 +943,7 @@ hr {border:0;border-top:1px solid var(--line);margin:20px 0}
   }
 
   
+
 async function publishDraft(id) {
   const post = postsCache.find(
     item => String(item.id) === String(id)
@@ -975,15 +976,46 @@ async function publishDraft(id) {
     return;
   }
 
-  showMessage(
-    "globalMessage",
-    "Article published successfully.",
-    "success-msg"
-  );
+  // Generate the static article page after publication.
+  let staticWarning = "";
+
+  try {
+    const { data, error: staticError } =
+      await db.functions.invoke(
+        "publish-static-article",
+        {
+          body: { id: id }
+        }
+      );
+
+    if (staticError) throw staticError;
+
+    if (!data?.success) {
+      throw new Error(
+        data?.error || "Static page generation failed."
+      );
+    }
+
+  } catch (error) {
+    console.error(
+      "DRAFT STATIC PAGE GENERATION ERROR:",
+      error
+    );
+
+    staticWarning =
+      " The article is published, but its static page could not be generated. It can be retried later.";
+  }
 
   await refreshHome();
   await loadPosts();
+
+  showMessage(
+    "globalMessage",
+    "Article published successfully." + staticWarning,
+    staticWarning ? "error-msg" : "success-msg"
+  );
 }
+
 
 
   // HOMEPAGE LATEST ARTICLES
