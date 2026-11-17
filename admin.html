@@ -1354,6 +1354,7 @@ $("articleText").value = post.article || "";
   // SAVE ARTICLE OR SAVE DRAFT
 
   
+
 async function saveArticle(status) {
   const button = status === "draft"
     ? $("saveDraftButton")
@@ -1361,6 +1362,8 @@ async function saveArticle(status) {
 
   const id = $("articleId").value;
   const wasEditing = Boolean(id);
+  const originalButtonText = button.textContent;
+
   let staticWarning = "";
 
   setBusy(
@@ -1372,6 +1375,7 @@ async function saveArticle(status) {
   clearMessage("articleMessage");
 
   try {
+    // 1. Upload selected article images.
     const files = Array.from($("articleImage").files || []);
 
     let imageUrls = [...currentArticleImages];
@@ -1386,9 +1390,12 @@ async function saveArticle(status) {
 
     const image = imageUrls[0] || currentArticleImage || null;
 
+    // 2. Prepare the article record.
     const record = {
       headline: $("headline").value.trim(),
+
       category: $("category").value,
+
       description: $("description").value.trim(),
 
       publisher_name:
@@ -1398,11 +1405,17 @@ async function saveArticle(status) {
         $("imageCaption").value.trim() || null,
 
       image: image,
+
       images: imageUrls,
+
       article: $("articleText").value.trim(),
+
       video_url: $("videoUrl").value.trim() || null,
+
       credit: $("credit").value.trim() || null,
+
       source_url: $("sourceUrl").value.trim() || null,
+
       status: status,
 
       is_sponsored:
@@ -1414,32 +1427,34 @@ async function saveArticle(status) {
         )
     };
 
+    // 3. Validate required fields.
     if (!record.headline || !record.article) {
       throw new Error(
         "Please enter a headline and full article before saving."
       );
     }
 
+    // 4. Save a new article or update an existing one.
     let savedPostId = id;
 
     if (id) {
-      const result = await db
+      const { error } = await db
         .from("posts")
         .update(record)
         .eq("id", id);
 
-      if (result.error) throw result.error;
+      if (error) throw error;
 
     } else {
-      const result = await db
+      const { data, error } = await db
         .from("posts")
         .insert(record)
         .select("id")
         .single();
 
-      if (result.error) throw result.error;
+      if (error) throw error;
 
-      savedPostId = result.data?.id;
+      savedPostId = data?.id;
 
       if (!savedPostId) {
         throw new Error(
@@ -1448,8 +1463,8 @@ async function saveArticle(status) {
       }
     }
 
-    // Generate or update the static page only after
-    // a successful publication. Drafts are excluded.
+    // 5. Generate the static HTML page after publication.
+    // Drafts must not generate static article pages.
     if (status === "published") {
       try {
         const { data, error } =
@@ -1466,9 +1481,14 @@ async function saveArticle(status) {
 
         if (!data?.success) {
           throw new Error(
-            data?.error || "Static page generation was unsuccessful."
+            data?.error || "Static page generation failed."
           );
         }
+
+        console.log(
+          "Static article page generated successfully:",
+          data.url || savedPostId
+        );
 
       } catch (error) {
         console.error(
@@ -1477,15 +1497,26 @@ async function saveArticle(status) {
         );
 
         staticWarning =
-          " Your article is published in Supabase, but its static page could not be generated. You can retry static generation later.";
+          " WARNING: Your article was saved and published in Supabase, but its static HTML page could not be generated. The static page will need to be retried.";
       }
     }
 
+    // 6. Refresh the dashboard data.
     await refreshHome();
     await loadPosts();
 
+    // 7. Reset the editor.
+    resetArticleForm();
+
+    // 8. Switch to the correct page.
+    switchPage(
+      status === "draft" ? "drafts" : "articles"
+    );
+
+    // 9. Show the message AFTER switching pages.
+    // This prevents switchPage() from clearing the message.
     showMessage(
-      "articleMessage",
+      "globalMessage",
       status === "draft"
         ? "Draft saved successfully."
         : (
@@ -1496,13 +1527,9 @@ async function saveArticle(status) {
       staticWarning ? "error-msg" : "success-msg"
     );
 
-    resetArticleForm();
-
-    switchPage(
-      status === "draft" ? "drafts" : "articles"
-    );
-
   } catch (error) {
+    console.error("ARTICLE SAVE ERROR:", error);
+
     showMessage(
       "articleMessage",
       friendlyError(error),
@@ -1512,15 +1539,18 @@ async function saveArticle(status) {
   } finally {
     button.disabled = false;
 
-    button.textContent = status === "draft"
-      ? "Save as draft"
-      : (
-          wasEditing
-            ? "Save article changes"
-            : "Publish article"
-        );
+    // Restore the correct button label.
+    // If the form was reset, it is now a new article form.
+    if (!$("articleId").value) {
+      button.textContent = status === "draft"
+        ? "Save as draft"
+        : "Publish article";
+    } else {
+      button.textContent = originalButtonText;
+    }
   }
 }
+
 
 
   $("articleForm").addEventListener("submit", async event => {
