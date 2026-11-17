@@ -3755,7 +3755,15 @@ function scheduleArticleRecommendation(articleId) {
 
 async function loadArticle() {
 console.log("PALMCASE: loadArticle started");
-container.innerHTML = '<div class="message">Loading article data...</div>';
+
+const hasPreRenderedArticle =
+  !!container.querySelector(".article-box");
+
+if (!hasPreRenderedArticle) {
+  container.innerHTML =
+    '<div class="message">Loading article data...</div>';
+}
+
   const articleId = getArticleId();
 
   if (!articleId) {
