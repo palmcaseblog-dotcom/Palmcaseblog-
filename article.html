@@ -1833,7 +1833,16 @@ function escapeHTML(value) {
 }
 
 
+
 function getArticleId() {
+  const staticMatch = window.location.pathname.match(
+    /^\/articles\/(\d+)\.html$/
+  );
+
+  if (staticMatch) {
+    return staticMatch[1];
+  }
+
   return new URLSearchParams(window.location.search).get("id");
 }
 
@@ -1855,12 +1864,16 @@ function setCanonicalUrl() {
     document.head.appendChild(canonicalLink);
   }
 
-  canonicalLink.href =
-    "https://palmcaseblog.com.ng/article.html?id=" +
-    articleId;
+  const isStaticPage =
+    /^\/articles\/\d+\.html$/.test(window.location.pathname);
+
+  canonicalLink.href = isStaticPage
+    ? "https://palmcaseblog.com.ng/articles/" + articleId + ".html"
+    : "https://palmcaseblog.com.ng/article.html?id=" + articleId;
 }
 
 setCanonicalUrl();
+
 
 function likedStorageKey(articleId) {
 
