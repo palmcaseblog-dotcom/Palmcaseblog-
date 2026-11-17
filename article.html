@@ -3894,9 +3894,11 @@ await loadArticleSidebar(numericArticleId);
 scheduleArticleRecommendation(numericArticleId);
 // Load existing article advertisements.
 await loadArticleAdvertisements();
-  } catch (error) {
-    console.error("CRITICAL ARTICLE ERROR:", error);
+  
+} catch (error) {
+  console.error("CRITICAL ARTICLE ERROR:", error);
 
+  if (!hasPreRenderedArticle) {
     container.innerHTML = `
       <div class="message">
         <h2>Something went wrong</h2>
@@ -3904,6 +3906,8 @@ await loadArticleAdvertisements();
       </div>
     `;
   }
+}
+
 }
 
 
