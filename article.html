@@ -3805,17 +3805,22 @@ if (!hasPreRenderedArticle) {
   )
 ]);
 
-    if (result.error || !result.data) {
-      console.error("ARTICLE LOAD ERROR:", result.error);
+    
+if (result.error || !result.data) {
+  console.error("ARTICLE LOAD ERROR:", result.error);
 
-      container.innerHTML = `
-        <div class="message">
-          <h2>Article not found</h2>
-          <p>We couldn't find this article.</p>
-        </div>
-      `;
-      return;
-    }
+  if (!hasPreRenderedArticle) {
+    container.innerHTML = `
+      <div class="message">
+        <h2>Article not found</h2>
+        <p>We couldn't find this article.</p>
+      </div>
+    `;
+  }
+
+  return;
+}
+
 
     const post = result.data;
 
