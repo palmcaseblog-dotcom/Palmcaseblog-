@@ -1321,101 +1321,175 @@ $("articleText").value = post.article || "";
 
   // SAVE ARTICLE OR SAVE DRAFT
 
-  async function saveArticle(status) {
-    const button = status === "draft"
-      ? $("saveDraftButton")
-      : $("saveArticleButton");
+  
+async function saveArticle(status) {
+  const button = status === "draft"
+    ? $("saveDraftButton")
+    : $("saveArticleButton");
 
-    const id = $("articleId").value;
+  const id = $("articleId").value;
+  const wasEditing = Boolean(id);
+  let staticWarning = "";
 
-    setBusy(
-      button,
-      true,
-      status === "draft" ? "Saving draft…" : "Publishing…"
-    );
+  setBusy(
+    button,
+    true,
+    status === "draft" ? "Saving draft…" : "Publishing…"
+  );
 
-    clearMessage("articleMessage");
+  clearMessage("articleMessage");
 
-    try {
-      const files = Array.from($("articleImage").files || []);
+  try {
+    const files = Array.from($("articleImage").files || []);
 
-      let imageUrls = [...currentArticleImages];
+    let imageUrls = [...currentArticleImages];
 
-      if (files.length > 0) {
-        imageUrls = await Promise.all(
-          files.map(file =>
-            uploadFile(ARTICLE_IMAGE_BUCKET, file, "articles")
-          )
-        );
-      }
+    if (files.length > 0) {
+      imageUrls = await Promise.all(
+        files.map(file =>
+          uploadFile(ARTICLE_IMAGE_BUCKET, file, "articles")
+        )
+      );
+    }
 
-      const image = imageUrls[0] || currentArticleImage || null;
+    const image = imageUrls[0] || currentArticleImage || null;
 
-      const record = {
-  headline: $("headline").value.trim(),
-  category: $("category").value,
-  description: $("description").value.trim(),
+    const record = {
+      headline: $("headline").value.trim(),
+      category: $("category").value,
+      description: $("description").value.trim(),
 
-  publisher_name:
-    $("publisherName").value.trim() || "Egwu John Uchenna",
+      publisher_name:
+        $("publisherName").value.trim() || "Egwu John Uchenna",
 
-  image_caption:
-    $("imageCaption").value.trim() || null,
-        image: image,
-        images: imageUrls,
-        article: $("articleText").value.trim(),
-        video_url: $("videoUrl").value.trim() || null,
-        credit: $("credit").value.trim() || null,
-        source_url: $("sourceUrl").value.trim() || null,
-        status: status,
-is_sponsored:
-  $("category").value === "sponsored" ||
-  Boolean(
-    postsCache.find(
-      post => String(post.id) === String(id)
-    )?.is_sponsored
-  )
-};
+      image_caption:
+        $("imageCaption").value.trim() || null,
 
-      if (!record.headline || !record.article) {
-        throw new Error("Please enter a headline and full article before saving.");
-      }
+      image: image,
+      images: imageUrls,
+      article: $("articleText").value.trim(),
+      video_url: $("videoUrl").value.trim() || null,
+      credit: $("credit").value.trim() || null,
+      source_url: $("sourceUrl").value.trim() || null,
+      status: status,
 
-      const result = id
-        ? await db.from("posts").update(record).eq("id", id)
-        : await db.from("posts").insert(record);
+      is_sponsored:
+        $("category").value === "sponsored" ||
+        Boolean(
+          postsCache.find(
+            post => String(post.id) === String(id)
+          )?.is_sponsored
+        )
+    };
+
+    if (!record.headline || !record.article) {
+      throw new Error(
+        "Please enter a headline and full article before saving."
+      );
+    }
+
+    let savedPostId = id;
+
+    if (id) {
+      const result = await db
+        .from("posts")
+        .update(record)
+        .eq("id", id);
 
       if (result.error) throw result.error;
 
-      showMessage(
-        "articleMessage",
-        status === "draft"
-          ? "Draft saved successfully."
-          : (id
-              ? "Article updated and published successfully."
-              : "Article published successfully."),
-        "success-msg"
-      );
+    } else {
+      const result = await db
+        .from("posts")
+        .insert(record)
+        .select("id")
+        .single();
 
-      resetArticleForm();
+      if (result.error) throw result.error;
 
-      await refreshHome();
-      await loadPosts();
+      savedPostId = result.data?.id;
 
-      switchPage(status === "draft" ? "drafts" : "articles");
-
-    } catch (error) {
-      showMessage("articleMessage", friendlyError(error), "error-msg");
-    } finally {
-      button.disabled = false;
-
-      button.textContent = status === "draft"
-        ? "Save as draft"
-        : ($("articleId").value
-            ? "Save article changes"
-            : "Publish article");
+      if (!savedPostId) {
+        throw new Error(
+          "The article was saved, but its database ID could not be retrieved."
+        );
+      }
     }
+
+    // Generate or update the static page only after
+    // a successful publication. Drafts are excluded.
+    if (status === "published") {
+      try {
+        const { data, error } =
+          await db.functions.invoke(
+            "publish-static-article",
+            {
+              body: {
+                id: savedPostId
+              }
+            }
+          );
+
+        if (error) throw error;
+
+        if (!data?.success) {
+          throw new Error(
+            data?.error || "Static page generation was unsuccessful."
+          );
+        }
+
+      } catch (error) {
+        console.error(
+          "STATIC ARTICLE GENERATION ERROR:",
+          error
+        );
+
+        staticWarning =
+          " Your article is published in Supabase, but its static page could not be generated. You can retry static generation later.";
+      }
+    }
+
+    await refreshHome();
+    await loadPosts();
+
+    showMessage(
+      "articleMessage",
+      status === "draft"
+        ? "Draft saved successfully."
+        : (
+            wasEditing
+              ? "Article updated and published successfully."
+              : "Article published successfully."
+          ) + staticWarning,
+      staticWarning ? "error-msg" : "success-msg"
+    );
+
+    resetArticleForm();
+
+    switchPage(
+      status === "draft" ? "drafts" : "articles"
+    );
+
+  } catch (error) {
+    showMessage(
+      "articleMessage",
+      friendlyError(error),
+      "error-msg"
+    );
+
+  } finally {
+    button.disabled = false;
+
+    button.textContent = status === "draft"
+      ? "Save as draft"
+      : (
+          wasEditing
+            ? "Save article changes"
+            : "Publish article"
+        );
   }
+}
+
 
   $("articleForm").addEventListener("submit", async event => {
     event.preventDefault();
