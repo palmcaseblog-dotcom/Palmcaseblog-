@@ -6,6 +6,10 @@ on:
   schedule:
     - cron: "0 3 * * *"
 
+concurrency:
+  group: update-palmcaseblog-sitemap
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -16,6 +20,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Get published posts from Supabase
         env:
@@ -50,10 +56,21 @@ jobs:
           </urlset>
           EOF
 
-      - name: Commit updated sitemap
+      - name: Commit and push updated sitemap
         run: |
           git config user.name "Palmcaseblog Sitemap Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add sitemap.xml
-          git diff --cached --quiet || git commit -m "Update Palmcaseblog sitemap"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "Sitemap is already up to date."
+            exit 0
+          fi
+
+          git commit -m "Update Palmcaseblog sitemap"
+
+          git fetch origin main
+          git rebase origin/main
+
+          git push origin HEAD:main
