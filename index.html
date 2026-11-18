@@ -4214,8 +4214,7 @@ function renderLatest() {
       post.publisher_name || "Egwu John Uchenna"
     );
 
-    const articleUrl =
-      `article.html?id=${encodeURIComponent(post.id)}`;
+    const articleUrl = getArticleUrl(post);
 
     return `
       <article class="post-card">
